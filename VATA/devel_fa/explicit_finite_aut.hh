@@ -276,6 +276,12 @@ public:
 		for (auto& state : this->finalStates_)
 			dst.SetStateFinal(index[state]);
 
+    // Converts the start states
+    for( auto& state : this->startStates_) {
+      dst.SetStateStart(index[state]);
+    }
+    
+
 		auto clusterMap = dst.uniqueClusterMap();
 
     /*
@@ -320,6 +326,7 @@ public: // Public static functions
 		pSymbolDict_ = pSymbolDict;
 	}
 
+
 	inline static StringToSymbolDict& GetSymbolDict()
 	{
 		assert(pSymbolDict_ != nullptr);
@@ -327,6 +334,14 @@ public: // Public static functions
 		return *pSymbolDict_;
 	}
 
+public: // Public inline functions
+  inline void SetStateFinal(const StateType& state) {
+		this->finalStates_.insert(state);
+	}
+
+  inline void SetStateStart(const StateType& state) {
+		this->startStates_.insert(state);
+	}
 	inline void AddTransition(const StateType& lstate, const SymbolType& symbol,
 									const StateType& rstate){
 		this->internalAddTransition(lstate, symbol, rstate);
