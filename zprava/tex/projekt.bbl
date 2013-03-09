@@ -1,0 +1,95 @@
+\begin{thebibliography}{10}
+
+\bibitem{timbuk}
+{Timbuk}.
+\newblock {\tt http://www.irisa.fr/celtique/genet/timbuk/}, 2012 [cit.
+  2013-01-29].
+
+\bibitem{antichain}
+{Abdulla, Parosh Aziz and Chen, Yu-Fang and Holík, Lukáš and Mayr, Richard
+  and Vojnar, Tomáš}.
+\newblock {When simulation meets antichains: on checking language inclusion of
+  nondeterministic finite (tree) automata}.
+\newblock In {\em {Proceedings of the 16th international conference on Tools
+  and Algorithms for the Construction and Analysis of Systems}}, TACAS'10,
+  pages 158--174, Berlin, Heidelberg, 2010. Springer-Verlag.
+
+\bibitem{fare}
+Nikos Baxevanis.
+\newblock Fare.
+\newblock {\tt https://github.com/moodmosaic/Fare}, 2012 [cit. 2013-01-19].
+
+\bibitem{congr}
+Filippo Bonchi and Damien Pous.
+\newblock {Checking NFA equivalence with bisimulations up to congruence}.
+\newblock In {\em {Proceedings of the 40th annual ACM SIGPLAN-SIGACT symposium
+  on Principles of programming languages}}, POPL '13, pages 457--468, New York,
+  NY, USA, 2013. ACM.
+
+\bibitem{armc}
+Ahmed Bouajjani, Peter Habermehl, and Tomáš Vojnar.
+\newblock {Abstract Regular Model Checking}.
+\newblock In {\em Computer Aided Verification}, Lecture Notes in Computer
+  Science, pages 372--386. Springer Verlag, 1995.
+
+\bibitem{cav06}
+{De Wulf, M. and Doyen, L. and Henzinger, T. A. and Raskin, J. -F.}
+\newblock {Antichains: a new algorithm for checking universality of finite
+  automata}.
+\newblock In {\em Proceedings of the 18th international conference on Computer
+  Aided Verification}, CAV'06, pages 17--30, Berlin, Heidelberg, 2006.
+  Springer-Verlag.
+
+\bibitem{metal}
+Seth Hallem, Benjamin Chelf, Yichen Xie, and Dawson Engler.
+\newblock {A System and Language for Building System-specific, Static
+  Analyses}.
+\newblock In {\em Proceedings of the ACM SIGPLAN 2002 Conference on Programming
+  language design and implementation (PLDI'02)}, pages 69--82. ACM, 2002.
+
+\bibitem{mona}
+Jesper~G. Henriksen, Ole~J.L. Jensen, Michael~E. Jorgensen, Nils Klarlund,
+  Robert Paige, Theis Rauhe, and Anders~B. Sandholm.
+\newblock {MONA: Monadic Second-Order Logic in Practice}.
+\newblock In {\em In practice, in tools and algorithms for the construction and
+  analysis of systems, first international workshop (TACAS '95)}. Springer
+  Verlag, 1995.
+
+\bibitem{simulations}
+Monika~R. Henzinger, Thomas~A. Henzinger, and Peter~W. Kopke.
+\newblock {Computing Simulations on Finite and Infinite Graphs}.
+\newblock In {\em 36th FOCS}, Annual Symposium on Foundations of Computer
+  Science, pages 453--462. IEEE Computer Society Washington, 1995.
+
+\bibitem{kanthakN04}
+Stephan Kanthak and Hermann Ney.
+\newblock {FSA: An Efficient and Flexible C++ Toolkit for Finite State Automata
+  Using On-Demand Computation}.
+\newblock In {\em ACL}, pages 510--517, 2004.
+
+\bibitem{rwth}
+Stephan Kanthak and Hermann Ney.
+\newblock {The RWTH FSA Toolkit}.
+\newblock {\tt
+  http://www-i6.informatik.rwth-aachen.de/\verb|~|kanthak/fsa.html}, 2005 [cit.
+  2013-01-19].
+
+\bibitem{libvata}
+{Lengál, Ondřej and Šimáček, Jiří and Vojnar, Tomáš}.
+\newblock {VATA: A Library for Efficient Manipulation of Non-deterministic Tree
+  Automata}.
+\newblock In {\em Proceedings of the 18th international conference on Tools and
+  Algorithms for the Construction and Analysis of Systems}, TACAS'12, pages
+  79--94, Berlin, Heidelberg, 2012. Springer-Verlag.
+
+\bibitem{libfa}
+David Lutterkort.
+\newblock libfa.
+\newblock {\tt http://augeas.net/libfa/index.html}, 2011 [cit. 2013-01-19].
+
+\bibitem{brics}
+Anders Møller.
+\newblock {dk.brics.automaton}.
+\newblock {\tt http://www.brics.dk/automaton/}, 2011 [cit. 2013-01-19].
+
+\end{thebibliography}
