@@ -265,7 +265,7 @@ public:
 		return res;
 	}
 
-
+int pokus(){}
 	/*
 	 * The current indexes for states are transform to the new ones,
 	 * and stored to the new automaton
