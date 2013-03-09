@@ -1,0 +1,15 @@
+Ops 
+Automaton anonymous
+States 
+Final States q_1 q_2 
+Transitions
+a(q1_1) -> q_1
+b(q1_1) -> q_1
+a(q1_2) -> q_2
+b(q1_2) -> q_2
+b(q_1) -> q1_1
+b(q_2) -> q1_2
+a(s_1) -> q_1
+b(s_1) -> q1_1
+a(s_2) -> q_2
+b(s_2) -> q1_2
