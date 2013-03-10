@@ -1,3 +1,5 @@
+#ifndef _VATA_EXPLICIT_FINITE_AUT_HH_
+#define _VATA_EXPLICIT_FINITE_AUT_HH_
 
 // VATA headers
 #include <vata/vata.hh>
@@ -18,6 +20,11 @@ namespace VATA {
  */
 template <class Symbol>
 class VATA::ExplicitFiniteAut : public AutBase {
+
+  template <class SymbolType>
+  friend ExplicitFiniteAut<SymbolType> Union(
+		const ExplicitFiniteAut<SymbolType>&, const ExplicitFiniteAut<SymbolType>&,
+		AutBase::StateToStateMap*, AutBase::StateToStateMap*);
 
 public:
 	typedef Symbol SymbolType;
@@ -43,9 +50,13 @@ private: // private type definitions
 			auto &rStateSet =  this->insert(
 			std::make_pair(symbol,RStatePtrSetPtr(nullptr))
 				).first->second;
+
 			if (!rStateSet){
 				rStateSet = RStatePtrSetPtr(new RStatePtrSet);
 			}
+      else if (!rStateSet.unique()){
+				rStateSet = RStatePtrSetPtr(new RStatePtrSet(*rStateSet));
+      }
 			return rStateSet;
 		}
 	}; 
@@ -60,8 +71,11 @@ private: // private type definitions
 				std::make_pair(state,TransitionClusterPtr(nullptr))
 					).first->second;
 				if (!clusterPtr){
-					clusterPtr = TransitionClusterPtr((new TransitionCluster));	
+					clusterPtr = TransitionClusterPtr(new TransitionCluster());	
 				}
+			  else if (!clusterPtr.unique()) {
+					clusterPtr = TransitionClusterPtr(new TransitionCluster(*clusterPtr));	
+        }
 				return clusterPtr;
 		}							
 	};
@@ -150,13 +164,13 @@ public:
 		// Load symbols
 		for (auto symbolRankPair : desc.symbols){ // Symbols translater
 			symbolTranslator(symbolRankPair.first);
-			std::cout << "Symbol processed " <<  symbolTranslator(symbolRankPair.first) << std::endl;
+			//std::cout << "Symbol processed " <<  symbolTranslator(symbolRankPair.first) << std::endl;
 		}
 
 		// Load final states
 		for (auto s : desc.finalStates) // Finale states extraction
 		{
-			std::cout << "Final state processed " << s   << " " << stateTranslator(s) << std::endl;
+			//std::cout << "Final state processed " << s   << " " << stateTranslator(s) << std::endl;
 			this->finalStates_.insert(stateTranslator(s));
 		}
 
@@ -168,13 +182,13 @@ public:
 			const State& rightState = t.third;
 
 			// Check whether there are no start states
-			if (leftState[0] == 's'){
-				this->startStates_.insert(stateTranslator(leftState));
-				std::cout  <<  "Start states: "  <<  leftState  <<  std::endl;
-			}
 			if (rightState[0] == 's'){
 				this->startStates_.insert(stateTranslator(rightState));
-				std::cout  <<  "Start states: "  <<  rightState  <<  std::endl;
+				//std::cout  <<  "Start states: "  <<  leftState  <<  std::endl;
+			}
+			if (leftState[0] == 's'){
+				this->startStates_.insert(stateTranslator(leftState));
+				//std::cout  <<  "Start states: "  <<  rightState  <<  std::endl;
 			}
 
 			std::cout << "Transition left state " << leftState << std::endl;
@@ -211,13 +225,16 @@ public:
 			for (auto& ls : *(this->transitions_)){
 				for (auto& s : *ls.second){
 					for (auto& rs : *s.second){
-						std::vector<std::string> tupleLeft;
-						tupleLeft.push_back(statePrinter(ls.first));
+						std::vector<std::string> leftStateAsTuple;
+						leftStateAsTuple.push_back(statePrinter(ls.first));
+            std::cout  <<  "Printing left state: "  << statePrinter(ls.first)  <<  std::endl;
+            std::cout  <<  "Printing right state: "  << statePrinter(rs)  <<  std::endl;
+            std::cout  <<  "Printing symbol: "  << symbolPrinter(s.first)  <<  std::endl;
 						AutDescription::Transition trans(
-							tupleLeft,
+							leftStateAsTuple,
 							symbolPrinter(s.first),
 							statePrinter(rs));
-							desc.transitions.insert(trans);
+						desc.transitions.insert(trans);
 					}
 				}
 			}
@@ -225,45 +242,37 @@ public:
 			return serializer.Serialize(desc);
 	}
 
-  /*
-   * Creates union of two automata. It just reindexs
-   * existing states of both automata to a new one.
-   */
-	template <class SymbolType>
-	ExplicitTreeAut<SymbolType> Union(const ExplicitTreeAut<SymbolType>& lhs,
-		const ExplicitTreeAut<SymbolType>& rhs,
-		AutBase::StateToStateMap* pTranslMapLhs = nullptr,
-		AutBase::StateToStateMap* pTranslMapRhs = nullptr) {
+  template <class SymbolType>
+  ExplicitFiniteAut<SymbolType> Intersection(
+      ExplicitFiniteAut<SymbolType> &lhs,
+      ExplicitFiniteAut<SymbolType> &rhs,
+      AutBase::ProductTranslMap* pTranslMap = nullptr) {
+    
+    AutBase::ProductTranslMap translMap;
 
-    /*
-     * If the maps are not given
-     * it creates own new maps
-     */
-		AutBase::StateToStateMap translMapLhs;
-		AutBase::StateToStateMap translMapRhs;
+    if (!pTranslMap){
+      pTranslMap = translMap;
+    }
 
-		if (!pTranslMapLhs){
-			pTranslMapLhs = translMapLhs;
-		}
+    ExplicitFiniteAut<SymbolType> res;
 
-		if (!pTranslMapRhs){
-			pTranslMapRhs = translMapRhs;
-		}
+    std::vector<const AutBase::ProductTranslMap::value_type*> stack;
 
-		StateType stateCnt = 0; 
+    for (auto lfs : lhs.finalStates_){
+      for(auto rfs : rhs.finalStates_){
+        auto ifs = pTranslMap->insert(std::make_pair(std::make_pair(lfs,rfs),
+              pTranslMap->size())).first;
 
-		auto translFunc = [&stateCnt](const StateType&){return stateCnt++;};
+        res.SetStateFinal(ifs->second);
 
-		AutBase::StateToStateTranslator stateTransLhs(*pTranslMapLhs, translFunc);
-		AutBase::StateToStateTranslator stateTransRhs(*pTranslMapRhs, translFunc);
+        res.push_back(ifs);
+      }
+    }
+    
 
-		ExplicitTreeAut<SymbolType> res();
-
-		lhs.ReindexStates(res, stateTransLhs);
-		rhs.ReindexStates(res, stateTransRhs);
-
-		return res;
-	}
+    return res;
+  }
+    
 
   /*
 	 * The current indexes for states are transform to the new ones,
@@ -280,7 +289,6 @@ public:
     for( auto& state : this->startStates_) {
       dst.SetStateStart(index[state]);
     }
-    
 
 		auto clusterMap = dst.uniqueClusterMap();
 
@@ -292,7 +300,9 @@ public:
 
 			//assert(stateClusterPair.second);
 
+      std::cout  << "Original left state: "  <<   stateClusterPair.first  <<  std::endl;
 			auto cluster = clusterMap->uniqueCluster(index[stateClusterPair.first]);
+      std::cout  << "Reindex left state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 
 			for (auto& symbolRStateSetPair : *stateClusterPair.second) {
 
@@ -301,12 +311,14 @@ public:
 				auto rStatePtrSet = cluster->uniqueRStatePtrSet(symbolRStateSetPair.first);
 
 				for (auto& rState : *symbolRStateSetPair.second) {
-
-					rStatePtrSet->insert(rState);
+          std::cout  << "Original right state: "  <<   stateClusterPair.first  <<  std::endl;
+					rStatePtrSet->insert(index[rState]);
+          std::cout  << "Reindex right state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 				}
 			}
 		}
 	}
+
 
 
 public: // Public static functions
@@ -374,5 +386,4 @@ typename VATA::ExplicitFiniteAut<Symbol>::StringToSymbolDict*
 template <class Symbol>
 typename VATA::ExplicitFiniteAut<Symbol>::SymbolType*
 	VATA::ExplicitFiniteAut<Symbol>::pNextSymbol_ = nullptr;
-
-
+#endif

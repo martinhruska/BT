@@ -1,3 +1,95 @@
+Transition left state q
+Transition right state q1
+Transition symbol b
+Transition left state q1
+Transition right state q
+Transition symbol a
+Transition left state q1
+Transition right state q
+Transition symbol b
+Transition left state s
+Transition right state q
+Transition symbol a
+Transition left state s
+Transition right state q1
+Transition symbol b
+Transition left state q
+Transition right state q1
+Transition symbol b
+Transition left state q1
+Transition right state q
+Transition symbol a
+Transition left state q1
+Transition right state q
+Transition symbol b
+Transition left state s
+Transition right state q
+Transition symbol a
+Transition left state s
+Transition right state q1
+Transition symbol b
+Original left state: 0
+Reindex left state: 0
+Original right state: 0
+Reindex right state: 0
+Original left state: 1
+Reindex left state: 2
+Original right state: 1
+Reindex right state: 2
+Original right state: 1
+Reindex right state: 2
+Original left state: 2
+Reindex left state: 1
+Original right state: 2
+Reindex right state: 1
+Original right state: 2
+Reindex right state: 1
+Original left state: 0
+Reindex left state: 3
+Original right state: 0
+Reindex right state: 3
+Original left state: 1
+Reindex left state: 5
+Original right state: 1
+Reindex right state: 5
+Original right state: 1
+Reindex right state: 5
+Original left state: 2
+Reindex left state: 4
+Original right state: 2
+Reindex right state: 4
+Original right state: 2
+Reindex right state: 4
+Printing left state: q_1
+Printing right state: q1_1
+Printing symbol: b
+Printing left state: s_1
+Printing right state: q_1
+Printing symbol: a
+Printing left state: s_1
+Printing right state: q1_1
+Printing symbol: b
+Printing left state: q1_1
+Printing right state: q_1
+Printing symbol: a
+Printing left state: q1_1
+Printing right state: q_1
+Printing symbol: b
+Printing left state: q_2
+Printing right state: q1_2
+Printing symbol: b
+Printing left state: s_2
+Printing right state: q_2
+Printing symbol: a
+Printing left state: s_2
+Printing right state: q1_2
+Printing symbol: b
+Printing left state: q1_2
+Printing right state: q_2
+Printing symbol: a
+Printing left state: q1_2
+Printing right state: q_2
+Printing symbol: b
 Ops 
 Automaton anonymous
 States 
