@@ -21,10 +21,16 @@ namespace VATA {
 template <class Symbol>
 class VATA::ExplicitFiniteAut : public AutBase {
 
+  // Need access to class members, so the functions is made friend
   template <class SymbolType>
   friend ExplicitFiniteAut<SymbolType> Union(
 		const ExplicitFiniteAut<SymbolType>&, const ExplicitFiniteAut<SymbolType>&,
 		AutBase::StateToStateMap*, AutBase::StateToStateMap*);
+
+  template <class SymbolType>
+	friend ExplicitFiniteAut<SymbolType> Intersection(
+		const ExplicitFiniteAut<SymbolType>&, const ExplicitFiniteAut<SymbolType>&,
+		AutBase::ProductTranslMap*);
 
 public:
 	typedef Symbol SymbolType;
@@ -38,12 +44,12 @@ private: // private type definitions
 	typedef AutDescription::State State;
 
 	//typedef std::shared_ptr<const StateType> RStatePtr;
-	typedef StateType RStatePtr;
+  /*
+  typedef StateType RStatePtr;
 
 	typedef std::set<RStatePtr> RStatePtrSet;
 	typedef std::shared_ptr<RStatePtrSet> RStatePtrSetPtr;
 
-	//TODO: DODODELAT unqiue
 	class TransitionCluster : public std::unordered_map<SymbolType,RStatePtrSetPtr>{
 	public:
 		const RStatePtrSetPtr uniqueRStatePtrSet(const SymbolType &symbol){
@@ -60,10 +66,31 @@ private: // private type definitions
 			return rStateSet;
 		}
 	}; 
+*/
+
+  // The states on the right side of transitions
+  typedef std::set<StateType> RStateSet;
+	typedef std::shared_ptr<RStateSet> RStateSetPtr;
+
+	class TransitionCluster : public std::unordered_map<SymbolType,RStateSetPtr>{
+	public:
+		const RStateSetPtr& uniqueRStateSet(const SymbolType &symbol){
+			RStateSetPtr &rstateSetPtr =  this->insert(
+			std::make_pair(symbol,RStateSetPtr(nullptr))
+				).first->second;
+
+			if (!rstateSetPtr){
+				rstateSetPtr = RStateSetPtr(new RStateSet);
+			}
+      else if (!rstateSetPtr.unique()){
+				rstateSetPtr = RStateSetPtr(new RStateSet(*rstateSetPtr));
+      }
+			return rstateSetPtr;
+		}
+	}; 
 
 	typedef std::shared_ptr<TransitionCluster> TransitionClusterPtr; // TODO dodelat pointer na cluster
 
-	//TODO: Dodelat unique
 	class StateToTransitionClusterMap : public std::unordered_map<StateType,TransitionClusterPtr>{
 	public:
 		const TransitionClusterPtr &uniqueCluster(const StateType &state){
@@ -241,39 +268,7 @@ public:
 
 			return serializer.Serialize(desc);
 	}
-
-  template <class SymbolType>
-  ExplicitFiniteAut<SymbolType> Intersection(
-      ExplicitFiniteAut<SymbolType> &lhs,
-      ExplicitFiniteAut<SymbolType> &rhs,
-      AutBase::ProductTranslMap* pTranslMap = nullptr) {
     
-    AutBase::ProductTranslMap translMap;
-
-    if (!pTranslMap){
-      pTranslMap = translMap;
-    }
-
-    ExplicitFiniteAut<SymbolType> res;
-
-    std::vector<const AutBase::ProductTranslMap::value_type*> stack;
-
-    for (auto lfs : lhs.finalStates_){
-      for(auto rfs : rhs.finalStates_){
-        auto ifs = pTranslMap->insert(std::make_pair(std::make_pair(lfs,rfs),
-              pTranslMap->size())).first;
-
-        res.SetStateFinal(ifs->second);
-
-        res.push_back(ifs);
-      }
-    }
-    
-
-    return res;
-  }
-    
-
   /*
 	 * The current indexes for states are transform to the new ones,
 	 * and stored to the new automaton
@@ -308,11 +303,11 @@ public:
 
 				//assert(symbolTupleSetPair.second);
 
-				auto rStatePtrSet = cluster->uniqueRStatePtrSet(symbolRStateSetPair.first);
+				RStateSetPtr rstatesSet = cluster->uniqueRStateSet(symbolRStateSetPair.first);
 
 				for (auto& rState : *symbolRStateSetPair.second) {
           std::cout  << "Original right state: "  <<   stateClusterPair.first  <<  std::endl;
-					rStatePtrSet->insert(index[rState]);
+					rstatesSet->insert(index[rState]);
           std::cout  << "Reindex right state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 				}
 			}
@@ -373,7 +368,7 @@ protected:
 	 */
 	void internalAddTransition(const StateType& lstate, const SymbolType& symbol,
 									const StateType& rstate){
-		this->uniqueClusterMap()->uniqueCluster(lstate)->uniqueRStatePtrSet(symbol)->insert(rstate);
+		this->uniqueClusterMap()->uniqueCluster(lstate)->uniqueRStateSet(symbol)->insert(rstate);
 		return;
 	}
 

@@ -31,11 +31,11 @@ namespace VATA {
 		AutBase::StateToStateMap translMapLhs;
 		AutBase::StateToStateMap translMapRhs;
 
-		if (!pTranslMapLhs){
+		if (!pTranslMapLhs) {
 			pTranslMapLhs = &translMapLhs;
 		}
 
-		if (!pTranslMapRhs){
+		if (!pTranslMapRhs) {
 			pTranslMapRhs = &translMapRhs;
 		}
 
@@ -50,7 +50,39 @@ namespace VATA {
     lhs.ReindexStates(res, stateTransLhs);
 		rhs.ReindexStates(res, stateTransRhs);
 
+
 		return res;
 	}
+
+ template <class SymbolType>
+  ExplicitFiniteAut<SymbolType> Intersection(
+      const ExplicitFiniteAut<SymbolType> &lhs,
+      const ExplicitFiniteAut<SymbolType> &rhs,
+      AutBase::ProductTranslMap* pTranslMap = nullptr) {
+
+    AutBase::ProductTranslMap translMap;
+
+    if (!pTranslMap) {
+      pTranslMap = &translMap;
+    }
+
+    ExplicitFiniteAut<SymbolType> res;
+
+    std::vector<const AutBase::ProductTranslMap::value_type*> stack;
+
+    for (StateType& lfs : lhs.finalStates_) {
+      for (StateType& rfs : rhs.finalStates_) {
+        auto ifs = pTranslMap->insert(std::make_pair(std::make_pair(lfs,rfs),
+              pTranslMap->size())).first;
+
+        res.SetStateFinal(ifs->second);
+
+        stack.push_back(ifs);
+      }
+    }
+    
+    return res;
+  }
+
 }
 #endif

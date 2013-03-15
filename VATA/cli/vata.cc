@@ -235,12 +235,10 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 	{
 		autResult = Union(autInput1, autInput2, &opTranslMap1, &opTranslMap2);
 	}
-  /*
 	else if (args.command == COMMAND_INTERSECTION)
 	{
 		autResult = Intersection(autInput1, autInput2, &prodTranslMap);
 	}
-  */
   /*
 	else if (args.command == COMMAND_INCLUSION)
 	{
