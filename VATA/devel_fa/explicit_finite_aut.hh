@@ -115,7 +115,7 @@ public: //pubic type definitions
 		SymbolBackTranslatorStrict;
 
 
-private: // private data memebers
+protected: // private data memebers
 	StateSet finalStates_;
 	StateSet startStates_;
 
@@ -218,9 +218,9 @@ public:
 				//std::cout  <<  "Start states: "  <<  rightState  <<  std::endl;
 			}
 
-			std::cout << "Transition left state " << leftState << std::endl;
-			std::cout << "Transition right state " << rightState << std::endl;
-			std::cout << "Transition symbol " << symbol << std::endl;
+			std::cout << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;
+			std::cout << "Transition right state " << rightState << " "  <<  stateTranslator(rightState) <<  std::endl;
+			//std::cout << "Transition symbol " << symbol << std::endl;
 			this->AddTransition(stateTranslator(leftState),symbolTranslator(symbol),
 															stateTranslator(rightState));
 		}
@@ -254,9 +254,11 @@ public:
 					for (auto& rs : *s.second){
 						std::vector<std::string> leftStateAsTuple;
 						leftStateAsTuple.push_back(statePrinter(ls.first));
-            std::cout  <<  "Printing left state: "  << statePrinter(ls.first)  <<  std::endl;
-            std::cout  <<  "Printing right state: "  << statePrinter(rs)  <<  std::endl;
+            
+            std::cout  <<  "Printing left state: "  << ls.first  <<  " " << statePrinter(ls.first)  <<  std::endl;
+            std::cout  <<  "Printing right state: "  <<  rs   <<  " "  <<   statePrinter(rs)  <<  std::endl;
             std::cout  <<  "Printing symbol: "  << symbolPrinter(s.first)  <<  std::endl;
+            
 						AutDescription::Transition trans(
 							leftStateAsTuple,
 							symbolPrinter(s.first),
@@ -354,6 +356,10 @@ public: // Public inline functions
 		this->internalAddTransition(lstate, symbol, rstate);
 	}
 
+  inline bool IsStateFinal(const StateType &state) const{
+    return (this->finalStates_.find(state) != this->finalStates_.end());
+  }
+
 protected:
 
 	const StateToTransitionClusterMapPtr uniqueClusterMap(){
@@ -372,6 +378,20 @@ protected:
 		return;
 	}
 
+  /*
+   * Get from tree automata part of library
+   */
+	template <class T>
+	static const typename T::mapped_type::element_type* genericLookup(const T& cont,
+		const typename T::key_type& key) {
+
+		auto iter = cont.find(key);
+		if (iter == cont.end())
+			return nullptr;
+
+		return iter->second.get();
+
+	}
 };
 
 template <class Symbol>
