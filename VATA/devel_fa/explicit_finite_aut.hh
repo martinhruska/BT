@@ -32,6 +32,22 @@ class VATA::ExplicitFiniteAut : public AutBase {
 		const ExplicitFiniteAut<SymbolType>&, const ExplicitFiniteAut<SymbolType>&,
 		AutBase::ProductTranslMap*);
 
+  template <class SymbolType>
+  friend ExplicitFiniteAut<SymbolType> RemoveUnreachableStates(
+      const ExplicitFiniteAut<SymbolType> &aut,
+      AutBase::ProductTranslMap* pTranslMap = nullptr);
+
+  template <class SymbolType>
+  friend ExplicitFiniteAut<SymbolType> RemoveUselessStates(
+      const ExplicitFiniteAut<SymbolType> &aut,
+      AutBase::ProductTranslMap* pTranslMap = nullptr);
+
+  template <class SymbolType>
+  friend ExplicitFiniteAut<SymbolType> Reverse(
+      const ExplicitFiniteAut<SymbolType> &aut,
+      AutBase::ProductTranslMap* pTranslMap = nullptr);
+
+
 public:
 	typedef Symbol SymbolType;
 
@@ -342,6 +358,10 @@ public: // Public static functions
 
 		return *pSymbolDict_;
 	}
+
+  inline const StateSet& GetStartStates() const {
+    return this->startStates_;
+  }
 
 public: // Public inline functions
   inline void SetStateFinal(const StateType& state) {

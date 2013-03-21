@@ -31,10 +31,12 @@
 
 \abstract{
 Nondeterministic finite automata (NFA) are used in many areas of computer science, including, but not limited to, formal verification, or the design of digital
-circuits. Their advantages over deterministic finite automata (DFA) is that the may be exponentially conciser. However, this advantage may be lost if a na\"{\i}ve
+circuits. Their advantages over deterministic finite automata (DFA) is that they may be exponentially conciser. However, this advantage may be lost if a na\"{\i}ve
 approach to some operations, in particular checking language inclusion, which performs explicit determinization of the NFA, is taken. Recently, several new
-techniques for this problem that avoid explicit determinization (using the so-called antichains or bisimulation up to congruence) have been proposed. The main goal
-of this thesis is an efficient implementation of these techniques in the context of the VATA library.
+techniques for this problem that avoid explicit determinization (using the so-called antichains or bisimulation up to congruence) have been proposed. 
+The main goal of this paper is to describe these techniques which are being implemented as the new extension for the VATA library.
+%The main goal
+%of this work is an efficient implementation of these techniques in the context of the VATA library.
 }
 \keywords{finite automata, formal verification, language inclusion, bisimulation up to congruence, antichains, simulation}
 
@@ -73,20 +75,21 @@ The goal of this work is two-fold: (i) extending VATA with an NFA module impleme
 checking language inclusion, and (ii) an efficient design and implementation of checking language inclusion of NFA using 
 bisimulation up to congruence (which is missing in VATA for tree automata).
 
+% 5x zmena \omega na w
 \section{Preliminaries}
-We call a finite set of symbols $\Sigma$ an \emph{alphabet}. A~\emph{word} $\omega$ over $\Sigma$ of \emph{length} $n$ is a finite sequence of symbols 
-$\omega=a_1\ldots a_n$, where $\forall 1 \leq i \leq n\,.\,a_i \in \Sigma$. 
+We call a finite set of symbols $\Sigma$ an \emph{alphabet}. A~\emph{word} $w$ over $\Sigma$ of \emph{length} $n$ is a finite sequence of symbols 
+$w=a_1\ldots a_n$, where $\forall 1 \leq i \leq n\,.\,a_i \in \Sigma$. 
 A~\emph{nondeterministic finite automaton} (NFA) is a quintuple $\mathcal{A}= (Q,\Sigma,\delta,I,F)$, 
 where $Q$ is a finite set of states, $\Sigma$ is an alphabet, $\delta \subseteq Q\times \Sigma \times Q$
 is a transition relation (we use $p \xrightarrow{a} q$ to denote that $(p,a,q) \in \delta$), $I \subseteq Q$ is a set of initial states 
 and $F \subseteq Q$ is a set of final states. A~\emph{deterministic finite automaton} (DFA) is a special case of an NFA, 
 where $\delta$ is a partial function 
 $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. A~\emph{run} of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ from a state $q$
-over a word $\omega=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n$, where $\forall 0\leq i \leq n\ .\ q_i\in Q$ 
+over a word $w=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n$, where $\forall 0\leq i \leq n\ .\ q_i\in Q$ 
 such that $q_0=q$ and $(q_i,a_{i+1},q_{i+1})\in \delta$. 
-The run $r$ is called is called \emph{accepting} iff $q_n \in F$. The~\emph{language} of state $q \in Q$ is defined as 
-$L_\mathcal{A}(q) = \{\omega\in \Sigma^{*}\ |\ \emph{there exists an accepting run of }\mathcal{A} 
-\emph{ from }q\emph{ over }\omega\}$, while the language of a set of states $R\subseteq Q$ is defined as $L_{\mathcal{A}}(R)=\bigcup_{q\in R}L_{\mathcal{A}}(q)$.
+The run $r$ is called \emph{accepting} iff $q_n \in F$. The~\emph{language} of state $q \in Q$ is defined as 
+$L_\mathcal{A}(q) = \{w\in \Sigma^{*}\ |\ \emph{there exists an accepting run of }\mathcal{A} 
+\emph{ from }q\emph{ over }w\}$, while the language of a set of states $R\subseteq Q$ is defined as $L_{\mathcal{A}}(R)=\bigcup_{q\in R}L_{\mathcal{A}}(q)$.
 The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
 
 \section{Checking language inclusion of NFA}
@@ -131,11 +134,11 @@ also be used for checking language inclusion, based on the observation that $L_\
 This approach is based on the computation of a~\emph{congruence closure} $c(R)$ 
 for some binary relation on states of the determinized automaton $R \subseteq 2^Q\times 2^Q$ defined 
 %associative, commutative, idempotent binary operation $+: Q\times Q \to Q$ 
-as a relation $c(R)=(r\cup s\cup t \cup u\cup id)^{\omega}(R)$, where $id(R)=R$, 
-$r(R)=\{(X,X)\ |\ X\subseteq Q\}$, %TODO V clanku je to opacne, konzultovat!!!
+as a relation $c(R)=(r\cup s\cup t \cup u\cup id)^{w}(R)$, where $id(R)=R$, 
+$r(R)=\{(X,X)\ |\ X\subseteq Q\}$, 
 $s(R)=\{(Y,X)\ |\ XRY\}$,\linebreak
 $t(R)=\{(X,Z)\ |\ \exists\,Y\subseteq Q,\ XRYRZ\}$,
-$u(R)=\{(X_1 \cup X_2,Y_1\cup Y_2)\ |\ X_1 R Y_1 \wedge X_2 R Y_2\}$. %TODO dodefinovat +
+$u(R)=\{(X_1 \cup X_2,Y_1\cup Y_2)\ |\ X_1 R Y_1 \wedge X_2 R Y_2\}$. 
 
 The congruence algorithm works on a familiar principle as the antichains algorithm. 
 It starts building $\mathcal{A}_{det}$ and $\mathcal{B}_{det}$ and checks if macrostates in generated pairs are both
@@ -143,24 +146,30 @@ final or not. The optimization used is based on computing congruence closure of 
 If the generated pair is in this congruence closure it can be skipped and not further processed.
 
 Comparison of mentioned approaches to the checking language inclusion could be seen in Figure \ref{automata}.
-% Příklad vložení obrázku do dokumentu.
 \begin{figure}[bht]
 \begin{center}
 	\scalebox{1}
 	{
-		\includegraphics[scale=0.5]{congr1.eps}
-		\hspace{0.5cm}
-  	\includegraphics[scale=0.6]{ac1.eps}
+		\includegraphics[scale=0.45]{congr1.eps}
+		\hspace{0.55cm}
+  	\includegraphics[scale=0.55]{ac1.eps}
 	}
   \caption{
       \rm{
-      \hspace{0.1cm} The picture is based on an example from \cite{tacas10}. It shows macrostates 
-			that are generated when checking language inclusion between two NFA using different approaches. Optimization a and b
-			correspond to the parts of the improvement of antichain algorithm using simulation.}}
+      \hspace{0.1cm} The picture is based on an example from \cite{tacas10}.
+      It shows checking language inclusion between NFA $\mathcal{A}$ and NFA $\mathcal{B}$.
+      The labeled areas correspond to mentioned approaches.
+      The antichain algorithm reduces number of generated states compared with the classical one,
+      e.g., $(p_2,\{q_1,q_2\})$ is not further searched because $(p_2,\{q_2\}) \sqsubseteq (p_2,\{q_1,q_2\})$. 
+      The optimization a and b are improvements of the antichain algorithm using simulation. 
+      The congruence algorithm also reduces number of generated states, so $(\{p_1,p_2\},\{q_1,q_2\})$ is not further searched because it is in congruence closure 
+      of visited states.}}
+      %It shows macrostates 
+			%that are generated when checking language inclusion between two NFA using different approaches. Optimization a and b
+			%correspond to the parts of the improvement of antichain algorithm using simulation.}}
   \label{automata}
 \end{center}
 \end{figure}
-
 
 
 \section{Conclusion}
@@ -186,8 +195,8 @@ finite automata manipulation of VATA library.
 %%% ZALOHA PRELIMINARIES
 \begin{comment}
 \section{Preliminaries}
-We call a finite set of symbols $\Sigma$ an \emph{alphabet}. A~\emph{word} $\omega$ over $\Sigma$ of \emph{length} $n$ is a finite sequence of symbols 
-$\omega=a_1\ldots a_n$, where $\forall 1 \leq i \leq n\ . \ a_i \in \Sigma$. An \emph{empty word} is denoted as $\epsilon \not\in\Sigma$ and its length is $0$. 
+We call a finite set of symbols $\Sigma$ an \emph{alphabet}. A~\emph{word} $w$ over $\Sigma$ of \emph{length} $n$ is a finite sequence of symbols 
+$w=a_1\ldots a_n$, where $\forall 1 \leq i \leq n\ . \ a_i \in \Sigma$. An \emph{empty word} is denoted as $\epsilon \not\in\Sigma$ and its length is $0$. 
 We define \emph{concatenation} as an associative binary operation on words over $\Sigma$ represented by the symbol $.$ such that for two words $u=a_1\ldots a_2$
 and $v=b_1\ldots b_n$ over $\Sigma$ it holds that $\epsilon .u=u.\epsilon=u$ and $u.v=a_1 \ldots a_nb_1 \ldots b_m$. We define a symbol $\Sigma^{*}$ as set of all 
 words over $\Sigma$ including the empty word and a symbol $Sigma^{+}$ as set of all words over $\Sigma$ without empty word. A~\emph{language} $L$ over $\Sigma$ is 
@@ -197,9 +206,9 @@ A~\emph{nondeterministic finite automata} is a quintuple $N= (Q,\Sigma,\delta,I,
 is called transition function and is defined as $\delta \subseteq Q\times \Sigma Q$. $I \subseteq Q$ is set of initial states 
 and $F \subseteq Q$ is set of finite states. A~\emph{deterministic finite automata} is special case, where $\delta$ is a partial transition function defined as
 $\delta: Q\times \Sigma \longrightarrow Q$ and $|I| \leq 1$. A~\emph{run} of a (non)deterministic automaton $M=(Q,\Sigma,\delta,I,F)$ 
-over a word $\omega=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n \in Q$ of states such that $q_0\in I$ and $(q_i,a_{i+1},q_{i+1})\in \delta$ 
+over a word $w=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n \in Q$ of states such that $q_0\in I$ and $(q_i,a_{i+1},q_{i+1})\in \delta$ 
 for all $i: 0\leq i < n$. Run is called \emph{accepting}, iff $q_n \in F$. A~\emph{language accepted by (non)deterministic automaton} $M=(Q,\Sigma,\delta,I,F)$ 
-is denoted as $L(M)$ and defined as $L(M) = \{\omega\in \Sigma^{*}\ |\ \emph{there exists accepting run of }$M$ \emph{ over }\omega\}$.
+is denoted as $L(M)$ and defined as $L(M) = \{w\in \Sigma^{*}\ |\ \emph{there exists accepting run of }$M$ \emph{ over }w\}$.
 \emph{Language inclusion} of language of a (non)deterministic finite automaton $A$ with language of a (non)deterministic 
 finite automaton $B$ is defined as $L(A)\cap\overline{L(B)} = \emptyset$.
 Product of finite automaton $M_1=(Q_1,\Sigma,\delta,I_1,F)$ and finite automaton $M_2=(Q_2,\Sigma,\delta,I_2,F)$ 
@@ -216,13 +225,13 @@ A~forward \emph{simulation} on NFA $A=(Q,\Sigma,\delta,I,F)$ is a relation $\pre
 \Rightarrow r \in F$ and (ii) for every transition $p \xrightarrow{a} p'$, there exists a transition $r \xrightarrow{a} r'$ such that $p' \preceq r'$ 
 Let $X$ be a set with n-ary operation $O$ over $X$. 
 Let have two NFA $A=(Q_1,\Sigma,\delta,I_1,F_1)$ and $B=(Q_2,\Sigma,\delta,I_2,F_2)$ and relation $R \subseteq 2^{Q_1} \times 2^{Q_2}$. A~\emph{congruence closure}
-of relation $R$ is relation $c(R)=(r\cup s~\cup t \cup u~\cup id)^{\omega}(R)$, where $id$ is identity on $R$, 
+of relation $R$ is relation $c(R)=(r\cup s~\cup t \cup u~\cup id)^{w}(R)$, where $id$ is identity on $R$, 
 $r(R)=\{(x,x)\ |\ \forall x\in 2^{Q_1} \times 2^{Q_2}\}$, $s(R)=\{(y,x)\ |\ xRy\}$, 
 $t(R)=\{(x,z)\ |\ \exists y,\ xRyRz\}$, $u(R)=\{(x_1+x_2,y_1+y_2)\ |\ x_1 R x_2 \cap y_1 R y_2\}$.
 \emph{Congruence} is an equivalence relation $R$, which follows this condition 
 $\forall a_1,\ldots,a_n,b_1,\ldots,b_n\in X$:	$a_1 \sim_{R} b_1,\ldots,a_n \sim_{R} b_n \Rightarrow O_n(a_1,\ldots,a_n) \sim_{R} O_n(b_1,\ldots,b_n)$.
 The finite iterations of a function $f: X\rightarrow X$ are denoted by $f^{n}$, where $f^{0}(x)=x$ and $f^{n+1}=f(f^{n}(x))$. The omega iteration of 
-function $f$ is defined by $f^{\omega}=\bigcup_{n\geq 0}f$.
+function $f$ is defined by $f^{w}=\bigcup_{n\geq 0}f$.
 \end{comment}
 
 \begin{comment}

@@ -4,6 +4,8 @@ States
 Final States q
 Transitions
 a(s) -> q
+a(s) -> p
+a(p) -> v
 b(q) -> q1
 b(s) -> q1
 a(q1) -> q

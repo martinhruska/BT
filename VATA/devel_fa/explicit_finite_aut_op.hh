@@ -105,7 +105,7 @@ namespace VATA {
       auto lcluster = ExplicitFA::genericLookup 
         (*lhs.transitions_,actState->first.first);
 
-//      std::cout << "Leftstate " << actState->first.first << " " << actState->first.second << " indexes " << actState->second <<  std::endl; //DEBUG
+      std::cout << "Leftstate " << actState->first.first << " " << actState->first.second << " indexes " << actState->second <<  std::endl; //DEBUG
       if (!lcluster) {
         continue;
       }
@@ -145,7 +145,7 @@ namespace VATA {
             auto istate = pTranslMap->insert
               (std::make_pair(std::make_pair(lstate,rstate), 
                               pTranslMap->size())); 
-//            std::cout << "Righstates " << lstate << " " << rstate << " indexes " << istate.first->second << std::endl; //DEBUG
+            std::cout << "Righstates " << lstate << " " << rstate << " indexes " << istate.first->second << std::endl; //DEBUG
             
             // Insert state from right side of transition
             stateSet->insert(istate.first->second);
@@ -170,6 +170,112 @@ namespace VATA {
 */
     return res;
   }
+
+  template <class SymbolType>
+  ExplicitFiniteAut<SymbolType> RemoveUnreachableStates(
+      const ExplicitFiniteAut<SymbolType> &aut,
+      AutBase::ProductTranslMap* pTranslMap = nullptr) {
+
+    typedef ExplicitFiniteAut<SymbolType> ExplicitFA;
+    typedef typename ExplicitFA::StateToTransitionClusterMapPtr 
+      StateToTransitionClusterMapPtr;
+
+    std::unordered_set<AutBase::StateType> reachableStates(aut.GetStartStates());
+    std::vector<AutBase::StateType> newStates(reachableStates.begin(),reachableStates.end());
+
+    while (!newStates.empty()) {
+      auto actState = newStates.back();
+
+      newStates.pop_back();
+
+     auto cluster = ExplicitFA::genericLookup(*aut.transitions_,actState);
+
+     if (!cluster) {
+       continue;
+     }
+
+     // Add all reachable states to reachable state set
+     for (auto &symbolsToStateSet : *cluster) {
+       for (auto &state : *symbolsToStateSet.second) {
+         if (reachableStates.insert(state).second) {
+           newStates.push_back(state);
+         }
+       }
+     }
+    }
+
+      std::cout << "reachable " << reachableStates.size() << " " << aut.transitions_->size() << std::endl;
+      /* Commented because of useless  makes it not hold
+    if (reachableStates.size() == aut.transitions_->size()) {
+      return aut;
+    }
+    */
+      std::cout << "reachable " << std::endl;
+
+    ExplicitFA res;
+    res.startStates_ = aut.startStates_;
+    res.transitions_ = StateToTransitionClusterMapPtr(
+        new typename ExplicitFA::StateToTransitionClusterMap()
+        );
+
+    // Add all reachables states to new automaton
+    for (auto& state : reachableStates) {
+
+      auto stateToClusterIterator = aut.transitions_->find(state);
+
+      if (stateToClusterIterator == aut.transitions_->end()) {
+        continue;
+      }
+
+      if (aut.IsStateFinal(state)) {
+        res.SetStateFinal(state);
+      }
+
+      res.transitions_->insert(std::make_pair(state,stateToClusterIterator->second));
+    }
+
+    return res;
+  }
+
+
+  template <class SymbolType>
+  ExplicitFiniteAut<SymbolType> RemoveUselessStates(
+      const ExplicitFiniteAut<SymbolType> &aut,
+      AutBase::ProductTranslMap* pTranslMap = nullptr) {
+
+    typedef ExplicitFiniteAut<SymbolType> ExplicitFA;
+    typedef typename ExplicitFA::StateToTransitionClusterMapPtr 
+      StateToTransitionClusterMapPtr;
+
+    ExplicitFA reverse = Reverse(aut);
+    return Reverse(RemoveUnreachableStates(reverse));
+  }
+
+  template <class SymbolType>
+  ExplicitFiniteAut<SymbolType> Reverse(
+    const ExplicitFiniteAut<SymbolType> &aut,
+    AutBase::ProductTranslMap* pTranslMap = nullptr) {
+   
+      std::cout << "ahoj" << std::endl;
+      typedef ExplicitFiniteAut<SymbolType> ExplicitFA;
+
+      auto transitions_ = aut.transitions_;
+
+      ExplicitFA res;
+
+      res.finalStates_ = aut.startStates_;
+      res.startStates_ = aut.finalStates_;
+
+      for (auto stateToCluster : *transitions_) {
+        for (auto symbolToSet : *stateToCluster.second) {
+          for (auto stateInSet : *symbolToSet.second) {
+            res.AddTransition(stateInSet,symbolToSet.first,stateToCluster.first);
+          }
+        }
+      }
+
+      return res;
+    }
 
 }
 #endif

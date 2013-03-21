@@ -174,7 +174,6 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 			stateDict2);
 	}
 
-/*
 	if ((args.command == COMMAND_LOAD) ||
 		(args.command == COMMAND_UNION) ||
 		(args.command == COMMAND_COMPLEMENT) ||
@@ -206,7 +205,6 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 			}
 		}
 	}
-*/
 
 	AutBase::StateToStateMap opTranslMap1;
 	AutBase::StateToStateMap opTranslMap2;

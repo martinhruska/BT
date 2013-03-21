@@ -1,45 +1,43 @@
+Transition left state p 1
+Transition right state v 2
 Transition left state q 0
-Transition right state q1 1
-Transition left state q1 1
+Transition right state q1 3
+Transition left state q1 3
 Transition right state q 0
-Transition left state q1 1
+Transition left state q1 3
 Transition right state q 0
-Transition left state s 2
+Transition left state s 4
+Transition right state p 1
+Transition left state s 4
 Transition right state q 0
-Transition left state s 2
-Transition right state q1 1
-Transition left state q 0
-Transition right state q1 1
-Transition left state q1 1
-Transition right state q 0
-Transition left state q1 1
-Transition right state q 0
-Transition left state s 2
-Transition right state q 0
-Transition left state s 2
-Transition right state q1 1
-Printing left state: 0 [s_1|s_2]
-Printing right state: 1 [q_1|q_2]
-Printing symbol: a
-Printing left state: 0 [s_1|s_2]
-Printing right state: 2 [q1_1|q1_2]
+Transition left state s 4
+Transition right state q1 3
+ahoj
+reachable 3 4
+reachable 
+ahoj
+Printing left state: 0 q
+Printing right state: 3 q1
 Printing symbol: b
-Printing left state: 1 [q_1|q_2]
-Printing right state: 2 [q1_1|q1_2]
-Printing symbol: b
-Printing left state: 2 [q1_1|q1_2]
-Printing right state: 1 [q_1|q_2]
+Printing left state: 3 q1
+Printing right state: 0 q
 Printing symbol: a
-Printing left state: 2 [q1_1|q1_2]
-Printing right state: 1 [q_1|q_2]
+Printing left state: 3 q1
+Printing right state: 0 q
+Printing symbol: b
+Printing left state: 4 s
+Printing right state: 0 q
+Printing symbol: a
+Printing left state: 4 s
+Printing right state: 3 q1
 Printing symbol: b
 Ops 
 Automaton anonymous
 States 
-Final States [q_1|q_2] 
+Final States q 
 Transitions
-a([q1_1|q1_2]) -> [q_1|q_2]
-b([q1_1|q1_2]) -> [q_1|q_2]
-b([q_1|q_2]) -> [q1_1|q1_2]
-a([s_1|s_2]) -> [q_1|q_2]
-b([s_1|s_2]) -> [q1_1|q1_2]
+b(q) -> q1
+a(q1) -> q
+b(q1) -> q
+a(s) -> q
+b(s) -> q1
