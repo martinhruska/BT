@@ -48,28 +48,30 @@ The main goal of this paper is to describe these techniques which are being impl
 %-------------------------------------------------------------------------------
 \selectlanguage{english}
 \section{Introduction}
-A~finite automaton (FA) is a computation model with applications in different branches of computer science, e.g., compiler design, formal verification, 
-the design of digital circuits or natural language processing. In formal verification alone are its uses abundant, 
-e.g., in model checking of safety temporal properties, abstract regular model checking, static analysis, 
+A~finite automaton (FA) is a computation model with applications in different branches of computer science, e.g., compiler design, formal verification or 
+the design of digital circuits. %or natural language processing. 
+In formal verification alone are its uses abundant, 
+e.g., in model checking of safety temporal properties, abstract regular model checking \cite{tacas10}, static analysis, 
 or decision procedures of some logics, such as Presburger arithmetic or weak 
-monadic second-order theory of one successor (WS1S).
+monadic second-order theory of one successor (WS1S) \cite{libvata}.
 
 Many of the mentioned applications need to perform certain expensive operations on FA, such as checking universality of an FA (i.e., checking whether it
 accepts any word over a given alphabet), or checking language inclusion of a pair of FA (i.e., testing whether the language of one FA is a subset of the language
-of the second FA). The classical (so called \emph{textbook}) approach is based on complementation of the language of an FA. Complementation is easy for 
+of the second FA). The classical (so called \emph{textbook}) approach is based on complementation of the language of an FA \cite{cav06}. 
+Complementation is easy for 
 \emph{deterministic} FA (DFA)---just swapping accepting and non-accepting states---but a hard problem for \emph{nondeterministic} FA (NFA), which need 
 to be determinized first (this may lead to an exponential explosion in the number of the states of the automaton). 
-Both mentioned operations over NFA are PSPACE-complete problems.
+Both mentioned operations over NFA are PSPACE-complete problems \cite{cav06}.
 
 Recently, there has been a considerable advance in techniques for dealing with these problems. The new techniques are either based on the so-called 
 \emph{antichains} \cite{cav06,tacas10} or the so-called \emph{bisimulation up to congruence} \cite{popl13}. 
 In general, those techniques do not need an explicit construction of the complement
 automaton. They only construct a sub-automaton which is sufficient for either proving that the universality or inclusion hold, or finding a counterexample.
 
-Unfortunately, currently there is no efficient implementation of a general NFA library that would use the state-of-the-art algorithms for the mentioned
+Unfortunately, there is currently no efficient implementation of a general NFA library that would use the state-of-the-art algorithms for the mentioned
 operations on automata. The
 closest implementation is VATA \cite{libvata}, a general library for nondeterministic finite \emph{tree} automata, which can be used even for NFA (being modelled 
-as unary tree automata) but with not the optimal performance given by its overhead that comes with the ability to handle much richer structures. 
+as unary tree automata) but not with the optimal performance given by its overhead that comes with the ability to handle much richer structures. 
 
 The goal of this work is two-fold: (i) extending VATA with an NFA module implementing basic operations on NFA, such as union, intersection, or 
 checking language inclusion, and (ii) an efficient design and implementation of checking language inclusion of NFA using 
@@ -93,7 +95,7 @@ $L_\mathcal{A}(q) = \{w\in \Sigma^{*}\ |\ \emph{there exists an accepting run of
 The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
 
 \section{Checking language inclusion of NFA}
-Given a pair of automata $\mathcal{A}$ and $\mathcal{B}$,
+Given a pair of automata $\mathcal{A}=(Q_1,\Sigma,\delta_1,I_1,F_1)$ and $\mathcal{B}=(Q_2,\Sigma,\delta_2,I_2,F_2)$,
 the \emph{textbook} algorithm for checking inclusion of their languages $L_\mathcal{A}\subseteq L_\mathcal{B}$ works by first 
 determinizing $\mathcal{B}$ (yielding the DFA 
 $\mathcal{B}_{det}$), 
@@ -101,19 +103,19 @@ complementing it ($\overline{\mathcal{B}_{det}}$) and constructing the NFA $\mat
 accepting the intersection of $L_{\mathcal{A}}$ and ${L_{\overline{\mathcal{B}_{det}}}}$ and
 checking whether its language is nonempty. Any accepting run in this automaton may serve as a witness that the inclusion between $\mathcal{A}$ 
 and $\mathcal{B}$ does not hold. 
-Some recently introduced approaches avoid the explicit construction of $\overline{\mathcal{B}_{det}}$ and the related state explosion in many practical cases.
+Some recently introduced approaches avoid the explicit construction of $\overline{\mathcal{B}_{det}}$ and the related state explosion in many cases.
 
 \subsection{Antichains}
 We define an antichain and simulation before describing the algorithm itself. 
 Given a partially ordered set $Y$, an \emph {antichain} is a set $X \subseteq Y$ such that all elements of $X$ are incomparable.
-A~forward \emph{simulation} on an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ is a relation $\preceq\  \subseteq Q \times Q$ 
-such that if $p \preceq r$ then (i) $p \in F 
-\Rightarrow r \in F$ and (ii) for every transition $p\xrightarrow{a}p'$, there exists a transition 
+A~forward \emph{simulation} on the NFA $\mathcal{A}$ is a relation $\preceq\  \subseteq Q_1 \times Q_1$ 
+such that if $p \preceq r$ then (i) $p \in F_1 
+\Rightarrow r \in F_1$ and (ii) for every transition $p\xrightarrow{a}p'$, there exists a transition 
 $r\xrightarrow{a}r'$ such that $p' \preceq r'$. Note that simulation implies language inclusion, i.e., $p\preceq q \Rightarrow L_\mathcal{A}(p)
 \subseteq L_\mathcal{A}(q)$.
 
-The antichains algorithm \cite{cav06} starts searching for a final state of automaton $\mathcal{A}\times \overline{\mathcal{B}_{det}}$ while
-pruning out states which are not necessary to explore. $\mathcal{A}$ is explored nondeterministically and $\mathcal{B}$ 
+The antichains algorithm \cite{cav06} starts searching for a final state of the automaton $\mathcal{A}\times \overline{\mathcal{B}_{det}}$ while
+pruning out the states which are not necessary to explore. $\mathcal{A}$ is explored nondeterministically and $\mathcal{B}$ 
 is gradually determinized, so the algorithm explores pairs $(p,P)$ where $p\in Q_1$ and $P\subseteq Q_2$. 
 %Forward antichains algorithm starts building the product automaton from its start states (backward version starts from final states),
 %derives new states along the product automaton transitions and inserts them to the set of visited pairs $X$. 
@@ -122,8 +124,8 @@ $X$ keeps only minimal elements with respect to the ordering given by $(r,R)\sqs
 If there is generated a pair $(p,P)$ and there is 
 $(r,R)\in X$ such that $(r,R) \sqsubseteq (p,P)$, we can skip $(p,P)$ and not insert it to $X$ for further search.
  
-An improvement of the antichains algorithm using simulation \cite{tacas10} is based on the follow optimization. 
-We can stop search from a pair $(p,P)$ if either (a) there exists some already visited pair $(r,R)$ 
+An improvement of the antichains algorithm using simulation \cite{tacas10} is based on the following optimization. 
+We can stop the search from a pair $(p,P)$ if either (a) there exists some already visited pair $(r,R)$ 
 such that $p\preceq r \wedge \forall r'\in R\, \exists\, p' \in P: r' \preceq p'$, or (b) there is $p' \in P$ such that $p \preceq p'$.
 
 \subsection{Bisimulation up to congruence}
@@ -134,18 +136,18 @@ also be used for checking language inclusion, based on the observation that $L_\
 This approach is based on the computation of a~\emph{congruence closure} $c(R)$ 
 for some binary relation on states of the determinized automaton $R \subseteq 2^Q\times 2^Q$ defined 
 %associative, commutative, idempotent binary operation $+: Q\times Q \to Q$ 
-as a relation $c(R)=(r\cup s\cup t \cup u\cup id)^{w}(R)$, where $id(R)=R$, 
+as a relation $c(R)=(r\cup s\cup t \cup u\cup id)^{\omega}(R)$, where $id(R)=R$, 
 $r(R)=\{(X,X)\ |\ X\subseteq Q\}$, 
 $s(R)=\{(Y,X)\ |\ XRY\}$,\linebreak
 $t(R)=\{(X,Z)\ |\ \exists\,Y\subseteq Q,\ XRYRZ\}$,
 $u(R)=\{(X_1 \cup X_2,Y_1\cup Y_2)\ |\ X_1 R Y_1 \wedge X_2 R Y_2\}$. 
 
-The congruence algorithm works on a familiar principle as the antichains algorithm. 
+The congruence algorithm works on a similar principle as the antichains algorithm. 
 It starts building $\mathcal{A}_{det}$ and $\mathcal{B}_{det}$ and checks if macrostates in generated pairs are both
 final or not. The optimization used is based on computing congruence closure of the set of already visited pairs of macrostates. 
-If the generated pair is in this congruence closure it can be skipped and not further processed.
+If the generated pair is in this congruence closure, it can be skipped and further not processed.
 
-Comparison of mentioned approaches to the checking language inclusion could be seen in Figure \ref{automata}.
+Comparing the mentioned approaches to the checking language inclusion can be seen in Figure \ref{automata}.
 \begin{figure}[bht]
 \begin{center}
 	\scalebox{1}
@@ -157,12 +159,13 @@ Comparison of mentioned approaches to the checking language inclusion could be s
   \caption{
       \rm{
       \hspace{0.1cm} The picture is based on an example from \cite{tacas10}.
-      It shows procedure of checking language inclusion between two NFA using the mentioned approaches (which correspond to the labeled areas).
+      It shows the procedure of checking language inclusion between two NFA using the mentioned approaches (which correspond to the labeled areas).
       %The labeled areas correspond to mentioned approaches.
-      The antichain algorithm reduces number of generated states compared with the classical,
-      e.g., $(p_2,\{q_1,q_2\})$ is not further searched because $(p_2,\{q_2\}) \sqsubseteq (p_2,\{q_1,q_2\})$. 
+      The antichain algorithm reduces number of the generated states compared with the classical,
+      e.g., $(p_2,\{q_1,q_2\})$ is not further explored because $(p_2,\{q_2\}) \sqsubseteq (p_2,\{q_1,q_2\})$. 
       The optimization a and b are improvements of the antichain algorithm using simulation. 
-      The congruence algorithm also reduces number of generated states, so $(\{p_1,p_2\},\{q_1,q_2\})$ is not further searched because it is in congruence closure 
+      The congruence algorithm also reduces number of the generated states, so $(\{p_1,p_2\},\{q_1,q_2\})$ 
+      is not further explored because it is in congruence closure 
       of the set of visited states.}}
       %It shows macrostates 
 			%that are generated when checking language inclusion between two NFA using different approaches. Optimization a and b
@@ -261,7 +264,7 @@ shows, that every accepting word of $p$ takes $P$ to accepting state too,\linebr
 \subsection{Bisimulation up to congruence}
 The another approach to checking inclusion over NFA is based on bisimulation up to congruence. This approach is primary for checking language equivalence but it can
 also be used for checking language inclusion, when you consider that $L(A)\cup L(B)= L(B) \Rightarrow L(A)\subseteq L(B)$. 
-The congruence algorithm is based on familiar principle as antichain algorithm. 
+The congruence algorithm is based on similar principle as antichain algorithm. 
 It starts determinization of $A$ and $B$ simultaneously and checks, if newly generated states are equivalent (if they are either
 finale or not). Optimization is based on computing congruence closure on the set of generated pair of states. 
 If the newly generate pair is in this congruence
@@ -281,18 +284,21 @@ This work was supported by the Czech Science Foundation within the project No. P
 %
 \begin{thebibliography}{9}
   \bibitem{cav06} M. De Wulf, L. Doyen, T.A. Henzinger and J.-F. Raskin  Antichains: A
-		New Algorithm for Checking Universality of Finite Automata. CAV 2006. Springer-Verlag (2006).
+		New Algorithm for Checking Universality of Finite Automata. In Proc. of CAV 2006. Springer-Verlag (2006).
 
-  \bibitem{tacas10} Parosh Aziz Abdulla, Yu-Fang Chen, Lukáš Holík, Richard Mayr and
-		Tomáš Vojnar. When Simulation Meets Antichains: On Checking Language Inclusion of
-		Nondeterministic Finite (Tree) Automata. TACAS 2010. Springer-Verlag (2010).
+  \bibitem{tacas10} P.A. Abdulla, Y.-F. Chen, L. Holík, R. Mayr and
+		T. Vojnar. When Simulation Meets Antichains: On Checking Language Inclusion of
+		Nondeterministic Finite (Tree) Automata. In Proc. of TACAS 2010. Springer-Verlag (2010).
 
-	\bibitem{popl13} Filippo Bonchi and Damien Pous. Checking NFA Equivalence with Bisimulations up
-		to Congruence. POPL 2013. ACM (2013).
+	\bibitem{popl13} F. Bonchi and D. Pous. Checking NFA Equivalence with Bisimulations up
+		to Congruence. In Proc. of POPL 2013. ACM (2013).
 	
-	\bibitem{libvata} Ondřej Lengál, Jiří Šimáček and Tomáš Vojnar. VATA: A~Library for Efficient
-		Manipulation of Non-deterministic Tree Automata. TACAS 2012. Springer-Verlag (2012).
+	\bibitem{libvata} O. Lengál, J. Šimáček and T. Vojnar. VATA: A~Library for Efficient
+		Manipulation of Non-deterministic Tree Automata. In Proc. of TACAS 2012. Springer-Verlag (2012).
 
+  %\bibitem{static} S. Hallem, B. Chelf, Y. Xie and D. Engler. A System and
+  %Language for Building System-specific, Static Analyses. PLDI 2002. ACM (2002).
+  
 
 \end{thebibliography}
 
