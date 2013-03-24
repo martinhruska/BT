@@ -3,8 +3,10 @@ Automaton aut
 States
 Final States q
 Transitions
+x -> s
+x -> s1
 a(s) -> q
-a(s) -> p
+a(s1) -> p
 a(p) -> v
 b(q) -> q1
 b(s) -> q1

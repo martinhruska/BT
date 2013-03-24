@@ -238,7 +238,8 @@ public:
 			const State& rightState = t.third;
 
 			// Check whether there are no start states
-			if (rightState[0] == 's'){
+/*
+      if (rightState[0] == 's'){
 				this->startStates_.insert(stateTranslator(rightState));
 				//std::cout  <<  "Start states: "  <<  leftState  <<  std::endl;
 			}
@@ -246,8 +247,13 @@ public:
 				this->startStates_.insert(stateTranslator(leftState));
 				//std::cout  <<  "Start states: "  <<  rightState  <<  std::endl;
 			}
+      */
+      if (t.first.empty() && symbol == "x") {
+				this->startStates_.insert(stateTranslator(rightState));
+        continue;
+      }
 
-			std::cout << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;
+      std::cout << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;
 			std::cout << "Transition right state " << rightState << " "  <<  stateTranslator(rightState) <<  std::endl;
 			//std::cout << "Transition symbol " << symbol << std::endl;
 			this->AddTransition(stateTranslator(leftState),symbolTranslator(symbol),
@@ -270,17 +276,27 @@ public:
 			AutDescription desc;
 
 			// Dump the final states
-			for (auto& s : this->finalStates_){
+			for (auto& s : this->finalStates_) {
 				desc.finalStates.insert(statePrinter(s));
 			}
 
+      // Dump start states
+      std::string x("x"); // initial input symbol
+		  std::vector<std::string> leftStateAsTuple;
+      for (auto &s : this->startStates_) {
+        AutDescription::Transition trans(
+						leftStateAsTuple,
+            x,
+            statePrinter(s));
+        desc.transitions.insert(trans);
+      }
 
 			/*
 			 * Converts transitions to a string
 			 */
-			for (auto& ls : *(this->transitions_)){
+			for (auto& ls : *(this->transitions_)) {
 				for (auto& s : *ls.second){
-					for (auto& rs : *s.second){
+					for (auto& rs : *s.second) {
 						std::vector<std::string> leftStateAsTuple;
 						leftStateAsTuple.push_back(statePrinter(ls.first));
             
@@ -401,8 +417,12 @@ public: // Public inline functions
 		this->internalAddTransition(lstate, symbol, rstate);
 	}
 
-  inline bool IsStateFinal(const StateType &state) const{
+  inline bool IsStateFinal(const StateType &state) const {
     return (this->finalStates_.find(state) != this->finalStates_.end());
+  }
+
+  inline bool IsStateStart(const StateType &state) const  {
+    return (this->startStates_.find(state) != this->startStates_.end());
   }
 
 protected:
