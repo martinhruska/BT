@@ -47,12 +47,20 @@ class VATA::ExplicitFiniteAut : public AutBase {
       const ExplicitFiniteAut<SymbolType> &aut,
       AutBase::ProductTranslMap* pTranslMap = nullptr);
 
+  template <class SymbolType, class Dict>
+  friend ExplicitFiniteAut<SymbolType> Complement(
+      const ExplicitFiniteAut<SymbolType> &aut,
+      const Dict &alphabet);
+	
+  template <class SymbolType>
+	friend ExplicitFiniteAut<SymbolType> GetCandidateTree(const ExplicitFiniteAut<SymbolType>& aut);
 
 public:
 	typedef Symbol SymbolType;
 
 private: // private type definitions
 	typedef AutBase::StateType StateType;
+	typedef std::vector<SymbolType> AlphabetType;
 
 	typedef std::string string;
 	typedef std::unordered_set<StateType> StateSet;
@@ -219,8 +227,13 @@ public:
 
 		// Load transitions
 		for (auto t : desc.transitions) {
+
+      // TODO dodelat do cli kontrolu syntaxe pro FA
+      assert(!t.empty()); // Not a tree automata
+
 			// traverse the transitions
 			const State& leftState = t.first[0];
+
 			const std::string& symbol = t.second;
 			const State& rightState = t.third;
 
@@ -362,6 +375,18 @@ public: // Public static functions
   inline const StateSet& GetStartStates() const {
     return this->startStates_;
   }
+
+  // TODO compability with tree automata part - used by complement function
+	static AlphabetType GetAlphabet()
+	{
+		AlphabetType alphabet;
+		for (auto symbol : GetSymbolDict())
+		{
+			alphabet.push_back(symbol.second);
+		}
+
+		return alphabet;
+	}
 
 public: // Public inline functions
   inline void SetStateFinal(const StateType& state) {

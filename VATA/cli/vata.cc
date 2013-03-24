@@ -219,7 +219,6 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 	{
 		autResult = autInput1;
 	}
-  /*
 	else if (args.command == COMMAND_WITNESS)
 	{
 		autResult = GetCandidateTree(autInput1);
@@ -228,7 +227,6 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 	{
 		autResult = Complement(autInput1, autInput1.GetAlphabet());
 	}
-  */
 	else if (args.command == COMMAND_UNION)
 	{
 		autResult = Union(autInput1, autInput2, &opTranslMap1, &opTranslMap2);
@@ -271,23 +269,28 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 
 	if (!args.dontOutputResult)
 	{	// in case output is not forbidden
-		if ((args.command == COMMAND_LOAD))// ||
-	//		(args.command == COMMAND_WITNESS) ||
+		if ((args.command == COMMAND_LOAD) ||
+			(args.command == COMMAND_WITNESS))// ||
 		//	(args.command == COMMAND_RED))
 		{
 			std::cout << autResult.DumpToString(serializer,
 				StateBackTranslatorStrict(stateDict1.GetReverseMap()),
 				SymbolBackTranslatorStrict(autResult.GetSymbolDict().GetReverseMap()));
 		}
-  /*
 
-		if (args.command == COMMAND_COMPLEMENT)
+		if (args.command == COMMAND_COMPLEMENT && args.representation != REPRESENTATION_EXPLICIT_FA)
 		{
 			std::cout << autResult.DumpToString(serializer,
 				[](const AutBase::StateType& state){ return "q" + Convert::ToString(state); },
 				SymbolBackTranslatorStrict(autResult.GetSymbolDict().GetReverseMap()));
 		}
-*/
+    else if (args.command == COMMAND_COMPLEMENT) {
+      std::cout << autResult.DumpToString(serializer,
+				StateBackTranslatorStrict(stateDict1.GetReverseMap()),
+				SymbolBackTranslatorStrict(autResult.GetSymbolDict().GetReverseMap()));
+
+    }
+
 		if (args.command == COMMAND_UNION)
 		{
 			stateDict1 = VATA::Util::CreateUnionStringToStateMap(
