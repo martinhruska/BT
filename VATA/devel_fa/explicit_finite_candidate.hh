@@ -30,6 +30,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::GetCandidateTree(
   ExplicitFA res;
 
 
+  // Starts to from start states
   for (StateType s : aut.GetStartStates()) {
     if (reachableStates.insert(s).second) {
       newStates.push_back(s);
@@ -50,17 +51,16 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::GetCandidateTree(
     }
 
     for (auto symbolToState : *transitionsCluster->second) {
-      // Add all states from reachable from actState to result automaton
+      // All states which are reachable from actState are added to result automaton
       for (auto stateInSet : *symbolToState.second){
        
         if (reachableStates.insert(stateInSet).second) {
           newStates.push_back(stateInSet);
         }
 
-        //res.transitions_->AddTransition();
         res.transitions_->insert(std::make_pair(actState,transitionsCluster->second));
 
-        if (aut.IsStateFinal(stateInSet)) {
+        if (aut.IsStateFinal(stateInSet)) { // Set final state
           res.SetStateFinal(stateInSet);
           goto found_;
         }

@@ -448,26 +448,11 @@ int main(int argc, char* argv[])
 		{
 			return executeCommand<ExplicitFiniteAut>(args);
 		}
-/*
-			ExplicitFiniteAut aut1;
-
-			aut1.devel(*(new TimbukParser()),VATA::Util::ReadFile(args.fileName1), stateDict);
-
-			std::unique_ptr<AbstrSerializer> serializer(nullptr);
-			serializer.reset(new TimbukSerializer());
-
-			std::cout << aut1.DumpToString(*(serializer.get()),
-					StateBackTranslatorStrict(stateDict.GetReverseMap()),
-					SymbolBackTranslatorStrict(aut1.GetSymbolDict().GetReverseMap()));
-
-			return EXIT_FAILURE;
-		}
 		else
 		{
 			std::cerr << "Internal error: invalid representation\n";
 			return EXIT_FAILURE;
 		}
-		*/
 	}
 	catch (std::exception& ex)
 	{
