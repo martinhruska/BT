@@ -218,38 +218,43 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 %%%%		
 
 
+  \subsection{Operations over Finite Automata}
+    \subsubsection{Automata Union}
+    \label{defAUnion}
+    \begin{definition}
+      $A=(Q_A,\Sigma,\delta_A,I_A,F_A)$ and $B=(Q_B,\Sigma,\delta_B,I_B,F_B)$ are two NFA's. Their union is defined by
+      \begin{description}
+        \item $A \cup B=(Q_A\cup Q_B,\Sigma,\delta_A\cup\delta_B,I_A\cup I_B,F_A\cup F_B)$
+      \end{description}
+    \end{definition}
+    
+    \subsubsection{Automata Intersection}
+    \label{defAInter}
+    \begin{definition}
+      $A=(Q_A,\Sigma,\delta_A,I_A,F_A)$ and $B=(Q_B,\Sigma,\delta_B,I_B,F_B)$ are to two NFA's. Their intersection is defined by
+      \begin{description}
+        \item $A \cap B=(Q_A\cap Q_B,\Sigma,\delta,I_A\cap I_B,F_A\cap F_B)$\
+      \end{description}
+      where $\delta$ is defined by
+      \begin{description}
+        \item $\{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_A \wedge q_1 \xrightarrow{a} q_2 \in \delta_B)\}$\
+      \end{description}
+    \end{definition}
+
 	\subsection{Run of Finite Automaton}
 	\label{defRun}
-	\begin{definition}
-		\emph{A run of the finite automaton }$A$ over a finite word $\omega=\sigma_1\dots\sigma_n$ is a sequence $r=q_0\dots q_n$ of states such that
-		\begin{itemize}
-			\item $q_0\in I$
-			\item $\delta(q_i,\sigma_{i+1})=q_{i+1}$, for all $0\leq i < n$
-		\end{itemize}\
-		Run is called \emph{accepting} if $q_n\in F$.
-	\end{definition}
-
-	\subsection{Accepting Word}
-	\label{defAWord}
-	\begin{definition}
-		\emph{Accepting} word is $\omega \in \Sigma^{*}$, if there exists \emph{accepting} run for $\omega$.
-	\end{definition}
-
-	\subsection{Unreachable State}
-	\label{defAWord}
-	\begin{definition}
-		If there is no run $r=q_0\ldots q_n$ of the finite automaton $A$ over word $\omega \in \Sigma^{*}$, where $q_0\in I$, then $q_n$ is \emph{unreachable} state.
-	\end{definition}
-
-	\subsection{State equivalence}
-	\label{defStateEq}
-	\begin{definition}
-		Let have DFA $A$. States $p \in Q$ and $q \in Q$ are equivalent, if this condition is satisfied:
-		\begin{description}
-			\item $\forall \omega \in \Sigma^{*}: \emph{ Run from } p \emph{ over } \omega \emph{ is accepting} \Leftrightarrow 
-			\emph{ Run from } q \emph{ over } \omega \emph{ is accepting}$
-		\end{description}
-	\end{definition}
+  A~\emph{run} of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ from a state $q$
+  over a word $w=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n$, where $\forall 0\leq i \leq n\ .\ q_i\in Q$ 
+  such that $q_0=q$ and $(q_i,a_{i+1},q_{i+1})\in \delta$. 
+  The run $r$ is called \emph{accepting} iff $q_n \in F$. 
+	An word $w \in \Sigma^{*}$ is called \emph{accepting}, if there exists an \emph{accepting} run for $\omega$.
+  An \emph{unreachable} state $q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$ is a state for which there is no run $r=q_0\ldots q$ of $A$ over a word $w \in \Sigma^{*}$ 
+  such that $q_0\in I$.
+  An \emph{useless} (also called nonterminating) state $q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$ is state that there is no run $r=q\ldots q$ of $A$ over a word
+  $w \in \Sigma^{*}$ such that $q_n \in F$.
+  Given a pair of states $p,q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$, these states are equivalent if 
+  $\forall \omega \in \Sigma^{*}: \emph{ Run from } p \emph{ over } \omega \emph{ is accepting} \Leftrightarrow 
+			\emph{ Run from } q \emph{ over } \omega \emph{ is accepting}$.
 
 	\subsection{Minimum DFA}
 	\label{defMinDFA}
@@ -257,33 +262,18 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 		Minimum DFA satisfies this conditions:
 		\begin{itemize}
 			\item There are no unreachable states
-			\item There is maximal one nonterminating state, what is nonaccepting state, that for each input symbol terminates on itself.
+			\item There is maximal one nonterminating state, which terminates on itself for each symbol.
 			\item Equivalent states are collapsed.
 		\end{itemize}
 	\end{definition}
 
 
-	\subsection{Automata Union}
-	\label{defAUnion}
-	\begin{definition}
-		$A=(Q_A,\Sigma,\delta_A,I_A,F_A)$ and $B=(Q_B,\Sigma,\delta_B,I_B,F_B)$ are two NFA's. Their union is defined by
-		\begin{description}
-			\item $A \cup B=(Q_A\cup Q_B,\Sigma,\delta_A\cup\delta_B,I_A\cup I_B,F_A\cup F_B)$
-		\end{description}
-	\end{definition}
-	
-	\subsection{Automata Intersection}
-	\label{defAInter}
-	\begin{definition}
-		$A=(Q_A,\Sigma,\delta_A,I_A,F_A)$ and $B=(Q_B,\Sigma,\delta_B,I_B,F_B)$ are to two NFA's. Their intersection is defined by
-		\begin{description}
-			\item $A \cap B=(Q_A\cap Q_B,\Sigma,\delta,I_A\cap I_B,F_A\cap F_B)$\
-		\end{description}
-		where $\delta$ is defined by
-		\begin{description}
-			\item $\{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_A \wedge q_1 \xrightarrow{a} q_2 \in \delta_B)\}$\
-		\end{description}
-	\end{definition}
+  \subsection{Language of Finite Automaton}
+  The~\emph{language} of state $q \in Q$ is defined as 
+  $L_\mathcal{A}(q) = \{w\in \Sigma^{*}\ |\ $\emph{there exists an accepting run of }$
+  \mathcal{A}$$ 
+  \emph{ from }q\emph{ over }w\}$, while the language of a set of states $R\subseteq Q$ is defined as $L_{\mathcal{A}}(R)=\bigcup_{q\in R}L_{\mathcal{A}}(q)$.
+  The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
 
 \section{Languages}
 		\subsection{Language Accepted by Finite Automaton $M$}
