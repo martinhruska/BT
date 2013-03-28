@@ -61,13 +61,82 @@ We define \emph{iteration} and \emph{positive} iteration of a language $L$ over 
   \section{Finite Automata}
 \label{defFA}
 
-	\subsection{Deterministic Finite Automaton}
-	\label{defDFA}
+	\subsection{Nondeterministic Finite Automaton}
+	\label{defNFA}
 	\begin{definition}
-		\emph{A Deterministic Finite Automaton} (DFA) is a quintuple $N=(Q,\Sigma,\delta,I,F)$, where
+		\emph{A Nondeterministic Finite Automaton} (NFA) is a quintuple $N=(Q,\Sigma,\delta,I,F)$, where
 		\begin{itemize}
 			\item $Q$ is a finite set of states,
-			\item $\Sigma$ is alphabet,
+			\item $\Sigma$ is an alphabet,
+			\item $\delta \sunseteq Q \times \Sigma \times Q$ is a transition relation. We use $p \xrightarrow{a} q$ to denote that $(p,a,q)\in\delta$,
+			\item $I$ is finite set of states, that $I \subseteq Q$. Elements of $I$ are called initial states.
+			\item $F$ is finite set of states, that $F \subseteq Q$. Elements of $F$ are called final states.
+		\end{itemize}
+	\end{definition}
+
+%%%%example of NFA
+		\begin{figure}[h]
+		\begin{center}
+		\begin{tikzpicture}[scale=0.2]
+				\tikzstyle{every node}+=[inner sep=0pt]
+				\draw [black] (9.4,-29.6) circle (3);
+				\draw (9.4,-29.6) node {$P$};
+				\draw [black] (29.9,-15.7) circle (3);
+				\draw (29.9,-15.7) node {$Q$};
+				\draw [black] (29.9,-15.7) circle (2.4);
+				\draw [black] (33.8,-30.8) circle (3);
+				\draw (33.8,-30.8) node {$R$};
+				\draw [black] (21.7,-50.3) circle (3);
+				\draw (21.7,-50.3) node {$S$};
+				\draw [black] (21.7,-50.3) circle (2.4);
+				\draw [black] (51.1,-20.6) circle (3);
+				\draw (51.1,-20.6) node {$T$};
+				\draw [black] (51.8,-41) circle (3);
+				\draw (51.8,-41) node {$U$};
+				\draw [black] (51.8,-41) circle (2.4);
+				\draw [black] (3.2,-27.4) -- (6.57,-28.6);
+				\fill [black] (6.57,-28.6) -- (5.99,-27.86) -- (5.65,-28.8);
+				\draw [black] (11.88,-27.92) -- (27.42,-17.38);
+				\fill [black] (27.42,-17.38) -- (26.47,-17.42) -- (27.04,-18.25);
+				\draw (20.6,-23.15) node [below] {$a$};
+				\draw [black] (10.93,-32.18) -- (20.17,-47.72);
+				\fill [black] (20.17,-47.72) -- (20.19,-46.78) -- (19.33,-47.29);
+				\draw (14.9,-41.21) node [left] {$a$};
+				\draw [black] (12.4,-29.75) -- (30.8,-30.65);
+				\fill [black] (30.8,-30.65) -- (30.03,-30.11) -- (29.98,-31.11);
+				\draw (21.33,-30.95) node [below] {$c$};
+				\draw [black] (32.82,-16.38) -- (48.18,-19.92);
+				\fill [black] (48.18,-19.92) -- (47.51,-19.26) -- (47.29,-20.23);
+				\draw (39.8,-18.73) node [below] {$b$};
+				\draw [black] (36.38,-29.28) -- (48.52,-22.12);
+				\fill [black] (48.52,-22.12) -- (47.57,-22.1) -- (48.08,-22.96);
+				\draw (43.5,-26.2) node [below] {$b$};
+				\draw [black] (36.41,-32.28) -- (49.19,-39.52);
+				\fill [black] (49.19,-39.52) -- (48.74,-38.69) -- (48.25,-39.56);
+				\draw (41.85,-36.4) node [below] {$c$};
+				\draw [black] (48.93,-41.89) -- (24.57,-49.41);
+				\fill [black] (24.57,-49.41) -- (25.48,-49.66) -- (25.18,-48.7);
+				\draw (35.85,-45.1) node [above] {$d$};
+				\draw [black] (32.22,-33.35) -- (23.28,-47.75);
+				\fill [black] (23.28,-47.75) -- (24.13,-47.33) -- (23.28,-46.81);
+				\draw (27.12,-39.26) node [left] {$c$};
+				\end{tikzpicture}
+			\end{center}
+			\caption{Example of NFA}
+			\end{figure}
+%%%end of nfa picture
+
+
+
+	\subsection{Deterministic Finite Automaton}
+	\label{defDFA}
+  A~\emph{deterministic finite automaton} (DFA) is a special case of an NFA, where $\delta$ is a partial function 
+$\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whole definition of DFA.
+	\begin{definition}
+		DFA is a quintuple $N=(Q,\Sigma,\delta,I,F)$, where
+		\begin{itemize}
+			\item $Q$ is a finite set of states,
+			\item $\Sigma$ is  an alphabet,
 			\item $\delta$ is: $Q \times \Sigma \rightarrow Q,$ we use $p \xrightarrow{a} q$ to denote  transition from $p \in Q$ to $q \in Q$ 
 under the input symbol $a \in \Sigma$. 
 Function $\delta$ is called transition function.
@@ -128,93 +197,6 @@ Function $\delta$ is called transition function.
 \caption{Example of DFA}
 \end{figure}
 %%%%end of DFA example
-
-
-
-	\subsection{Nondeterministic Finite Automaton}
-	\label{defNFA}
-	\begin{definition}
-		\emph{A Nondeterministic Finite Automaton} (NFA) is a quintuple $N=(Q,\Sigma,\delta,I,F)$, where
-		\begin{itemize}
-			\item $Q$ is a finite set of states,
-			\item $\Sigma$ is alphabet,
-			\item $\delta$ is: $Q \times \Sigma \rightarrow 2^Q,$ we use $p \xrightarrow{a} q$ to denote transition from $p \in Q$ to $q \in Q$ 
-under the input symbol $a \in \Sigma$. 
-Function $\delta$ is called transition function.
-			\item $I$ is finite set of states, that $I \subseteq Q$. Elements of $I$ are called start states.
-			\item $F$ is finite set of states, that $F \subseteq Q$. Elements of $F$ are called final states.
-		\end{itemize}
-	\end{definition}
-
-%%%%example of NFA
-		\begin{figure}[h]
-		\begin{center}
-		\begin{tikzpicture}[scale=0.2]
-				\tikzstyle{every node}+=[inner sep=0pt]
-				\draw [black] (9.4,-29.6) circle (3);
-				\draw (9.4,-29.6) node {$P$};
-				\draw [black] (29.9,-15.7) circle (3);
-				\draw (29.9,-15.7) node {$Q$};
-				\draw [black] (29.9,-15.7) circle (2.4);
-				\draw [black] (33.8,-30.8) circle (3);
-				\draw (33.8,-30.8) node {$R$};
-				\draw [black] (21.7,-50.3) circle (3);
-				\draw (21.7,-50.3) node {$S$};
-				\draw [black] (21.7,-50.3) circle (2.4);
-				\draw [black] (51.1,-20.6) circle (3);
-				\draw (51.1,-20.6) node {$T$};
-				\draw [black] (51.8,-41) circle (3);
-				\draw (51.8,-41) node {$U$};
-				\draw [black] (51.8,-41) circle (2.4);
-				\draw [black] (3.2,-27.4) -- (6.57,-28.6);
-				\fill [black] (6.57,-28.6) -- (5.99,-27.86) -- (5.65,-28.8);
-				\draw [black] (11.88,-27.92) -- (27.42,-17.38);
-				\fill [black] (27.42,-17.38) -- (26.47,-17.42) -- (27.04,-18.25);
-				\draw (20.6,-23.15) node [below] {$a$};
-				\draw [black] (10.93,-32.18) -- (20.17,-47.72);
-				\fill [black] (20.17,-47.72) -- (20.19,-46.78) -- (19.33,-47.29);
-				\draw (14.9,-41.21) node [left] {$a$};
-				\draw [black] (12.4,-29.75) -- (30.8,-30.65);
-				\fill [black] (30.8,-30.65) -- (30.03,-30.11) -- (29.98,-31.11);
-				\draw (21.33,-30.95) node [below] {$c$};
-				\draw [black] (32.82,-16.38) -- (48.18,-19.92);
-				\fill [black] (48.18,-19.92) -- (47.51,-19.26) -- (47.29,-20.23);
-				\draw (39.8,-18.73) node [below] {$b$};
-				\draw [black] (36.38,-29.28) -- (48.52,-22.12);
-				\fill [black] (48.52,-22.12) -- (47.57,-22.1) -- (48.08,-22.96);
-				\draw (43.5,-26.2) node [below] {$b$};
-				\draw [black] (36.41,-32.28) -- (49.19,-39.52);
-				\fill [black] (49.19,-39.52) -- (48.74,-38.69) -- (48.25,-39.56);
-				\draw (41.85,-36.4) node [below] {$c$};
-				\draw [black] (48.93,-41.89) -- (24.57,-49.41);
-				\fill [black] (24.57,-49.41) -- (25.48,-49.66) -- (25.18,-48.7);
-				\draw (35.85,-45.1) node [above] {$d$};
-				\draw [black] (32.22,-33.35) -- (23.28,-47.75);
-				\fill [black] (23.28,-47.75) -- (24.13,-47.33) -- (23.28,-46.81);
-				\draw (27.12,-39.26) node [left] {$c$};
-				\end{tikzpicture}
-			\end{center}
-			\caption{Example of NFA}
-			\end{figure}
-%%%end of nfa picture
-
-\subsection{Alphabet, String, Kleen Closure of Alphabet}
-\label{defAlphabet}
-\begin{definition}
-	\emph{An alphabet} $\Sigma$ is non empty set of symbols (sometimes called letters).
-\end{definition}
-\begin{definition}
-	\emph{A String (also called word)} is finite sequence of symbols from an alphabet $\Sigma$.
-\end{definition}
-\begin{definition}
-	\emph{A Kleen closure of alphabet} $\Sigma$ is $\Sigma^{*}$, which is defined as:
-	\begin{itemize}
-		\item $\Sigma_0=\{\epsilon\}$, where epsilon is empty string
-		\item $\Sigma_1=\{a\}$, where $a\in \Sigma$
-		\item $\Sigma_{i+1}=\{wv\ |\ w\in \Sigma_i \wedge v \in \Sigma\}$, where $i>0$
-	\end{itemize}
-\end{definition}
-
 
 %%%comment
 \begin{comment}
@@ -304,11 +286,6 @@ Function $\delta$ is called transition function.
 	\end{definition}
 
 \section{Languages}
-		\subsection{Language}
-		\label{defLang}
-		\begin{definition}
-			Let $\Sigma$ be alphabet. \emph{A language }$L$ over $\Sigma$ is $L\subseteq\Sigma^{*}$.
-		\end{definition}
 		\subsection{Language Accepted by Finite Automaton $M$}
 		\label{defLangM}
 		\begin{definition}
