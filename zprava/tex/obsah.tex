@@ -33,11 +33,12 @@ Existing libraries for finite automata manipulation and the VATA library will be
 Design of extension for VATA 
 will take place in chapter \ref{arch}. Implementation and optimization is possible to find in chapter \ref{implementation}. Evaluation will be
 described in chapter \ref{eval} and final conclusion in chapter \ref{concl}.
-\chapter{Finite Automata and Languages}
+
+
+\chapter{Finite Automata}
 This chapter contains theoretical fundations of the thesis. No proofs are given, because they can be found in literature. 
 %TODO dodelat
-First, the finite automaton and their context will be defined, then the language, regular language and its closure properties and at last conversion from
-NFA to DFA with subset construction. 
+First, the language will be defined, then finite automata and their context, the regular language and its closure properties. 
 \label{teorie}
 
 \section{Languages}
@@ -221,16 +222,13 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
   \subsection{Operations over Finite Automata}
     \subsubsection{Automata Union}
     \label{defAUnion}
-    \begin{definition}
       $A=(Q_A,\Sigma,\delta_A,I_A,F_A)$ and $B=(Q_B,\Sigma,\delta_B,I_B,F_B)$ are two NFA's. Their union is defined by
       \begin{description}
         \item $A \cup B=(Q_A\cup Q_B,\Sigma,\delta_A\cup\delta_B,I_A\cup I_B,F_A\cup F_B)$
       \end{description}
-    \end{definition}
     
     \subsubsection{Automata Intersection}
     \label{defAInter}
-    \begin{definition}
       $A=(Q_A,\Sigma,\delta_A,I_A,F_A)$ and $B=(Q_B,\Sigma,\delta_B,I_B,F_B)$ are to two NFA's. Their intersection is defined by
       \begin{description}
         \item $A \cap B=(Q_A\cap Q_B,\Sigma,\delta,I_A\cap I_B,F_A\cap F_B)$\
@@ -239,102 +237,13 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
       \begin{description}
         \item $\{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_A \wedge q_1 \xrightarrow{a} q_2 \in \delta_B)\}$\
       \end{description}
-    \end{definition}
 
-	\subsection{Run of Finite Automaton}
-	\label{defRun}
-  A~\emph{run} of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ from a state $q$
-  over a word $w=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n$, where $\forall 0\leq i \leq n\ .\ q_i\in Q$ 
-  such that $q_0=q$ and $(q_i,a_{i+1},q_{i+1})\in \delta$. 
-  The run $r$ is called \emph{accepting} iff $q_n \in F$. 
-	An word $w \in \Sigma^{*}$ is called \emph{accepting}, if there exists an \emph{accepting} run for $\omega$.
-  An \emph{unreachable} state $q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$ is a state for which there is no run $r=q_0\ldots q$ of $A$ over a word $w \in \Sigma^{*}$ 
-  such that $q_0\in I$.
-  An \emph{useless} (also called nonterminating) state $q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$ is state that there is no run $r=q\ldots q$ of $A$ over a word
-  $w \in \Sigma^{*}$ such that $q_n \in F$.
-  Given a pair of states $p,q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$, these states are equivalent if 
-  $\forall \omega \in \Sigma^{*}: \emph{ Run from } p \emph{ over } \omega \emph{ is accepting} \Leftrightarrow 
-			\emph{ Run from } q \emph{ over } \omega \emph{ is accepting}$.
-
-	\subsection{Minimum DFA}
-	\label{defMinDFA}
-	\begin{definition}
-		Minimum DFA satisfies this conditions:
-		\begin{itemize}
-			\item There are no unreachable states
-			\item There is maximal one nonterminating state, which terminates on itself for each symbol.
-			\item Equivalent states are collapsed.
-		\end{itemize}
-	\end{definition}
-
-
-  \subsection{Language of Finite Automaton}
-  The~\emph{language} of state $q \in Q$ is defined as 
-  $L_\mathcal{A}(q) = \{w\in \Sigma^{*}\ |\ $\emph{there exists an accepting run of }$
-  \mathcal{A}$$ 
-  \emph{ from }q\emph{ over }w\}$, while the language of a set of states $R\subseteq Q$ is defined as $L_{\mathcal{A}}(R)=\bigcup_{q\in R}L_{\mathcal{A}}(q)$.
-  The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
-
-\section{Languages}
-		\subsection{Language Accepted by Finite Automaton $M$}
-		\label{defLangM}
-		\begin{definition}
-			\emph{The language accepted by finite automaton $M$} is the set of all strings accepted by $M$ and is denoted as $L(M)$:
-			\begin{description}
-				\item $L(M) = \{\omega\in\Sigma^{*}\ |\ \emph{there exists an accepting run for }\omega\emph{ in }L\}$
-			\end{description}
-		\end{definition}
-		\begin{definition}
-			$L(M)(p)$ is language of state $p$ from finite automaton $M$.
-			\begin{description}
-				\item $L(M)(p) = \{\omega\in\Sigma^{*}\ |\ \emph{there exists an accepting run of }M\emph{ over }\omega\emph{ in }L,\emph{ which starts in state }p\}$
-			\end{description}
-		\end{definition}
-		\subsection{Regular Language}
-		\begin{definition}
-			A language $L$ is \emph{regular}, if exists some finite automaton $M$,\\ that $L=L(M)$.
-		\end{definition}
-
-		\subsection{Closure Properties of Regular Languages}
-		\label{defClose}
-		Regular languages are closed under certain operation, if result of this operation on some regular language is always regular language too.
-
-		Let introduce the closure properties of regular languages on alphabet $\Sigma$:
-		\begin{itemize}
-			\item Union:  $L_1 \cup L_2=\{x\ |\ x \in L_1 \vee x\in L_2\}$
-			\item Intersection:  $L_1 \cap L_2=\{x\ |\ x \in L_1 \wedge x\in L_2\}$
-			\item Complement: $\overline{L}=\{x\ |\ x\not\in L\}$
-			\item Difference: $L-K=\{x\ |\ x\in L \wedge x\not\in K\}$
-			\item Reversal: $L^R = \{y\ |\ x=a_1\dots a_n \in L \Rightarrow y=a_n\dots a_1\}$
-			\item Kleen closure (star): $L^{*}$ is defined as:
-			\begin{itemize}
-				\item $L_0=\{\epsilon\}$, where epsilon is empty string
-				\item $L_1=\{a\}$, where $a\in \Sigma$
-				\item $L_{i+1}=\{wv\ |\ w\in L_i \wedge v \in \Sigma\}$, where $i>0$
-			\end{itemize}
-			\item Concatenation: $LK=\{xy\ |\ x\in L \wedge y\in K\}$
-			\item Homomorphism: $h$ is homomorphism on alphabet $\Sigma$ of language $L$.
-
-$h(L)=\{h(x)\ |\ x \in L\}$
-			\item Inverse homomorphism: $h$ is homomorphism on alphabet $\Sigma$ of language $L$.
-
-$h^{-1}(L)=\{x\ |\ h(x) \in L\}$
-		\end{itemize}
-
-		\subsection{Language inclusion}
-		\label{defIncl}
-		\begin{definition}
-		Let have language of finite automaton $A$ and language of finite automata $B$. Inclusion of this two languages is defined as:
-		\begin{description}
-			$L(A)\cap \overline{L(B)} = \varnothing$
-		\end{description}
-		\end{definition}
-
-	\section{Subset construction}
+  \subsubsection{Subset construction}
 	\label{subset}
 	Now we will define how to construct equivalent DFA $A_{det}$ for a given NFA $A=(Q,\Sigma,\delta,S,F)$. 
 	This classical ("textbook") approach is called \emph{subset construction}.
-	\begin{definition}
+  \newline
+  \newline
 	\label{defSubset}
 		$A_{det}=(2^Q,\Sigma,\delta_{det},S,F_{det})$, where
 		\begin{itemize}
@@ -342,7 +251,8 @@ $h^{-1}(L)=\{x\ |\ h(x) \in L\}$
 			\item $F_{det}=\{Q'\subseteq Q\ |\ Q'\cap F \not = \varnothing\}$
 			\item $\delta_{det}(Q',a)=\bigcup\limits_{q\in Q'}\delta(q,a)$, where $a\in\Sigma$
 		\end{itemize}
-	\end{definition}
+
+    An example of this approach is shown on the picutre \ref{pic_sub}.
 	
 	%%%%example of NFA to DFA	
 	\begin{figure}[h]
@@ -429,9 +339,77 @@ $h^{-1}(L)=\{x\ |\ h(x) \in L\}$
 \draw (53.04,-43.54) node [below] {$b$};
 \end{tikzpicture}
 \end{center}
-	\caption{Simple example of NFA to DFA conversion via subset construction. Here is small NFA with small $\Sigma$, but for larger NFA could state explosion occur.}
+	\caption{A simple example of NFA to DFA conversion via the subset construction. 
+    Here is shown small NFA with small $\Sigma$, but for larger NFA could state explosion occur.}
+    \label{pic_sub}
 	\end{figure}
 	%%%end of NFA to DFA
+
+
+
+	\subsection{Run of Finite Automaton}
+	\label{defRun}
+  A~\emph{run} of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ from a state $q$
+  over a word $w=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n$, where $\forall 0\leq i \leq n\ .\ q_i\in Q$ 
+  such that $q_0=q$ and $(q_i,a_{i+1},q_{i+1})\in \delta$. 
+  The run $r$ is called \emph{accepting} iff $q_n \in F$. 
+	An word $w \in \Sigma^{*}$ is called \emph{accepting}, if there exists an \emph{accepting} run for $\omega$.
+  An \emph{unreachable} state $q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$ is a state for which there is no run $r=q_0\ldots q$ of $A$ over a word $w \in \Sigma^{*}$ 
+  such that $q_0\in I$.
+  An \emph{useless} (also called nonterminating) state $q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$ is state that there is no run $r=q\ldots q$ of $A$ over a word
+  $w \in \Sigma^{*}$ such that $q_n \in F$.
+  Given a pair of states $p,q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$, these states are equivalent if 
+  $\forall \omega \in \Sigma^{*}: \emph{ Run from } p \emph{ over } \omega \emph{ is accepting} \Leftrightarrow 
+			\emph{ Run from } q \emph{ over } \omega \emph{ is accepting}$.
+
+	\subsection{Minimum DFA}
+	\label{defMinDFA}
+	\begin{definition}
+  %TODO nejak inteligentne to zaradit
+		Minimum DFA satisfies this conditions:
+		\begin{itemize}
+			\item There are no unreachable states
+			\item There is maximal one nonterminating state, which terminates on itself for each symbol.
+			\item Equivalent states are collapsed.
+		\end{itemize}
+	\end{definition}
+
+
+  \subsection{Language of Finite Automaton}
+  The~\emph{language} of state $q \in Q$ is defined as 
+  $L_\mathcal{A}(q) = \{w\in \Sigma^{*}\ |\ $\emph{there exists an accepting run of }$
+  \mathcal{A}$$ 
+  \emph{ from }q\emph{ over }w\}$, while the language of a set of states $R\subseteq Q$ is defined as $L_{\mathcal{A}}(R)=\bigcup_{q\in R}L_{\mathcal{A}}(q)$.
+  The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
+
+\section{Regular Languages}
+		A language $L$ is \emph{regular}, if there exists an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, such that $L=L(\mathcal{A})$.
+
+    \subsection{Closure Properties}
+    Regular languages are closed under certain operation, if result of this operation on some regular language is always regular language too.
+
+		Let introduce the closure properties of regular languages on an alphabet $\Sigma$:
+		\begin{itemize}
+			\item Union%:  $L_1 \cup L_2=\{x\ |\ x \in L_1 \vee x\in L_2\}$
+			\item Intersection%:  $L_1 \cap L_2=\{x\ |\ x \in L_1 \wedge x\in L_2\}$
+			\item Complement%: $\overline{L}=\{x\ |\ x\not\in L\}$
+			\item Difference%: $L-K=\{x\ |\ x\in L \wedge x\not\in K\}$
+			\item Reversal: $\{a_1\dots a_n \in L \ |\ y=a_n\dots a_1\}$
+			\item Iteration $L^{*}$ %: $L^{*}$
+			\item Concatenation: $L\ldot K=\{x\ldot y\ |\ x\in L \wedge y\in K\}$
+			\end{itemize}
+
+\begin{comment} Presunout nebo zahodit
+		\subsection{Language inclusion}
+		\label{defIncl}
+		\begin{definition}
+		Let have language of finite automaton $A$ and language of finite automata $B$. Inclusion of this two languages is defined as:
+		\begin{description}
+			$L(A)\cap \overline{L(B)} = \varnothing$
+		\end{description}
+		\end{definition}
+
+\end{comment}
 
 \begin{comment}
 		\subsection{Union, intersection, inclusion}
