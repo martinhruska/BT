@@ -26,7 +26,6 @@ namespace VATA {
   auto transitions_ = aut.transitions_;
 
   // All nonfinal states are marked as final states 
-  // in complementary automaton
   for (auto stateToCluster : *transitions_) {
     if (!aut.IsStateFinal(stateToCluster.first)) {
       res.SetStateFinal(stateToCluster.first);

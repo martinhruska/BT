@@ -6,25 +6,28 @@ for example in model checking of safety temporal properties, abstract regular mo
 or decision procedures of some logics, such as Presburger arithmetic or weak 
 monadic second-order theory of one successor (WS1S) \cite{mona}.
 
-Many of mentioned applications need to perform certain \emph{expensive} operations on FA, such as testing universality of an FA (i.e., whether it
-accepts any word over a given alphabet), or testing language inclusion of a pair of FA (i.e., testing whether the language of one FA is a subset of the language
-of the other FA). The Classical (so called \emph{textbook}) approach is based on \emph{complementation} of the language of an FA. Complementation is easy for 
+Many of the mentioned applications need to perform certain expensive operations on FA, such as checking universality of an FA (i.e., checking whether it
+accepts any word over a given alphabet), or checking language inclusion of a pair of FA (i.e., testing whether the language of one FA is a subset of the language
+of the second FA). The Classical (so called \emph{textbook}) approach is based on \emph{complementation} of the language of an FA. Complementation is easy for 
 \emph{deterministic} FA (DFA)--just swapping accepting and non-accepting states--but a hard problem for \emph{nondeterministic} FA (NFA), which need 
 to be determinised first (this may lead to an exponential explosion in the number of the states of the automaton). 
-Both operations testing universality and language inclusion over NFA are PSPACE-complete problems.
+Both operations checking of universality and language inclusion over NFA are PSPACE-complete problems \cite{cav06}.
 
-There has been an considerable advance in techniques for dealing with these problems. The new techniques are either based on the so 
-called \emph{antichains} \cite{antichain,cav} or the so-called \emph{bisimulation up to congruence} \cite{congr}. 
-In general, those techniques do not need explicit construction of the complement
-automaton, generate much less states, so construct only sub-automaton, which is though sufficient for either proving that the universality or inclusion hold, or
-finding a counterexample.
+Recently, there has been a considerable advance in techniques for dealing with these problems. The new techniques are either based on the so-called 
+\emph{antichains} \cite{cav06,tacas10} or the so-called \emph{bisimulation up to congruence} \cite{popl13}. 
+In general, those techniques do not need an explicit construction of the complement
+automaton. They only construct a sub-automaton which is sufficient for either proving that the universality or inclusion hold, or finding a counterexample.
 
-Unfortunately, currently there is no efficient implementation of a general NFA library that would use the new algorithms for automata operations. The
+Unfortunately, there is currently no efficient implementation of a general NFA library that would use the state-of-the-art algorithms for the mentioned
+operations on automata. The
 closest implementation is VATA \cite{libvata}, a general library for nondeterministic finite \emph{tree} automata, which can be used even for NFA (being modelled 
-as unary tree automata), but with not the optimal performance given by its overhead that comes with ability to handle much richer structures.
+as unary tree automata) but not with the optimal performance given by its overhead that comes with the ability to handle much richer structures. 
  
-The main goal of this work is to extend the VATA library with efficient implementation of operations for finite automata, apart from testing language inclusion
-also for union and intersection. After this introduction, in the \ref{teorie}nd chapter of this document, 
+The goal of this work is two-fold: (i) extending VATA with an NFA module implementing basic operations on NFA, such as union, intersection, or 
+checking language inclusion, and (ii) an efficient design and implementation of checking language inclusion of NFA using 
+bisimulation up to congruence (which is missing in VATA for tree automata).
+
+After this introduction, in the \ref{teorie}nd chapter of this document, 
 will be defined theoretical background. The \ref{chapInclusion}rd chapter will describe efficient approaches to language inclusion testing.
 Existing libraries for finite automata manipulation and the VATA library will be introduced in chapter \ref{libraries}. 
 Design of extension for VATA 
@@ -460,14 +463,14 @@ $h^{-1}(L)=\{x\ |\ h(x) \in L\}$
 \chapter{Inclusion Checking of NFA}
 \label{chapInclusion}
 \emph{Language inclusion problem} is decision whether $L(A) \subseteq L(B)$. 
-This problem is\\ PSPACE-complete \cite{antichain}. For decision of \emph{language inclusion problem} exists some classical algorithms.
+This problem is\\ PSPACE-complete \cite{cav06}. For decision of \emph{language inclusion problem} exists some classical algorithms.
 Classical algorithms are based on searching of accepting state of product automaton $A\times \overline{B}$. Such state can serve like \emph{witness}, that
 there is no inclusion between $A$ and $B$. Problem of classical (textbook) algorithm is that they are based on explicit determinisation of automaton $B$ 
 via \emph{subset construction}. Of course, if \emph{witness} state is found, algorithm ends, but very often whole DFA is build, what leads to state explosion.
 But many of states are not in fact necessary for inclusion testing. 
 
 In this work are used two approaches, which do not need explicit determinisation of NFA, 
-first uses \emph{antichains and simulations} \cite{antichain} for pruning states of NFA and second uses \emph{bisimulation up to congruence} \cite{congr}.
+first uses \emph{antichains and simulations} \cite{cav06,tacas10} for pruning states of NFA and second uses \emph{bisimulation up to congruence} \cite{popl13}.
 
 Let denote product state as pair $(p,P)$, where $p\in A \wedge P \in B$ 
 
@@ -477,7 +480,7 @@ $Post((p,P)):=\{(p',P')\ |\ \exists a \in \Sigma: (p,a,p')\in \delta, P'=\{p''\ 
 \end{definition}
 
 \section{Checking Inclusion with Antichains and Simulation}
-First approach uses optimized method based on combination of \emph{antichains with simulation} from \cite{antichain}.
+First approach uses optimized method based on combination of \emph{antichains with simulation} from \cite{tacas10}.
 Firstly, let define the antichain and simulation (\cite{simulations}).
 \begin{definition}
 \label{defAntichains}
@@ -535,24 +538,24 @@ Pseudocode of \emph{antichain} approach is algorithm \ref{algAntichain}.
 	\caption{Language inclusion checking with antichains and simulations}
 \end{algorithm}\
 \\
-Let describe two optimization use in algorithm \ref{algAntichain} based on \cite{antichain}. First optimization comes from the observation that
+Let describe two optimization use in algorithm \ref{algAntichain} based on \cite{tacas10}. First optimization comes from the observation that
 we can stop search from product-state $(p,P)$, if there exists some visited product state $(r,R)$, 
 such that $p\preceq r \wedge R\preceq^{\forall\exists}P$, or $\exists p'\in P: p \preceq p'$. First part of condition says that 
 if $(p,P)$ takes automaton to the accepting state, $(r,R)$ will be taken to accepting state too, so we do not have search from $(p,P)$. Second part of condition
 shows, that every accepting word of $p$ takes $P$ to accepting state too, because $\exists p'\in P: p \preceq p'$.
-Proof for this can be found in \cite{antichain}. This first
+Proof for this can be found in \cite{tacas10}. This first
 optimization is in algorithm \ref{algAntichain} at lines 11--14.
 
 Second optimization is based on fact, that $L(A)(P)=L(A)(P-\{p_1\})$, if there exists $p_2$, such as $p_1 \preceq p_2$. We can remove the state $p_1$ 
 from macro-state $P$, because if $L(A)(P)$ rejects the word, then $L(A)(P-\{p_1\})$ rejects this word too. This optimization is applied in function $Minimize$ at
-lines 4 and 7 in algorithm \ref{algAntichain}. Proof for this optimization is again in \cite{antichain}.
+lines 4 and 7 in algorithm \ref{algAntichain}. Proof for this optimization is again in \cite{tacas10}.
 
 \section{Checking Inclusion with Bisimulation up to Congruence}
 	Checking inclusion with using \emph{bisimulation up to congruence} is based on \emph{Hopcroft and Karp's} algorithm. Congruence 
 	algorithm serves for checking language equivalence, but it can
 	be used also for checking language inclusion. Indeed, let $X$ and $Y$ be sets of states of NFA's. 
 	So $X \cup Y= Y$,
-	iff $X \subseteq Y $. It is possible to check equivalence for $X+Y$ and $Y$ \cite{congr}.
+	iff $X \subseteq Y $. It is possible to check equivalence for $X+Y$ and $Y$ \cite{popl13}.
 
 	Before introduction of the algorithm itself, we will define \emph{congruence} relation.
 	\begin{definition}
@@ -615,7 +618,7 @@ It supports manipulation with NFA and DFA. Basic operation like union,
 intersection, complementation or run of automaton on the given word etc., are available.
 
 Test of language inclusion is also supported, but if the input automaton is NFA, it needs to be converted to DFA. 
-This is made by \emph{subset construction} approach, which is inefficient \cite{cav06}, \cite{antichain}.
+This is made by \emph{subset construction} approach, which is inefficient \cite{cav06}, \cite{tacas10}.
 
 \emph{dk.brics.automaton} was ported to another two languages in two different libraries, which will be described next.
 
@@ -642,20 +645,20 @@ determinisation, which are unnecessary for inclusion testing. There are used som
 determinisation. 
 
 \subsection{Implementation of New Efficient Algorithms}
-New efficient algorithms for inclusion testing, which were introduced in \cite{antichain} and \cite{congr}, was implemented for finite automata 
+New efficient algorithms for inclusion testing, which were introduced in \cite{cav06,tacas10} and \cite{popl13}, was implemented for finite automata 
 only in OCaml for testing and evaluation purposes. But implementation in C++ could be much more efficient.
 
-The algorithm based on antichains and simulation introduced in \cite{antichain} have been implemented for \emph{tree} automata in library VATA. Description
+The algorithm based on antichains and simulation introduced in \cite{taca10} have been implemented for \emph{tree} automata in library VATA. Description
 of this library will be placed in next section.
 
 \begin{comment}
 For finite automata manipulation exists many different libraries. Libraries have different purposes and are implemented in different languages, 
-e.g. established package of Java \emph{dk.brics.automaton} \cite{brics}, \cite{antichains}, which is also reimplemented for C in \emph{libfa} \cite{libfa} 
+e.g. established package of Java \emph{dk.brics.automaton} \cite{brics}, \cite{tacas10}, which is also reimplemented for C in \emph{libfa} \cite{libfa} 
 and for C\# in \emph{Fare} \cite{fare}. Another libraries are \emph{The RWTH FSA toolkit} \cite{rwth} in C++, which also supports weighted automata, or
 \emph{FSA Utilities toolbox} \cite{fsaprolog} in Prolog.
 
 This is not definitely complete enumeration of finite automata libraries, but just few examples. Their main problem is that they do not contain 
-the efficient inclusion testing. On the other side, new efficient algorithms introduced in \cite{antichain} and in \cite{congr} have been for finite automata
+the efficient inclusion testing. On the other side, new efficient algorithms introduced in \cite{cav06,tacas10} and in \cite{popl13} have been for finite automata
 implemented only in OCaml and implementation in C++ could be much more efficient.
 
 Because of these reasons, algorithms for finite automata manipulation will be implemented as extension of VATA (library for tree automata manipulation) in C++.
@@ -724,7 +727,7 @@ For purposes of VATA library was implemented new MTBDD package, which improved t
 There are supported basic operations like union, intersection, elimination of unreachable states, but also some advance algorithms for inclusion checking, 
 computation of simulation relation, language preserving size reduction based on simulation equivalence. 
 
-For inclusion testing are implemented optimized algorithms from \cite{antichain}. The inclusion operation is implemented in more versions, so it is possible
+For inclusion testing are implemented optimized algorithms from \cite{cav06,tacas10}. The inclusion operation is implemented in more versions, so it is possible
 to use only some heuristic and compare different results.
 
 Efficiency of advanced operations does not come only from the usage of efficient algorithms, 

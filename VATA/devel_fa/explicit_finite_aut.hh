@@ -28,32 +28,46 @@ class VATA::ExplicitFiniteAut : public AutBase {
 		AutBase::StateToStateMap*, AutBase::StateToStateMap*);
 
   template <class SymbolType>
+  friend ExplicitFiniteAut<SymbolType> UnionDisjunctStates(
+      const ExplicitFiniteAut<SymbolType>&,
+      const ExplicitFiniteAut<SymbolType>&);
+
+  template <class SymbolType>
 	friend ExplicitFiniteAut<SymbolType> Intersection(
-		const ExplicitFiniteAut<SymbolType>&, const ExplicitFiniteAut<SymbolType>&,
+		const ExplicitFiniteAut<SymbolType> &, 
+    const ExplicitFiniteAut<SymbolType> &,
 		AutBase::ProductTranslMap*);
 
   template <class SymbolType>
   friend ExplicitFiniteAut<SymbolType> RemoveUnreachableStates(
-      const ExplicitFiniteAut<SymbolType> &aut,
-      AutBase::ProductTranslMap* pTranslMap = nullptr);
+      const ExplicitFiniteAut<SymbolType> &,
+      AutBase::ProductTranslMap*);
 
   template <class SymbolType>
   friend ExplicitFiniteAut<SymbolType> RemoveUselessStates(
-      const ExplicitFiniteAut<SymbolType> &aut,
-      AutBase::ProductTranslMap* pTranslMap = nullptr);
+      const ExplicitFiniteAut<SymbolType> &,
+      AutBase::ProductTranslMap*);
 
   template <class SymbolType>
   friend ExplicitFiniteAut<SymbolType> Reverse(
-      const ExplicitFiniteAut<SymbolType> &aut,
-      AutBase::ProductTranslMap* pTranslMap = nullptr);
+      const ExplicitFiniteAut<SymbolType> &,
+      AutBase::ProductTranslMap*);
 
   template <class SymbolType, class Dict>
   friend ExplicitFiniteAut<SymbolType> Complement(
-      const ExplicitFiniteAut<SymbolType> &aut,
-      const Dict &alphabet);
+      const ExplicitFiniteAut<SymbolType> &,
+      const Dict &);
 	
   template <class SymbolType>
-	friend ExplicitFiniteAut<SymbolType> GetCandidateTree(const ExplicitFiniteAut<SymbolType>& aut);
+	friend ExplicitFiniteAut<SymbolType> GetCandidateTree(
+      const ExplicitFiniteAut<SymbolType> &);
+
+  template <class SymbolType, class Rel, class Index>
+  friend ExplicitFiniteAut<SymbolType> CollapseStates(
+      const ExplicitFiniteAut<SymbolType> &,
+      const Rel &,
+      const Index &);
+
 
 public:
 	typedef Symbol SymbolType;

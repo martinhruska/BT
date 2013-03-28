@@ -5,7 +5,7 @@
 \newblock {\tt http://www.irisa.fr/celtique/genet/timbuk/}, 2012 [cit.
   2013-01-29].
 
-\bibitem{antichain}
+\bibitem{tacas10}
 {Abdulla, Parosh Aziz and Chen, Yu-Fang and Holík, Lukáš and Mayr, Richard
   and Vojnar, Tomáš}.
 \newblock {When simulation meets antichains: on checking language inclusion of
@@ -19,7 +19,7 @@ Nikos Baxevanis.
 \newblock Fare.
 \newblock {\tt https://github.com/moodmosaic/Fare}, 2012 [cit. 2013-01-19].
 
-\bibitem{congr}
+\bibitem{popl13}
 Filippo Bonchi and Damien Pous.
 \newblock {Checking NFA equivalence with bisimulations up to congruence}.
 \newblock In {\em {Proceedings of the 40th annual ACM SIGPLAN-SIGACT symposium
