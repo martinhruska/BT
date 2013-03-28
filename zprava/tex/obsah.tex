@@ -11,7 +11,7 @@ accepts any word over a given alphabet), or checking language inclusion of a pai
 of the second FA). The Classical (so called \emph{textbook}) approach is based on \emph{complementation} of the language of an FA. Complementation is easy for 
 \emph{deterministic} FA (DFA)--just swapping accepting and non-accepting states--but a hard problem for \emph{nondeterministic} FA (NFA), which need 
 to be determinised first (this may lead to an exponential explosion in the number of the states of the automaton). 
-Both operations checking of universality and language inclusion over NFA are PSPACE-complete problems \cite{cav06}.
+Both operations of checking of universality and language inclusion over NFA are PSPACE-complete problems \cite{cav06}.
 
 Recently, there has been a considerable advance in techniques for dealing with these problems. The new techniques are either based on the so-called 
 \emph{antichains} \cite{cav06,tacas10} or the so-called \emph{bisimulation up to congruence} \cite{popl13}. 
@@ -34,11 +34,31 @@ Design of extension for VATA
 will take place in chapter \ref{arch}. Implementation and optimization is possible to find in chapter \ref{implementation}. Evaluation will be
 described in chapter \ref{eval} and final conclusion in chapter \ref{concl}.
 \chapter{Finite Automata and Languages}
-In this chapter we will define theoretical fundamentals for this thesis. No proofs are given, because they can be found in literature. 
-Firstly, the finite automaton and their context will be defined, then the language, regular language and its closure properties and at last conversion from
+This chapter contains theoretical fundations of the thesis. No proofs are given, because they can be found in literature. 
+%TODO dodelat
+First, the finite automaton and their context will be defined, then the language, regular language and its closure properties and at last conversion from
 NFA to DFA with subset construction. 
 \label{teorie}
-\section{Finite Automata}
+
+\section{Languages}
+We call a finite set of symbols $\Sigma$ an \emph{alphabet}. A~\emph{word} $w$ over $\Sigma$ of \emph{length} $n$ is a finite sequence of symbols 
+$w=a_1\ldots a_n$, where $\forall 1 \leq i \leq n\ . \ a_i \in \Sigma$. An \emph{empty word} is denoted as $\epsilon \not\in\Sigma$ and its length is $0$. 
+We define \emph{concatenation} as an associative binary operation on words over $\Sigma$ represented by the symbol $\cdot$ such that for two words $u=a_1\ldots a_2$
+and $v=b_1\ldots b_n$ over $\Sigma$ it holds that $\epsilon\cdot u=u\cdot\epsilon=u$ and $u\cdot v=a_1 \ldots a_nb_1 \ldots b_m$.
+We define a symbol $\Sigma^{*}$ as a set of all words over $\Sigma$ including the empty word and a symbol $\Sigma^{+}$ as a set of 
+all words over $\Sigma$ without the empty word, 
+so it holds that $\Sigma_{*}=\Sigma_{+}\cup\epsilon$. A~\emph{language} $L$ over $\Sigma$ is subset of $\Sigma^{*}$.
+Given a pair of languages $L_1$ over an alphabet $\Sigma_{1}$ and $L_{2}$ over an alphabet $\Sigma_{2}$. Their concatenation is defined by 
+$L_1\cdot L_2=\{x\cdot y\ |\ x\in L_1, y\in L_2 \}$.
+We define \emph{iteration} and \emph{positive} iteration of a language $L$ over an alphabet $\Sigma$ \emph{iteration} as:
+	\begin{itemize}
+		\item $L^0=\{\epsilon\}$
+		\item $L^{n+1}=L\cdot L^n$, for $n \leq 1$
+    \item $L^{*}=\bigcup_{n\leq 0} L^{n}$
+    \item $L^{+}=\bigcup_{n\leq 1} L^{n}$
+	\end{itemize}
+
+  \section{Finite Automata}
 \label{defFA}
 
 	\subsection{Deterministic Finite Automaton}

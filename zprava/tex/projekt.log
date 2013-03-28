@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  28 MAR 2013 20:57
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  28 MAR 2013 22:25
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -937,14 +937,14 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@vyskartext=\skip67
 \@vyskaobr=\skip68
 
-<fig/vut-zp2.pdf, id=157, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=161, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 120--120
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=158, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=162, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 120--120
@@ -982,7 +982,7 @@ File: umsb.fd 2002/01/19 v2.2g AMS font definitions
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.40 ...mberline {6}Implementation}{18}{chapter.6}
+l.41 ...mberline {6}Implementation}{19}{chapter.6}
                                                    [1
 
 
@@ -1012,49 +1012,52 @@ l.36 \chapter
              {Finite Automata and Languages} [4]
 Chapter 2.
 
-Overfull \hbox (14.71504pt too wide) in paragraph at lines 47--48
-[]\IL2/cmr/bx/n/10.95 Definition 2.1.1. []\IL2/cmr/m/n/10.95 A De-ter-min-is-ti
+Overfull \hbox (14.71504pt too wide) in paragraph at lines 67--68
+[]\IL2/cmr/bx/n/10.95 Definition 2.2.1. []\IL2/cmr/m/n/10.95 A De-ter-min-is-ti
 c Fi-nite Au-toma-ton \IL2/cmr/m/it/10.95 (DFA) is a quin-tu-ple $\OML/cmm/m/it
 /10.95 N \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q; \OT1/cmr/m/n/10.95 ^^F\OM
 L/cmm/m/it/10.95 ; ^^N; I; F\OT1/cmr/m/n/10.95 )$\IL2/cmr/m/it/10.95 ,
  []
 
+[5
 
-Overfull \hbox (32.0769pt too wide) in paragraph at lines 117--118
-[]\IL2/cmr/bx/n/10.95 Definition 2.1.2. []\IL2/cmr/m/n/10.95 A Non-de-ter-min-i
+]
+Overfull \hbox (32.0769pt too wide) in paragraph at lines 137--138
+[]\IL2/cmr/bx/n/10.95 Definition 2.2.2. []\IL2/cmr/m/n/10.95 A Non-de-ter-min-i
 s-tic Fi-nite Au-toma-ton \IL2/cmr/m/it/10.95 (NFA) is a quin-tu-ple $\OML/cmm/
 m/it/10.95 N \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q; \OT1/cmr/m/n/10.95 ^^
 F\OML/cmm/m/it/10.95 ; ^^N; I; F\OT1/cmr/m/n/10.95 )$\IL2/cmr/m/it/10.95 ,
  []
 
-[5
 
-] [6]pdfTeX warning (ext4): destination with the same identifier (name{definiti
-on.1}) has been already used, duplicate ignored
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[6] [7]pdfTeX warning (ext4): destination with the same identifier (name{defini
+tion.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.289 		\begin{definition}
-                           [7]
+l.309 		\begin{definition}
+                          
 
 Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-(hyperref)                removing `math shift' on input line 292.
+(hyperref)                removing `math shift' on input line 312.
 
 
 Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-(hyperref)                removing `math shift' on input line 292.
+(hyperref)                removing `math shift' on input line 312.
 
 pdfTeX warning (ext4): destination with the same identifier (name{definition.2}
 ) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.294 		\begin{definition}
+l.314 		\begin{definition}
                           pdfTeX warning (ext4): destination with the same iden
 tifier (name{definition.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.300 		\begin{definition}
+l.320 		\begin{definition}
                           
-Overfull \hbox (22.47298pt too wide) in paragraph at lines 303--304
+Overfull \hbox (22.47298pt too wide) in paragraph at lines 323--324
 []$\OML/cmm/m/it/10.95 L\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 M\OT1/cmr/m/n/1
 0.95 )(\OML/cmm/m/it/10.95 p\OT1/cmr/m/n/10.95 ) = \OMS/cmsy/m/n/10.95 f\OML/cm
 m/m/it/10.95 ! \OMS/cmsy/m/n/10.95 2 \OT1/cmr/m/n/10.95 ^^F[] \OMS/cmsy/m/n/10.
@@ -1065,14 +1068,14 @@ pdfTeX warning (ext4): destination with the same identifier (name{definition.4}
 ) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.307 		\begin{definition}
-                          pdfTeX warning (ext4): destination with the same iden
-tifier (name{definition.5}) has been already used, duplicate ignored
+l.327 		\begin{definition}
+                           [8]pdfTeX warning (ext4): destination with the same 
+identifier (name{definition.5}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.339 		\begin{definition}
-                           [8]
-Overfull \hbox (1.28818pt too wide) in paragraph at lines 348--350
+l.359 		\begin{definition}
+                          
+Overfull \hbox (1.28818pt too wide) in paragraph at lines 368--370
 \IL2/cmr/m/n/10.95 Now we will de-fine how to con-struct equiv-a-lent DFA $\OML
 /cmm/m/it/10.95 A[]$ \IL2/cmr/m/n/10.95 for a given NFA $\OML/cmm/m/it/10.95 A 
 \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/i
@@ -1083,81 +1086,85 @@ pdfTeX warning (ext4): destination with the same identifier (name{definition.1}
 ) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.350 	\begin{definition}
-                          [9]
+l.370 	\begin{definition}
+                         
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9] [10]
 Chapter 3.
 pdfTeX warning (ext4): destination with the same identifier (name{definition.2}
 ) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.478 \begin{definition}
+l.498 \begin{definition}
                         pdfTeX warning (ext4): destination with the same identi
 fier (name{definition.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.485 \begin{definition}
+l.505 \begin{definition}
                         pdfTeX warning (ext4): destination with the same identi
 fier (name{definition.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.493 \begin{definition}
+l.513 \begin{definition}
                         
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 514.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 534.
 
  (/usr/share/texmf/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 514.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 534.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 516.
- [10
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 536.
+ [11
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{definition.1
 }) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.561 	\begin{definition}
+l.581 	\begin{definition}
                          
-Underfull \hbox (badness 10000) in paragraph at lines 570--598
+Underfull \hbox (badness 10000) in paragraph at lines 590--618
 
  []
 
-[11] [12]
+[12] [13]
 Chapter 4.
-[13
+[14
 
 ]
 
-LaTeX Warning: Citation `taca10' on page 14 undefined on input line 651.
+LaTeX Warning: Citation `taca10' on page 15 undefined on input line 671.
 
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 673
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 693
 .
 (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
 )
-<fig/vata_design.png, id=384, 546.04pt x 295.1025pt>
+<fig/vata_design.png, id=393, 546.04pt x 295.1025pt>
 File: fig/vata_design.png Graphic file (type png)
  <use fig/vata_design.png>
-[14] [15 <./fig/vata_design.png (PNG copy)>] [16]
+[15] [16 <./fig/vata_design.png (PNG copy)>] [17]
 Chapter 5.
-[17
-
-]
-Chapter 6.
 [18
 
 ]
-Chapter 7.
+Chapter 6.
 [19
 
 ]
+Chapter 7.
+[20
+
+]
 Chapter 8.
-) (./projekt.bbl [20
+) (./projekt.bbl [21
 
-] [21
+] [22
 
-]) (./prilohy.tex) [22] (./projekt.aux)
+]) (./prilohy.tex) [23] (./projekt.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
@@ -1170,10 +1177,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 10688 strings out of 256216
- 150703 string characters out of 1917072
- 244717 words of memory out of 1500000
- 13535 multiletter control sequences out of 10000+200000
+ 10691 strings out of 256216
+ 150734 string characters out of 1917072
+ 245717 words of memory out of 1500000
+ 13536 multiletter control sequences out of 10000+200000
  28848 words of font info for 81 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  45i,24n,46p,425b,731s stack positions out of 5000i,500n,6000p,200000b,15000s
@@ -1194,9 +1201,9 @@ share/texmf/fonts/type1/public/cs/csti10.pfb></usr/share/texmf/fonts/type1/publ
 ic/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cstt9.pfb></usr/share/
 texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/urw/helv
 etic/uhvr8a.pfb>
-Output written on projekt.pdf (26 pages, 730186 bytes).
+Output written on projekt.pdf (27 pages, 733894 bytes).
 PDF statistics:
- 555 PDF objects out of 1000 (max. 8388607)
- 130 named destinations out of 1000 (max. 131072)
- 320 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 564 PDF objects out of 1000 (max. 8388607)
+ 132 named destinations out of 1000 (max. 131072)
+ 328 words of extra memory for PDF output out of 10000 (max. 10000000)
 
