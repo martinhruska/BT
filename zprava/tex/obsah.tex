@@ -58,22 +58,21 @@ We define \emph{iteration} and \emph{positive} iteration of a language $L$ over 
     \item $L^{+}=\bigcup_{n\leq 1} L^{n}$
 	\end{itemize}
 
-  \section{Finite Automata}
+\section{Finite Automata}
 \label{defFA}
 
 	\subsection{Nondeterministic Finite Automaton}
 	\label{defNFA}
-	\begin{definition}
 		\emph{A Nondeterministic Finite Automaton} (NFA) is a quintuple $N=(Q,\Sigma,\delta,I,F)$, where
 		\begin{itemize}
 			\item $Q$ is a finite set of states,
 			\item $\Sigma$ is an alphabet,
-			\item $\delta \sunseteq Q \times \Sigma \times Q$ is a transition relation. We use $p \xrightarrow{a} q$ to denote that $(p,a,q)\in\delta$,
+			\item $\delta \subseteq Q \times \Sigma \times Q$ is a transition relation. We use $p \xrightarrow{a} q$ to denote that $(p,a,q)\in\delta$,
 			\item $I$ is finite set of states, that $I \subseteq Q$. Elements of $I$ are called initial states.
 			\item $F$ is finite set of states, that $F \subseteq Q$. Elements of $F$ are called final states.
 		\end{itemize}
-	\end{definition}
 
+    An example of an NFA is shown on the picture \label{pic_ex_nfa}.
 %%%%example of NFA
 		\begin{figure}[h]
 		\begin{center}
@@ -122,7 +121,8 @@ We define \emph{iteration} and \emph{positive} iteration of a language $L$ over 
 				\draw (27.12,-39.26) node [left] {$c$};
 				\end{tikzpicture}
 			\end{center}
-			\caption{Example of NFA}
+      \label{pic_ex_nfa}
+			\caption{An example of a NFA}
 			\end{figure}
 %%%end of nfa picture
 
@@ -131,19 +131,18 @@ We define \emph{iteration} and \emph{positive} iteration of a language $L$ over 
 	\subsection{Deterministic Finite Automaton}
 	\label{defDFA}
   A~\emph{deterministic finite automaton} (DFA) is a special case of an NFA, where $\delta$ is a partial function 
-$\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whole definition of DFA.
-	\begin{definition}
-		DFA is a quintuple $N=(Q,\Sigma,\delta,I,F)$, where
+$\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whole definition of DFA.\newline
+\newline
+		A DFA is a quintuple $N=(Q,\Sigma,\delta,I,F)$ where
 		\begin{itemize}
 			\item $Q$ is a finite set of states,
 			\item $\Sigma$ is  an alphabet,
-			\item $\delta$ is: $Q \times \Sigma \rightarrow Q,$ we use $p \xrightarrow{a} q$ to denote  transition from $p \in Q$ to $q \in Q$ 
-under the input symbol $a \in \Sigma$. 
-Function $\delta$ is called transition function.
-			\item $I$ is finite set of states, that $I \subseteq Q$. Elements of $I$ are called start states.
-			\item $F$ is finite set of states, that $F \subseteq Q$. Elements of $F$ are called final states.
+			\item $\delta$:  $Q \times \Sigma \to Q$ is a partial transition function. We use $p \xrightarrow{a} q$ to denote that $\delta(p,a)=q$
+			\item $I\subseteq Q$ is finite set of initial states, that $|I| \leq 1$.
+			\item $F\subseteq Q$ is finite set of final states.
 		\end{itemize}
-	\end{definition}
+    An example of a DFA is given on the picture \ref{pic_ex_dfa}.
+
 
 %%%example of DFA
 \begin{figure}[h]
@@ -194,7 +193,8 @@ Function $\delta$ is called transition function.
 \draw (39.72,-32.76) node [above] {$a$};
 \end{tikzpicture}
 \end{center}
-\caption{Example of DFA}
+\caption{An example of a DFA}
+\label{pic_ex_dfa}
 \end{figure}
 %%%%end of DFA example
 
