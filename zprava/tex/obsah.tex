@@ -35,10 +35,9 @@ will take place in chapter \ref{arch}. Implementation and optimization is possib
 described in chapter \ref{eval} and final conclusion in chapter \ref{concl}.
 
 
-\chapter{Finite Automata}
+\chapter{Preliminaries}
 This chapter contains theoretical fundations of the thesis. No proofs are given, because they can be found in literature. 
-%TODO dodelat
-First, the language will be defined, then finite automata and their context, the regular language and its closure properties. 
+First, the languages will be defined, then finite automata and their context, the regular languages and their closure properties. 
 \label{teorie}
 
 \section{Languages}
@@ -48,10 +47,10 @@ We define \emph{concatenation} as an associative binary operation on words over 
 and $v=b_1\ldots b_n$ over $\Sigma$ it holds that $\epsilon\cdot u=u\cdot\epsilon=u$ and $u\cdot v=a_1 \ldots a_nb_1 \ldots b_m$.
 We define a symbol $\Sigma^{*}$ as a set of all words over $\Sigma$ including the empty word and a symbol $\Sigma^{+}$ as a set of 
 all words over $\Sigma$ without the empty word, 
-so it holds that $\Sigma_{*}=\Sigma_{+}\cup\epsilon$. A~\emph{language} $L$ over $\Sigma$ is subset of $\Sigma^{*}$.
+so it holds that $\Sigma_{*}=\Sigma_{+}\cup\epsilon$. A~\emph{language} $L$ over $\Sigma$ is a subset of $\Sigma^{*}$.
 Given a pair of languages $L_1$ over an alphabet $\Sigma_{1}$ and $L_{2}$ over an alphabet $\Sigma_{2}$. Their concatenation is defined by 
 $L_1\cdot L_2=\{x\cdot y\ |\ x\in L_1, y\in L_2 \}$.
-We define \emph{iteration} and \emph{positive} iteration of a language $L$ over an alphabet $\Sigma$ \emph{iteration} as:
+We define \emph{iteration} $L^{*}$ and \emph{positive} iteration $L^{+}$ of a language $L$ over an alphabet $\Sigma$ \emph{iteration} as:
 	\begin{itemize}
 		\item $L^0=\{\epsilon\}$
 		\item $L^{n+1}=L\cdot L^n$, for $n \leq 1$
@@ -64,7 +63,7 @@ We define \emph{iteration} and \emph{positive} iteration of a language $L$ over 
 
 	\subsection{Nondeterministic Finite Automaton}
 	\label{defNFA}
-		\emph{A Nondeterministic Finite Automaton} (NFA) is a quintuple $N=(Q,\Sigma,\delta,I,F)$, where
+		\emph{A Nondeterministic Finite Automaton} (NFA) is a quintuple $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, where
 		\begin{itemize}
 			\item $Q$ is a finite set of states,
 			\item $\Sigma$ is an alphabet,
@@ -134,7 +133,7 @@ We define \emph{iteration} and \emph{positive} iteration of a language $L$ over 
   A~\emph{deterministic finite automaton} (DFA) is a special case of an NFA, where $\delta$ is a partial function 
 $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whole definition of DFA.\newline
 \newline
-		A DFA is a quintuple $N=(Q,\Sigma,\delta,I,F)$ where
+		A DFA is a quintuple $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ where
 		\begin{itemize}
 			\item $Q$ is a finite set of states,
 			\item $\Sigma$ is  an alphabet,
@@ -222,36 +221,39 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
   \subsection{Operations over Finite Automata}
     \subsubsection{Automata Union}
     \label{defAUnion}
-      $A=(Q_A,\Sigma,\delta_A,I_A,F_A)$ and $B=(Q_B,\Sigma,\delta_B,I_B,F_B)$ are two NFA's. Their union is defined by
+      Given a pair of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+      and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$. Their union is defined by
       \begin{description}
-        \item $A \cup B=(Q_A\cup Q_B,\Sigma,\delta_A\cup\delta_B,I_A\cup I_B,F_A\cup F_B)$
+        \item $A \cup B=(Q_\mathcal{A}\cup Q_\mathcal{B},\Sigma,
+            \delta_\mathcal{A}\cup\delta_\mathcal{B},I_\mathcal{A}\cup I_\mathcal{B},F_\mathcal{A}\cup F_\mathcal{B})$
       \end{description}
     
     \subsubsection{Automata Intersection}
     \label{defAInter}
-      $A=(Q_A,\Sigma,\delta_A,I_A,F_A)$ and $B=(Q_B,\Sigma,\delta_B,I_B,F_B)$ are to two NFA's. Their intersection is defined by
+      Given a pair of NFA, $A=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+      and $B=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$. Their intersection is defined by
       \begin{description}
-        \item $A \cap B=(Q_A\cap Q_B,\Sigma,\delta,I_A\cap I_B,F_A\cap F_B)$\
+        \item $A \cap B=(Q_\mathcal{A}\cap Q_\mathcal{B},\Sigma,\delta,I_\mathcal{A}\cap I_\mathcal{B},F_\mathcal{A}\cap F_\mathcal{B})$\
       \end{description}
       where $\delta$ is defined by
       \begin{description}
-        \item $\{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_A \wedge q_1 \xrightarrow{a} q_2 \in \delta_B)\}$\
+        \item $\{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_\mathcal{A} \wedge q_1 \xrightarrow{a} q_2 \in \delta_\mathcal{B})\}$\
       \end{description}
 
   \subsubsection{Subset construction}
 	\label{subset}
-	Now we will define how to construct equivalent DFA $A_{det}$ for a given NFA $A=(Q,\Sigma,\delta,S,F)$. 
-	This classical ("textbook") approach is called \emph{subset construction}.
+	Now we will define how to construct equivalent DFA $\mathcal{A}_{det}$ for a given NFA $\mathcal{A}=(Q,\Sigma,\delta,S,F)$. 
   \newline
   \newline
 	\label{defSubset}
-		$A_{det}=(2^Q,\Sigma,\delta_{det},S,F_{det})$, where
-		\begin{itemize}
-			\item $2^Q$ is power set of $Q$
-			\item $F_{det}=\{Q'\subseteq Q\ |\ Q'\cap F \not = \varnothing\}$
-			\item $\delta_{det}(Q',a)=\bigcup\limits_{q\in Q'}\delta(q,a)$, where $a\in\Sigma$
-		\end{itemize}
+	$\mathcal{A}_{det}=(2^Q,\Sigma,\delta_{det},S,F_{det})$, where
+	\begin{itemize}
+		\item $2^Q$ is power set of $Q$
+		\item $F_{det}=\{Q'\subseteq Q\ |\ Q'\cap F \not = \varnothing\}$
+		\item $\delta_{det}(Q',a)=\bigcup\limits_{q\in Q'}\delta(q,a)$, where $a\in\Sigma$
+	\end{itemize}
 
+  This classical ("textbook") approach is called \emph{subset construction}.
     An example of this approach is shown on the picutre \ref{pic_sub}.
 	
 	%%%%example of NFA to DFA	
@@ -353,14 +355,16 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
   over a word $w=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n$, where $\forall 0\leq i \leq n\ .\ q_i\in Q$ 
   such that $q_0=q$ and $(q_i,a_{i+1},q_{i+1})\in \delta$. 
   The run $r$ is called \emph{accepting} iff $q_n \in F$. 
-	An word $w \in \Sigma^{*}$ is called \emph{accepting}, if there exists an \emph{accepting} run for $\omega$.
-  An \emph{unreachable} state $q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$ is a state for which there is no run $r=q_0\ldots q$ of $A$ over a word $w \in \Sigma^{*}$ 
+	An word $w \in \Sigma^{*}$ is called \emph{accepting}, if there exists an \emph{accepting} run for $w$.
+  An \emph{unreachable} state $q$ of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ is a state for which there is no run $r=q_0\ldots q$ of 
+  $\mathcal{A}$ over a word $w \in \Sigma^{*}$ 
   such that $q_0\in I$.
-  An \emph{useless} (also called nonterminating) state $q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$ is state that there is no run $r=q\ldots q$ of $A$ over a word
+  An \emph{useless} (also called nonterminating) state $q$ of an NFA $\emph{A}=(Q,\Sigma,\delta,I,F)$ is state that there is no run $r=q\ldots q$ 
+  of $\emph{A}$ over a word
   $w \in \Sigma^{*}$ such that $q_n \in F$.
-  Given a pair of states $p,q$ of an NFA $A=(Q,\Sigma,\delta,I,F)$, these states are equivalent if 
-  $\forall \omega \in \Sigma^{*}: \emph{ Run from } p \emph{ over } \omega \emph{ is accepting} \Leftrightarrow 
-			\emph{ Run from } q \emph{ over } \omega \emph{ is accepting}$.
+  Given a pair of states $p,q$ of an NFA $\emph{A}=(Q,\Sigma,\delta,I,F)$, these states are equivalent if 
+  $\forall w \in \Sigma^{*}: \emph{ Run from } p \emph{ over } w \emph{ is accepting} \Leftrightarrow 
+			\emph{ Run from } q \emph{ over } w \emph{ is accepting}$.
 
 	\subsection{Minimum DFA}
 	\label{defMinDFA}
@@ -390,26 +394,14 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 
 		Let introduce the closure properties of regular languages on an alphabet $\Sigma$:
 		\begin{itemize}
-			\item Union%:  $L_1 \cup L_2=\{x\ |\ x \in L_1 \vee x\in L_2\}$
-			\item Intersection%:  $L_1 \cap L_2=\{x\ |\ x \in L_1 \wedge x\in L_2\}$
-			\item Complement%: $\overline{L}=\{x\ |\ x\not\in L\}$
-			\item Difference%: $L-K=\{x\ |\ x\in L \wedge x\not\in K\}$
-			\item Reversal: $\{a_1\dots a_n \in L \ |\ y=a_n\dots a_1\}$
-			\item Iteration $L^{*}$ %: $L^{*}$
-			\item Concatenation: $L\ldot K=\{x\ldot y\ |\ x\in L \wedge y\in K\}$
-			\end{itemize}
-
-\begin{comment} Presunout nebo zahodit
-		\subsection{Language inclusion}
-		\label{defIncl}
-		\begin{definition}
-		Let have language of finite automaton $A$ and language of finite automata $B$. Inclusion of this two languages is defined as:
-		\begin{description}
-			$L(A)\cap \overline{L(B)} = \varnothing$
-		\end{description}
-		\end{definition}
-
-\end{comment}
+			\item Union:  $L_1 \cup L_2$%=\{x\ |\ x \in L_1 \vee x\in L_2\}$
+			\item Intersection:  $L_1 \cap L_2$%=\{x\ |\ x \in L_1 \wedge x\in L_2\}$
+			\item Complement: $\overline{L}$%=\{x\ |\ x\not\in L\}$
+			\item Difference: $L_1-L_2$%=\{x\ |\ x\in L \wedge x\not\in K\}$
+			\item Reversal: $\{a_1\dots a_n \in L \ |\ y=a_n\dots a_1 \in L\}$
+			\item Iteration: $L^{*}$ %: $L^{*}$
+			\item Concatenation: $L\cdot K=\{x \cdot y\ |\ x\in L \wedge y\in K\}$
+		\end{itemize}
 
 \begin{comment}
 		\subsection{Union, intersection, inclusion}
@@ -427,8 +419,11 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 
 \chapter{Inclusion Checking of NFA}
 \label{chapInclusion}
-\emph{Language inclusion problem} is decision whether $L(A) \subseteq L(B)$. 
-This problem is\\ PSPACE-complete \cite{cav06}. For decision of \emph{language inclusion problem} exists some classical algorithms.
+Give a pair of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$, 
+the \emph{language inclusion problem} is decision whether $L(\mathcal{A}) \subseteq L(\mathcal{B})$ what is defined by standard set operations as
+$L(\mathcal{A})\cap \overline{L(\mathcal{B})} = \varnothing$.
+This problem is PSPACE-complete \cite{cav06}. For decision of \emph{language inclusion problem} exists some classical algorithms.
 Classical algorithms are based on searching of accepting state of product automaton $A\times \overline{B}$. Such state can serve like \emph{witness}, that
 there is no inclusion between $A$ and $B$. Problem of classical (textbook) algorithm is that they are based on explicit determinisation of automaton $B$ 
 via \emph{subset construction}. Of course, if \emph{witness} state is found, algorithm ends, but very often whole DFA is build, what leads to state explosion.
