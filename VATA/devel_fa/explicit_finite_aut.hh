@@ -182,7 +182,7 @@ public:
 		const std::string& str, StringToStateDict& stateDict)
 	{
 		LoadFromString(parser,str, stateDict);
-		std::cout << "Vata finite automata development begins" << std::endl;
+		std::cerr << "Vata finite automata development begins" << std::endl;
 	}
 
 	/*
@@ -235,13 +235,13 @@ public:
 		// Load symbols
 		for (auto symbolRankPair : desc.symbols){ // Symbols translater
 			symbolTranslator(symbolRankPair.first);
-			//std::cout << "Symbol processed " <<  symbolTranslator(symbolRankPair.first) << std::endl;
+			//std::cerr << "Symbol processed " <<  symbolTranslator(symbolRankPair.first) << std::endl;
 		}
 
 		// Load final states
 		for (auto s : desc.finalStates) // Finale states extraction
 		{
-			//std::cout << "Final state processed " << s   << " " << stateTranslator(s) << std::endl;
+			//std::cerr << "Final state processed " << s   << " " << stateTranslator(s) << std::endl;
 			this->finalStates_.insert(stateTranslator(s));
 		}
 
@@ -264,9 +264,9 @@ public:
         continue;
       }
 
-      std::cout << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;
-			std::cout << "Transition right state " << rightState << " "  <<  stateTranslator(rightState) <<  std::endl;
-			//std::cout << "Transition symbol " << symbol << std::endl;
+      std::cerr << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;
+			std::cerr << "Transition right state " << rightState << " "  <<  stateTranslator(rightState) <<  std::endl;
+			//std::cerr << "Transition symbol " << symbol << std::endl;
 			this->AddTransition(stateTranslator(leftState),symbolTranslator(symbol),
 															stateTranslator(rightState));
 		}
@@ -311,9 +311,9 @@ public:
 						std::vector<std::string> leftStateAsTuple;
 						leftStateAsTuple.push_back(statePrinter(ls.first));
             
-            std::cout  <<  "Printing left state: "  << ls.first  <<  " " << statePrinter(ls.first)  <<  std::endl;
-            std::cout  <<  "Printing right state: "  <<  rs   <<  " "  <<   statePrinter(rs)  <<  std::endl;
-            std::cout  <<  "Printing symbol: "  << symbolPrinter(s.first)  <<  std::endl;
+            std::cerr  <<  "Printing left state: "  << ls.first  <<  " " << statePrinter(ls.first)  <<  std::endl;
+            std::cerr  <<  "Printing right state: "  <<  rs   <<  " "  <<   statePrinter(rs)  <<  std::endl;
+            std::cerr  <<  "Printing symbol: "  << symbolPrinter(s.first)  <<  std::endl;
             
 						AutDescription::Transition trans(
 							leftStateAsTuple,
@@ -353,9 +353,9 @@ public:
 
 			//assert(stateClusterPair.second);
 
-      std::cout  << "Original left state: "  <<   stateClusterPair.first  <<  std::endl;
+      std::cerr  << "Original left state: "  <<   stateClusterPair.first  <<  std::endl;
 			auto cluster = clusterMap->uniqueCluster(index[stateClusterPair.first]);
-      std::cout  << "Reindex left state: "  <<  index[stateClusterPair.first]  <<  std::endl;
+      std::cerr  << "Reindex left state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 
 			for (auto& symbolRStateSetPair : *stateClusterPair.second) {
 
@@ -364,9 +364,9 @@ public:
 				RStateSetPtr rstatesSet = cluster->uniqueRStateSet(symbolRStateSetPair.first);
 
 				for (auto& rState : *symbolRStateSetPair.second) {
-          std::cout  << "Original right state: "  <<   stateClusterPair.first  <<  std::endl;
+          std::cerr  << "Original right state: "  <<   stateClusterPair.first  <<  std::endl;
 					rstatesSet->insert(index[rState]);
-          std::cout  << "Reindex right state: "  <<  index[stateClusterPair.first]  <<  std::endl;
+          std::cerr  << "Reindex right state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 				}
 			}
 		}
