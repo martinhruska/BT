@@ -240,10 +240,12 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 	{
 		boolResult = CheckInclusion(autInput1, autInput2, args);
 	}
+  */
 	else if (args.command == COMMAND_SIM)
 	{
 		relResult = ComputeSimulation(autInput1, args);
 	}
+  /*
 	else if (args.command == COMMAND_RED)
 	{
 		autResult = ComputeReduction(autInput1, args);
@@ -315,12 +317,12 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 		{
 			std::cout << boolResult << "\n";
 		}
+    */
 
 		if (args.command == COMMAND_SIM)
 		{
 			std::cout << relResult << "\n";
 		}
-    */
 	}
 
 	return EXIT_SUCCESS;

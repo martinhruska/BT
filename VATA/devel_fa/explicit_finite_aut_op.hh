@@ -142,6 +142,24 @@ namespace VATA {
   /*
    * Simulation functions
    */
+	template <class SymbolType, class Index>
+	AutBase::StateBinaryRelation ComputeDownwardSimulation(
+		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size, const Index& index) {
+
+    AutBase::StateBinaryRelation rel;
+    return rel;
+		//return ExplicitTreeAut::TranslateDownward(aut, index).computeSimulation(size);
+
+	}
+
+	template <class SymbolType>
+	AutBase::StateBinaryRelation ComputeDownwardSimulation(
+		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size) {
+    AutBase::StateBinaryRelation rel;
+    return rel;
+		//return ExplicitTreeAut::TranslateDownward(aut).computeSimulation(size);
+	}
+
   // Automaton has not been sanitized
   template <class SymbolType>
 	AutBase::StateBinaryRelation ComputeDownwardSimulation(
@@ -150,19 +168,28 @@ namespace VATA {
 		return ComputeDownwardSimulation(aut, AutBase::SanitizeAutForSimulation(aut));
 	}
 
-	template <class SymbolType, class Index>
-	AutBase::StateBinaryRelation ComputeDownwardSimulation(
+  /*
+   * Upward simulation just for compability
+   */
+  template <class SymbolType, class Index>
+	AutBase::StateBinaryRelation ComputeUpwardSimulation(
 		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size, const Index& index) {
 
-		return TranslateDownward(aut, index).computeSimulation(size);
-
+	  return ComputeDownwardSimulation(aut, size);
 	}
 
 	template <class SymbolType>
-	AutBase::StateBinaryRelation ComputeDownwardSimulation(
+	AutBase::StateBinaryRelation ComputeUpwardSimulation(
 		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size) {
 
-		return TranslateDownward(aut).computeSimulation(size);
+	 return ComputeDownwardSimulation(aut, size);
+	}
+
+	template <class SymbolType>
+	AutBase::StateBinaryRelation ComputeUpwardSimulation(
+		const ExplicitFiniteAut<SymbolType>& aut) {
+
+		return ComputeDownwardSimulation(aut, AutBase::SanitizeAutForSimulation(aut));
 
 	}
 
