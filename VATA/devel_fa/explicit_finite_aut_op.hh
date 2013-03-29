@@ -133,8 +133,38 @@ namespace VATA {
       const ExplicitFiniteAut<SymbolType> &aut,
       const Dict &alphabet);
 
+
 	template <class SymbolType>
 	ExplicitFiniteAut<SymbolType> GetCandidateTree(
       const ExplicitFiniteAut<SymbolType>& aut);
+
+
+  /*
+   * Simulation functions
+   */
+  // Automaton has not been sanitized
+  template <class SymbolType>
+	AutBase::StateBinaryRelation ComputeDownwardSimulation(
+		const ExplicitFiniteAut<SymbolType>& aut) {
+
+		return ComputeDownwardSimulation(aut, AutBase::SanitizeAutForSimulation(aut));
+	}
+
+	template <class SymbolType, class Index>
+	AutBase::StateBinaryRelation ComputeDownwardSimulation(
+		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size, const Index& index) {
+
+		return TranslateDownward(aut, index).computeSimulation(size);
+
+	}
+
+	template <class SymbolType>
+	AutBase::StateBinaryRelation ComputeDownwardSimulation(
+		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size) {
+
+		return TranslateDownward(aut).computeSimulation(size);
+
+	}
+
 }
 #endif
