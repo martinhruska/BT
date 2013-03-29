@@ -87,6 +87,9 @@ private: // private type definitions
 	typedef VATA::Util::AutDescription AutDescription;
 	typedef AutDescription::State State;
 
+  typedef std::unordered_set<SymbolType> SymbolSet;
+  typedef std::unordered_map<StateType,SymbolSet> StateToSymbols;
+
 	//typedef std::shared_ptr<const StateType> RStatePtr;
   /*
   typedef StateType RStatePtr;
@@ -158,10 +161,11 @@ public: //pubic type definitions
 	typedef VATA::Util::TranslatorStrict<typename StringToSymbolDict::MapBwdType>
 		SymbolBackTranslatorStrict;
 
-
 protected: // private data memebers
 	StateSet finalStates_;
 	StateSet startStates_;
+  // Transitions defining start states
+  StateToSymbols startStateToSymbols_;
 
 private: // private static data memebers
 	static StringToSymbolDict* pSymbolDict_;
@@ -259,8 +263,12 @@ public:
 
       // TODO jakykoliv empty tuple, tzn. pamatovat si a prekladat symbol
 			// Check whether there are no start states
-      if (t.first.empty() && symbol == "x") {
-				this->startStates_.insert(stateTranslator(rightState));
+      if (t.first.empty()) {
+        StateType translatedState = stateTranslator(rightState);
+        SymbolType translatedSymbol = symbolTranslator(symbol);
+
+        SetStateStart(translatedState, translatedSymbol);
+
         continue;
       }
 
@@ -340,7 +348,7 @@ public:
 
     // Converts the start states
     for( auto& state : this->startStates_) {
-      dst.SetStateStart(index[state]);
+      dst.SetExistingStateStart(index[state],GetStartSymbols(state));
     }
 
 		auto clusterMap = dst.uniqueClusterMap();
@@ -420,9 +428,6 @@ public: // Public inline functions
 		this->finalStates_.insert(state);
 	}
 
-  inline void SetStateStart(const StateType& state) {
-		this->startStates_.insert(state);
-	}
 	inline void AddTransition(const StateType& lstate, const SymbolType& symbol,
 									const StateType& rstate){
 		this->internalAddTransition(lstate, symbol, rstate);
@@ -434,6 +439,37 @@ public: // Public inline functions
 
   inline bool IsStateStart(const StateType &state) const  {
     return (this->startStates_.find(state) != this->startStates_.end());
+  }
+
+public: // Public setter
+  void SetStateStart(const StateType& state, const SymbolType& symbol) {
+    this->startStates_.insert(state);
+    
+    // Add start transition
+    if (!this->startStateToSymbols_.count(state)) {
+      this->startStateToSymbols_.insert(
+         std::make_pair(state,std::unordered_set<SymbolType>())).
+         first->second.insert(symbol);
+    }
+    else { // Just add new symbol
+      this->startStateToSymbols_.find(state)->second.insert(symbol);
+    }
+	}
+
+  // Set start state with set of symbols in start transitions
+  void SetExistingStateStart(const StateType& state, const SymbolSet& symbolSet) {
+    this->startStates_.insert(state);
+
+    assert(!this->startStateToSymbols_.count(state));
+
+    this->startStateToSymbols_.insert(std::make_pair(state,symbolSet));
+  }
+
+public: // Getters
+  // Return a set of the symbols which are in start transitions 
+  // for given state
+  const SymbolSet& GetStartSymbols(StateType state) const {
+    return this->startStateToSymbols_.find(state)->second; 
   }
 
 protected:

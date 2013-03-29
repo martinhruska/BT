@@ -30,13 +30,12 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::GetCandidateTree(
   ExplicitFA res;
 
 
-  // Starts to from start states
+  // Starts from start states
   for (StateType s : aut.GetStartStates()) {
     if (reachableStates.insert(s).second) {
       newStates.push_back(s);
-      res.SetStateStart(s);
     }
-    res.SetStateStart(s);
+    res.SetExistingStateStart(s,aut.GetStartSymbols(s));
   }
 
   while (!newStates.empty()) {

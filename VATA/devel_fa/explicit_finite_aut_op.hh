@@ -50,6 +50,7 @@ namespace VATA {
 			pTranslMapRhs = &translMapRhs;
 		}
 
+    // New translation function
 		StateType stateCnt = 0; 
 		auto translFunc = [&stateCnt](const StateType&){return stateCnt++;};
 

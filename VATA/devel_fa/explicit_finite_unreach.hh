@@ -59,6 +59,8 @@ if (reachableStates.size() == aut.transitions_->size()) {
 
   ExplicitFA res;
   res.startStates_ = aut.startStates_;
+  res.startStateToSymbols_ = aut.startStateToSymbols_;
+  
   res.transitions_ = StateToTransitionClusterMapPtr(
       new typename ExplicitFA::StateToTransitionClusterMap()
       );

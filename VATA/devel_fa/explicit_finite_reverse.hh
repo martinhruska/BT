@@ -23,6 +23,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Reverse(
 
   ExplicitFA res;
 
+  // TODO: Doresit pocatecni stavy
   res.finalStates_ = aut.startStates_;
   res.startStates_ = aut.finalStates_;
 
