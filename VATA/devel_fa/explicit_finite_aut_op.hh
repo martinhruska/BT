@@ -7,6 +7,8 @@
 #include <vata/util/two_way_dict.hh>
 #include <vata/util/util.hh>
 #include <vata/util/binary_relation.hh>
+#include <vata/util/transl_weak.hh>
+#include <vata/explicit_lts.hh>
 
 #include "explicit_finite_aut.hh"
 #include "explicit_finite_isect.hh"
@@ -15,6 +17,7 @@
 #include "explicit_finite_reverse.hh"
 #include "explicit_finite_compl.hh"
 #include "explicit_finite_candidate.hh"
+#include "explicit_finite_transl.hh"
 
 namespace VATA {
 
@@ -139,25 +142,27 @@ namespace VATA {
       const ExplicitFiniteAut<SymbolType>& aut);
 
 
-  /*
+  // Translator for simulation
+  template <class SymbolType, class Index>
+	ExplicitLTS Translate(const ExplicitFiniteAut<SymbolType>& aut,
+		const Index& stateIndex);
+
+
+  /***************************************************
    * Simulation functions
    */
 	template <class SymbolType, class Index>
 	AutBase::StateBinaryRelation ComputeDownwardSimulation(
 		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size, const Index& index) {
 
-    AutBase::StateBinaryRelation rel;
-    return rel;
-		//return ExplicitTreeAut::TranslateDownward(aut, index).computeSimulation(size);
+		return Translate(aut, index).computeSimulation(size);
 
 	}
 
 	template <class SymbolType>
 	AutBase::StateBinaryRelation ComputeDownwardSimulation(
 		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size) {
-    AutBase::StateBinaryRelation rel;
-    return rel;
-		//return ExplicitTreeAut::TranslateDownward(aut).computeSimulation(size);
+		return Translate(aut).computeSimulation(size);
 	}
 
   // Automaton has not been sanitized
@@ -168,7 +173,7 @@ namespace VATA {
 		return ComputeDownwardSimulation(aut, AutBase::SanitizeAutForSimulation(aut));
 	}
 
-  /*
+  /*****************************************************************
    * Upward simulation just for compability
    */
   template <class SymbolType, class Index>

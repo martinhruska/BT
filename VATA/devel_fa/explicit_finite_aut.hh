@@ -9,6 +9,8 @@
 #include <vata/serialization/abstr_serializer.hh>
 #include <unordered_set>
 #include <iostream>
+#include <vata/util/transl_weak.hh>
+#include <vata/explicit_lts.hh>
 
 namespace VATA {
 	template <class Symbol>	class ExplicitFiniteAut;
@@ -68,6 +70,10 @@ class VATA::ExplicitFiniteAut : public AutBase {
       const Rel &,
       const Index &);
 
+  // Translator for simulation
+  template <class SymbolType, class Index>
+	friend ExplicitLTS Translate(const ExplicitFiniteAut<SymbolType>& aut,
+		const Index& stateIndex);
 
 public:
 	typedef Symbol SymbolType;
@@ -251,17 +257,8 @@ public:
 			const std::string& symbol = t.second;
 			const State& rightState = t.third;
 
+      // TODO jakykoliv empty tuple, tzn. pamatovat si a prekladat symbol
 			// Check whether there are no start states
-/*
-      if (rightState[0] == 's'){
-				this->startStates_.insert(stateTranslator(rightState));
-				//std::cout  <<  "Start states: "  <<  leftState  <<  std::endl;
-			}
-			if (leftState[0] == 's'){
-				this->startStates_.insert(stateTranslator(leftState));
-				//std::cout  <<  "Start states: "  <<  rightState  <<  std::endl;
-			}
-      */
       if (t.first.empty() && symbol == "x") {
 				this->startStates_.insert(stateTranslator(rightState));
         continue;
