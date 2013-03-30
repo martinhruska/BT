@@ -26,6 +26,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Reverse(
   // TODO: Doresit pocatecni stavy
   res.finalStates_ = aut.startStates_;
   res.startStates_ = aut.finalStates_;
+  res.startStateToSymbols_ = aut.startStateToSymbols_;
 
   // Changing the order of left and right in each transition
   for (auto stateToCluster : *transitions_) {
