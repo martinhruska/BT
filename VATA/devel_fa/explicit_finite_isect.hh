@@ -42,8 +42,6 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
       auto iss = pTranslMap->insert(std::make_pair(std::make_pair(lss,rss),
             pTranslMap->size())).first; // intersection start state
 
-      res.SetStateStart(iss->second);
-
       stack.push_back(&*iss);
     }
   }
@@ -55,7 +53,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     // Element translates states to result
     auto actState = stack.back(); 
     stack.pop_back();
-  
+
     // Checks whether it is final state
     if (lhs.IsStateFinal(actState->first.first)
       && rhs.IsStateFinal(actState->first.second)) {
@@ -94,6 +92,16 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
         continue;
       }
 
+     // Adding only usefull new state - for change move these two cycles before main cycle
+     for (auto& leftStartSymbol : lhs.GetStartSymbols(actState->first.first)) {
+       res.SetStateStart(actState->second,leftStartSymbol);
+     }
+
+     for (auto& rightStartSymbol : rhs.GetStartSymbols(actState->first.second)) {
+      res.SetStateStart(actState->second,rightStartSymbol);
+     }
+
+      // Get the transitions from the result automaton
       if (!clusterptr) { // Insert a new translated state
         clusterptr = transitions->uniqueCluster(actState->second);
       }

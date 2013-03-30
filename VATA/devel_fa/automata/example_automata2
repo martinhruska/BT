@@ -3,6 +3,7 @@ Automaton aut
 States
 Final States p 
 Transitions
+y -> q
 x -> p
 b(p) -> q
 a(q) -> p

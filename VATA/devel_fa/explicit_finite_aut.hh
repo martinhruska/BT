@@ -177,6 +177,7 @@ public:
 	ExplicitFiniteAut() :
 		finalStates_(),
 		startStates_(),
+		startStateToSymbols_(),
 		transitions_(StateToTransitionClusterMapPtr(new StateToTransitionClusterMap))
 	{ }
 
@@ -299,15 +300,35 @@ public:
 				desc.finalStates.insert(statePrinter(s));
 			}
 
+      std::cerr  <<  "Dmuping"  <<  std::endl;
       // Dump start states
       std::string x("x"); // initial input symbol
 		  std::vector<std::string> leftStateAsTuple;
       for (auto &s : this->startStates_) {
-        AutDescription::Transition trans(
-						leftStateAsTuple,
-            x,
-            statePrinter(s));
-        desc.transitions.insert(trans);
+
+        std::cerr  <<  "size: "  <<  this->startStateToSymbols_.size()  <<  std::endl;
+        SymbolSet symset = this->GetStartSymbols(s);
+        std::cerr  <<  "tudu"  <<  std::endl;
+
+        if (!symset.size()) { // No start symbols are defined, 'x' will be used
+      std::cerr  <<  "here"  <<  std::endl;
+          AutDescription::Transition trans(
+			  			leftStateAsTuple,
+              x,
+              statePrinter(s));
+          desc.transitions.insert(trans);
+        }
+        else { // print all starts symbols
+      std::cerr  <<  "yet"  <<  std::endl;
+          for (auto &sym : symset) {
+      std::cerr  <<  "dumped"  <<  std::endl;
+           AutDescription::Transition trans(
+			   			leftStateAsTuple,
+              symbolPrinter(sym),
+              statePrinter(s));
+           desc.transitions.insert(trans);
+         }
+        }
       }
 
 			/*
@@ -447,11 +468,14 @@ public: // Public setter
     
     // Add start transition
     if (!this->startStateToSymbols_.count(state)) {
+      std::cerr << "Adding a new start states "  <<  state << std::endl;
       this->startStateToSymbols_.insert(
          std::make_pair(state,std::unordered_set<SymbolType>())).
          first->second.insert(symbol);
+      std::cerr << "Start symbol size: "  <<  this->startStateToSymbols_.size() << std::endl;
     }
     else { // Just add new symbol
+      std::cerr << "Symbol already added" << std::endl;
       this->startStateToSymbols_.find(state)->second.insert(symbol);
     }
 	}
@@ -469,6 +493,7 @@ public: // Getters
   // Return a set of the symbols which are in start transitions 
   // for given state
   const SymbolSet& GetStartSymbols(StateType state) const {
+    assert(this->startStateToSymbols_.find(state) != this->startStateToSymbols_.end());
     return this->startStateToSymbols_.find(state)->second; 
   }
 
