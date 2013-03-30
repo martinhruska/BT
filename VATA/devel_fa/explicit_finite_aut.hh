@@ -306,12 +306,9 @@ public:
 		  std::vector<std::string> leftStateAsTuple;
       for (auto &s : this->startStates_) {
 
-        std::cerr  <<  "size: "  <<  this->startStateToSymbols_.size()  <<  std::endl;
         SymbolSet symset = this->GetStartSymbols(s);
-        std::cerr  <<  "tudu"  <<  std::endl;
 
         if (!symset.size()) { // No start symbols are defined, 'x' will be used
-      std::cerr  <<  "here"  <<  std::endl;
           AutDescription::Transition trans(
 			  			leftStateAsTuple,
               x,
@@ -319,9 +316,7 @@ public:
           desc.transitions.insert(trans);
         }
         else { // print all starts symbols
-      std::cerr  <<  "yet"  <<  std::endl;
           for (auto &sym : symset) {
-      std::cerr  <<  "dumped"  <<  std::endl;
            AutDescription::Transition trans(
 			   			leftStateAsTuple,
               symbolPrinter(sym),

@@ -273,7 +273,7 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 	{	// in case output is not forbidden
 		if ((args.command == COMMAND_LOAD) ||
 			(args.command == COMMAND_WITNESS))// ||
-		//	(args.command == COMMAND_RED))
+			//(args.command == COMMAND_RED))
 		{
 			std::cout << autResult.DumpToString(serializer,
 				StateBackTranslatorStrict(stateDict1.GetReverseMap()),
