@@ -75,6 +75,11 @@ class VATA::ExplicitFiniteAut : public AutBase {
 	friend ExplicitLTS Translate(const ExplicitFiniteAut<SymbolType>& aut,
 		const Index& stateIndex);
 
+  // Checking inclusion
+  template <class SymbolType>
+   friend bool CheckInclusion(
+       const ExplicitFiniteAut<SymbolType> smaller,
+       const ExplicitFiniteAut<SymbolType> bigger);
 
 public:
 	typedef Symbol SymbolType;
