@@ -207,7 +207,7 @@ namespace VATA {
   bool CheckFiniteAutInclusion (
     const ExplicitFiniteAut<SymbolType>& smaller, 
     const ExplicitFiniteAut<SymbolType>& bigger, 
-    const Rel& preorder) {return true;}
+    const Rel& preorder); 
 
   template <class SymbolType, class Rel>
 	bool CheckUpwardInclusionWithPreorder(
@@ -217,6 +217,10 @@ namespace VATA {
 		return CheckFiniteAutInclusion(smaller, bigger, preorder);
 	}
 
+  /*
+   * Get just two automata, first sanitization is
+   * made then the inclusion check is called
+   */
   template <class SymbolType>
   bool CheckInclusion(const ExplicitFiniteAut<SymbolType>& smaller,
 		const ExplicitFiniteAut<SymbolType>& bigger) {
