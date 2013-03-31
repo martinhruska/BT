@@ -199,5 +199,32 @@ namespace VATA {
 
 	}
 
+  /***************************************************************
+   * Inclusion checking functions
+   */
+
+  template<class SymbolType, class Rel>
+  bool CheckFiniteAutInclusion (
+    const ExplicitFiniteAut<SymbolType>& smaller, 
+    const ExplicitFiniteAut<SymbolType>& bigger, 
+    const Rel& preorder) {return true;}
+
+  template <class SymbolType, class Rel>
+	bool CheckUpwardInclusionWithPreorder(
+		const ExplicitFiniteAut<SymbolType>& smaller, 
+    const ExplicitFiniteAut<SymbolType>& bigger,
+		const Rel& preorder) {
+		return CheckFiniteAutInclusion(smaller, bigger, preorder);
+	}
+
+  template <class SymbolType>
+  bool CheckInclusion(const ExplicitFiniteAut<SymbolType>& smaller,
+		const ExplicitFiniteAut<SymbolType>& bigger) {
+	  AutBase::StateType states = 
+      AutBase::SanitizeAutsForInclusion(smaller, bigger);
+		VATA::Util::Identity ident(states);
+		return CheckUpwardInclusion(smaller, bigger,states);
+	}
+
 }
 #endif

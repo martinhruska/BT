@@ -75,6 +75,7 @@ class VATA::ExplicitFiniteAut : public AutBase {
 	friend ExplicitLTS Translate(const ExplicitFiniteAut<SymbolType>& aut,
 		const Index& stateIndex);
 
+
 public:
 	typedef Symbol SymbolType;
 
