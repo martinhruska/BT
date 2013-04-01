@@ -77,9 +77,18 @@ class VATA::ExplicitFiniteAut : public AutBase {
 
   // Checking inclusion
   template <class SymbolType>
-   friend bool CheckInclusion(
+  friend bool CheckInclusion(
        const ExplicitFiniteAut<SymbolType> smaller,
        const ExplicitFiniteAut<SymbolType> bigger);
+
+  // Checking inclusion
+  template<class SymbolType, class Rel>
+  friend bool CheckFiniteAutInclusion (
+    const ExplicitFiniteAut<SymbolType>& smaller, 
+    const ExplicitFiniteAut<SymbolType>& bigger, 
+    const Rel& preorder); 
+
+
 
 public:
 	typedef Symbol SymbolType;

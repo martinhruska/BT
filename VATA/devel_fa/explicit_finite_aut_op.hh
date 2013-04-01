@@ -79,8 +79,8 @@ namespace VATA {
         // new clusterMap
         res.uniqueClusterMap()->insert(rhs.transitions_->begin(),rhs.transitions_->end());
         
-        res.startStates_.insert(rhs.startStates_->begin(),rhs.startStates_->end());
-        res.finalStates_.insert(rhs.finalStates_->begin(),rhs.finalStates_->end());
+        res.startStates_.insert(rhs.startStates_.begin(),rhs.startStates_.end());
+        res.finalStates_.insert(rhs.finalStates_.begin(),rhs.finalStates_.end());
         return res;
       }
 
