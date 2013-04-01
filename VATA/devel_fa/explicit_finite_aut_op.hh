@@ -231,5 +231,43 @@ namespace VATA {
 		return CheckUpwardInclusion(smaller, bigger,states);
 	}
 
+
+  /****************************************************************
+   * Compability to other formats
+   */
+
+	template <class SymbolType, class Rel>
+	bool CheckOptDownwardInclusionWithPreorder(
+		const ExplicitFiniteAut<SymbolType>& smaller,
+		const ExplicitFiniteAut<SymbolType>& bigger, const Rel& preorder) {
+		throw std::runtime_error("Unimplemented");
+	}
+
+	template <class SymbolType, class Rel>
+	bool CheckDownwardInclusionWithPreorder(const ExplicitFiniteAut<SymbolType>& smaller,
+		const ExplicitFiniteAut<SymbolType>& bigger, const Rel& preorder) {
+
+		throw std::runtime_error("Unimplemented");
+	}
+
+	template <class SymbolType, class Rel>
+	bool CheckDownwardInclusionNonRecWithPreorder(const ExplicitFiniteAut<SymbolType>& smaller,
+		const ExplicitFiniteAut<SymbolType>& bigger, const Rel& preorder) {
+
+		throw std::runtime_error("Unimplemented");
+	}
+
+	template <class SymbolType>
+	bool CheckUpwardInclusion(const ExplicitFiniteAut<SymbolType>& smaller,
+		const ExplicitFiniteAut<SymbolType>& bigger) {
+
+		throw std::runtime_error("Unimplemented");
+	}
+
+	template <class SymbolType>
+	bool CheckDownwardInclusion(const ExplicitFiniteAut<SymbolType>& smaller,
+		const ExplicitFiniteAut<SymbolType>& bigger) {
+		throw std::runtime_error("Unimplemented");
+	}
 }
 #endif

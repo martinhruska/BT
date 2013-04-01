@@ -151,9 +151,7 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 	Aut autInput1;
 	Aut autInput2;
 	Aut autResult;
-  /*
 	bool boolResult = false;
-  */
 	VATA::AutBase::StateBinaryRelation relResult;
 
 	VATA::AutBase::StringToStateDict stateDict1;
@@ -235,12 +233,10 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 	{
 		autResult = Intersection(autInput1, autInput2, &prodTranslMap);
 	}
-  /*
 	else if (args.command == COMMAND_INCLUSION)
 	{
 		boolResult = CheckInclusion(autInput1, autInput2, args);
 	}
-  */
 	else if (args.command == COMMAND_SIM)
 	{
 		relResult = ComputeSimulation(autInput1, args);
@@ -312,12 +308,10 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 				StateBackTranslatorStrict(stateDict1.GetReverseMap()),
 				SymbolBackTranslatorStrict(autResult.GetSymbolDict().GetReverseMap()));
 		}
-/*
 		if ((args.command == COMMAND_INCLUSION))
 		{
 			std::cout << boolResult << "\n";
 		}
-    */
 
 		if (args.command == COMMAND_SIM)
 		{
