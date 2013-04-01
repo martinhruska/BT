@@ -77,10 +77,17 @@ namespace VATA {
         // Use uniqueCluster function, not explicitly transitions_,
         // because of the possibility of the need of the creating of the
         // new clusterMap
-        res.uniqueClusterMap()->insert(rhs.transitions_->begin(),rhs.transitions_->end());
+        res.uniqueClusterMap()->insert(rhs.transitions_->begin(),
+          rhs.transitions_->end());
         
-        res.startStates_.insert(rhs.startStates_.begin(),rhs.startStates_.end());
-        res.finalStates_.insert(rhs.finalStates_.begin(),rhs.finalStates_.end());
+        res.startStates_.insert(rhs.startStates_.begin(),
+          rhs.startStates_.end());
+          //TODO zamylset se nad tim, jestli to takhle bude stacit
+        res.startStateToSymbols_.insert(rhs.startStateToSymbols_.begin(),
+          rhs.startStateToSymbols_.end());
+
+        res.finalStates_.insert(rhs.finalStates_.begin(),
+          rhs.finalStates_.end());
         return res;
       }
 
