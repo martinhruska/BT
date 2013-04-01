@@ -285,7 +285,6 @@ public:
 			const std::string& symbol = t.second;
 			const State& rightState = t.third;
 
-      // TODO jakykoliv empty tuple, tzn. pamatovat si a prekladat symbol
 			// Check whether there are no start states
       if (t.first.empty()) {
         StateType translatedState = stateTranslator(rightState);

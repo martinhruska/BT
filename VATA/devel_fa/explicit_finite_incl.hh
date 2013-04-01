@@ -22,11 +22,24 @@ bool VATA::CheckFiniteAutInclusion(
   typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
   typedef typename ExplicitFA::StateType StateType;
 
-  for (StateType smallState : smaller.startStates_) {
-    std::cout << smallState << std::endl;
+  std::unordered_set<StateType> procMacroState;
+  StateType procState;
+  bool macroFinal=false;
+
+  for (StateType startState : bigger.startStates_) {
+    procMacroState.insert(startState);
+    macroFinal |= bigger.IsStateFinal(startState);
   }
-  return true;
+
+  bool inclNotHold = false;
+  for (StateType smallState : smaller.startStates_) {
+    inclNotHold |= smaller.IsStateFinal(smallState) && !macroFinal;
+    // Tady bude pridavani do antichainu
+  }
+
+  return ~inclNotHold;
 }
+
 
 
 #endif

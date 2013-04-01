@@ -82,7 +82,7 @@ namespace VATA {
         
         res.startStates_.insert(rhs.startStates_.begin(),
           rhs.startStates_.end());
-          //TODO zamylset se nad tim, jestli to takhle bude stacit
+          //TODO zamylset se nad tim, jestli kopirovani takhle bude stacit
         res.startStateToSymbols_.insert(rhs.startStateToSymbols_.begin(),
           rhs.startStateToSymbols_.end());
 
