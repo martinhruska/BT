@@ -30,7 +30,6 @@ bool VATA::CheckFiniteAutInclusion(
     procMacroState.insert(startState);
     macroFinal |= bigger.IsStateFinal(startState);
   }
-  std::cout << "macro final " << macroFinal << std::endl;
 
   bool inclNotHold = false;
   for (StateType smallState : smaller.startStates_) {
@@ -38,7 +37,7 @@ bool VATA::CheckFiniteAutInclusion(
     // Tady bude pridavani do antichainu
   }
 
-  return ~inclNotHold;
+  return !inclNotHold;
 }
 
 
