@@ -187,6 +187,14 @@ public:
 		transitions_(StateToTransitionClusterMapPtr(new StateToTransitionClusterMap))
 	{ }
 
+  ExplicitFiniteAut(const ExplicitFiniteAut& aut) :
+    finalStates_(aut.finalStates_),
+		startStates_(aut.startStates_),
+		startStateToSymbols_(aut.startStateToSymbols_),
+		transitions_(aut.transitions_) 
+  { }
+
+
 	~ExplicitFiniteAut() {}
 
 	void devel(VATA::Parsing::AbstrParser& parser, 
