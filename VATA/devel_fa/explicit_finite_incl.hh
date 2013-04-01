@@ -14,15 +14,17 @@ namespace VATA {
 }
 
 template<class SymbolType, class Rel>
-bool CheckFiniteAutInclusion(
-  const ExplicitFiniteAut<SymbolType>& smaller, 
-  const ExplicitFiniteAut<SymbolType>& bigger, 
+bool VATA::CheckFiniteAutInclusion(
+  const VATA::ExplicitFiniteAut<SymbolType>& smaller, 
+  const VATA::ExplicitFiniteAut<SymbolType>& bigger, 
   const Rel& preorder) {
  
-  typedef ExplicitFiniteAut<SymbolType> ExplicitFA;
-  typedef ExplicitFA::StateType StateType;
+  typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
+  typedef typename ExplicitFA::StateType StateType;
 
-
+  for (StateType smallState : smaller.startStates_) {
+    std::cout << smallState << std::endl;
+  }
   return true;
 }
 
