@@ -448,12 +448,12 @@ Some recently introduced approaches (so-called antichains \cite{cav06}, its opti
 congruence \cite{popl13}) avoid the explicit construction of $\overline{\mathcal{B}_{det}}$ and the related state explosion in many cases.
 
 We have to define following terms for the futher description of the new techniques for the inclusion checking.
-We denote product state of a NFA $\mathcal{A} \times \mathcal{B}$ as pair $(p,P)$ of a state $p\in Q_\mathcal{A}$ and a macrostate $P \in 2^{Q_\mathcal{B}}$.
+We denote product state of a NFA $\mathcal{A} \times \mathcal{B}$ as a pair $(p,P)$ of a state $p\in Q_\mathcal{A}$ and a macrostate $P \subseteq Q_\mathcal{B}`$.
 We define post-image of the product state $(p,P)$ of a NFA $A\times B$ by:\
 $Post((p,P)):=\{(p',P')\ |\ \exists a \in \Sigma: (p,a,p')\in \delta, P'=\{p''\ |\ \exists p \in P:(p,a,p'')\in \delta\}\}$
 
 \section{Checking Inclusion with Antichains and Simulation}
-We define an antichain and simulation before describing the algorithm itself.
+We define an antichain, simulation and some others terms before describing the algorithm itself.
 
 Given a partially ordered set $Y$, an \emph {antichain} is a set $X \subseteq Y$ such that all elements of $X$ are incomparable.
 
@@ -464,30 +464,35 @@ $r\xrightarrow{a}r'$ such that $p' \preceq r'$. Note that simulation implies lan
 \subseteq L_\mathcal{A}(q)$.
 
 
-First approach uses optimized method based on combination of \emph{antichains with simulation} from \cite{tacas10}.
-Firstly, let define the antichain and simulation (\cite{simulations}).
-\begin{definition}
-\label{defAntichains}
-	Let $S$ be a \emph{partially order} set. Two elements $a,b\in S$ are incomparable iff $neither\ a \leq b, nor\ b \leq a$.
-	An \emph{antichain} is a set $A \subseteq S$, where
-	\begin{description}	
-		\item $A \subseteq S =\{\forall a,b \in A\ .\ a\not\in b \cap b \not a\}$. 
-	\end{description}	
-\end{definition}
-\begin{definition}
-\label{defSimulation}
-		A forward \emph{simulation} on NFA $A=(Q,\Sigma,\delta,I,F)$ is a relation $\preceq\  \subseteq Q \times Q$ such that $p \preceq r$ iff (i) $p \in F 
-		\Rightarrow r \in F$ and (ii) for every transition $p \xrightarrow{a} p'$, there exists a transition $r \xrightarrow{a} r'$ such that $p' \preceq r'$ 
-\end{definition}
-
 %Let denote $A^{\subseteq}$ as the set of relations over automaton $A$ that imply inclusion,\\ so if $\preceq \in A^{\subseteq}$, 
 %then $p\preceq r \Rightarrow L(A)(p) \subseteq L(A)(r)$.
 %
-For two macro-states $P$ and $R$ of some automaton is $P\preceq^{\forall\exists}R$ shorthand\\ for $\forall p\in P.\exists r \in R: p \preceq r$
+For two macro-states $P$ and $R$ of a NFA is $R\preceq^{\forall\exists}P$ shorthand for $\forall r\in R.\exists p \in P: r \preceq p$.
 
-Product state (p,P) is accepting, if $p$ is accepting in automaton $A$ and $P$ is rejecting in automaton $B$.
+Product state $(p,P)$ is accepting, if $p$ is accepting in automaton $A$ and $P$ is rejecting in automaton $B$.
 
-Pseudocode of \emph{antichain} approach is algorithm \ref{algAntichain}.
+\subsection{Antichain Algorithm Description}
+The antichains algorithm \cite{cav06} starts searching for a final state of the automaton $\mathcal{A}\times \overline{\mathcal{B}_{det}}$ while
+pruning out the states which are not necessary to explore. $\mathcal{A}$ is explored nondeterministically and $\mathcal{B}$ 
+is gradually determinized, so the algorithm explores pairs $(p,P)$. 
+The antichains algorithm derives new states along the product automaton transitions and inserts them to the set of visited pairs $X$.
+$X$ keeps only minimal elements with respect to the ordering given by $(r,R)\sqsubseteq (p,P)$ iff $r=p \wedge R \subseteq P$. 
+If there is generated a pair $(p,P)$ and there is 
+$(r,R)\in X$ such that $(r,R) \sqsubseteq (p,P)$, we can skip $(p,P)$ and not insert it to $X$ for further search.
+ 
+An improvement of the antichains algorithm using simulation \cite{tacas10} is based on the following optimization. 
+We can stop the search from a pair $(p,P)$ if either (a) there exists some already visited pair $(r,R) \in X$ 
+such that $p\preceq r \wedge R\preceq^{\forall\exists}P$, 
+or (b) there is $p' \in P$ such that $p \preceq p'$. This first
+optimization is in algorithm \ref{algAntichain} at lines 11--14.
+
+Another optimization \cite{tacas10} of the antichain algorithm is based on the fact 
+that $L_\mathcal{A}(P)=L_\mathcal{A}(P-\{p_1\})$ if there exists $p_2 \in P$, such as $p_1 \preceq p_2$. We can remove the state $p_1$ 
+from macrostate $P$, because if $L_\mathcal{A}(P)$ rejects the word 
+then $L_\mathcal{A}(P-\{p_1\})$ rejects this word too. This optimization is applied by the function $Minimize$ at
+the lines 4 and 7 in the algorithm \ref{algAntichain}.
+
+The whole pseudocode of the antichain algorithm is given as algorithm \ref{algAntichain}.
 
 \begin{algorithm}[H]
 	\label{algAntichain}
@@ -521,7 +526,7 @@ Pseudocode of \emph{antichain} approach is algorithm \ref{algAntichain}.
 		\Return TRUE;
 	\caption{Language inclusion checking with antichains and simulations}
 \end{algorithm}\
-\\
+\begin{comment}
 Let describe two optimization use in algorithm \ref{algAntichain} based on \cite{tacas10}. First optimization comes from the observation that
 we can stop search from product-state $(p,P)$, if there exists some visited product state $(r,R)$, 
 such that $p\preceq r \wedge R\preceq^{\forall\exists}P$, or $\exists p'\in P: p \preceq p'$. First part of condition says that 
@@ -533,17 +538,15 @@ optimization is in algorithm \ref{algAntichain} at lines 11--14.
 Second optimization is based on fact, that $L(A)(P)=L(A)(P-\{p_1\})$, if there exists $p_2$, such as $p_1 \preceq p_2$. We can remove the state $p_1$ 
 from macro-state $P$, because if $L(A)(P)$ rejects the word, then $L(A)(P-\{p_1\})$ rejects this word too. This optimization is applied in function $Minimize$ at
 lines 4 and 7 in algorithm \ref{algAntichain}. Proof for this optimization is again in \cite{tacas10}.
-
+\end{comment}
 \section{Checking Inclusion with Bisimulation up to Congruence}
-	Checking inclusion with using \emph{bisimulation up to congruence} is based on \emph{Hopcroft and Karp's} algorithm. Congruence 
-	algorithm serves for checking language equivalence, but it can
-	be used also for checking language inclusion. Indeed, let $X$ and $Y$ be sets of states of NFA's. 
-	So $X \cup Y= Y$,
-	iff $X \subseteq Y $. It is possible to check equivalence for $X+Y$ and $Y$ \cite{popl13}.
+Another approach to checking language inclusion of NFA is based on bisimulation up to congruence\cite{popl13}. This technique was originally developed for
+checking equivalence of languages of automata but it can
+also be used for checking language inclusion, based on the observation that $L_\mathcal{A}\cup L_\mathcal{B}= L_\mathcal{B} 
+\Leftrightarrow L_\mathcal{A}\subseteq L_\mathcal{B}$. 
 
 	Before introduction of the algorithm itself, we will define \emph{congruence} relation.
-	\begin{definition}
-		Let $X$ be a set with n-ary operation $O$ over $X$. \emph{Congruence} is an equivalence relation $R$, 
+	Let $X$ be a set with n-ary operation $O$ over $X$. \emph{Congruence} is an equivalence relation $R$, 
 	which follows this condition $\forall a_1,\ldots,a_n,b_1,\ldots,b_n\in X$:
 		\begin{description}
 			\item $a_1 \sim_{R} b_1,\ldots,a_n \sim_{R} b_n \Rightarrow O_n(a_1,\ldots,a_n) \sim_{R} O_n(b_1,\ldots,b_n)$,

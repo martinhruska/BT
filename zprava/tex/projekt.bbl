@@ -55,12 +55,6 @@ Jesper~G. Henriksen, Ole~J.L. Jensen, Michael~E. Jorgensen, Nils Klarlund,
   analysis of systems, first international workshop (TACAS '95)}. Springer
   Verlag, 1995.
 
-\bibitem{simulations}
-Monika~R. Henzinger, Thomas~A. Henzinger, and Peter~W. Kopke.
-\newblock {Computing Simulations on Finite and Infinite Graphs}.
-\newblock In {\em 36th FOCS}, Annual Symposium on Foundations of Computer
-  Science, pages 453--462. IEEE Computer Society Washington, 1995.
-
 \bibitem{kanthakN04}
 Stephan Kanthak and Hermann Ney.
 \newblock {FSA: An Efficient and Flexible C++ Toolkit for Finite State Automata
