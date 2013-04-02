@@ -401,7 +401,7 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
   The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
 
 \section{Regular Languages}
-		A language $L$ is \emph{regular}, if there exists an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, such that $L=L(\mathcal{A})$.
+		A language $L$ is \emph{regular}, if there exists an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, such that $L=L_\mathcal{A}$.
 
     \subsection{Closure Properties}
     Regular languages are closed under certain operation, if result of this operation on some regular language is always regular language too.
@@ -435,25 +435,35 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 \label{chapInclusion}
 Given a pair of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
 and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$, 
-the \emph{language inclusion problem} is decision whether $L(\mathcal{A}) \subseteq L(\mathcal{B})$ what is defined by standard set operations as
-$L(\mathcal{A})\cap \overline{L(\mathcal{B})} = \varnothing$.
-This problem is PSPACE-complete \cite{cav06}. For decision of language inclusion problem there exists some classical algorithms.
-Classical algorithms are based on searching of accepting state of the product automaton $A\times \overline{B}$. Such state can serve like \emph{witness}, that
-there is no inclusion between $A$ and $B$. Problem of classical (textbook) algorithm is that they are based on explicit determinisation of automaton $B$ 
-via \emph{subset construction}. Of course, if \emph{witness} state is found, algorithm ends, but very often whole DFA is build, what leads to state explosion.
-But many of states are not in fact necessary for inclusion testing. 
+the \emph{language inclusion problem} is decision whether $L_\mathcal{A} \subseteq L_\mathcal{B}$ what is defined by standard set operations as
+$L_\mathcal{A}\cap \overline{L_\mathcal{B}} = \varnothing$.
+This problem is PSPACE-complete \cite{cav06}. The \emph{textbook} algorithm for checking inclusion $L_\mathcal{A}\subseteq L_\mathcal{B}$ works by first 
+determinizing $\mathcal{B}$ (yielding the DFA 
+$\mathcal{B}_{det}$ using subset construction algorithm \ref{subset}), 
+complementing it ($\overline{\mathcal{B}_{det}}$) and constructing the NFA $\mathcal{A} \times \overline{\mathcal{B}_{det}}$ 
+accepting the intersection of $L_{\mathcal{A}}$ and ${L_{\overline{\mathcal{B}_{det}}}}$ and
+checking whether its language is nonempty. Any accepting run in this automaton may serve as a witness that the inclusion between $\mathcal{A}$ 
+and $\mathcal{B}$ does not hold.
+Some recently introduced approaches (so-called antichains \cite{cav06}, its optimization using simulation \cite{tacas10} and so-called bisimulation up to
+congruence \cite{popl13}) avoid the explicit construction of $\overline{\mathcal{B}_{det}}$ and the related state explosion in many cases.
 
-In this work are used two approaches, which do not need explicit determinisation of NFA, 
-first uses \emph{antichains and simulations} \cite{cav06,tacas10} for pruning states of NFA and second uses \emph{bisimulation up to congruence} \cite{popl13}.
-
-Let denote product state as pair $(p,P)$, where $p\in A \wedge P \in B$ 
-
-For these algorithms we have to define post-image of product state of automaton $A\times B$:\
-\begin{definition}
+We have to define following terms for the futher description of the new techniques for the inclusion checking.
+We denote product state of a NFA $\mathcal{A} \times \mathcal{B}$ as pair $(p,P)$ of a state $p\in Q_\mathcal{A}$ and a macrostate $P \in 2^{Q_\mathcal{B}}$.
+We define post-image of the product state $(p,P)$ of a NFA $A\times B$ by:\
 $Post((p,P)):=\{(p',P')\ |\ \exists a \in \Sigma: (p,a,p')\in \delta, P'=\{p''\ |\ \exists p \in P:(p,a,p'')\in \delta\}\}$
-\end{definition}
 
 \section{Checking Inclusion with Antichains and Simulation}
+We define an antichain and simulation before describing the algorithm itself.
+
+Given a partially ordered set $Y$, an \emph {antichain} is a set $X \subseteq Y$ such that all elements of $X$ are incomparable.
+
+A~forward \emph{simulation} on the NFA $\mathcal{A}$ is a relation $\preceq\  \subseteq Q_1 \times Q_1$ 
+such that if $p \preceq r$ then (i) $p \in F_1 
+\Rightarrow r \in F_1$ and (ii) for every transition $p\xrightarrow{a}p'$, there exists a transition 
+$r\xrightarrow{a}r'$ such that $p' \preceq r'$. Note that simulation implies language inclusion, i.e., $p\preceq q \Rightarrow L_\mathcal{A}(p)
+\subseteq L_\mathcal{A}(q)$.
+
+
 First approach uses optimized method based on combination of \emph{antichains with simulation} from \cite{tacas10}.
 Firstly, let define the antichain and simulation (\cite{simulations}).
 \begin{definition}

@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  2 APR 2013 22:03
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  2 APR 2013 22:38
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1043,48 +1043,43 @@ pdfTeX warning (ext4): destination with the same identifier (name{definition.1}
 ) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.452 \begin{definition}
-                        pdfTeX warning (ext4): destination with the same identi
-fier (name{definition.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.459 \begin{definition}
-                        
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 488.
+l.469 \begin{definition}
+                         [9
+
+]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 498.
 
  (/usr/share/texmf/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 488.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 498.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 490.
- [9
-
-]pdfTeX warning (ext4): destination with the same identifier (name{definition.1
-}) has been already used, duplicate ignored
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 500.
+pdfTeX warning (ext4): destination with the same identifier (name{definition.1}
+) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.535 	\begin{definition}
-                         
-Underfull \hbox (badness 10000) in paragraph at lines 544--572
+l.545 	\begin{definition}
+                          [10]
+Underfull \hbox (badness 10000) in paragraph at lines 554--582
 
  []
 
-[10] [11]
+[11]
 Chapter 4.
 [12
 
 ]
 
-LaTeX Warning: Citation `taca10' on page 13 undefined on input line 625.
+LaTeX Warning: Citation `taca10' on page 13 undefined on input line 635.
 
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 647
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 657
 .
 (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
 )
-<fig/vata_design.png, id=335, 546.04pt x 295.1025pt>
+<fig/vata_design.png, id=337, 546.04pt x 295.1025pt>
 File: fig/vata_design.png Graphic file (type png)
  <use fig/vata_design.png>
 [13] [14 <./fig/vata_design.png (PNG copy)>] [15]
@@ -1129,21 +1124,22 @@ Here is how much of TeX's memory you used:
 0pk> </home/martin/.texlive2007/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.
 600pk>{/usr/share/texmf/fonts/enc/dvips/base/8a.enc}</usr/share/texmf/fonts/typ
 e1/bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></
-usr/share/texmf/fonts/type1/bluesky/cm/cmmi8.pfb></usr/share/texmf/fonts/type1/
-bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/sh
-are/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/blues
-ky/cm/cmsy6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy8.pfb></usr/share/
-texmf/fonts/type1/public/cs/csbx10.pfb></usr/share/texmf/fonts/type1/public/cs/
-csbx12.pfb></usr/share/texmf/fonts/type1/public/cs/csbx8.pfb></usr/share/texmf/
-fonts/type1/public/cs/csr10.pfb></usr/share/texmf/fonts/type1/public/cs/csr6.pf
-b></usr/share/texmf/fonts/type1/public/cs/csr8.pfb></usr/share/texmf/fonts/type
-1/public/cs/csr9.pfb></usr/share/texmf/fonts/type1/public/cs/csti10.pfb></usr/s
-hare/texmf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/publi
-c/cs/cstt9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share
-/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (25 pages, 722210 bytes).
+usr/share/texmf/fonts/type1/bluesky/cm/cmmi6.pfb></usr/share/texmf/fonts/type1/
+bluesky/cm/cmmi8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/s
+hare/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf/fonts/type1/bluesk
+y/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy6.pfb></usr/share/
+texmf/fonts/type1/bluesky/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/cs/
+csbx10.pfb></usr/share/texmf/fonts/type1/public/cs/csbx12.pfb></usr/share/texmf
+/fonts/type1/public/cs/csbx8.pfb></usr/share/texmf/fonts/type1/public/cs/csr10.
+pfb></usr/share/texmf/fonts/type1/public/cs/csr6.pfb></usr/share/texmf/fonts/ty
+pe1/public/cs/csr8.pfb></usr/share/texmf/fonts/type1/public/cs/csr9.pfb></usr/s
+hare/texmf/fonts/type1/public/cs/csti10.pfb></usr/share/texmf/fonts/type1/publi
+c/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cstt9.pfb></usr/share/t
+exmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/urw/helve
+tic/uhvr8a.pfb>
+Output written on projekt.pdf (25 pages, 726085 bytes).
 PDF statistics:
- 501 PDF objects out of 1000 (max. 8388607)
+ 506 PDF objects out of 1000 (max. 8388607)
  115 named destinations out of 1000 (max. 131072)
  256 words of extra memory for PDF output out of 10000 (max. 10000000)
 
