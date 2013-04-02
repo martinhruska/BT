@@ -237,7 +237,21 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
       \end{description}
       where $\delta$ is defined by
       \begin{description}
-        \item $\{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_\mathcal{A} \wedge q_1 \xrightarrow{a} q_2 \in \delta_\mathcal{B})\}$\
+        \item $\delta = 
+        \{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_\mathcal{A} \wedge q_1 \xrightarrow{a} q_2 \in \delta_\mathcal{B})\}$\
+      \end{description}
+
+      \subsubsection{Automata Product}
+      \label{defAutProd}
+      Given a pair of NFA, $A=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+      and $B=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$. Their product is defined by
+      \begin{description}
+        \item $A \times B=(Q_\mathcal{A}\times Q_\mathcal{B},\Sigma,\delta,I_\mathcal{A}\times I_\mathcal{B},F_\mathcal{A}\times F_\mathcal{B})$\
+      \end{description}
+      where $\delta$ is defined by
+      \begin{description}
+        \item $\delta = 
+        \{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_\mathcal{A} \wedge q_1 \xrightarrow{a} q_2 \in \delta_\mathcal{B})\}$\
       \end{description}
 
   \subsubsection{Subset construction}
@@ -417,14 +431,14 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 		
 \end{comment}
 
-\chapter{Inclusion Checking of NFA}
+\chapter{Inclusion Checking over NFA}
 \label{chapInclusion}
-Give a pair of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+Given a pair of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
 and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$, 
 the \emph{language inclusion problem} is decision whether $L(\mathcal{A}) \subseteq L(\mathcal{B})$ what is defined by standard set operations as
 $L(\mathcal{A})\cap \overline{L(\mathcal{B})} = \varnothing$.
-This problem is PSPACE-complete \cite{cav06}. For decision of \emph{language inclusion problem} exists some classical algorithms.
-Classical algorithms are based on searching of accepting state of product automaton $A\times \overline{B}$. Such state can serve like \emph{witness}, that
+This problem is PSPACE-complete \cite{cav06}. For decision of language inclusion problem there exists some classical algorithms.
+Classical algorithms are based on searching of accepting state of the product automaton $A\times \overline{B}$. Such state can serve like \emph{witness}, that
 there is no inclusion between $A$ and $B$. Problem of classical (textbook) algorithm is that they are based on explicit determinisation of automaton $B$ 
 via \emph{subset construction}. Of course, if \emph{witness} state is found, algorithm ends, but very often whole DFA is build, what leads to state explosion.
 But many of states are not in fact necessary for inclusion testing. 
