@@ -539,24 +539,43 @@ Second optimization is based on fact, that $L(A)(P)=L(A)(P-\{p_1\})$, if there e
 from macro-state $P$, because if $L(A)(P)$ rejects the word, then $L(A)(P-\{p_1\})$ rejects this word too. This optimization is applied in function $Minimize$ at
 lines 4 and 7 in algorithm \ref{algAntichain}. Proof for this optimization is again in \cite{tacas10}.
 \end{comment}
-\section{Checking Inclusion with Bisimulation up to Congruence}
-Another approach to checking language inclusion of NFA is based on bisimulation up to congruence\cite{popl13}. This technique was originally developed for
-checking equivalence of languages of automata but it can
-also be used for checking language inclusion, based on the observation that $L_\mathcal{A}\cup L_\mathcal{B}= L_\mathcal{B} 
-\Leftrightarrow L_\mathcal{A}\subseteq L_\mathcal{B}$. 
 
-	Before introduction of the algorithm itself, we will define \emph{congruence} relation.
-	Let $X$ be a set with n-ary operation $O$ over $X$. \emph{Congruence} is an equivalence relation $R$, 
+\section{Checking Inclusion with Bisimulation up to Congruence}
+Another approach to checking language inclusion of NFA is based on bisimulation up to congruence\cite{popl13}. The definition of congruence relation is
+following:
+
+	Let $X$ be a set with a n-ary operation $O$ over $X$. Congruence is an equivalence relation $R$, 
 	which follows this condition $\forall a_1,\ldots,a_n,b_1,\ldots,b_n\in X$:
 		\begin{description}
-			\item $a_1 \sim_{R} b_1,\ldots,a_n \sim_{R} b_n \Rightarrow O_n(a_1,\ldots,a_n) \sim_{R} O_n(b_1,\ldots,b_n)$,
+			\item $a_1 \sim_{R} b_1,\ldots,a_n \sim_{R} b_n \Rightarrow O_n(a_1,\ldots,a_n) \sim_{R} O_n(b_1,\ldots,b_n)$, where $a_i \in X, b_i \in X$
 		\end{description}
-		where $a_i \in X, b_i \in X$
-	\end{definition}
 
-	Optimized algorithm uses \emph{congruence closure function} $c$ for pruning out the unnecessary states for checking equivalence.
-	Pseudocode is algorithm \ref{algCongr}.\\
-	\newline
+This technique was originally developed for checking equivalence of languages of automata but it can
+also be used for checking language inclusion, based on the observation that $L_\mathcal{A}\cup L_\mathcal{B}= L_\mathcal{B} 
+\Leftrightarrow L_\mathcal{A}\subseteq L_\mathcal{B}$.
+
+  This approach is based on the computation of a~\emph{congruence closure} $c(R)$ 
+  for some binary relation on states of the determinized automaton $R \subseteq 2^Q\times 2^Q$ defined 
+  %associative, commutative, idempotent binary operation $+: Q\times Q \to Q$ 
+  as a relation $c(R)=(r\cup s\cup t \cup u\cup id)^{\omega}(R)$, where
+  \begin{description}
+  \item $id(R)=R$, 
+  \item $r(R)=\{(X,X)\ |\ X\subseteq Q\}$, 
+  \item $s(R)=\{(Y,X)\ |\ XRY\}$,
+  \item $t(R)=\{(X,Z)\ |\ \exists\,Y\subseteq Q,\ XRYRZ\}$,
+  \item $u(R)=\{(X_1 \cup X_2,Y_1\cup Y_2)\ |\ X_1 R Y_1 \wedge X_2 R Y_2\}$. 
+  \end{description}
+
+
+
+ \subsection{Congruence Algorithm Description}
+
+The congruence algorithm works on a similar principle as the antichains algorithm. 
+It starts building $\mathcal{A}_{det}$ and $\mathcal{B}_{det}$ and checks if macrostates in generated pairs are both
+final or not. The optimization used is based on computing congruence closure of the set of already visited pairs of macrostates. 
+If the generated pair is in this congruence closure, it can be skipped and further not processed.
+	The whole pseudocode of the congruence algorithm is given as algorithm \ref{algCongr}.
+
 	\begin{algorithm}[h]
 		\label{algCongr}
 		\KwIn{NFA's $A=(Q_A,\Sigma,\delta_A,s_A,F_A),\ B=(Q_B,\Sigma,\delta_B,s_B,F_B)$.} 
@@ -582,6 +601,35 @@ also be used for checking language inclusion, based on the observation that $L_\
 			\Return TRUE;
 		\caption{Language equivalence checking with congruence}
 \end{algorithm}
+
+Comparing the mentioned approaches to the checking language inclusion can be seen in Figure \ref{automata}.
+\begin{figure}[bht]
+\begin{center}
+	\scalebox{1}
+	{
+		\includegraphics[scale=0.5]{fig/congr1.pdf}
+		\hspace{0.55cm}
+  	\includegraphics[scale=0.5]{fig/ac1.pdf}
+	}
+  \caption{
+      \rm{
+      \hspace{0.1cm} The picture is based on an example from \cite{tacas10}.
+      It shows the procedure of checking language inclusion between two NFA using the mentioned approaches (which correspond to the labeled areas).
+      %The labeled areas correspond to mentioned approaches.
+      The antichain algorithm reduces number of the generated states compared with the classical,
+      e.g., $(p_2,\{q_1,q_2\})$ is not further explored because $(p_2,\{q_2\}) \sqsubseteq (p_2,\{q_1,q_2\})$. 
+      The optimization a and b are improvements of the antichain algorithm using simulation. 
+      The congruence algorithm also reduces number of the generated states, so $(\{p_1,p_2\},\{q_1,q_2\})$ 
+      is not further explored because it is in congruence closure 
+      of the set of visited states.}}
+      %It shows macrostates 
+			%that are generated when checking language inclusion between two NFA using different approaches. Optimization a and b
+			%correspond to the parts of the improvement of antichain algorithm using simulation.}}
+  \label{automata}
+\end{center}
+\end{figure}
+
+
 
 \chapter{Existing Finite Automata Libraries and VATA library} %TODO: zvazit zobecneni na prehled existujicich knihoven
 \label{libraries}
