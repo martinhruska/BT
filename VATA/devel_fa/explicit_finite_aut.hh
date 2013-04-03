@@ -88,7 +88,8 @@ class VATA::ExplicitFiniteAut : public AutBase {
     const ExplicitFiniteAut<SymbolType>& bigger, 
     const Rel& preorder); 
 
-
+  template<class SymbolType>
+  friend class ExplicitFAInclusionFunctor;
 
 public:
 	typedef Symbol SymbolType;

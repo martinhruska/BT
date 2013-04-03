@@ -19,6 +19,7 @@
 #include "explicit_finite_candidate.hh"
 #include "explicit_finite_transl.hh"
 #include "explicit_finite_incl.hh"
+#include "explicit_finite_incl_fctor.hh"
 
 namespace VATA {
 

@@ -2,7 +2,11 @@
 #define EXPLICIT_FINITE_AUT_INCL_HH_
 
 #include <vata/vata.hh>
+#include <vata/util/antichain2c_v2.hh>
 #include "explicit_finite_aut.hh"
+#include "explicit_finite_incl_fctor.hh"
+
+#include <vector> 
 
 namespace VATA {
 
@@ -19,12 +23,13 @@ bool VATA::CheckFiniteAutInclusion(
   const VATA::ExplicitFiniteAut<SymbolType>& bigger, 
   const Rel& preorder) {
  
-  typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
-  typedef typename ExplicitFA::StateType StateType;
+  typedef VATA::ExplicitFAInclusionFunctor<SymbolType> InclFunc;
+  typedef typename InclFunc::ExplicitFA ExplicitFA;
 
-  typedef typename ExplicitFA::StateType StateType;
-  typedef std::unordered_set<StateType> StateSet;
-  typedef std::unordered_map<StateType,StateSet&> Antichain;
+  typedef typename InclFunc::StateType StateType;
+  typedef typename InclFunc::StateSet StateSet;
+
+  typedef typename InclFunc::Antichain Antichain;
 
   // actually processed macro state
   std::unordered_set<StateType> procMacroState; 
@@ -32,6 +37,19 @@ bool VATA::CheckFiniteAutInclusion(
   StateType procState;
   bool macroFinal=false;
   Antichain antichain;
+
+
+  // Comparator of macro states
+  auto comparator = 
+    [](const StateSet& lhs, const StateSet& rhs) -> bool {
+      bool res=true;
+      for (auto& lstate : lhs) {
+        // search for state, which is not in rhs
+        res = rhs.count(lstate);
+        std::cout << res << std::endl;
+      }
+      return res;
+  };
 
   // Create macro state of initial states
   for (StateType startState : bigger.startStates_) {
@@ -43,7 +61,9 @@ bool VATA::CheckFiniteAutInclusion(
   for (StateType smallState : smaller.startStates_) {
     inclNotHold |= smaller.IsStateFinal(smallState) && !macroFinal;
     // Add to antichain
-    antichain.insert(std::make_pair(smallState,procMacroState));
+    std::vector<StateType> tempStateSet = {smallState};
+    antichain.refine(tempStateSet,procMacroState,comparator);
+    antichain.insert(smallState,procMacroState);
   }
 
   return !inclNotHold;
