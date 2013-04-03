@@ -37,8 +37,9 @@ bool VATA::CheckFiniteAutInclusion(
   StateType procState;
   bool macroFinal=false;
   AntichainType antichain;
+  AntichainType next;
 
-  InclFunc inclFunc(antichain);
+  InclFunc inclFunc(antichain,next);
 
   // Create macro state of initial states
   for (StateType startState : bigger.startStates_) {
@@ -48,6 +49,16 @@ bool VATA::CheckFiniteAutInclusion(
 
   bool inclNotHold = false;
 
+  auto macroAcceptChecker = [](const ExplicitFA& bigger, StateSet& macroState)->
+    bool {
+      for (const StateType& state : macroState){
+        if (bigger.IsStateFinal(state)) {
+          return true; // if one is accepting and whole macrostate is accepting
+        }
+      }
+      return false;
+    };
+
   // Check the initial states
   for (StateType smallState : smaller.startStates_) {
     inclNotHold |= smaller.IsStateFinal(smallState) && !macroFinal;
@@ -56,12 +67,23 @@ bool VATA::CheckFiniteAutInclusion(
 
   procMacroState.clear();
 
-  while(antichain.get(procState,procMacroState)) {
+  while(next.get(procState,procMacroState)) {
     // Iterate through the all symbols in the transitions for the given state
     for (auto& smallerSymbolToState : *(smaller.transitions_->
           find(procState)->second)) {
-      for (auto& smallerStateInSet : *smallerSymbolToState.second) {
-      return false;
+      for (const StateType& smallerStateInSet : *smallerSymbolToState.second) {
+
+        StateSet newMacroState;
+        // Create new macro state from current macro state for given symbol
+        for (const StateType& stateInMacro : procMacroState) {
+          for (const StateType& biggerStateInSet : *(bigger.transitions_->
+           find(stateInMacro)->second-> // Transition for given state
+           find(smallerSymbolToState.first)->second)) { // States for given symbol
+            newMacroState.insert(biggerStateInSet);
+          }
+        } // end creating new macro state
+        inclNotHold |= smaller.IsStateFinal(smallerStateInSet) && !macroAcceptChecker(bigger,newMacroState);
+        inclFunc.AddNewPairToAntichain(smallerStateInSet,newMacroState);
       }
     }
 

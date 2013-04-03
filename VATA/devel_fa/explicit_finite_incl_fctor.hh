@@ -22,10 +22,12 @@ public : // data types
 
 private: // data memebers
   AntichainType& antichain_;
+  AntichainType& next_;
 
 public: // constructor
-  ExplicitFAInclusionFunctor(AntichainType& antichain) :
-    antichain_(antichain)
+  ExplicitFAInclusionFunctor(AntichainType& antichain, AntichainType& next) :
+    antichain_(antichain),
+    next_(next)
   {}
 
 public: // public functions
@@ -38,6 +40,21 @@ public: // public functions
     if (!antichain_.contains(tempStateSet,set,comparator)) {
       antichain_.refine(tempStateSet,set,comparator);
       antichain_.insert(state,set);
+      AddToNext(state,set);
+    }
+  }
+
+private: // private functions
+  void AddToNext (StateType state, StateSet &set) {
+
+    // Comparator of macro states
+    auto comparator = [](const StateSet& lhs, const StateSet& rhs) { 
+      return lhs.IsSubsetOf(rhs); };
+
+    std::vector<StateType> tempStateSet = {state};
+    if (!next_.contains(tempStateSet,set,comparator)) {
+      next_.refine(tempStateSet,set,comparator);
+      next_.insert(state,set);
     }
   }
 };
