@@ -17,6 +17,9 @@ namespace VATA {
     const Rel& preorder);
 }
 
+//TODO refractoring a presun neceho do incl_fctor
+//TODO zpristupneni i pro simulaci
+
 template<class SymbolType, class Rel>
 bool VATA::CheckFiniteAutInclusion(
   const VATA::ExplicitFiniteAut<SymbolType>& smaller, 
@@ -49,6 +52,7 @@ bool VATA::CheckFiniteAutInclusion(
 
   bool inclNotHold = false;
 
+  // TODO mozna by to slo delat v kodu efektivneji - bez nutnost druheho pruchodu
   auto macroAcceptChecker = [](const ExplicitFA& bigger, StateSet& macroState)->
     bool {
       for (const StateType& state : macroState){
