@@ -29,27 +29,16 @@ bool VATA::CheckFiniteAutInclusion(
   typedef typename InclFunc::StateType StateType;
   typedef typename InclFunc::StateSet StateSet;
 
-  typedef typename InclFunc::Antichain Antichain;
+  typedef typename InclFunc::AntichainType AntichainType;
 
   // actually processed macro state
-  std::unordered_set<StateType> procMacroState; 
+  StateSet procMacroState; 
   // actually processed state
   StateType procState;
   bool macroFinal=false;
-  Antichain antichain;
+  AntichainType antichain;
 
-
-  // Comparator of macro states
-  auto comparator = 
-    [](const StateSet& lhs, const StateSet& rhs) -> bool {
-      bool res=true;
-      for (auto& lstate : lhs) {
-        // search for state, which is not in rhs
-        res = rhs.count(lstate);
-        std::cout << res << std::endl;
-      }
-      return res;
-  };
+  InclFunc inclFunc(antichain);
 
   // Create macro state of initial states
   for (StateType startState : bigger.startStates_) {
@@ -58,14 +47,26 @@ bool VATA::CheckFiniteAutInclusion(
   }
 
   bool inclNotHold = false;
+
+  // Check the initial states
   for (StateType smallState : smaller.startStates_) {
     inclNotHold |= smaller.IsStateFinal(smallState) && !macroFinal;
-    // Add to antichain
-    std::vector<StateType> tempStateSet = {smallState};
-    antichain.refine(tempStateSet,procMacroState,comparator);
-    antichain.insert(smallState,procMacroState);
+    inclFunc.AddNewPairToAntichain(smallState,procMacroState);
   }
 
+  procMacroState.clear();
+
+  while(antichain.get(procState,procMacroState)) {
+    // Iterate through the all symbols in the transitions for the given state
+    for (auto& smallerSymbolToState : *(smaller.transitions_->
+          find(procState)->second)) {
+      for (auto& smallerStateInSet : *smallerSymbolToState.second) {
+      return false;
+      }
+    }
+
+    procMacroState.clear();
+  }
   return !inclNotHold;
 }
 

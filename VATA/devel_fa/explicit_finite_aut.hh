@@ -99,7 +99,19 @@ private: // private type definitions
 	typedef std::vector<SymbolType> AlphabetType;
 
 	typedef std::string string;
-	typedef std::unordered_set<StateType> StateSet;
+
+  // Added subset operation to unordered_set
+	class StateSet : public std::unordered_set<StateType>  {
+  public:
+    bool IsSubsetOf(const StateSet& rhs) const {
+      for (StateType state : *this) {
+        if (!rhs.count(state)) { // counterexample found
+         return false;
+        }
+       }
+      return true;
+    }
+  };
 	typedef VATA::Util::AutDescription AutDescription;
 	typedef AutDescription::State State;
 
