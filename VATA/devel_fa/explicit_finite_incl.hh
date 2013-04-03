@@ -22,10 +22,18 @@ bool VATA::CheckFiniteAutInclusion(
   typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
   typedef typename ExplicitFA::StateType StateType;
 
-  std::unordered_set<StateType> procMacroState;
+  typedef typename ExplicitFA::StateType StateType;
+  typedef std::unordered_set<StateType> StateSet;
+  typedef std::unordered_map<StateType,StateSet&> Antichain;
+
+  // actually processed macro state
+  std::unordered_set<StateType> procMacroState; 
+  // actually processed state
   StateType procState;
   bool macroFinal=false;
+  Antichain antichain;
 
+  // Create macro state of initial states
   for (StateType startState : bigger.startStates_) {
     procMacroState.insert(startState);
     macroFinal |= bigger.IsStateFinal(startState);
@@ -34,7 +42,8 @@ bool VATA::CheckFiniteAutInclusion(
   bool inclNotHold = false;
   for (StateType smallState : smaller.startStates_) {
     inclNotHold |= smaller.IsStateFinal(smallState) && !macroFinal;
-    // Tady bude pridavani do antichainu
+    // Add to antichain
+    antichain.insert(std::make_pair(smallState,procMacroState));
   }
 
   return !inclNotHold;
