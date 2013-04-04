@@ -46,44 +46,15 @@ bool VATA::CheckFiniteAutInclusion(
     return false;
   }
 
-  // TODO mozna by to slo delat v kodu efektivneji - bez nutnost druheho pruchodu
-  auto macroAcceptChecker = [](const ExplicitFA& bigger, StateSet& macroState)->
-    bool {
-      for (const StateType& state : macroState){
-        if (bigger.IsStateFinal(state)) {
-          return true; // if one is accepting and whole macrostate is accepting
-        }
-      }
-      return false;
-    };
-
   bool inclNotHold = false;
   // actually processed macro state
   StateSet procMacroState; 
   StateType procState;
   while(next.get(procState,procMacroState)) {
-    // Iterate through the all symbols in the transitions for the given state
-    for (auto& smallerSymbolToState : *(smaller.transitions_->
-          find(procState)->second)) {
-      for (const StateType& smallerStateInSet : *smallerSymbolToState.second) {
-
-        StateSet newMacroState;
-        // Create new macro state from current macro state for given symbol
-        for (const StateType& stateInMacro : procMacroState) {
-          for (const StateType& biggerStateInSet : *(bigger.transitions_->
-           find(stateInMacro)->second-> // Transition for given state
-           find(smallerSymbolToState.first)->second)) { // States for given symbol
-            newMacroState.insert(biggerStateInSet);
-          }
-        } // end creating new macro state
-        inclNotHold |= smaller.IsStateFinal(smallerStateInSet) && !macroAcceptChecker(bigger,newMacroState);
-        inclFunc.AddNewPairToAntichain(smallerStateInSet,newMacroState);
-      }
-    }
-
+    inclFunc.MakePost(procState,procMacroState);
     procMacroState.clear();
   }
-  return !inclNotHold;
+  return inclFunc.DoesInclusionHold();
 }
 
 
