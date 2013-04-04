@@ -24,13 +24,24 @@ private: // data memebers
   AntichainType& antichain_;
   AntichainType& next_;
 
+  const ExplicitFA& smaller_;
+  const ExplicitFA& bigger_;
+
+  bool inclNotHold_;
+
 public: // constructor
-  ExplicitFAInclusionFunctor(AntichainType& antichain, AntichainType& next) :
+  ExplicitFAInclusionFunctor(AntichainType& antichain, AntichainType& next,
+      const ExplicitFA& smaller, 
+      const ExplicitFA& bigger) :
     antichain_(antichain),
-    next_(next)
+    next_(next),
+    smaller_(smaller),
+    bigger_(bigger),
+    inclNotHold_(false)
   {}
 
 public: // public functions
+
   void AddNewPairToAntichain(StateType state, StateSet &set) {
     // Comparator of macro states
     auto comparator = [](const StateSet& lhs, const StateSet& rhs) { 
@@ -42,6 +53,28 @@ public: // public functions
       antichain_.insert(state,set);
       AddToNext(state,set);
     }
+  }
+
+  // Initialize the antichain from init states of given automata
+  void Init() {
+    bool macroFinal=false;
+    StateSet procMacroState; 
+
+    // Create macro state of initial states
+    for (StateType startState : bigger_.startStates_) {
+      procMacroState.insert(startState);
+      macroFinal |= bigger_.IsStateFinal(startState);
+    }
+
+    // Check the initial states
+    for (StateType smallState : smaller_.startStates_) {
+      inclNotHold_ |= smaller_.IsStateFinal(smallState) && !macroFinal;
+      this->AddNewPairToAntichain(smallState,procMacroState);
+    }
+  }
+
+  bool DoesInclusionHold() {
+    return !inclNotHold_;
   }
 
 private: // private functions

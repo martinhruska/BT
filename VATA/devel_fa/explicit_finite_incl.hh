@@ -34,23 +34,17 @@ bool VATA::CheckFiniteAutInclusion(
 
   typedef typename InclFunc::AntichainType AntichainType;
 
-  // actually processed macro state
-  StateSet procMacroState; 
   // actually processed state
-  StateType procState;
-  bool macroFinal=false;
   AntichainType antichain;
   AntichainType next;
 
-  InclFunc inclFunc(antichain,next);
+  InclFunc inclFunc(antichain,next,smaller,bigger);
 
-  // Create macro state of initial states
-  for (StateType startState : bigger.startStates_) {
-    procMacroState.insert(startState);
-    macroFinal |= bigger.IsStateFinal(startState);
+  inclFunc.Init();
+
+  if (!inclFunc.DoesInclusionHold()) {
+    return false;
   }
-
-  bool inclNotHold = false;
 
   // TODO mozna by to slo delat v kodu efektivneji - bez nutnost druheho pruchodu
   auto macroAcceptChecker = [](const ExplicitFA& bigger, StateSet& macroState)->
@@ -63,14 +57,10 @@ bool VATA::CheckFiniteAutInclusion(
       return false;
     };
 
-  // Check the initial states
-  for (StateType smallState : smaller.startStates_) {
-    inclNotHold |= smaller.IsStateFinal(smallState) && !macroFinal;
-    inclFunc.AddNewPairToAntichain(smallState,procMacroState);
-  }
-
-  procMacroState.clear();
-
+  bool inclNotHold = false;
+  // actually processed macro state
+  StateSet procMacroState; 
+  StateType procState;
   while(next.get(procState,procMacroState)) {
     // Iterate through the all symbols in the transitions for the given state
     for (auto& smallerSymbolToState : *(smaller.transitions_->
