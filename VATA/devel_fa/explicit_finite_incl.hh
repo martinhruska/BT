@@ -61,11 +61,13 @@ bool VATA::CheckFiniteAutInclusion(
       std::cout << std::endl;
   };
 
+  /*
   printStateSet(smaller.startStates_);
   printStateSet(smaller.finalStates_);
   printStateSet(bigger.startStates_);
   printStateSet(bigger.finalStates_);
-
+  */
+  
   while(next.get(procState,procMacroState) && inclFunc.DoesInclusionHold()) {
     inclFunc.MakePost(procState,procMacroState);
     procMacroState.clear();
