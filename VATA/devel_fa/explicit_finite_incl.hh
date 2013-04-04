@@ -17,7 +17,6 @@ namespace VATA {
     const Rel& preorder);
 }
 
-//TODO refractoring a presun neceho do incl_fctor
 //TODO zpristupneni i pro simulaci
 
 template<class SymbolType, class Rel>
@@ -40,6 +39,7 @@ bool VATA::CheckFiniteAutInclusion(
 
   InclFunc inclFunc(antichain,next,smaller,bigger);
 
+  // Initialization of antichain sets from initial states of automata
   inclFunc.Init();
 
   if (!inclFunc.DoesInclusionHold()) {
@@ -50,7 +50,23 @@ bool VATA::CheckFiniteAutInclusion(
   // actually processed macro state
   StateSet procMacroState; 
   StateType procState;
-  while(next.get(procState,procMacroState)) {
+
+  StateType s;
+  for (auto state : smaller.finalStates_) s = state;
+  auto printStateSet = [&preorder,&s](StateSet set)-> void {
+    for (auto& state : set) {
+      std::cout << "Simulation: " << preorder.get(state,s) << " " << s << " " <<  state << std::endl;
+      s = state;
+    }
+      std::cout << std::endl;
+  };
+
+  printStateSet(smaller.startStates_);
+  printStateSet(smaller.finalStates_);
+  printStateSet(bigger.startStates_);
+  printStateSet(bigger.finalStates_);
+
+  while(next.get(procState,procMacroState) && inclFunc.DoesInclusionHold()) {
     inclFunc.MakePost(procState,procMacroState);
     procMacroState.clear();
   }

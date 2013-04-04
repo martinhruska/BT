@@ -42,19 +42,6 @@ public: // constructor
 
 public: // public functions
 
-  void AddNewPairToAntichain(StateType state, StateSet &set) {
-    // Comparator of macro states
-    auto comparator = [](const StateSet& lhs, const StateSet& rhs) { 
-      return lhs.IsSubsetOf(rhs); };
-
-    std::vector<StateType> tempStateSet = {state};
-    if (!antichain_.contains(tempStateSet,set,comparator)) {
-      antichain_.refine(tempStateSet,set,comparator);
-      antichain_.insert(state,set);
-      AddToNext(state,set);
-    }
-  }
-
   // Initialize the antichain from init states of given automata
   void Init() {
     bool macroFinal=false;
@@ -94,30 +81,53 @@ public: // public functions
     // Iterate through the all symbols in the transitions for the given state
     for (auto& smallerSymbolToState : *(smaller_.transitions_->
           find(procState)->second)) {
-      for (const StateType& smallerStateInSet : *smallerSymbolToState.second) {
+      for (const StateType& newSmallerState : *smallerSymbolToState.second) {
         StateSet newMacroState;
 
-        // Create new macro state from current macro state for given symbol
-        for (const StateType& stateInMacro : procMacroState) {
-          for (const StateType& biggerStateInSet : *(bigger_.transitions_->
-           find(stateInMacro)->second-> // Transition for given state
-           find(smallerSymbolToState.first)->second)) { // States for given symbol
-            newMacroState.insert(biggerStateInSet);
-          }
-        } // end creating new macro state
-        inclNotHold_ |= smaller_.IsStateFinal(smallerStateInSet) && 
-          !macroAcceptChecker(bigger_,newMacroState);
-        this->AddNewPairToAntichain(smallerStateInSet,newMacroState);
+        this->CreatePostOfMacroState(
+            newMacroState,procMacroState,smallerSymbolToState.first);
+        inclNotHold_ |= smaller_.IsStateFinal(newSmallerState) && 
+        !macroAcceptChecker(bigger_,newMacroState);
+
+        this->AddNewPairToAntichain(newSmallerState,newMacroState);
       }
     }
 
   }
 
-  bool DoesInclusionHold() {
+  inline bool DoesInclusionHold() {
     return !inclNotHold_;
   }
 
 private: // private functions
+
+  /*
+   * Create a new post macro state of the given 
+   * macrostate for given symbol, 
+   * which is stored to the given StateSet
+   */
+  void CreatePostOfMacroState(StateSet& newMacroState,
+      StateSet& procMacroState,
+      const SymbolType& symbol) {
+    // Create new macro state from current macro state for given symbol
+    for (const StateType& stateInMacro : procMacroState) {
+      this->CopySet(*(bigger_.transitions_->
+          find(stateInMacro)->second-> // Transition for given state
+          find(symbol)->second), // States for given symbol
+          newMacroState); 
+    } // end creating new macro state
+ }
+
+  /*
+   * Copy one set to another 
+   */
+  inline void CopySet(StateSet& fullset, StateSet& emptyset) {
+    emptyset.insert(fullset.begin(),fullset.end());
+  }
+
+  /*
+   * Add product state to the next set
+   */
   void AddToNext (StateType state, StateSet &set) {
 
     // Comparator of macro states
@@ -130,6 +140,20 @@ private: // private functions
       next_.insert(state,set);
     }
   }
+
+  void AddNewPairToAntichain(StateType state, StateSet &set) {
+    // Comparator of macro states
+    auto comparator = [](const StateSet& lhs, const StateSet& rhs) { 
+      return lhs.IsSubsetOf(rhs); };
+
+    std::vector<StateType> tempStateSet = {state};
+    if (!antichain_.contains(tempStateSet,set,comparator)) {
+      antichain_.refine(tempStateSet,set,comparator);
+      antichain_.insert(state,set);
+      AddToNext(state,set);
+    }
+  }
+
 };
 
 #endif

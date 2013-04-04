@@ -144,7 +144,7 @@ private: // private type definitions
 */
 
   // The states on the right side of transitions
-  typedef std::set<StateType> RStateSet;
+  typedef StateSet RStateSet;
 	typedef std::shared_ptr<RStateSet> RStateSetPtr;
 
 	class TransitionCluster : public std::unordered_map<SymbolType,RStateSetPtr>{
