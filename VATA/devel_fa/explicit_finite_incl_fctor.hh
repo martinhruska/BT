@@ -107,13 +107,22 @@ private: // private functions
    * which is stored to the given StateSet
    */
   void CreatePostOfMacroState(StateSet& newMacroState,
-      StateSet& procMacroState,
-      const SymbolType& symbol) {
+      StateSet& procMacroState, const SymbolType& symbol) {
+
     // Create new macro state from current macro state for given symbol
     for (const StateType& stateInMacro : procMacroState) {
-      this->CopySet(*(bigger_.transitions_->
-          find(stateInMacro)->second-> // Transition for given state
-          find(symbol)->second), // States for given symbol
+      
+      auto transForState = bigger_.transitions_->
+          find(stateInMacro)->second; // Transition for given state
+      assert(transForState != bigger_.transitions_->end());
+
+      // States for given symbol
+      auto symbolToStateSet = transForState->find(symbol);
+      if (symbolToStateSet == transForState->end()) {
+        continue;
+      }
+
+      this->CopySet(*(symbolToStateSet->second), 
           newMacroState); 
     } // end creating new macro state
  }
