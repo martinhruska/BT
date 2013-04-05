@@ -375,11 +375,12 @@ public:
 					for (auto& rs : *s.second) {
 						std::vector<std::string> leftStateAsTuple;
 						leftStateAsTuple.push_back(statePrinter(ls.first));
-            
+           
+            /* DEBUG
             std::cerr  <<  "Printing left state: "  << ls.first  <<  " " << statePrinter(ls.first)  <<  std::endl;
             std::cerr  <<  "Printing right state: "  <<  rs   <<  " "  <<   statePrinter(rs)  <<  std::endl;
             std::cerr  <<  "Printing symbol: "  << symbolPrinter(s.first)  <<  std::endl;
-            
+            */
 						AutDescription::Transition trans(
 							leftStateAsTuple,
 							symbolPrinter(s.first),
@@ -418,9 +419,10 @@ public:
 
 			//assert(stateClusterPair.second);
 
-      std::cerr  << "Original left state: "  <<   stateClusterPair.first  <<  std::endl;
+      //DEBUG
+      //std::cerr  << "Original left state: "  <<   stateClusterPair.first  <<  std::endl;
 			auto cluster = clusterMap->uniqueCluster(index[stateClusterPair.first]);
-      std::cerr  << "Reindex left state: "  <<  index[stateClusterPair.first]  <<  std::endl;
+      //std::cerr  << "Reindex left state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 
 			for (auto& symbolRStateSetPair : *stateClusterPair.second) {
 
@@ -429,9 +431,9 @@ public:
 				RStateSetPtr rstatesSet = cluster->uniqueRStateSet(symbolRStateSetPair.first);
 
 				for (auto& rState : *symbolRStateSetPair.second) {
-          std::cerr  << "Original right state: "  <<   stateClusterPair.first  <<  std::endl;
+          //std::cerr  << "Original right state: "  <<   stateClusterPair.first  <<  std::endl; DEBUG
 					rstatesSet->insert(index[rState]);
-          std::cerr  << "Reindex right state: "  <<  index[stateClusterPair.first]  <<  std::endl;
+          //std::cerr  << "Reindex right state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 				}
 			}
 		}
@@ -504,14 +506,14 @@ public: // Public setter
     
     // Add start transition
     if (!this->startStateToSymbols_.count(state)) {
-      std::cerr << "Adding a new start states "  <<  state << std::endl;
+      //std::cerr << "Adding a new start states "  <<  state << std::endl; DEBUG
       this->startStateToSymbols_.insert(
          std::make_pair(state,std::unordered_set<SymbolType>())).
          first->second.insert(symbol);
-      std::cerr << "Start symbol size: "  <<  this->startStateToSymbols_.size() << std::endl;
+      //std::cerr << "Start symbol size: "  <<  this->startStateToSymbols_.size() << std::endl;
     }
     else { // Just add new symbol
-      std::cerr << "Symbol already added" << std::endl;
+      //std::cerr << "Symbol already added" << std::endl;
       this->startStateToSymbols_.find(state)->second.insert(symbol);
     }
 	}
