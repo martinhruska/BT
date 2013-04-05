@@ -35,11 +35,25 @@ bool VATA::CheckFiniteAutInclusion(
   typedef typename InclFunc::Antichain1Type Antchain1Type;
 
   
+  typedef typename InclFunc::IndexType IndextType;
+  typedef typename InclFunc::HeadType HeadType;
+
   AntichainType antichain;
   AntichainType next;
   Antichain1Type singleAntichain;
 
-  InclFunc inclFunc(antichain,next,singleAntichain,smaller,bigger,rel);
+
+  IndexType index;
+  HeadType head;
+
+  InclFunc inclFunc(antichain,next,singleAntichain,
+      smaller,bigger,index,head,rel);
+
+  preorder.buildIndex(index,head);
+
+  for (auto i : index) {
+    std::cout << "Index " << i << std::endl;
+  }
 
   // Initialization of antichain sets from initial states of automata
   inclFunc.Init();

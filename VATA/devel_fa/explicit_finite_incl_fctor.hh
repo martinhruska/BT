@@ -22,6 +22,8 @@ public : // data types
   typedef VATA::Util::Antichain2Cv2<StateType,StateSet> AntichainType;
   typedef VATA::Util::Antichain1C<StateType> Antichain1Type;
 
+  typedef std::vector<size_t> IndexType;
+  typedef std::vector<size_t> HeadType;
 
 private: // data memebers
   AntichainType& antichain_;
@@ -30,6 +32,9 @@ private: // data memebers
 
   const ExplicitFA& smaller_;
   const ExplicitFA& bigger_;
+
+  IndexType& index_;
+  HeadType& head_;
 
   Rel preorder_; // Simulation or identity
 
@@ -40,13 +45,17 @@ public: // constructor
       Antichain1Type & singleAntichain;
       const ExplicitFA& smaller, 
       const ExplicitFA& bigger,
+      IndexType& index,
+      HeadType& head,
       Rel preorder) :
     antichain_(antichain),
     next_(next),
     singleAntichain_(singleAntichain),
     smaller_(smaller),
     bigger_(bigger),
-    preorder_(rel);
+    index_(index),
+    head_(head),
+    preorder_(rel),
     inclNotHold_(false)
   {}
 
