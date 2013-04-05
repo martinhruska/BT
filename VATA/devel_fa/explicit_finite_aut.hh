@@ -147,6 +147,8 @@ private: // private type definitions
   typedef StateSet RStateSet;
 	typedef std::shared_ptr<RStateSet> RStateSetPtr;
 
+	typedef std::unordered_map<SymbolType,RStateSet> TransitionCluster;
+  /*
 	class TransitionCluster : public std::unordered_map<SymbolType,RStateSetPtr>{
 	public:
 		const RStateSetPtr& uniqueRStateSet(const SymbolType &symbol){
@@ -162,7 +164,8 @@ private: // private type definitions
       }
 			return rstateSetPtr;
 		}
-	}; 
+	};
+  */
 
 	typedef std::shared_ptr<TransitionCluster> TransitionClusterPtr; // TODO dodelat pointer na cluster
 

@@ -88,16 +88,20 @@ public: // public functions
    */
   void MakePost(StateType procState, StateSet& procMacroState) {
 
-    // TODO mozna by to slo delat v kodu efektivneji - bez nutnost druheho pruchodu
+    /*
     auto macroAcceptChecker = [](const ExplicitFA& bigger, StateSet& macroState)->
       bool {
+//        bool res=false;
         for (const StateType& state : macroState){
+//          res |= bigger.IsStateFinal(state);
           if (bigger.IsStateFinal(state)) {
             return true; // if one is accepting and whole macrostate is accepting
           }
         }
         return false;
+//OPT        return res;
       };
+*/
 
     // Iterate through the all symbols in the transitions for the given state
     for (auto& smallerSymbolToState : *(smaller_.transitions_->
@@ -105,11 +109,12 @@ public: // public functions
       for (const StateType& newSmallerState : *smallerSymbolToState.second) {
         StateSet newMacroState;
 
-        this->CreatePostOfMacroState(
+        bool IsMacroAccepting = this->CreatePostOfMacroState(
             newMacroState,procMacroState,smallerSymbolToState.first);
 
         inclNotHold_ |= smaller_.IsStateFinal(newSmallerState) && 
-          !macroAcceptChecker(bigger_,newMacroState);
+          !IsMacroAccepting; 
+//          !macroAcceptChecker(bigger_,newMacroState); 
 
         this->AddNewPairToAntichain(newSmallerState,newMacroState);
       }
@@ -127,11 +132,13 @@ private: // private functions
   /*
    * Create a new post macro state of the given 
    * macrostate for given symbol, 
-   * which is stored to the given StateSet
+   * which is stored to the given StateSet.
+   * @Return True if created macrostates is final in bigger NFA
    */
-  void CreatePostOfMacroState(StateSet& newMacroState,
+  bool CreatePostOfMacroState(StateSet& newMacroState,
       StateSet& procMacroState, const SymbolType& symbol) {
 
+    bool res = false;
     // Create new macro state from current macro state for given symbol
     for (const StateType& stateInMacro : procMacroState) {
       
@@ -145,9 +152,17 @@ private: // private functions
         continue;
       }
 
+      for (auto& s : *symbolToStateSet->second) {
+        newMacroState.insert(s);
+        res |= bigger_.IsStateFinal(s);
+      }
+      /* OPT
       this->CopySet(*(symbolToStateSet->second), 
           newMacroState); 
     } // end creating new macro state
+          */
+    }
+    return res;
   }
 
   /*
@@ -166,26 +181,31 @@ private: // private functions
     }
   }
 
+  /*
+   * Add a new product state to the antichains sets
+   */
   void AddNewPairToAntichain(StateType state, StateSet &set) {
     // Comparator of macro states
-   /*
-    auto comparator = [](const StateSet& lhs, const StateSet& rhs) { 
-      return lhs.IsSubsetOf(rhs); };
-   */
-
     auto comparator = [&preorder_](const StateSet& lss, const StateSet& rss) -> bool {
+      bool res = true;
       for (auto ls : lss) {
-        bool res = false;
+        bool tempres = false;
         for (auto rs : rss) {
+          //tempres |= preorder_.get(ls,rs);
           if (preorder_.get(ls,rs)) {
-            res = true;
+            tempres |= true;
+            break;
           }
         }
+        res &= tempres;
+        /*
         if (!res) {
           return false;
         }
+        */
       }
-      return true;
+      //return true;
+      return res;
     };
     
 
@@ -209,6 +229,9 @@ private: // private functions
     }
   }
 
+  /*
+   * Add state to the small antichain
+   */
   void AddToSingleAC(StateType state) {
     std::vector<StateType> tempStateSet = {state};
     if (!singleAntichain_.contains(tempStateSet)) {
