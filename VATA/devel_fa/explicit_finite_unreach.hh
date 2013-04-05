@@ -49,13 +49,15 @@ while (!newStates.empty()) {
  }
 }
 
+/* DEBUG
   std::cerr << "reachable " << reachableStates.size() << " " << aut.transitions_->size() << std::endl;
+  */
   /* Commented because of useless state  makes it not hold
 if (reachableStates.size() == aut.transitions_->size()) {
   return aut;
 }
 */
-  std::cerr << "reachable " << std::endl;
+ // std::cerr << "reachable " << std::endl;
 
   ExplicitFA res;
   res.startStates_ = aut.startStates_;
@@ -80,7 +82,7 @@ if (reachableStates.size() == aut.transitions_->size()) {
     res.transitions_->insert(std::make_pair(state,stateToClusterIterator->second));
   }
 
-  std::cerr << "final states size " << res.finalStates_.size() << std::endl; 
+//  std::cerr << "final states size " << res.finalStates_.size() << std::endl; DEBUG
 
   return res;
 }
