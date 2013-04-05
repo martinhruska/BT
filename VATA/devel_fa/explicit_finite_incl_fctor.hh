@@ -3,13 +3,14 @@
 
 #include <vata/vata.hh>
 #include <vata/util/antichain2c_v2.hh>
+#include <vata/util/antichain1c.hh>
 #include "explicit_finite_aut.hh"
 
 namespace VATA {
-  template <class SymbolType> class ExplicitFAInclusionFunctor;
+  template <class SymbolType, class Rel> class ExplicitFAInclusionFunctor;
 }
 
-template <class SymbolType>
+template <class SymbolType, class Rel>
 class VATA::ExplicitFAInclusionFunctor {
 
 public : // data types
@@ -19,24 +20,33 @@ public : // data types
   typedef typename ExplicitFA::StateSet StateSet;
 
   typedef VATA::Util::Antichain2Cv2<StateType,StateSet> AntichainType;
+  typedef VATA::Util::Antichain1C<StateType> Antichain1Type;
+
 
 private: // data memebers
   AntichainType& antichain_;
   AntichainType& next_;
+  Antichain1Type& singleAntichain_
 
   const ExplicitFA& smaller_;
   const ExplicitFA& bigger_;
+
+  Rel preorder_; // Simulation or identity
 
   bool inclNotHold_;
 
 public: // constructor
   ExplicitFAInclusionFunctor(AntichainType& antichain, AntichainType& next,
+      Antichain1Type & singleAntichain;
       const ExplicitFA& smaller, 
-      const ExplicitFA& bigger) :
+      const ExplicitFA& bigger,
+      Rel preorder) :
     antichain_(antichain),
     next_(next),
+    singleAntichain_(singleAntichain),
     smaller_(smaller),
     bigger_(bigger),
+    preorder_(rel);
     inclNotHold_(false)
   {}
 
@@ -152,8 +162,16 @@ private: // private functions
 
   void AddNewPairToAntichain(StateType state, StateSet &set) {
     // Comparator of macro states
+    /*
     auto comparator = [](const StateSet& lhs, const StateSet& rhs) { 
       return lhs.IsSubsetOf(rhs); };
+    */
+    
+    auto comparator = [](const StateType ls, const StateType rs) {
+      return rel.get(ls,rs);
+    };
+
+    if (singaleAntichain_.contains_())
 
     std::vector<StateType> tempStateSet = {state};
     if (!antichain_.contains(tempStateSet,set,comparator)) {

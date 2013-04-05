@@ -32,12 +32,14 @@ bool VATA::CheckFiniteAutInclusion(
   typedef typename InclFunc::StateSet StateSet;
 
   typedef typename InclFunc::AntichainType AntichainType;
+  typedef typename InclFunc::Antichain1Type Antchain1Type;
 
-  // actually processed state
+  
   AntichainType antichain;
   AntichainType next;
+  Antichain1Type singleAntichain;
 
-  InclFunc inclFunc(antichain,next,smaller,bigger);
+  InclFunc inclFunc(antichain,next,singleAntichain,smaller,bigger,rel);
 
   // Initialization of antichain sets from initial states of automata
   inclFunc.Init();
