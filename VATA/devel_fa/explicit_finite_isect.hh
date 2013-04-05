@@ -4,6 +4,7 @@
 // VATA headers
 #include <vata/vata.hh>
 #include "explicit_finite_aut.hh"
+#include "explicit_finite_useless.hh"
 
 // Standard library headers
 #include <vector>
@@ -35,7 +36,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
 
   std::vector<const AutBase::ProductTranslMap::value_type*> stack;
 
-  // Loads the final states to the result automaton
+  // Loads the start states to the result automaton
   // Auto is here StateType of Explicit fitnite automata
   for (auto lss : lhs.startStates_) {
     for (auto rss : rhs.startStates_) {
@@ -50,7 +51,6 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     = res.transitions_;
 
   while (!stack.empty()) {
-    // Element translates states to result
     auto actState = stack.back(); 
     stack.pop_back();
 
@@ -61,11 +61,10 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     }
 
     // Get transition clusters for given state
-    //ExplicitFA::TransitionClusterPtr 
     auto lcluster = ExplicitFA::genericLookup 
       (*lhs.transitions_,actState->first.first);
 
-    std::cout << "Leftstate " << actState->first.first << " " << actState->first.second << " indexes " << actState->second <<  std::endl; //DEBUG
+//    std::cerr << "Leftstate " << actState->first.first << " " << actState->first.second << " indexes " << actState->second <<  std::endl; //DEBUG
     if (!lcluster) {
       continue;
     }
@@ -93,13 +92,17 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
       }
 
      // Adding only usefull new state - for change move these two cycles before main cycle
-     for (auto& leftStartSymbol : lhs.GetStartSymbols(actState->first.first)) {
-       res.SetStateStart(actState->second,leftStartSymbol);
+     if (lhs.IsStateStart(actState->first.first)) {
+      for (auto& leftStartSymbol : lhs.GetStartSymbols(actState->first.first)) {
+         res.SetStateStart(actState->second,leftStartSymbol);
+      }
      }
 
-     for (auto& rightStartSymbol : rhs.GetStartSymbols(actState->first.second)) {
-      res.SetStateStart(actState->second,rightStartSymbol);
-     }
+     if (rhs.IsStateStart(actState->first.second)) {
+       for (auto& rightStartSymbol : rhs.GetStartSymbols(actState->first.second)) {
+          res.SetStateStart(actState->second,rightStartSymbol);
+        }
+      }
 
       // Get the transitions from the result automaton
       if (!clusterptr) { // Insert a new translated state
@@ -115,7 +118,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
           auto istate = pTranslMap->insert
             (std::make_pair(std::make_pair(lstate,rstate), 
                             pTranslMap->size())); 
-          std::cout << "Righstates " << lstate << " " << rstate << " indexes " << istate.first->second << std::endl; //DEBUG
+ //         std::cerr << "Righstates " << lstate << " " << rstate << " indexes " << istate.first->second << std::endl; //DEBUG
           
           // Insert state from right side of transition
           stateSet->insert(istate.first->second);
@@ -138,6 +141,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     }
   }
 */
-  return res;
+  // TODO: Nepujde to efektivneji
+  return RemoveUselessStates(res);
 }
 #endif
