@@ -106,7 +106,7 @@ public: // public functions
     // Iterate through the all symbols in the transitions for the given state
     for (auto& smallerSymbolToState : *(smaller_.transitions_->
           find(procState)->second)) {
-      for (const StateType& newSmallerState : *smallerSymbolToState.second) {
+      for (const StateType& newSmallerState : smallerSymbolToState.second) {
         StateSet newMacroState;
 
         bool IsMacroAccepting = this->CreatePostOfMacroState(
@@ -152,7 +152,7 @@ private: // private functions
         continue;
       }
 
-      for (auto& s : *symbolToStateSet->second) {
+      for (auto& s : symbolToStateSet->second) {
         newMacroState.insert(s);
         res |= bigger_.IsStateFinal(s);
       }

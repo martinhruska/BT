@@ -29,7 +29,7 @@ VATA::ExplicitLTS VATA::Translate(
     for (auto symbolToSet : *stateToCluster.second) { // symbol of transition
       assert(symbolToSet.second);
 
-      for (auto setState : *symbolToSet.second) { // right state of transition
+      for (auto setState : symbolToSet.second) { // right state of transition
         assert(setState);
 
         res.addTransition(leftStateTranslated,symbolToSet.first,setState);

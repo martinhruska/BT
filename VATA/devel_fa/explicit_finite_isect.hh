@@ -82,7 +82,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     // Go through transitions of the given state
     for (auto lsymbolToPtrPointer : *lcluster) {
       auto lsymbol = lsymbolToPtrPointer.first;
-
+/*
       // Check if there is a transition for the given symbol
       auto rstateSet =  
         ExplicitFA::genericLookup(*rcluster,lsymbol);
@@ -90,7 +90,14 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
       if (!rstateSet) {
         continue;
       }
+*/
+      
+      auto tempIter = rcluster->find(lsymbol);
 
+      if (tempIter == rcluster->end()) {
+        continue;
+      }
+      auto rstateSet = tempIter->second;
      // Adding only usefull new state - for change move these two cycles before main cycle
      if (lhs.IsStateStart(actState->first.first)) {
       for (auto& leftStartSymbol : lhs.GetStartSymbols(actState->first.first)) {
@@ -112,8 +119,8 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
       // Insert a new symbol
       auto stateSet = clusterptr->uniqueRStateSet(lsymbol); 
 
-      for (auto lstate : *lsymbolToPtrPointer.second) {
-        for (auto rstate : *rstateSet) {
+      for (auto lstate : lsymbolToPtrPointer.second) {
+        for (auto rstate : rstateSet) {
           // Translate to intersection state
           auto istate = pTranslMap->insert
             (std::make_pair(std::make_pair(lstate,rstate), 
@@ -121,7 +128,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
  //         std::cerr << "Righstates " << lstate << " " << rstate << " indexes " << istate.first->second << std::endl; //DEBUG
           
           // Insert state from right side of transition
-          stateSet->insert(istate.first->second);
+          stateSet.insert(istate.first->second);
         
           if (istate.second) { // New states added to stack
            stack.push_back(&*istate.first);

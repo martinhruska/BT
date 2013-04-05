@@ -31,7 +31,7 @@ namespace VATA {
       res.SetStateFinal(stateToCluster.first);
     }
     for (auto symbolToSet : *stateToCluster.second) {
-      for (auto stateInSet : *symbolToSet.second) {
+      for (auto stateInSet : symbolToSet.second) {
         if (!aut.IsStateFinal(stateInSet)) {
           res.SetStateFinal(stateInSet);
         }

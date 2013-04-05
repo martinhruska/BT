@@ -31,7 +31,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Reverse(
   // Changing the order of left and right in each transition
   for (auto stateToCluster : *transitions_) {
     for (auto symbolToSet : *stateToCluster.second) {
-      for (auto stateInSet : *symbolToSet.second) {
+      for (auto stateInSet : symbolToSet.second) {
         res.AddTransition(stateInSet,symbolToSet.first,
           stateToCluster.first);
       }

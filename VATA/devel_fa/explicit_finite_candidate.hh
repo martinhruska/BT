@@ -51,7 +51,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::GetCandidateTree(
 
     for (auto symbolToState : *transitionsCluster->second) {
       // All states which are reachable from actState are added to result automaton
-      for (auto stateInSet : *symbolToState.second){
+      for (auto stateInSet : symbolToState.second){
        
         if (reachableStates.insert(stateInSet).second) {
           newStates.push_back(stateInSet);

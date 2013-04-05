@@ -147,9 +147,17 @@ private: // private type definitions
   typedef StateSet RStateSet;
 	typedef std::shared_ptr<RStateSet> RStateSetPtr;
 
-	class TransitionCluster : public std::unordered_map<SymbolType,RStateSetPtr>{
+	class TransitionCluster : public std::unordered_map<SymbolType,RStateSet>{
 	public:
-		const RStateSetPtr& uniqueRStateSet(const SymbolType &symbol){
+		 RStateSet& uniqueRStateSet(const SymbolType &symbol){
+      auto iter = this->find(symbol);
+      if (iter == this->end()) {
+        return this->insert(std::make_pair(symbol, RStateSet())).first->second;
+      }
+      else {
+       return iter->second;
+      }
+      /*
 			RStateSetPtr &rstateSetPtr =  this->insert(
 			std::make_pair(symbol,RStateSetPtr(nullptr))
 				).first->second;
@@ -161,6 +169,7 @@ private: // private type definitions
 				rstateSetPtr = RStateSetPtr(new RStateSet(*rstateSetPtr));
       }
 			return rstateSetPtr;
+      */
 		}
 	};
 
@@ -373,7 +382,7 @@ public:
 			 */
 			for (auto& ls : *(this->transitions_)) {
 				for (auto& s : *ls.second){
-					for (auto& rs : *s.second) {
+					for (auto& rs : s.second) {
 						std::vector<std::string> leftStateAsTuple;
 						leftStateAsTuple.push_back(statePrinter(ls.first));
            
@@ -429,11 +438,11 @@ public:
 
 				//assert(symbolTupleSetPair.second);
 
-				RStateSetPtr rstatesSet = cluster->uniqueRStateSet(symbolRStateSetPair.first);
+				RStateSet& rstatesSet = cluster->uniqueRStateSet(symbolRStateSetPair.first);
 
-				for (auto& rState : *symbolRStateSetPair.second) {
+				for (auto& rState : symbolRStateSetPair.second) {
           //std::cerr  << "Original right state: "  <<   stateClusterPair.first  <<  std::endl; DEBUG
-					rstatesSet->insert(index[rState]);
+					rstatesSet.insert(index[rState]);
           //std::cerr  << "Reindex right state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 				}
 			}
@@ -550,7 +559,7 @@ protected:
 	 */
 	void internalAddTransition(const StateType& lstate, const SymbolType& symbol,
 									const StateType& rstate){
-		this->uniqueClusterMap()->uniqueCluster(lstate)->uniqueRStateSet(symbol)->insert(rstate);
+		this->uniqueClusterMap()->uniqueCluster(lstate)->uniqueRStateSet(symbol).insert(rstate);
 		return;
 	}
 

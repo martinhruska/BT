@@ -41,7 +41,7 @@ while (!newStates.empty()) {
 
  // Add all reachable states to reachable state set
  for (auto &symbolsToStateSet : *cluster) {
-   for (auto &state : *symbolsToStateSet.second) {
+   for (auto &state : symbolsToStateSet.second) {
      if (reachableStates.insert(state).second) {
        newStates.push_back(state);
      }
