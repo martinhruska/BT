@@ -223,7 +223,9 @@ public:
 		const std::string& str, StringToStateDict& stateDict)
 	{
 		LoadFromString(parser,str, stateDict);
+    /* DEBUG
 		std::cerr << "Vata finite automata development begins" << std::endl;
+    */
 	}
 
 	/*
@@ -308,9 +310,11 @@ public:
         continue;
       }
 
+      /* DEBUG
       std::cerr << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;
 			std::cerr << "Transition right state " << rightState << " "  <<  stateTranslator(rightState) <<  std::endl;
 			//std::cerr << "Transition symbol " << symbol << std::endl;
+      */
 			this->AddTransition(stateTranslator(leftState),symbolTranslator(symbol),
 															stateTranslator(rightState));
 		}
@@ -335,7 +339,9 @@ public:
 				desc.finalStates.insert(statePrinter(s));
 			}
 
+      /* DEBUG
       std::cerr  <<  "Dmuping"  <<  std::endl;
+      */
       // Dump start states
       std::string x("x"); // initial input symbol
 		  std::vector<std::string> leftStateAsTuple;
