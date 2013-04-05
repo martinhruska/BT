@@ -6,6 +6,9 @@
 #include <vata/util/antichain1c.hh>
 #include "explicit_finite_aut.hh"
 
+// standard libraries
+#include <vector>
+
 namespace VATA {
   template <class SymbolType, class Rel> class ExplicitFAInclusionFunctor;
 }
@@ -22,19 +25,18 @@ public : // data types
   typedef VATA::Util::Antichain2Cv2<StateType,StateSet> AntichainType;
   typedef VATA::Util::Antichain1C<StateType> Antichain1Type;
 
-  typedef std::vector<size_t> IndexType;
-  typedef std::vector<size_t> HeadType;
+  typedef typename Rel::IndexType IndexType;
 
 private: // data memebers
   AntichainType& antichain_;
   AntichainType& next_;
-  Antichain1Type& singleAntichain_
+  Antichain1Type& singleAntichain_;
 
   const ExplicitFA& smaller_;
   const ExplicitFA& bigger_;
 
   IndexType& index_;
-  HeadType& head_;
+  IndexType& inv_;
 
   Rel preorder_; // Simulation or identity
 
@@ -42,11 +44,11 @@ private: // data memebers
 
 public: // constructor
   ExplicitFAInclusionFunctor(AntichainType& antichain, AntichainType& next,
-      Antichain1Type & singleAntichain;
+      Antichain1Type& singleAntichain,
       const ExplicitFA& smaller, 
       const ExplicitFA& bigger,
       IndexType& index,
-      HeadType& head,
+      IndexType& inv,
       Rel preorder) :
     antichain_(antichain),
     next_(next),
@@ -54,8 +56,8 @@ public: // constructor
     smaller_(smaller),
     bigger_(bigger),
     index_(index),
-    head_(head),
-    preorder_(rel),
+    inv_(inv),
+    preorder_(preorder),
     inclNotHold_(false)
   {}
 
@@ -105,8 +107,9 @@ public: // public functions
 
         this->CreatePostOfMacroState(
             newMacroState,procMacroState,smallerSymbolToState.first);
+
         inclNotHold_ |= smaller_.IsStateFinal(newSmallerState) && 
-        !macroAcceptChecker(bigger_,newMacroState);
+          !macroAcceptChecker(bigger_,newMacroState);
 
         this->AddNewPairToAntichain(newSmallerState,newMacroState);
       }
@@ -114,6 +117,7 @@ public: // public functions
 
   }
 
+public: // Public inline functions
   inline bool DoesInclusionHold() {
     return !inclNotHold_;
   }
@@ -144,13 +148,6 @@ private: // private functions
       this->CopySet(*(symbolToStateSet->second), 
           newMacroState); 
     } // end creating new macro state
- }
-
-  /*
-   * Copy one set to another 
-   */
-  inline void CopySet(StateSet& fullset, StateSet& emptyset) {
-    emptyset.insert(fullset.begin(),fullset.end());
   }
 
   /*
@@ -171,23 +168,60 @@ private: // private functions
 
   void AddNewPairToAntichain(StateType state, StateSet &set) {
     // Comparator of macro states
-    /*
+   /*
     auto comparator = [](const StateSet& lhs, const StateSet& rhs) { 
       return lhs.IsSubsetOf(rhs); };
-    */
-    
-    auto comparator = [](const StateType ls, const StateType rs) {
-      return rel.get(ls,rs);
+   */
+
+    auto comparator = [&preorder_](const StateSet& lss, const StateSet& rss) -> bool {
+      for (auto ls : lss) {
+        bool res = false;
+        for (auto rs : rss) {
+          if (preorder_.get(ls,rs)) {
+            res = true;
+          }
+        }
+        if (!res) {
+          return false;
+        }
+      }
+      return true;
     };
+    
 
-    if (singaleAntichain_.contains_())
+   
+    // Get candidates for given state
+    std::vector<StateType> candidates;
+    for (StateType candidate : singleAntichain_.data()) {
+      if (preorder_.get(candidate,state)) {
+        candidates.push_back(candidate);
+      }
+    }
 
+    // Check whether the antichain does not already 
+    // contains given product state
     std::vector<StateType> tempStateSet = {state};
     if (!antichain_.contains(tempStateSet,set,comparator)) {
       antichain_.refine(tempStateSet,set,comparator);
       antichain_.insert(state,set);
+      AddToSingleAC(state);
       AddToNext(state,set);
     }
+  }
+
+  void AddToSingleAC(StateType state) {
+    std::vector<StateType> tempStateSet = {state};
+    if (!singleAntichain_.contains(tempStateSet)) {
+      singleAntichain_.insert(state);
+    }
+  }
+
+private: // Private inline functions
+  /*
+   * Copy one set to another 
+   */
+  inline void CopySet(StateSet& fullset, StateSet& emptyset) {
+    emptyset.insert(fullset.begin(),fullset.end());
   }
 
 };

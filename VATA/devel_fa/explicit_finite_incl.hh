@@ -6,8 +6,6 @@
 #include "explicit_finite_aut.hh"
 #include "explicit_finite_incl_fctor.hh"
 
-#include <vector> 
-
 namespace VATA {
 
   template<class SymbolType, class Rel>
@@ -25,18 +23,17 @@ bool VATA::CheckFiniteAutInclusion(
   const VATA::ExplicitFiniteAut<SymbolType>& bigger, 
   const Rel& preorder) {
  
-  typedef VATA::ExplicitFAInclusionFunctor<SymbolType> InclFunc;
+  typedef VATA::ExplicitFAInclusionFunctor<SymbolType,Rel> InclFunc;
   typedef typename InclFunc::ExplicitFA ExplicitFA;
 
   typedef typename InclFunc::StateType StateType;
   typedef typename InclFunc::StateSet StateSet;
 
   typedef typename InclFunc::AntichainType AntichainType;
-  typedef typename InclFunc::Antichain1Type Antchain1Type;
+  typedef typename InclFunc::Antichain1Type Antichain1Type;
 
   
-  typedef typename InclFunc::IndexType IndextType;
-  typedef typename InclFunc::HeadType HeadType;
+  typedef typename InclFunc::IndexType IndexType;
 
   AntichainType antichain;
   AntichainType next;
@@ -44,16 +41,12 @@ bool VATA::CheckFiniteAutInclusion(
 
 
   IndexType index;
-  HeadType head;
+  IndexType inv;
 
   InclFunc inclFunc(antichain,next,singleAntichain,
-      smaller,bigger,index,head,rel);
+      smaller,bigger,index,inv,preorder);
 
-  preorder.buildIndex(index,head);
-
-  for (auto i : index) {
-    std::cout << "Index " << i << std::endl;
-  }
+  preorder.buildIndex(index,inv);
 
   // Initialization of antichain sets from initial states of automata
   inclFunc.Init();
@@ -67,6 +60,7 @@ bool VATA::CheckFiniteAutInclusion(
   StateSet procMacroState; 
   StateType procState;
 
+  /*
   StateType s;
   for (auto state : smaller.finalStates_) s = state;
   auto printStateSet = [&preorder,&s](StateSet set)-> void {
@@ -77,7 +71,6 @@ bool VATA::CheckFiniteAutInclusion(
       std::cout << std::endl;
   };
 
-  /*
   printStateSet(smaller.startStates_);
   printStateSet(smaller.finalStates_);
   printStateSet(bigger.startStates_);
