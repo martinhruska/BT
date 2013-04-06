@@ -32,6 +32,8 @@ private: // data memebers
   AntichainType& next_;
   Antichain1Type& singleAntichain_;
 
+  std::vector<std::pair<StateType,StatePair>>
+
   const ExplicitFA& smaller_;
   const ExplicitFA& bigger_;
 
@@ -118,6 +120,8 @@ public: // public functions
 
         inclNotHold_ |= smaller_.IsStateFinal(newSmallerState) && 
           !IsMacroAccepting; 
+
+        if (inclNotHold_) return;
 //          !macroAcceptChecker(bigger_,newMacroState); 
 
         this->AddNewPairToAntichain(newSmallerState,newMacroState);
@@ -180,7 +184,6 @@ private: // private functions
     auto comparator = [&preorder_](const StateSet& lss, const StateSet& rss) -> bool {
       bool res = true;
 
-      /*
       std::cout << "Lefstates ";
       for (auto& ls : lss) {
         std::cout << ls << " ";
@@ -192,7 +195,6 @@ private: // private functions
         std::cout << rs << " ";
       }
       std::cout << std::endl;
-      */
 
       for (auto ls : lss) {
         bool tempres = false;
@@ -214,9 +216,41 @@ private: // private functions
       return res;
     };
     
+auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> bool {
+      bool res = true;
 
-    static int i = 0;
-   
+      std::cout << "Lefstates ";
+      for (auto& ls : lss) {
+        std::cout << ls << " ";
+      }
+      std::cout << std::endl;
+
+      std::cout << "rightstates ";
+      for (auto& rs : rss) {
+        std::cout << rs << " ";
+      }
+      std::cout << std::endl;
+
+      for (auto ls : lss) {
+        bool tempres = false;
+        for (auto rs : rss) {
+          //tempres |= preorder_.get(ls,rs);
+          if (preorder_.get(ls,rs)) {
+            tempres |= true;
+            break;
+          }
+        }
+        res &= tempres;
+        /*
+        if (!res) {
+          return false;
+        }
+        */
+      }
+      //return true;
+      return res;
+    };
+
     // Get candidates for given state
     std::vector<StateType> candidates;
     for (StateType candidate : singleAntichain_.data()) {
@@ -228,9 +262,9 @@ private: // private functions
     // Check whether the antichain does not already 
     // contains given product state
     std::vector<StateType> tempStateSet = {state};
-      std::cout << ++i << std::endl;
+      std::cout << "state " << state << std::endl;
     if (!antichain_.contains(tempStateSet,set,comparator)) {
-      antichain_.refine(tempStateSet,set,comparator);
+      antichain_.refine(tempStateSet,set,comparator2);
       antichain_.insert(state,set);
       AddToSingleAC(state);
       AddToNext(state,set);
@@ -272,9 +306,25 @@ private: // private functions
       return res;
     };
 
+    auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> bool {
+      bool res = true;
+
+      for (auto ls : lss) {
+        bool tempres = false;
+        for (auto rs : rss) {
+          if (preorder_.get(ls,rs)) {
+            tempres |= true;
+            break;
+          }
+        }
+        res &= tempres;
+      }
+      return res;
+    };
+
     std::vector<StateType> tempStateSet = {state};
     if (!next_.contains(tempStateSet,set,comparator)) {
-      next_.refine(tempStateSet,set,comparator);
+      next_.refine(tempStateSet,set,comparator2);
       next_.insert(state,set);
     }
   }

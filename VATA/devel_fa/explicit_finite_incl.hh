@@ -48,6 +48,7 @@ bool VATA::CheckFiniteAutInclusion(
 
   // Initialization of antichain sets from initial states of automata
   inclFunc.Init();
+    std::cout << "Ac size " << antichain.size() << std::endl;
 
   if (!inclFunc.DoesInclusionHold()) {
     return false;
@@ -58,11 +59,16 @@ bool VATA::CheckFiniteAutInclusion(
   StateSet procMacroState; 
   StateType procState;
 
-  while(next.get(procState,procMacroState) && inclFunc.DoesInclusionHold()) {
+  while(inclFunc.DoesInclusionHold() && next.get(procState,procMacroState)) {
+    static int i = 0;
+      std::cout << ++i << std::endl;
+    std::cout << "New state: " << procState << " Macro: "; for (StateType s : procMacroState) { std::cout << s << " ";}; std::cout << std::endl;
     inclFunc.MakePost(procState,procMacroState);
+    std::cout << "Ac size " << antichain.size() << std::endl;
+    std::cout << "Next size " << next.size() << std::endl;
     procMacroState.clear();
   }
-    std::cout << antichain.size() << std::endl;
+    std::cout << "Ac size " << antichain.size() << std::endl;
   return inclFunc.DoesInclusionHold();
 }
 
