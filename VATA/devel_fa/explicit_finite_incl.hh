@@ -62,6 +62,7 @@ bool VATA::CheckFiniteAutInclusion(
     inclFunc.MakePost(procState,procMacroState);
     procMacroState.clear();
   }
+    std::cout << antichain.size() << std::endl;
   return inclFunc.DoesInclusionHold();
 }
 

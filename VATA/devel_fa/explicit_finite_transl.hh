@@ -27,7 +27,6 @@ VATA::ExplicitLTS VATA::Translate(
     size_t leftStateTranslated = stateIndex[stateToCluster.first];
 
     for (auto symbolToSet : *stateToCluster.second) { // symbol of transition
-      assert(symbolToSet.second);
 
       for (auto setState : symbolToSet.second) { // right state of transition
         assert(setState);

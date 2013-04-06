@@ -301,7 +301,6 @@ public:
 		for (auto t : desc.transitions) {
 
       // TODO dodelat do cli kontrolu syntaxe pro FA
-      assert(!t.empty()); // Not a tree automata
 
 			// traverse the transitions
 			const State& leftState = t.first[0];

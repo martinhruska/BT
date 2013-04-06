@@ -103,9 +103,13 @@ public: // public functions
       };
 */
 
+      //TODO overit korektnos podminky
+    auto iteratorSmallerSymbolToState = smaller_.transitions_->find(procState);
+    if (iteratorSmallerSymbolToState == smaller_.transitions_->end()) {
+      return;
+    }
     // Iterate through the all symbols in the transitions for the given state
-    for (auto& smallerSymbolToState : *(smaller_.transitions_->
-          find(procState)->second)) {
+    for (auto& smallerSymbolToState : *(iteratorSmallerSymbolToState->second)) {
       for (const StateType& newSmallerState : smallerSymbolToState.second) {
         StateSet newMacroState;
 
@@ -142,9 +146,12 @@ private: // private functions
     // Create new macro state from current macro state for given symbol
     for (const StateType& stateInMacro : procMacroState) {
       
-      auto transForState = bigger_.transitions_->
-          find(stateInMacro)->second; // Transition for given state
-      assert(transForState != bigger_.transitions_->end());
+      // Find transition for given state
+      auto iteratorTransForState = bigger_.transitions_->find(stateInMacro); 
+      if (iteratorTransForState == bigger_.transitions_->end()) {
+        continue;
+      }
+      auto transForState = iteratorTransForState->second;
 
       // States for given symbol
       auto symbolToStateSet = transForState->find(symbol);
@@ -166,28 +173,27 @@ private: // private functions
   }
 
   /*
-   * Add product state to the next set
-   */
-  void AddToNext (StateType state, StateSet &set) {
-
-    // Comparator of macro states
-    auto comparator = [](const StateSet& lhs, const StateSet& rhs) { 
-      return lhs.IsSubsetOf(rhs); };
-
-    std::vector<StateType> tempStateSet = {state};
-    if (!next_.contains(tempStateSet,set,comparator)) {
-      next_.refine(tempStateSet,set,comparator);
-      next_.insert(state,set);
-    }
-  }
-
-  /*
    * Add a new product state to the antichains sets
    */
   void AddNewPairToAntichain(StateType state, StateSet &set) {
     // Comparator of macro states
     auto comparator = [&preorder_](const StateSet& lss, const StateSet& rss) -> bool {
       bool res = true;
+
+      /*
+      std::cout << "Lefstates ";
+      for (auto& ls : lss) {
+        std::cout << ls << " ";
+      }
+      std::cout << std::endl;
+
+      std::cout << "rightstates ";
+      for (auto& rs : rss) {
+        std::cout << rs << " ";
+      }
+      std::cout << std::endl;
+      */
+
       for (auto ls : lss) {
         bool tempres = false;
         for (auto rs : rss) {
@@ -209,6 +215,7 @@ private: // private functions
     };
     
 
+    static int i = 0;
    
     // Get candidates for given state
     std::vector<StateType> candidates;
@@ -221,11 +228,15 @@ private: // private functions
     // Check whether the antichain does not already 
     // contains given product state
     std::vector<StateType> tempStateSet = {state};
+      std::cout << ++i << std::endl;
     if (!antichain_.contains(tempStateSet,set,comparator)) {
       antichain_.refine(tempStateSet,set,comparator);
       antichain_.insert(state,set);
       AddToSingleAC(state);
       AddToNext(state,set);
+    }
+    else {
+      std::cout << "antichains works" << std::endl;
     }
   }
 
@@ -236,6 +247,35 @@ private: // private functions
     std::vector<StateType> tempStateSet = {state};
     if (!singleAntichain_.contains(tempStateSet)) {
       singleAntichain_.insert(state);
+    }
+  }
+
+  /*
+   * Add product state to the next set
+   */
+  void AddToNext(StateType state, StateSet &set) {
+
+    // Comparator of macro states
+    auto comparator = [&preorder_](const StateSet& lss, const StateSet& rss) -> bool {
+      bool res = true;
+
+      for (auto ls : lss) {
+        bool tempres = false;
+        for (auto rs : rss) {
+          if (preorder_.get(ls,rs)) {
+            tempres |= true;
+            break;
+          }
+        }
+        res &= tempres;
+      }
+      return res;
+    };
+
+    std::vector<StateType> tempStateSet = {state};
+    if (!next_.contains(tempStateSet,set,comparator)) {
+      next_.refine(tempStateSet,set,comparator);
+      next_.insert(state,set);
     }
   }
 
