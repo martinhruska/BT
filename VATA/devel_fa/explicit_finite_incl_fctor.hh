@@ -32,7 +32,6 @@ private: // data memebers
   AntichainType& next_;
   Antichain1Type& singleAntichain_;
 
-  std::vector<std::pair<StateType,StatePair>>
 
   const ExplicitFA& smaller_;
   const ExplicitFA& bigger_;
@@ -180,10 +179,11 @@ private: // private functions
    * Add a new product state to the antichains sets
    */
   void AddNewPairToAntichain(StateType state, StateSet &set) {
-    // Comparator of macro states
+    //lss is subset of rss -> return TRUE
     auto comparator = [&preorder_](const StateSet& lss, const StateSet& rss) -> bool {
       bool res = true;
 
+      /*
       std::cout << "Lefstates ";
       for (auto& ls : lss) {
         std::cout << ls << " ";
@@ -195,30 +195,32 @@ private: // private functions
         std::cout << rs << " ";
       }
       std::cout << std::endl;
-
+      */
+      if (lss.size() > rss.size()) {
+        return false;
+      }
       for (auto ls : lss) {
         bool tempres = false;
         for (auto rs : rss) {
-          //tempres |= preorder_.get(ls,rs);
           if (preorder_.get(ls,rs)) {
             tempres |= true;
             break;
           }
         }
         res &= tempres;
-        /*
         if (!res) {
           return false;
         }
-        */
       }
       //return true;
       return res;
     };
     
-auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> bool {
+    // Rss is subset of lss, returns TRUE
+    auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> bool {
       bool res = true;
 
+      /*
       std::cout << "Lefstates ";
       for (auto& ls : lss) {
         std::cout << ls << " ";
@@ -230,22 +232,22 @@ auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> boo
         std::cout << rs << " ";
       }
       std::cout << std::endl;
-
+      */
+      if (rss.size() > lss.size()) {
+        return false;
+      }
       for (auto ls : lss) {
         bool tempres = false;
         for (auto rs : rss) {
-          //tempres |= preorder_.get(ls,rs);
           if (preorder_.get(ls,rs)) {
             tempres |= true;
             break;
           }
         }
         res &= tempres;
-        /*
         if (!res) {
           return false;
         }
-        */
       }
       //return true;
       return res;
@@ -262,16 +264,18 @@ auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> boo
     // Check whether the antichain does not already 
     // contains given product state
     std::vector<StateType> tempStateSet = {state};
-      std::cout << "state " << state << std::endl;
+    //  std::cout << "state " << state << std::endl;
     if (!antichain_.contains(tempStateSet,set,comparator)) {
       antichain_.refine(tempStateSet,set,comparator2);
       antichain_.insert(state,set);
       AddToSingleAC(state);
       AddToNext(state,set);
     }
+    /*
     else {
       std::cout << "antichains works" << std::endl;
     }
+    */
   }
 
   /*
@@ -287,12 +291,13 @@ auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> boo
   /*
    * Add product state to the next set
    */
-  void AddToNext(StateType state, StateSet &set) {
-
+  void AddToNext(StateType state, StateSet& set) {
     // Comparator of macro states
     auto comparator = [&preorder_](const StateSet& lss, const StateSet& rss) -> bool {
       bool res = true;
-
+      if (lss.size() > rss.size()) {
+        return false;
+      }
       for (auto ls : lss) {
         bool tempres = false;
         for (auto rs : rss) {
@@ -302,12 +307,19 @@ auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> boo
           }
         }
         res &= tempres;
+        if (!res) {
+          return false;
+        }
       }
       return res;
     };
 
     auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> bool {
-      bool res = true;
+      bool res = true;     
+      
+      if (lss.size() > rss.size()) {
+        return false;
+      }
 
       for (auto ls : lss) {
         bool tempres = false;
@@ -318,6 +330,9 @@ auto comparator2 = [&preorder_](const StateSet& rss, const StateSet& lss) -> boo
           }
         }
         res &= tempres;
+        if (!res) {
+          return false;
+        }
       }
       return res;
     };
