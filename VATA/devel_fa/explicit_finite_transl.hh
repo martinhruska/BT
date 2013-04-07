@@ -9,14 +9,19 @@
 #include <vata/util/transl_weak.hh>
 
 namespace VATA {
-  template <class SymbolType, class Index = Util::IdentityTranslator<AutBase::StateType>>
-	ExplicitLTS Translate(const ExplicitFiniteAut<SymbolType>& aut,
+  template <class SymbolType,
+  class Index = Util::IdentityTranslator<AutBase::StateType>>
+	  ExplicitLTS Translate(const ExplicitFiniteAut<SymbolType>& aut,
+    std::vector<std::vector<size_t>>& partition,
+    Util::BinaryRelation& relation,
 		const Index& stateIndex = Index());
 }
 
 template <class SymbolType, class Index>
 VATA::ExplicitLTS VATA::Translate(
   const VATA::ExplicitFiniteAut<SymbolType>& aut,
+  std::vector<std::vector<size_t>>& partition,
+  VATA::Util::BinaryRelation& relation,
   const Index& stateIndex) {
 
   VATA::ExplicitLTS res;
@@ -35,6 +40,22 @@ VATA::ExplicitLTS VATA::Translate(
       }
     }
   }
+
+
+  std::cout << "tady padam " << res.states() << std::endl;
+  for (size_t i = 0; i < res.states(); ++i)
+	  partition[0].push_back(i);
+  std::cout << "tady taky " << std::endl;
+
+	relation.resize(partition.size());
+	relation.reset(false);
+
+	// 0 accepting, 1 non-accepting, 2 .. environments
+	relation.set(0, 0, true);
+
+	relation.set(1, 0, true);
+	relation.set(1, 1, true);
+
 
   res.init();
 

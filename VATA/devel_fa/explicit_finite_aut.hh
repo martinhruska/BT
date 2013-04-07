@@ -73,6 +73,8 @@ class VATA::ExplicitFiniteAut : public AutBase {
   // Translator for simulation
   template <class SymbolType, class Index>
 	friend ExplicitLTS Translate(const ExplicitFiniteAut<SymbolType>& aut,
+    std::vector<std::vector<size_t>>& partition,
+    Util::BinaryRelation& relation,
 		const Index& stateIndex);
 
   // Checking inclusion
@@ -82,7 +84,7 @@ class VATA::ExplicitFiniteAut : public AutBase {
        const ExplicitFiniteAut<SymbolType> bigger);
 
   // Checking inclusion
-  template<class SymbolType, class Rel>
+  template<class SymbolType, class Rel, class Functor>
   friend bool CheckFiniteAutInclusion (
     const ExplicitFiniteAut<SymbolType>& smaller, 
     const ExplicitFiniteAut<SymbolType>& bigger, 
@@ -90,6 +92,9 @@ class VATA::ExplicitFiniteAut : public AutBase {
 
   template<class SymbolType, class Rel>
   friend class ExplicitFAInclusionFunctor;
+
+  template<class SymbolType, class Rel>
+  friend class ExplicitFACongrFunctor;
 
 public:
 	typedef Symbol SymbolType;

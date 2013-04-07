@@ -22,8 +22,14 @@ public : // data types
   typedef typename ExplicitFA::StateType StateType;
   typedef typename ExplicitFA::StateSet StateSet;
 
-  typedef VATA::Util::Antichain2Cv2<StateType,StateSet> AntichainType;
-  typedef VATA::Util::Antichain1C<StateType> Antichain1Type;
+  typedef StateType SmallerElementType;
+  typedef StateSet BiggerElementType;
+
+  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType> 
+    AntichainType;
+  typedef VATA::Util::Antichain1C<SmallerElementType> Antichain1Type;
+
+  typedef AntichainType ProductStateSetType;
 
   typedef typename Rel::IndexType IndexType;
 
@@ -31,7 +37,6 @@ private: // data memebers
   AntichainType& antichain_;
   AntichainType& next_;
   Antichain1Type& singleAntichain_;
-
 
   const ExplicitFA& smaller_;
   const ExplicitFA& bigger_;
@@ -108,10 +113,11 @@ public: // public functions
           return;
         }
 
+        //TODO dodelat podminku p <= p', p \in  P,
         this->AddNewPairToAntichain(newSmallerState,newMacroState);
       }
     }
-
+    procMacroState.clear();
   }
 
 public: // Public inline functions
@@ -176,6 +182,8 @@ private: // private functions
       }
       std::cout << std::endl;
       */
+      // TODO dodelat, ze neplati pro simulaci
+      // refraktoring, ktery udela special tridu pro preorder
       if (lss.size() > rss.size()) {
         return false;
       }

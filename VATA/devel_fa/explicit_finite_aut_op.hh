@@ -21,6 +21,8 @@
 #include "explicit_finite_incl.hh"
 #include "explicit_finite_incl_fctor.hh"
 
+#include "explicit_finite_congr_fctor.hh"
+
 namespace VATA {
 
   /*
@@ -155,6 +157,8 @@ namespace VATA {
   // Translator for simulation
   template <class SymbolType, class Index>
 	ExplicitLTS Translate(const ExplicitFiniteAut<SymbolType>& aut,
+    std::vector<std::vector<size_t>>& partition,
+    Util::BinaryRelation& relation,
 		const Index& stateIndex);
 
 
@@ -165,14 +169,19 @@ namespace VATA {
 	AutBase::StateBinaryRelation ComputeDownwardSimulation(
 		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size, const Index& index) {
 
-		return Translate(aut, index).computeSimulation(size);
+		AutBase::StateBinaryRelation relation;
+    std::vector<std::vector<size_t>> partition(1);
+		return Translate(aut, partition, relation, index).computeSimulation(size);
 
 	}
 
 	template <class SymbolType>
 	AutBase::StateBinaryRelation ComputeDownwardSimulation(
 		const ExplicitFiniteAut<SymbolType>& aut, const size_t& size) {
-		return Translate(aut).computeSimulation(size);
+
+    AutBase::StateBinaryRelation relation;
+    std::vector<std::vector<size_t>> partition(1);
+		return Translate(aut, partition, relation).computeSimulation(size);
 	}
 
   // Automaton has not been sanitized
@@ -212,7 +221,7 @@ namespace VATA {
    * Inclusion checking functions
    */
 
-  template<class SymbolType, class Rel>
+  template<class SymbolType, class Rel, class Functor>
   bool CheckFiniteAutInclusion (
     const ExplicitFiniteAut<SymbolType>& smaller, 
     const ExplicitFiniteAut<SymbolType>& bigger, 
@@ -223,7 +232,8 @@ namespace VATA {
 		const ExplicitFiniteAut<SymbolType>& smaller, 
     const ExplicitFiniteAut<SymbolType>& bigger,
 		const Rel& preorder) {
-		return CheckFiniteAutInclusion(smaller, bigger, preorder);
+    typedef ExplicitFACongrFunctor<SymbolType,Rel> FunctorType;
+		return CheckFiniteAutInclusion<SymbolType,Rel,FunctorType>(smaller, bigger, preorder);
 	}
 
   /*
