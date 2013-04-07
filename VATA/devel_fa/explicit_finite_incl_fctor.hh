@@ -88,22 +88,6 @@ public: // public functions
    * add states to the antichain
    */
   void MakePost(StateType procState, StateSet& procMacroState) {
-
-    /*
-    auto macroAcceptChecker = [](const ExplicitFA& bigger, StateSet& macroState)->
-      bool {
-//        bool res=false;
-        for (const StateType& state : macroState){
-//          res |= bigger.IsStateFinal(state);
-          if (bigger.IsStateFinal(state)) {
-            return true; // if one is accepting and whole macrostate is accepting
-          }
-        }
-        return false;
-//OPT        return res;
-      };
-*/
-
       //TODO overit korektnos podminky
     auto iteratorSmallerSymbolToState = smaller_.transitions_->find(procState);
     if (iteratorSmallerSymbolToState == smaller_.transitions_->end()) {
@@ -120,8 +104,9 @@ public: // public functions
         inclNotHold_ |= smaller_.IsStateFinal(newSmallerState) && 
           !IsMacroAccepting; 
 
-        if (inclNotHold_) return;
-//          !macroAcceptChecker(bigger_,newMacroState); 
+        if (inclNotHold_) {
+          return;
+        }
 
         this->AddNewPairToAntichain(newSmallerState,newMacroState);
       }
@@ -166,11 +151,6 @@ private: // private functions
         newMacroState.insert(s);
         res |= bigger_.IsStateFinal(s);
       }
-      /* OPT
-      this->CopySet(*(symbolToStateSet->second), 
-          newMacroState); 
-    } // end creating new macro state
-          */
     }
     return res;
   }
