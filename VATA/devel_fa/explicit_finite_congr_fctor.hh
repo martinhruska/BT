@@ -17,11 +17,7 @@ public : // data types
   typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
 
   typedef typename ExplicitFA::StateType StateType;
-  //typedef typename ExplicitFA::StateSet StateSet;
-
-  class StateSet : public ExplicitFA::StateSet {
-    bool operator()(const StateSet& s) const {return true;}
-  };
+  typedef typename ExplicitFA::StateSet StateSet;
 
   typedef StateSet SmallerElementType;
   typedef StateSet BiggerElementType;
@@ -30,13 +26,31 @@ public : // data types
     AntichainType;
   typedef VATA::Util::Antichain1C<SmallerElementType> Antichain1Type;
 
-  typedef AntichainType ProductStateSetType;
+  //typedef AntichainType ProductStateSetType;
+
+
+  class ProductStateSetType : public std::vector<std::pair<SmallerElementType,BiggerElementType>> {
+    public:
+    bool get(SmallerElementType& smaller, BiggerElementType& bigger) {
+      if (this->size() == 0) {
+        return false;
+      }
+
+      auto& nextPair = this->back();
+      smaller = nextPair.first;
+      bigger = nextPair.second;
+      this->pop_back();
+
+      return true;
+    }
+  };
 
   typedef typename Rel::IndexType IndexType;
 
 private: // Private data members
-  AntichainType& antichain_;
-  AntichainType& next_;
+  ProductStateSetType& antichain_;
+//  AntichainType& next_;
+  ProductStateSetType&  next_;
   Antichain1Type& singleAntichain_;
 
   const ExplicitFA& smaller_;
@@ -50,7 +64,7 @@ private: // Private data members
   bool inclNotHold_;
 
 public:
-  ExplicitFACongrFunctor(AntichainType& antichain, AntichainType& next,
+  ExplicitFACongrFunctor(ProductStateSetType& antichain, ProductStateSetType& next,
       Antichain1Type& singleAntichain,
       const ExplicitFA& smaller, 
       const ExplicitFA& bigger,
@@ -86,7 +100,7 @@ public: // public functions
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
-    next_.insert(smallerInit,biggerInit);
+    next_.push_back(std::make_pair(StateSet(smallerInit),biggerInit));
     inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
