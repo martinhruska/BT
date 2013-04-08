@@ -91,6 +91,9 @@ class VATA::ExplicitFiniteAut : public AutBase {
     const Rel& preorder); 
 
   template<class SymbolType, class Rel>
+  friend class ExplicitFAAbstractFunctor;
+
+  template<class SymbolType, class Rel>
   friend class ExplicitFAInclusionFunctor;
 
   template<class SymbolType, class Rel>

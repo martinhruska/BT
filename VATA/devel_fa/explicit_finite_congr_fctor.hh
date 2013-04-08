@@ -17,9 +17,13 @@ public : // data types
   typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
 
   typedef typename ExplicitFA::StateType StateType;
-  typedef typename ExplicitFA::StateSet StateSet;
+  //typedef typename ExplicitFA::StateSet StateSet;
 
-  typedef StateType SmallerElementType;
+  class StateSet : public ExplicitFA::StateSet {
+    bool operator()(const StateSet& s) const {return true;}
+  };
+
+  typedef StateSet SmallerElementType;
   typedef StateSet BiggerElementType;
 
   typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType> 
@@ -82,10 +86,72 @@ public: // public functions
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
-    inclNotHold_ |= smallerInitFinal != biggerInitFinal;
+    next_.insert(smallerInit,biggerInit);
+    inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
-  void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {};
+  void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
+    std::unordered_set<SymbolType> usedSymbols;
+
+    SmallerElementType newSmaller;
+    SmallerElementType newBigger;
+
+    //TODO tady bude provereni kongruencniho uzaveru
+
+    for (auto& trans : *smaller_.transitions_) {
+      for (auto& symbolToSet : *trans.second) {
+        if (usedSymbols.count(symbolToSet.first)) { // symbol already explored
+          continue;
+        }
+
+        bool newSmallerAccept =  
+          this->CreatePostOfMacroState(newSmaller,smaller,symbolToSet.first,smaller_);
+        bool newBiggerAccpet =
+          this->CreatePostOfMacroState(newSmaller,bigger,symbolToSet.first,bigger_);
+
+        if (newSmallerAccept != newBiggerAccpet) {
+          inclNotHold_ = true;
+          return;
+        }
+
+      }
+    }
+  };
+
+private:
+  /*
+   * Create a new post macro state of the given 
+   * macrostate for given symbol, 
+   * which is stored to the given StateSet.
+   * @Return True if created macrostates is final in bigger NFA
+   */
+  bool CreatePostOfMacroState(StateSet& newMacroState,
+      StateSet& procMacroState, const SymbolType& symbol, const ExplicitFA& macroFA) {
+
+    bool res = false;
+    // Create new macro state from current macro state for given symbol
+    for (const StateType& stateInMacro : procMacroState) {
+      
+      // Find transition for given state
+      auto iteratorTransForState = macroFA.transitions_->find(stateInMacro); 
+      if (iteratorTransForState == macroFA.transitions_->end()) {
+        continue;
+      }
+      auto transForState = iteratorTransForState->second;
+
+      // States for given symbol
+      auto symbolToStateSet = transForState->find(symbol);
+      if (symbolToStateSet == transForState->end()) {
+        continue;
+      }
+
+      for (auto& s : symbolToStateSet->second) {
+        newMacroState.insert(s);
+        res |= macroFA.IsStateFinal(s);
+      }
+    }
+    return res;
+  }
 
 public: // public inline functions
   bool DoesInclusionHold() {
