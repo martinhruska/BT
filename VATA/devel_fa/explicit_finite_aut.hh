@@ -326,10 +326,8 @@ public:
         continue;
       }
 
-      /*
       std::cerr << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;
 			std::cerr << "Transition right state " << rightState << " "  <<  stateTranslator(rightState) <<  std::endl;
-      */
 			//std::cerr << "Transition symbol " << symbol << std::endl;
 			this->AddTransition(stateTranslator(leftState),symbolTranslator(symbol),
 															stateTranslator(rightState));

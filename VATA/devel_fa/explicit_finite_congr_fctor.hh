@@ -18,6 +18,8 @@ public : // data types
 
   typedef typename ExplicitFA::StateType StateType;
   typedef typename ExplicitFA::StateSet StateSet;
+  
+  typedef std::unordered_set<SymbolType> SymbolSet;
 
   typedef StateSet SmallerElementType;
   typedef StateSet BiggerElementType;
@@ -48,7 +50,7 @@ public : // data types
   typedef typename Rel::IndexType IndexType;
 
 private: // Private data members
-  ProductStateSetType& antichain_;
+  ProductStateSetType& relation_;
 //  AntichainType& next_;
   ProductStateSetType&  next_;
   Antichain1Type& singleAntichain_;
@@ -64,14 +66,14 @@ private: // Private data members
   bool inclNotHold_;
 
 public:
-  ExplicitFACongrFunctor(ProductStateSetType& antichain, ProductStateSetType& next,
+  ExplicitFACongrFunctor(ProductStateSetType& relation, ProductStateSetType& next,
       Antichain1Type& singleAntichain,
       const ExplicitFA& smaller, 
       const ExplicitFA& bigger,
       IndexType& index,
       IndexType& inv,
       Rel preorder) :
-    antichain_(antichain),
+    relation_(relation),
     next_(next),
     singleAntichain_(singleAntichain),
     smaller_(smaller),
@@ -105,34 +107,169 @@ public: // public functions
   };
 
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
-    std::unordered_set<SymbolType> usedSymbols;
+    SymbolSet usedSymbols;
 
-    SmallerElementType newSmaller;
-    SmallerElementType newBigger;
+    std::cout << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
+
+     auto macroPrint = [](StateSet& set) -> void {
+      for (auto& s : set) {
+        std::cout << s << " ";
+      }
+      std::cout << std::endl;
+    };
+
+    auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
+      if (lss.size() != rss.size()) {
+        return false;
+      }
+      if (!lss.size() || !rss.size()) {
+        return false;
+      }
+      for (auto& ls : lss) {
+        std:: cout << ls << std::endl;
+        if (!rss.count(ls)) {
+          return false;
+        }
+      }
+
+      return true;
+    };
 
     //TODO tady bude provereni kongruencniho uzaveru
+    std::cout << "Smaler: " ;
+    macroPrint(smaller);
+    StateSet congrSmaller(smaller);
+    GetCongrClosure(congrSmaller,next_);
+    GetCongrClosure(congrSmaller,relation_);
+    std::cout << "Smaler congr: " ;
+    macroPrint(congrSmaller);
 
-    for (auto& trans : *smaller_.transitions_) {
-      for (auto& symbolToSet : *trans.second) {
+    std::cout << "Bigger: ";
+    macroPrint(bigger);
+    StateSet congrBigger(bigger);
+    GetCongrClosure(congrBigger,next_);
+    GetCongrClosure(congrBigger,relation_);
+    std::cout << "Bigger congr: ";
+    macroPrint(congrBigger);
+
+    if (areEqual(congrSmaller,congrBigger)) {
+      std::cout << "equal" << std::endl;
+      smaller.clear();
+      bigger.clear();
+      return;
+    }
+
+    MakePostForAut(smaller_,usedSymbols,smaller,bigger,smaller);
+    MakePostForAut(bigger_,usedSymbols,smaller,bigger,bigger);
+
+    relation_.push_back(std::make_pair(smaller,StateSet(bigger)));
+    smaller.clear();
+    bigger.clear();
+  };
+
+private:
+
+
+  void GetCongrClosure(StateSet& set, ProductStateSetType& rel) {
+    auto matchPair = [](StateSet& closure, StateSet& rule) -> bool {
+      std::cout << "matchin rule: ";
+      if (rule.size() > closure.size()) {
+        return false;
+      }
+      for (auto& s : rule) {
+        std::cout << s << " " << std::endl;
+        if (!closure.count(s)) {
+          return false;
+      std::cout << std::endl;
+        }
+      }
+      return true;
+    };
+
+    auto addSubSet = [](StateSet& mainset, StateSet& subset) -> void {
+      mainset.insert(subset.begin(),subset.end());
+    };
+
+    auto macroPrint = [](StateSet& set) -> void {
+      for (auto& s : set) {
+        std::cout << s << " ";
+      }
+      std::cout << std::endl;
+    };
+
+    std::unordered_set<int> usedRules;
+
+    bool appliedRule = true;
+    while (appliedRule) {
+      appliedRule = false;
+      for (unsigned int i=0; i < rel.size(); i++) {
+
+       if (usedRules.count(i)) {
+         continue;
+       }
+
+    std::cout << "PRAVIDLO: " << rel[i].first.size() << std::endl;
+       if (matchPair(set, rel[i].first) || 
+             matchPair(set, rel[i].second)) { // Rule matches
+       std::cout << "PRAVIDLO pridano, kongruenci uzaver: ";
+       macroPrint(set);
+         addSubSet(set,rel[i].first);
+         addSubSet(set,rel[i].second);
+         usedRules.insert(i);
+         appliedRule = true;
+       }
+       std::cout << "PRAVIDLO preskoceno:" << std::endl;
+      }
+    }
+  }
+
+  void MakePostForAut(const ExplicitFA& aut, SymbolSet& usedSymbols,
+      const SmallerElementType& smaller, const BiggerElementType& bigger,
+      const StateSet& actStateSet) {
+
+    auto macroPrint = [](StateSet& set) -> void {
+      for (auto& s : set) {
+        std::cout << s << " ";
+      }
+      std::cout << std::endl;
+    };
+
+    for (auto& state : actStateSet) {
+      auto transIter = aut.transitions_->find(state);
+      if (transIter == aut.transitions_->end()) {
+        continue;
+      }
+      
+      for (auto& symbolToSet : *transIter->second) {
         if (usedSymbols.count(symbolToSet.first)) { // symbol already explored
           continue;
         }
 
+        usedSymbols.insert(symbolToSet.first);
+        SmallerElementType newSmaller;
+        BiggerElementType newBigger;
         bool newSmallerAccept =  
-          this->CreatePostOfMacroState(newSmaller,smaller,symbolToSet.first,smaller_);
+          this->CreatePostOfMacroState(
+              newSmaller,smaller,symbolToSet.first,smaller_);
         bool newBiggerAccpet =
-          this->CreatePostOfMacroState(newSmaller,bigger,symbolToSet.first,bigger_);
+          this->CreatePostOfMacroState(
+              newBigger,bigger,symbolToSet.first,bigger_);
 
         if (newSmallerAccept != newBiggerAccpet) {
+          macroPrint(newSmaller);
+          macroPrint(newBigger);
           inclNotHold_ = true;
           return;
         }
 
+          macroPrint(newSmaller);
+        if (newSmaller.size() || newBigger.size()) {
+          next_.push_back(std::make_pair(newSmaller,newBigger));
+        }
       }
     }
-  };
+  }
 
-private:
   /*
    * Create a new post macro state of the given 
    * macrostate for given symbol, 
@@ -140,7 +277,8 @@ private:
    * @Return True if created macrostates is final in bigger NFA
    */
   bool CreatePostOfMacroState(StateSet& newMacroState,
-      StateSet& procMacroState, const SymbolType& symbol, const ExplicitFA& macroFA) {
+      const StateSet& procMacroState, const SymbolType& symbol, 
+      const ExplicitFA& macroFA) {
 
     bool res = false;
     // Create new macro state from current macro state for given symbol
