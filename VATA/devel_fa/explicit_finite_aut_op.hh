@@ -232,9 +232,20 @@ namespace VATA {
 		const ExplicitFiniteAut<SymbolType>& smaller, 
     const ExplicitFiniteAut<SymbolType>& bigger,
 		const Rel& preorder) {
-    typedef ExplicitFACongrFunctor<SymbolType,Rel> FunctorType;
+
+    typedef ExplicitFAInclusionFunctor<SymbolType,Rel> FunctorType;
 		return CheckFiniteAutInclusion<SymbolType,Rel,FunctorType>(smaller, bigger, preorder);
 	}
+
+  template <class SymbolType, class Rel>
+  bool CheckInclusionWithCongr(
+		const ExplicitFiniteAut<SymbolType>& smaller, 
+    const ExplicitFiniteAut<SymbolType>& bigger,
+		const Rel& preorder) {
+    
+    typedef ExplicitFACongrFunctor<SymbolType,Rel> FunctorType;
+		return CheckFiniteAutInclusion<SymbolType,Rel,FunctorType>(smaller, bigger, preorder);
+  }
 
   /*
    * Get just two automata, first sanitization is

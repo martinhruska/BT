@@ -89,6 +89,13 @@ public: // public functions
     StateSet smallerInit;
     StateSet biggerInit;
 
+    auto macroPrint = [](StateSet& set) -> void {
+      for (auto& s : set) {
+        //std::cout << s << " ";
+      }
+      //std::cout << std::endl;
+    };
+
     bool smallerInitFinal = false;
     bool biggerInitFinal = false;
 
@@ -102,6 +109,10 @@ public: // public functions
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
+    //std::cout << "Smallerinit state: ";
+    //macroPrint(smallerInit);
+    //std::cout << "Biggerinit state: ";
+    //macroPrint(biggerInit);
     next_.push_back(std::make_pair(StateSet(smallerInit),biggerInit));
     inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
@@ -109,13 +120,15 @@ public: // public functions
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
 
-    std::cout << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
+    //std::cout << "Kongruencuji to" <<  std::endl;
+    //std::cout << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
+    //std::cout << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
 
      auto macroPrint = [](StateSet& set) -> void {
       for (auto& s : set) {
-        std::cout << s << " ";
+        //std::cout << s << " ";
       }
-      std::cout << std::endl;
+      //std::cout << std::endl;
     };
 
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
@@ -126,7 +139,7 @@ public: // public functions
         return false;
       }
       for (auto& ls : lss) {
-        std:: cout << ls << std::endl;
+        //std:: cout << ls << std::endl;
         if (!rss.count(ls)) {
           return false;
         }
@@ -136,30 +149,30 @@ public: // public functions
     };
 
     //TODO tady bude provereni kongruencniho uzaveru
-    std::cout << "Smaler: " ;
-    macroPrint(smaller);
+    //std::cout << "Smaler: " ;
+    //macroPrint(smaller);
     StateSet congrSmaller(smaller);
-    GetCongrClosure(congrSmaller,next_);
-    GetCongrClosure(congrSmaller,relation_);
-    std::cout << "Smaler congr: " ;
-    macroPrint(congrSmaller);
+    GetCongrClosure(congrSmaller);
+    //std::cout << "Smaler congr: " ;
+    //macroPrint(congrSmaller);
 
-    std::cout << "Bigger: ";
-    macroPrint(bigger);
+    //std::cout << "Bigger: ";
+    //macroPrint(bigger);
     StateSet congrBigger(bigger);
-    GetCongrClosure(congrBigger,next_);
-    GetCongrClosure(congrBigger,relation_);
-    std::cout << "Bigger congr: ";
-    macroPrint(congrBigger);
-
+    GetCongrClosure(congrBigger);
+    //std::cout << "Bigger congr: ";
+    //macroPrint(congrBigger);
+    
     if (areEqual(congrSmaller,congrBigger)) {
-      std::cout << "equal" << std::endl;
+      //std::cout << "equal" << std::endl;
       smaller.clear();
       bigger.clear();
       return;
     }
-
     MakePostForAut(smaller_,usedSymbols,smaller,bigger,smaller);
+    if (inclNotHold_) {
+      return;
+    }
     MakePostForAut(bigger_,usedSymbols,smaller,bigger,bigger);
 
     relation_.push_back(std::make_pair(smaller,StateSet(bigger)));
@@ -170,17 +183,17 @@ public: // public functions
 private:
 
 
-  void GetCongrClosure(StateSet& set, ProductStateSetType& rel) {
-    auto matchPair = [](StateSet& closure, StateSet& rule) -> bool {
-      std::cout << "matchin rule: ";
+  void GetCongrClosure(StateSet& set) {
+    auto matchPair = [](const StateSet& closure, const StateSet& rule) -> bool {
+     // //std::cout << "matchin rule: ";
       if (rule.size() > closure.size()) {
         return false;
       }
       for (auto& s : rule) {
-        std::cout << s << " " << std::endl;
+        ////std::cout << s << " " << std::endl;
         if (!closure.count(s)) {
           return false;
-      std::cout << std::endl;
+     // //std::cout << std::endl;
         }
       }
       return true;
@@ -192,34 +205,57 @@ private:
 
     auto macroPrint = [](StateSet& set) -> void {
       for (auto& s : set) {
-        std::cout << s << " ";
+        //std::cout << s << " ";
       }
-      std::cout << std::endl;
+      //std::cout << std::endl;
     };
 
-    std::unordered_set<int> usedRules;
+    std::unordered_set<int> usedRulesN;
+    std::unordered_set<int> usedRulesR;
+    //macroPrint(set);
 
     bool appliedRule = true;
     while (appliedRule) {
       appliedRule = false;
-      for (unsigned int i=0; i < rel.size(); i++) {
+      for (unsigned int i=0; i < next_.size(); i++) {
 
-       if (usedRules.count(i)) {
+       if (usedRulesN.count(i)) {
          continue;
        }
 
-    std::cout << "PRAVIDLO: " << rel[i].first.size() << std::endl;
-       if (matchPair(set, rel[i].first) || 
-             matchPair(set, rel[i].second)) { // Rule matches
-       std::cout << "PRAVIDLO pridano, kongruenci uzaver: ";
-       macroPrint(set);
-         addSubSet(set,rel[i].first);
-         addSubSet(set,rel[i].second);
-         usedRules.insert(i);
+    ////std::cout << "PRAVIDLO: " << rel[i].first.size() << std::endl;
+       if (matchPair(set, next_[i].first) || 
+             matchPair(set, next_[i].second)) { // Rule matches
+     // //std::cout << "PRAVIDLO pridano, kongruenci uzaver: ";
+    //   macroPrint(set);
+         addSubSet(set,next_[i].first);
+         addSubSet(set,next_[i].second);
+         usedRulesN.insert(i);
          appliedRule = true;
+  //  macroPrint(set);
        }
-       std::cout << "PRAVIDLO preskoceno:" << std::endl;
+      // //std::cout << "PRAVIDLO preskoceno:" << std::endl;
       }
+      for (unsigned int i=0; i < relation_.size(); i++) {
+
+       if (usedRulesR.count(i)) {
+         continue;
+       }
+
+    ////std::cout << "PRAVIDLO: " << rel[i].first.size() << std::endl;
+       if (matchPair(set, relation_[i].first) || 
+             matchPair(set, relation_[i].second)) { // Rule matches
+     // //std::cout << "PRAVIDLO pridano, kongruenci uzaver: ";
+    //   macroPrint(set);
+         addSubSet(set,relation_[i].first);
+         addSubSet(set,relation_[i].second);
+         usedRulesR.insert(i);
+         appliedRule = true;
+  //  macroPrint(set);
+       }
+      // //std::cout << "PRAVIDLO preskoceno:" << std::endl;
+      }
+
     }
   }
 
@@ -229,11 +265,11 @@ private:
 
     auto macroPrint = [](StateSet& set) -> void {
       for (auto& s : set) {
-        std::cout << s << " ";
+        //std::cout << s << " ";
       }
-      std::cout << std::endl;
+      //std::cout << std::endl;
     };
-
+  
     for (auto& state : actStateSet) {
       auto transIter = aut.transitions_->find(state);
       if (transIter == aut.transitions_->end()) {
@@ -256,13 +292,13 @@ private:
               newBigger,bigger,symbolToSet.first,bigger_);
 
         if (newSmallerAccept != newBiggerAccpet) {
-          macroPrint(newSmaller);
-          macroPrint(newBigger);
+          //macroPrint(newSmaller);
+          //macroPrint(newBigger);
+          //std::cout << "NEPLATI" << std::endl;
           inclNotHold_ = true;
           return;
         }
 
-          macroPrint(newSmaller);
         if (newSmaller.size() || newBigger.size()) {
           next_.push_back(std::make_pair(newSmaller,newBigger));
         }

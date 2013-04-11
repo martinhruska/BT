@@ -93,6 +93,7 @@ public: // public functions
    * add states to the antichain
    */
   void MakePost(StateType procState, StateSet& procMacroState) {
+      //std::cout << "Antichainuju to" <<  std::endl;
       //TODO overit korektnos podminky
     auto iteratorSmallerSymbolToState = smaller_.transitions_->find(procState);
     if (iteratorSmallerSymbolToState == smaller_.transitions_->end()) {
