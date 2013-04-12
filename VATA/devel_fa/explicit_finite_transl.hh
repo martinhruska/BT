@@ -47,6 +47,7 @@ VATA::ExplicitLTS VATA::Translate(
   for (size_t i = 0; i < res.states(); ++i)
 	  partition[0].push_back(i);
   */
+  partition.resize(2);
   partition[0].push_back(0);
   partition[0].push_back(1);
   partition[1].push_back(0);
