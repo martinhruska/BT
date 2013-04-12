@@ -99,6 +99,9 @@ class VATA::ExplicitFiniteAut : public AutBase {
   template<class SymbolType, class Rel>
   friend class ExplicitFACongrFunctor;
 
+  template<class SymbolType, class Rel>
+  friend class ExplicitFAStateSetComparator;
+
 public:
 	typedef Symbol SymbolType;
 

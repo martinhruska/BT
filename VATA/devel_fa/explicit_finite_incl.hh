@@ -41,6 +41,7 @@ bool VATA::CheckFiniteAutInclusion(
 
   preorder.buildIndex(index,inv);
 
+      //std::cout << "Zacinam" <<  std::endl;
   InclFunc inclFunc(antichain,next,singleAntichain,
       smaller,bigger,index,inv,preorder);
 
@@ -52,11 +53,11 @@ bool VATA::CheckFiniteAutInclusion(
     return false;
   }
 
-  bool inclNotHold = false;
   // actually processed macro state
   BiggerElementType procMacroState; 
   SmallerElementType procState;
 
+      //std::cout << "Antichainuju to" <<  std::endl;
   while(inclFunc.DoesInclusionHold() && next.get(procState,procMacroState)) {
     /*
     static int i = 0;
@@ -65,6 +66,7 @@ bool VATA::CheckFiniteAutInclusion(
     //std::cout << "Ac size " << antichain.size() << std::endl;
     //std::cout << "Next size " << next.size() << std::endl;
     */
+      //std::cout << "Antichainuju to" <<  std::endl;
     inclFunc.MakePost(procState,procMacroState);
   }
     //std::cout << "Ac size " << antichain.size() << std::endl;

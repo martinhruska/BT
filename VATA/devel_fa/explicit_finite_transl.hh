@@ -43,8 +43,14 @@ VATA::ExplicitLTS VATA::Translate(
 
 
   std::cout << "tady padam " << res.states() << std::endl;
+  /*
   for (size_t i = 0; i < res.states(); ++i)
 	  partition[0].push_back(i);
+  */
+  partition[0].push_back(0);
+  partition[0].push_back(1);
+  partition[1].push_back(0);
+  partition[1].push_back(1);
   std::cout << "tady taky " << std::endl;
 
 	relation.resize(partition.size());

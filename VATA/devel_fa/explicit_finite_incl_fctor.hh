@@ -13,14 +13,59 @@
 
 namespace VATA {
   template <class SymbolType, class Rel> class ExplicitFAInclusionFunctor;
+  template <class SymbolType,class Rel> class ExplicitFAStateSetComparator;
 }
+
+template<class SymbolType, class Rel>
+class VATA::ExplicitFAStateSetComparator {
+
+public:
+  typedef ExplicitFiniteAut<SymbolType> ExplicitFA;
+  typedef typename ExplicitFA::StateSet StateSet;
+
+private: // private data members
+  Rel preorder_;
+
+public:
+  ExplicitFAStateSetComparator(Rel preorder) : preorder_(preorder) {}
+public: // public methods
+  // lss is subset of rss
+  inline bool lte(const StateSet& lss, const StateSet& rss) {
+      bool res = true;
+
+      // refraktoring, ktery udela special tridu pro preorder
+      if (lss.size() > rss.size()) {// TODO dodelat, ze neplati pro simulaci
+        return false;
+      }
+      for (auto ls : lss) {
+        bool tempres = false;
+        for (auto rs : rss) {
+          if (preorder_.get(ls,rs)) {
+            tempres |= true;
+            break;
+          }
+        }
+        res &= tempres;
+        if (!res) {
+          return false;
+        }
+      }
+      //return true;
+      return res;
+  }
+
+  // rss is subset of lss
+  inline bool gte(const StateSet& lss, const StateSet& rss) {
+    return lte(rss,lss);
+  }
+};
 
 template <class SymbolType, class Rel>
 class VATA::ExplicitFAInclusionFunctor : 
   public ExplicitFAAbstractFunctor <SymbolType,Rel> {
 
 public : // data types
-  typedef typename VATA::ExplicitFAAbstractFunctor<SymbolType,Rel> AbstractFunctor;
+  typedef ExplicitFAAbstractFunctor<SymbolType,Rel> AbstractFunctor;
   typedef typename AbstractFunctor::ExplicitFA ExplicitFA;
 
   typedef typename AbstractFunctor::StateType StateType;
@@ -36,8 +81,9 @@ public : // data types
 
   typedef AntichainType ProductStateSetType;
 
-  typedef bool(*Comparator)(const StateSet&, const StateSet&);
   typedef typename AbstractFunctor::IndexType IndexType;
+
+  typedef ExplicitFAStateSetComparator<SymbolType,Rel> Comparator;
 
 private: // data memebers
   AntichainType& antichain_;
@@ -52,8 +98,7 @@ private: // data memebers
 
   Rel preorder_; // Simulation or identity
 
-  Comparator lte = &ExplicitFAInclusionFunctor<SymbolType,Rel>::comparatorLTE; 
-  Comparator gte = &ExplicitFAInclusionFunctor<SymbolType,Rel>::comparatorGTE; 
+  Comparator comparator_;
 
 public: // constructor
   ExplicitFAInclusionFunctor(AntichainType& antichain, AntichainType& next,
@@ -71,8 +116,7 @@ public: // constructor
     index_(index),
     inv_(inv),
     preorder_(preorder),
-    lte(),
-    gte()
+    comparator_(preorder)
   {}
 
 public: // public functions
@@ -135,6 +179,14 @@ private: // private functions
    * Add a new product state to the antichains sets
    */
   void AddNewPairToAntichain(StateType state, StateSet &set) {
+    //lss is subset of rss -> return TRUE
+    auto lte = [&comparator_](const StateSet& lss, const StateSet& rss) {
+      return comparator_.lte(lss,rss);
+    };
+
+    auto gte = [&comparator_](const StateSet& lss, const StateSet& rss) {
+      return comparator_.gte(lss,rss);
+    };
 
     // Get candidates for given state
     std::vector<StateType> candidates;
@@ -148,7 +200,6 @@ private: // private functions
     // contains given product state
     std::vector<StateType> tempStateSet = {state};
     //  std::cout << "state " << state << std::endl;
-
     if (!antichain_.contains(tempStateSet,set,lte)) {
       antichain_.refine(tempStateSet,set,gte);
       antichain_.insert(state,set);
@@ -176,45 +227,21 @@ private: // private functions
    * Add product state to the next set
    */
   void AddToNext(StateType state, StateSet& set) {
-    // Comparator of macro states
-    std::vector<StateType> tempStateSet = {state};
+    //lss is subset of rss -> return TRUE
+    auto lte = [&comparator_](const StateSet& lss, const StateSet& rss) {
+      return comparator_.lte(lss,rss);
+    };
+
+    auto gte = [&comparator_](const StateSet& lss, const StateSet& rss) {
+      return comparator_.gte(lss,rss);
+    };    std::vector<StateType> tempStateSet = {state};
     if (!next_.contains(tempStateSet,set,lte)) {
       next_.refine(tempStateSet,set,gte);
       next_.insert(state,set);
     }
   }
 
-public:
-  /*
-   * lss is subset of rss
-   */
-  bool comparatorLTE (const StateSet& lss, const StateSet& rss) {
-      bool res = true;
-      if (lss.size() > rss.size()) {
-        return false;
-      }
-      for (auto ls : lss) {
-        bool tempres = false;
-        for (auto rs : rss) {
-          if (preorder_.get(ls,rs)) {
-            tempres |= true;
-            break;
-          }
-        }
-        res &= tempres;
-        if (!res) {
-          return false;
-        }
-      }
-      return res;
-    };
-  
-  /*
-   * rss is subset of lss
-   */
-  bool comparatorGTE (const StateSet& lss, const StateSet& rss) {
-    return comparatorLTE(rss,lss);
-  }
+
 private: // Private inline functions
   /*
    * Copy one set to another 
