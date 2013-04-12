@@ -5,31 +5,30 @@
 #include <vata/util/antichain2c_v2.hh>
 
 #include "explicit_finite_aut.hh"
+#include "explicit_finite_abstract_fctor.hh"
 
 namespace VATA {
   template <class SymbolType, class Rel> class ExplicitFACongrFunctor;
 }
 
 template <class SymbolType, class Rel>
-class VATA::ExplicitFACongrFunctor {
+class VATA::ExplicitFACongrFunctor : 
+  public ExplicitFAAbstractFunctor <SymbolType,Rel> {
 
 public : // data types
-  typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
+  typedef typename VATA::ExplicitFAAbstractFunctor<SymbolType,Rel> 
+    AbstractFunctor;
+  typedef typename AbstractFunctor::ExplicitFA ExplicitFA;
 
-  typedef typename ExplicitFA::StateType StateType;
-  typedef typename ExplicitFA::StateSet StateSet;
-  
+  typedef typename AbstractFunctor::StateType StateType;
+  typedef typename AbstractFunctor::StateSet StateSet;
+
+  typedef typename AbstractFunctor::Antichain1Type Antichain1Type;
+
   typedef std::unordered_set<SymbolType> SymbolSet;
 
   typedef StateSet SmallerElementType;
   typedef StateSet BiggerElementType;
-
-  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType> 
-    AntichainType;
-  typedef VATA::Util::Antichain1C<SmallerElementType> Antichain1Type;
-
-  //typedef AntichainType ProductStateSetType;
-
 
   class ProductStateSetType : public std::vector<std::pair<SmallerElementType,BiggerElementType>> {
     public:
@@ -47,11 +46,10 @@ public : // data types
     }
   };
 
-  typedef typename Rel::IndexType IndexType;
+  typedef typename AbstractFunctor::IndexType IndexType;
 
 private: // Private data members
   ProductStateSetType& relation_;
-//  AntichainType& next_;
   ProductStateSetType&  next_;
   Antichain1Type& singleAntichain_;
 
@@ -62,8 +60,6 @@ private: // Private data members
   IndexType& inv_;
 
   Rel preorder_; // Simulation or identity
-
-  bool inclNotHold_;
 
 public:
   ExplicitFACongrFunctor(ProductStateSetType& relation, ProductStateSetType& next,
@@ -80,21 +76,13 @@ public:
     bigger_(bigger),
     index_(index),
     inv_(inv),
-    preorder_(preorder),
-    inclNotHold_(false)
+    preorder_(preorder)
   {}
 
 public: // public functions
   void Init() {
     StateSet smallerInit;
     StateSet biggerInit;
-
-    auto macroPrint = [](StateSet& set) -> void {
-      for (auto& s : set) {
-        //std::cout << s << " ";
-      }
-      //std::cout << std::endl;
-    };
 
     bool smallerInitFinal = false;
     bool biggerInitFinal = false;
@@ -114,7 +102,7 @@ public: // public functions
     //std::cout << "Biggerinit state: ";
     //macroPrint(biggerInit);
     next_.push_back(std::make_pair(StateSet(smallerInit),biggerInit));
-    inclNotHold_ = smallerInitFinal != biggerInitFinal;
+    this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
@@ -123,13 +111,6 @@ public: // public functions
     //std::cout << "Kongruencuji to" <<  std::endl;
     //std::cout << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
     //std::cout << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
-
-     auto macroPrint = [](StateSet& set) -> void {
-      for (auto& s : set) {
-        //std::cout << s << " ";
-      }
-      //std::cout << std::endl;
-    };
 
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
@@ -170,7 +151,7 @@ public: // public functions
       return;
     }
     MakePostForAut(smaller_,usedSymbols,smaller,bigger,smaller);
-    if (inclNotHold_) {
+    if (this->inclNotHold_) {
       return;
     }
     MakePostForAut(bigger_,usedSymbols,smaller,bigger,bigger);
@@ -201,13 +182,6 @@ private:
 
     auto addSubSet = [](StateSet& mainset, StateSet& subset) -> void {
       mainset.insert(subset.begin(),subset.end());
-    };
-
-    auto macroPrint = [](StateSet& set) -> void {
-      for (auto& s : set) {
-        //std::cout << s << " ";
-      }
-      //std::cout << std::endl;
     };
 
     std::unordered_set<int> usedRulesN;
@@ -263,13 +237,6 @@ private:
       const SmallerElementType& smaller, const BiggerElementType& bigger,
       const StateSet& actStateSet) {
 
-    auto macroPrint = [](StateSet& set) -> void {
-      for (auto& s : set) {
-        //std::cout << s << " ";
-      }
-      //std::cout << std::endl;
-    };
-  
     for (auto& state : actStateSet) {
       auto transIter = aut.transitions_->find(state);
       if (transIter == aut.transitions_->end()) {
@@ -295,7 +262,7 @@ private:
           //macroPrint(newSmaller);
           //macroPrint(newBigger);
           //std::cout << "NEPLATI" << std::endl;
-          inclNotHold_ = true;
+          this->inclNotHold_ = true;
           return;
         }
 
@@ -304,46 +271,6 @@ private:
         }
       }
     }
-  }
-
-  /*
-   * Create a new post macro state of the given 
-   * macrostate for given symbol, 
-   * which is stored to the given StateSet.
-   * @Return True if created macrostates is final in bigger NFA
-   */
-  bool CreatePostOfMacroState(StateSet& newMacroState,
-      const StateSet& procMacroState, const SymbolType& symbol, 
-      const ExplicitFA& macroFA) {
-
-    bool res = false;
-    // Create new macro state from current macro state for given symbol
-    for (const StateType& stateInMacro : procMacroState) {
-      
-      // Find transition for given state
-      auto iteratorTransForState = macroFA.transitions_->find(stateInMacro); 
-      if (iteratorTransForState == macroFA.transitions_->end()) {
-        continue;
-      }
-      auto transForState = iteratorTransForState->second;
-
-      // States for given symbol
-      auto symbolToStateSet = transForState->find(symbol);
-      if (symbolToStateSet == transForState->end()) {
-        continue;
-      }
-
-      for (auto& s : symbolToStateSet->second) {
-        newMacroState.insert(s);
-        res |= macroFA.IsStateFinal(s);
-      }
-    }
-    return res;
-  }
-
-public: // public inline functions
-  bool DoesInclusionHold() {
-    return !inclNotHold_;
   }
 };
 
