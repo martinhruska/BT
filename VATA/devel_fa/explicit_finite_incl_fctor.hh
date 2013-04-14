@@ -34,9 +34,11 @@ public: // public methods
       bool res = true;
 
       // refraktoring, ktery udela special tridu pro preorder
+      /*
       if (lss.size() > rss.size()) {// TODO dodelat, ze neplati pro simulaci
         return false;
       }
+      */
       for (auto ls : lss) {
         bool tempres = false;
         for (auto rs : rss) {
