@@ -82,6 +82,7 @@ namespace VATA {
         // new clusterMap
         res.uniqueClusterMap()->insert(rhs.transitions_->begin(),
           rhs.transitions_->end());
+		assert(lhs.transitions_->size() + rhs.transitions_->size() == res.transitions_->size());
         
         res.startStates_.insert(rhs.startStates_.begin(),
           rhs.startStates_.end());
@@ -181,7 +182,7 @@ namespace VATA {
 
     AutBase::StateBinaryRelation relation;
     std::vector<std::vector<size_t>> partition(1);
-		return Translate(aut, partition, relation).computeSimulation(size);
+		return Translate(aut, partition, relation).computeSimulation(partition,relation,size);
 	}
 
   // Automaton has not been sanitized

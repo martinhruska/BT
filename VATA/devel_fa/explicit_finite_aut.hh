@@ -557,10 +557,10 @@ public: // Getters
 
 protected:
 
-	const StateToTransitionClusterMapPtr uniqueClusterMap(){
+	const StateToTransitionClusterMapPtr& uniqueClusterMap(){
 		if (!this->transitions_.unique()){
 			this->transitions_ = StateToTransitionClusterMapPtr(
-				new StateToTransitionClusterMap());
+				new StateToTransitionClusterMap(*transitions_));
 		}
 		return this->transitions_;
 	}

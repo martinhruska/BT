@@ -26,43 +26,96 @@ VATA::ExplicitLTS VATA::Translate(
 
   VATA::ExplicitLTS res;
 
+  typedef ExplicitFiniteAut<SymbolType> ExplicitFA;
+  typedef typename ExplicitFA::StateType StateType;
+  typedef typename ExplicitFA::StateSet StateSet;
+
+	std::unordered_map<SymbolType, size_t> symbolMap;
+
+//  std::cerr << "transitions size: " << aut.transitions_->size() << std::endl;
+	size_t symbolCnt = 0;
+	Util::TranslatorWeak2<std::unordered_map<SymbolType, size_t>>
+		symbolTranslator(symbolMap, [&symbolCnt](const SymbolType&){ return symbolCnt++; });
+
+
+  auto areAllStatesFinal = [&aut]() -> bool {
+    for (auto fs : aut.finalStates_) {
+      if (!aut.IsStateStart(fs)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  size_t base;
+  if (aut.finalStates_.size()>0 && aut.finalStates_.size() <= aut.transitions_->size() && !areAllStatesFinal()) {
+    base = 3;
+  }
+  else {
+    base = 2;
+  }
+
+  partition.clear();
+  partition.resize(base);
+  
+  for (auto& finalState : aut.finalStates_) {
+    partition[0].push_back(stateIndex[finalState]);
+  }
+
   // Add all transitions to LTS
   for (auto stateToCluster : *aut.transitions_) { // left state of transition
     assert(stateToCluster.second);
     size_t leftStateTranslated = stateIndex[stateToCluster.first];
+
+    if (!aut.IsStateFinal(stateToCluster.first)) {
+      partition[base-2].push_back(leftStateTranslated);
+    }
 
     for (auto symbolToSet : *stateToCluster.second) { // symbol of transition
 
       for (auto setState : symbolToSet.second) { // right state of transition
         assert(setState);
 
-        res.addTransition(leftStateTranslated,symbolToSet.first,setState);
+//        std::cerr << "Adding transition " <<  leftStateTranslated << " " << symbolTranslator[symbolToSet.first] << " " << setState << std::endl;
+        res.addTransition(leftStateTranslated, symbolTranslator[symbolToSet.first],setState);
       }
     }
   }
 
 
-  std::cout << "tady padam " << res.states() << std::endl;
+  for (auto& startState : aut.GetStartStates()) {
+    for (auto& startSymbol : aut.GetStartSymbols(startState)) {
+ //       std::cerr << "Adding transition " <<  aut.transitions_->size() +aut.GetStartStates().size()<< " " << symbolTranslator[startSymbol] << " " << startState << std::endl;
+      res.addTransition(aut.transitions_->size()+aut.GetStartStates().size(),
+        symbolTranslator[startSymbol],startState);
+    }
+  }
+
+    partition[base-1].push_back(stateIndex[aut.transitions_->size()+aut.GetStartStates().size()]);
+
+//  std::cerr << "tady padam " << base << " " << res.states() << std::endl;
   /*
-  for (size_t i = 0; i < res.states(); ++i)
-	  partition[0].push_back(i);
-  */
+  partition.clear();
   partition.resize(2);
   partition[0].push_back(0);
-  partition[0].push_back(1);
-  partition[1].push_back(0);
   partition[1].push_back(1);
-  std::cout << "tady taky " << std::endl;
-
+  partition[1].push_back(2);
+  //partition[1].push_back(2);
+  partition[1].push_back(4);
+  //std::cerr << "tady taky " << std::endl;
+*/
+//  int i=0; for (auto& a : partition) {std::cerr << i++ << ": "; for (auto &b : a) std::cerr << b;std::cerr << std::endl;}
 	relation.resize(partition.size());
 	relation.reset(false);
 
 	// 0 accepting, 1 non-accepting, 2 .. environments
 	relation.set(0, 0, true);
+	if (base == 3) {
+		relation.set(1, 0, true);
+		relation.set(1, 1, true);
+	}
 
-	relation.set(1, 0, true);
-	relation.set(1, 1, true);
-
+	relation.set(base - 1, base - 1, true); // reflexivity of start state
 
   res.init();
 
