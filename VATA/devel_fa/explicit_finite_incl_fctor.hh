@@ -36,6 +36,7 @@ public: // public methods
       // refraktoring, ktery udela special tridu pro preorder
       /*
       if (lss.size() > rss.size()) {// TODO dodelat, ze neplati pro simulaci
+      DODELAT komparator ktery zohledni tuhle podminku a jeste taky podminku p=<P - v nesimulaci bude true/false(?) vzddycky
         return false;
       }
       */

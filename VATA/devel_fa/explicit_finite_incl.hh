@@ -57,7 +57,7 @@ bool VATA::CheckFiniteAutInclusion(
   BiggerElementType procMacroState; 
   SmallerElementType procState;
 
-      //std::cout << "Antichainuju to" <<  std::endl;
+  //std::cout << "Antichainuju to" <<  std::endl;
   while(inclFunc.DoesInclusionHold() && next.get(procState,procMacroState)) {
     /*
     static int i = 0;
