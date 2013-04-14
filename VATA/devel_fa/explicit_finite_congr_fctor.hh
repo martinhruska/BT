@@ -130,15 +130,15 @@ public: // public functions
     };
 
     //TODO tady bude provereni kongruencniho uzaveru
-    //std::cout << "Smaler: " ;
-    //macroPrint(smaller);
+    std::cerr << "Smaler: " ;
+    macroPrint(smaller);
     StateSet congrSmaller(smaller);
     GetCongrClosure(congrSmaller);
     //std::cout << "Smaler congr: " ;
     //macroPrint(congrSmaller);
 
-    //std::cout << "Bigger: ";
-    //macroPrint(bigger);
+    std::cerr << "Bigger: ";
+    macroPrint(bigger);
     StateSet congrBigger(bigger);
     GetCongrClosure(congrBigger);
     //std::cout << "Bigger congr: ";
