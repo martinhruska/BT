@@ -631,59 +631,64 @@ Comparing the mentioned approaches to the checking language inclusion can be see
 
 
 
-\chapter{Existing Finite Automata Libraries and VATA library} %TODO: zvazit zobecneni na prehled existujicich knihoven
+\chapter{Existing Finite Automata Libraries and the VATA Library} %TODO: zvazit zobecneni na prehled existujicich knihoven
 \label{libraries}
-There are many different libraries for finite automata. Libraries have various purposes and 
+There are many different libraries for finite automata. These libraries have been created for various purposes and 
 are implemented in different languages. 
-At this chapter, some libraries will be described. Described libraries are just examples, which represents typical disadvantages of existing libraries, like
-classical approach for language inclusion testing, which needs determinisation of finite automaton. 
+At this chapter, some libraries will be described. Described libraries are just examples which represents typical disadvantages of existing libraries like
+classical approach for language inclusion testing which needs determinisation of finite automaton. 
 
-As the second VATA library for manipulating of \emph{tree} automata will be introduced. It will be briefly describe library design, operations for \emph{tree}
-automata and plans for extension of VATA \emph{library}.
+As the second VATA library for manipulating of \emph{tree} automata will be introduced. It will be briefly describe library design, operations for tree
+automata and plans for extension of VATA library.
 
 \section{Existing Finite Automata Libraries}
 \label{existinglibraries}
 \subsection{dk.brics.automaton}
 \label{brics}
-\emph{dk.brics.automaton} is established Java package available under BSD license. Last version of this library (1.11-8) was released on September 7th, 2011.
+\emph{dk.brics.automaton} is an established Java package available under the BSD license. The latest version of this library (1.11-8) 
+was released on September 7th, 2011.
 Library can be downloaded and more information are on \cite{brics}. 
 
-Library can use as input regular expression created by Java class \emph{RegeExp}.
+Library can use as input regular expression created by the Java \emph{RegeExp} class.
 It supports manipulation with NFA and DFA. Basic operation like union,
 intersection, complementation or run of automaton on the given word etc., are available.
 
-Test of language inclusion is also supported, but if the input automaton is NFA, it needs to be converted to DFA. 
-This is made by \emph{subset construction} approach, which is inefficient \cite{cav06}, \cite{tacas10}.
+Test of language inclusion is also supported but if the input automaton is NFA, it needs to be converted to DFA. 
+This is made by \emph{subset construction} approach which is inefficient \cite{cav06}, \cite{tacas10}.
 
 \emph{dk.brics.automaton} was ported to another two languages in two different libraries, which will be described next.
 
 \subsubsection{libfa}
-\emph{libfa} is implemented in C. \emph{libfa} is part
-of \emph{Augeas} tool. Library is licensed under the LGPL, version 2 or later. It also support both versions of Finite Automata, NFA and DFA. 
+\emph{libfa} is a C library being part of \emph{Augeas} tool. 
+Library is licensed under the LGPL, version 2 or later. It also support both versions of finite automata, NFA and DFA. 
 Regular expressions could serve like input again.
-\emph{libfa} can be found and downloaded on \cite{libfa}.
-\emph{libfa} has no explicit operation for inclusion checking, but has operations for intersect and complement of automata, which can serve for inclusion checking.
+libfa can be found and downloaded on \cite{libfa}.
+libfa has no explicit operation for inclusion checking, but has the operations for intersection and complement of automata
+which can serve for the inclusion checking.
 Main disadvantage of libfa is again need of determinisation.
 
 \subsubsection{Fare}
-\emph{Fare} is library, which brings \emph{dk.brics.automaton} from Java to .NET. 
-This library has same characteristics like \emph{dk.brics.automaton} or \emph{libfa} and disadvantage in need of determinisation is still here. 
-\emph{Fare} can be found on \cite{fare}
+\emph{Fare} is a library, which brings dk.brics.automaton from Java to .NET. 
+This library has the same characteristics as dk.brics.automaton or libfa and disadvantage in need of determinisation is still here. 
+Fare can be found on \cite{fare}.
 
 \subsection{The RWHT FSA toolkit}
-The RWHT FSA is toolkit for manipulating finite automata described in \cite{kanthakN04}. The latest version is 0.9.4 from year 2005. Toolkit is written in C++
+The \emph{RWHT FSA} is a toolkit for manipulating finite automata described in \cite{kanthakN04}. 
+The latest version is 0.9.4 from year 2005. The toolkit is written in C++
 and available under its special license, derived from Q Public License v1.0 and the Qt Non-Commercial License v1.0. Library can be downloaded from \cite{rwth}. 
 
-Library supports on-demand computation for better memory efficiency. Another advantage is, that it supports the weighted transitions, so it is possible to use it
+%TODO dopsat computation ceho
+The RWHT FSA toolkit supports on-demand computation for better memory efficiency. Another advantage is that it supports the weighted transitions 
+so it is possible to use it
 for wider range of applications. The RWHT FSA toolkit does not support the explicitly directly, but contains operations for intersection, complement and
-determinisation, which are unnecessary for inclusion testing. There are used some optimization, but this not compensates need of 
+determinisation which are can be exploited for testing inclusion. There are used some optimization, but this not compensates the need of 
 determinisation. 
 
 \subsection{Implementation of New Efficient Algorithms}
 New efficient algorithms for inclusion testing, which were introduced in \cite{cav06,tacas10} and \cite{popl13}, was implemented for finite automata 
 only in OCaml for testing and evaluation purposes. But implementation in C++ could be much more efficient.
 
-The algorithm based on antichains and simulation introduced in \cite{taca10} have been implemented for \emph{tree} automata in library VATA. Description
+The algorithm based on antichains and simulation introduced in \cite{taca10} have been implemented for tree automata in the VATA library. A description
 of this library will be placed in next section.
 
 \begin{comment}
@@ -702,12 +707,14 @@ Because of these reasons, algorithms for finite automata manipulation will be im
 \section{VATA library}
 \label{VATA}
 \subsection{General}
-VATA is a highly efficient open source library for manipulating \emph{non-deterministic tree} automata licensed under GPL, version 3. 
+VATA is a highly efficient open source library for manipulating \emph{non deterministic tree} automata licensed under GPL, version 3. 
 Main application of VATA is in formal verification.
 VATA library is implemented in C++ and uses the Boost C++ library. Download of library can be found on its website 
 \footnote{\url{http://www.fit.vutbr.cz/research/groups/verifit/tools/libvata/}} \cite{libvata}.  
 
-Purposes of VATA library are similar like purposes of this work, so it was decided not to creating brand new library, but makes extension of VATA library
+Purposes of VATA library are similar as purposes of this work and becasue VATA also provides basic infrastructure for 
+parsing, serialing and writing finite automata from an input format, 
+it was decided not to create a brand new library, but makes extension of VATA.
 for finite automata.
 
 \subsection{Design}
@@ -716,11 +723,20 @@ VATA provides two kind of encoding for tree automata -- Explicit Encoding (top-d
 between encoding is
 in data structure for storing transition of \emph{tree} automata. Semi-symbolic encoding is primary for automata with large alphabets. 
 
-As you
-can see on picture \ref{picVataDesign}, VATA is written in modular way, so it is easy to make extension for finite automata. Thanks to the modularity, 
-any new encoding can share other parts of library like parser or serializer \cite{libvata}.
+The main idea of the desing of VATA library is show on the image \ref{picVataDesign}. Here is also brief description of that idea. 
+The input automata are processed by one of the parsers (currently
+here is only Timbuk format parser implemented). A result of parsing is a data structure with the information about automaton (it keeps the list
+of transtion of given automaton, its final states etc.). The main progam choose one of the internal encodings of the automata. These encodings
+contain a definiton of a data structure for a representation of automaton and fuctions which create transform the automaton from the data structure
+created by parser to the data structure of chosen encoding. Each encoding also provide
+an implementation of the operations over automata. 
+Finally, once all needed operations over the input automata are processed, the result automaton can be dump to a output text format using one of serializers 
+(currently there is only Timbuk format serializer implemented).
 
-VATA library supports now just \emph{Timbuk} format as input format of \emph{tree} automata \cite{timbuk}.
+As you
+can see on picture \ref{picVataDesign}, VATA is written in a modular way, so it is easy to make an extension for finite automata. Thanks to the modularity, 
+any new encoding can share other parts of library such as parser or serializer \cite{libvata}. VATA also provides a command line interface which is shared by
+different encodings.
 
 \begin{figure}[h]
 	\begin{center}
@@ -728,7 +744,7 @@ VATA library supports now just \emph{Timbuk} format as input format of \emph{tre
 		{
 			\includegraphics{fig/vata_design.png}
 		}
-		\caption{The VATA library design. Picture comes from \cite{libvata}}.
+		\caption{The VATA library design. The image is taken from \cite{libvata}}.
 		\label{picVataDesign}
 	\end{center}
 \end{figure}
@@ -759,7 +775,7 @@ For purposes of VATA library was implemented new MTBDD package, which improved t
 %TODO povypravaet o MTBDD package
 
 \subsubsection{Operations}
-There are supported basic operations like union, intersection, elimination of unreachable states, but also some advance algorithms for inclusion checking, 
+There are supported basic operations like union, intersection, elimination of unreachable states, but also some advance a algorithms for inclusion checking, 
 computation of simulation relation, language preserving size reduction based on simulation equivalence. 
 
 For inclusion testing are implemented optimized algorithms from \cite{cav06,tacas10}. The inclusion operation is implemented in more versions, so it is possible
@@ -769,8 +785,9 @@ Efficiency of advanced operations does not come only from the usage of efficient
 but there are also some implementation optimization like \emph{copy-on-write}
 principle for automata copying (briefly described in subsection \ref{sectionExplicitEnc}), buffering once computed clusters of transitions etc. 
 Other optimization could be found in exploitation of polymorphism using C++ function templates, instead of
-virtual method, because look-up in virtual-method table is very expensive \cite{libvata}.
-More details about implementation optimization could be found in \cite{libvata}.
+virtual method, because look-up in virtual-method precludes compiler's optimizer to perform some operations \cite{libvata}. %TODO dodelat lepsi citaci  Compiler Optimization of C++ Virtual Function Calls
+
+More details about implementation optimization can be found in \cite{libvata}.
 
 Especially advanced operations are able only for specific encoding. Some of operations implemented in VATA library and their supported encodings are in this table:
 \begin{savenotes}
@@ -798,19 +815,31 @@ Especially advanced operations are able only for specific encoding. Some of oper
 
 \subsection{Extension for Finite Automata}
 This work creates extension of VATA library for finite automata in explicit encoding. The main goal is provide operation for language inclusion test of
-NFA without need of explicit determinisation. To be precise, VATA library could be already used for finite automata, 
+NFA without the need of explicit determinisation. To be precise, VATA library could be already used for finite automata, 
 which can be represented like one dimensional
-\emph{tree} automata. But VATA library data structures for manipulating \emph{tree} automata are designated for more complex data structures
+tree automata. But the VATA library data structures for manipulating tree automata are designated for more complex data structures
 and new special implementation for finite
-automata will be definitely more efficient. This new extension will use some existing interfaces like simulation computation.
+automata will be definitely more efficient. This new extension will use some already implemented features of VATA like parsing and serializing
+the input automata or computation of simulation over states of an automaton.
 
 \chapter{Design}
-\label{arch}Výsledky
+\label{arch}
+\section{Data Structure for Explicit FA Encoding}
+\subsection{Simplyfing of the original data structure}
+\subsection{Keeping the start states}
+\subsection{Using timubk input format}
 
 \chapter{Implementation}
 \label{implementation}
+\section{implementation of basic operations}
+\section{implementation of antichain algorithms}
+\section{improvments for simulation}
+\section{implementation of congruence closure}
 
 \chapter{Experimental evaluation}
 \label{eval}
+\section{improvemnet give by congrunce}
+
 \chapter{Conclusion}
 \label{concl}
+\section{futher development}

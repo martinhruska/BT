@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  2 APR 2013 23:23
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  16 APR 2013 00:48
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -937,14 +937,14 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@vyskartext=\skip67
 \@vyskaobr=\skip68
 
-<fig/vut-zp2.pdf, id=133, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=173, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 120--120
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=134, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=174, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 120--120
@@ -978,40 +978,40 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 4.
 
 (/usr/share/texmf/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
-))
+)pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.45 ...provments for simulation}{20}{section.6.3}
+                                                   [1
+
+
+])
 \tf@toc=\write5
 \openout5 = `projekt.toc'.
 
  (./obsah.texpdfTeX warning (ext4): destination with the same identifier (name{
-page.1}) has been already used, duplicate ignored
+page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.1 \chapter
-            {Introduction} [1
-
-
-]
+            {Introduction} [2]
 Chapter 1.
-pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
+pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.36 
-      [2
+      [3
 
-]pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
+]pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.38 \chapter
-             {Preliminaries} [3]
+             {Preliminaries} [4]
 Chapter 2.
-pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.73 		\end{itemize}
-                     [4
+[5
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 133--137
@@ -1021,7 +1021,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 133--137
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5]
+[6]
 Overfull \hbox (2.34967pt too wide) in paragraph at lines 259--264
 \IL2/cmr/m/n/10.95 Now we will de-fine how to con-struct equiv-a-lent DFA $\OMS
 /cmsy/m/n/10.95 A[]$ \IL2/cmr/m/n/10.95 for a given NFA $\OMS/cmsy/m/n/10.95 A 
@@ -1037,9 +1037,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 259--264
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7] [8]
+[7] [8] [9]
 Chapter 3.
-[9
+[10
 
 ]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 503.
@@ -1051,19 +1051,19 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 503.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 505.
- [10]
+ [11]
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
 ion <1.5>, but at most version <1.4> allowed
-<fig/congr1.pdf, id=302, 244.112pt x 274.626pt>
+<fig/congr1.pdf, id=356, 244.112pt x 274.626pt>
 File: fig/congr1.pdf Graphic file (type pdf)
  <use fig/congr1.pdf>
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: found PDF version
  <1.5>, but at most version <1.4> allowed
-<fig/ac1.pdf, id=303, 552.46402pt x 232.87pt>
+<fig/ac1.pdf, id=357, 552.46402pt x 232.87pt>
 File: fig/ac1.pdf Graphic file (type pdf)
- <use fig/ac1.pdf> [11] [12 <./fig/congr1.pdf
+ <use fig/ac1.pdf> [12] [13 <./fig/congr1.pdf
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: Page Group det
 ected which pdfTeX can't handle. Ignoring it.
@@ -1073,39 +1073,39 @@ pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: Page Group detect
 ed which pdfTeX can't handle. Ignoring it.
 >]
 Chapter 4.
-[13
+[14
 
 ]
 
-LaTeX Warning: Citation `taca10' on page 14 undefined on input line 686.
+LaTeX Warning: Citation `taca10' on page 15 undefined on input line 691.
 
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 708
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 713
 .
 (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
-)
-<fig/vata_design.png, id=394, 546.04pt x 295.1025pt>
+) [15]
+<fig/vata_design.png, id=461, 546.04pt x 295.1025pt>
 File: fig/vata_design.png Graphic file (type png)
  <use fig/vata_design.png>
-[14] [15 <./fig/vata_design.png (PNG copy)>] [16]
+[16 <./fig/vata_design.png (PNG copy)>] [17] [18]
 Chapter 5.
-[17
-
-]
-Chapter 6.
-[18
-
-]
-Chapter 7.
 [19
 
 ]
+Chapter 6.
+[20
+
+]
+Chapter 7.
+[21
+
+]
 Chapter 8.
-) (./projekt.bbl [20
+) (./projekt.bbl [22
 
-] [21
+] [23
 
-]) (./prilohy.tex) [22] (./projekt.aux)
+]) (./prilohy.tex) [24] (./projekt.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
@@ -1118,10 +1118,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 10666 strings out of 256216
- 150398 string characters out of 1917072
- 252155 words of memory out of 1500000
- 13526 multiletter control sequences out of 10000+200000
+ 10686 strings out of 256216
+ 150663 string characters out of 1917072
+ 252152 words of memory out of 1500000
+ 13535 multiletter control sequences out of 10000+200000
  27303 words of font info for 75 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  45i,24n,46p,823b,735s stack positions out of 5000i,500n,6000p,200000b,15000s
@@ -1142,9 +1142,9 @@ hare/texmf/fonts/type1/public/cs/csti10.pfb></usr/share/texmf/fonts/type1/publi
 c/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cstt9.pfb></usr/share/t
 exmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/urw/helve
 tic/uhvr8a.pfb>
-Output written on projekt.pdf (26 pages, 845400 bytes).
+Output written on projekt.pdf (28 pages, 856043 bytes).
 PDF statistics:
- 563 PDF objects out of 1000 (max. 8388607)
- 117 named destinations out of 1000 (max. 131072)
- 282 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 622 PDF objects out of 1000 (max. 8388607)
+ 128 named destinations out of 1000 (max. 131072)
+ 362 words of extra memory for PDF output out of 10000 (max. 10000000)
 
