@@ -24,6 +24,7 @@
 #include "explicit_finite_congr_fctor.hh"
 #include "explicit_finite_congr_fctor_opt.hh"
 #include "explicit_finite_congr_fctor_cache.hh"
+#include "explicit_finite_congr_fctor_cache_opt.hh"
 
 namespace VATA {
 
@@ -249,6 +250,8 @@ namespace VATA {
     typedef ExplicitFACongrFunctorOpt<SymbolType,Rel> FunctorType;
 #elif CACHE
     typedef ExplicitFACongrFunctorCache<SymbolType,Rel> FunctorType;
+#elif CACHE_OPT
+    typedef ExplicitFACongrFunctorCacheOpt<SymbolType,Rel> FunctorType;
 #else
     typedef ExplicitFACongrFunctor<SymbolType,Rel> FunctorType;
 #endif
