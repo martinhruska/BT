@@ -100,6 +100,8 @@ class VATA::ExplicitFiniteAut : public AutBase {
   friend class ExplicitFACongrFunctor;
   template<class SymbolType, class Rel>
   friend class ExplicitFACongrFunctorOpt;
+  template<class SymbolType, class Rel>
+  friend class ExplicitFACongrFunctorCache;
 
   template<class SymbolType, class Rel>
   friend class ExplicitFAStateSetComparator;

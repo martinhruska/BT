@@ -1,5 +1,5 @@
-#ifndef EXPLICIT_FINITE_AUT_CONGR_FCTOR_OPT_
-#define EXPLICIT_FINITE_AUT_CONGR_FCTOR_OPT_
+#ifndef EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_
+#define EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_
 
 #include <vata/vata.hh>
 #include <vata/util/antichain2c_v2.hh>
@@ -8,11 +8,11 @@
 #include "explicit_finite_abstract_fctor.hh"
 
 namespace VATA {
-  template <class SymbolType, class Rel> class ExplicitFACongrFunctorOpt;
+  template <class SymbolType, class Rel> class ExplicitFACongrFunctorCache;
 }
 
 template <class SymbolType, class Rel>
-class VATA::ExplicitFACongrFunctorOpt : 
+class VATA::ExplicitFACongrFunctorCache : 
   public ExplicitFAAbstractFunctor <SymbolType,Rel> {
 
 public : // data types
@@ -32,7 +32,7 @@ public : // data types
 
   typedef std::unordered_map<size_t,StateSet> CongrMap;
 
-  class ProductStateSetType : public std::vector<std::pair<SmallerElementType,BiggerElementType>> {
+  class ProductStateSetType : public std::vector<std::pair<SmallerElementType*,BiggerElementType*>> {
     public:
     bool get(SmallerElementType& smaller, BiggerElementType& bigger) {
       if (this->size() == 0) {
@@ -40,12 +40,58 @@ public : // data types
       }
 
       auto& nextPair = this->back();
-      smaller = nextPair.first;
-      bigger = nextPair.second;
+      smaller = *nextPair.first;
+      bigger = *nextPair.second;
       this->pop_back();
 
       return true;
     }
+  };
+
+  class MacroStateCache {
+  private:
+    typedef std::list<StateSet> SetList;
+    typedef std::unordered_map<size_t,SetList> CacheMap;
+
+    CacheMap cacheMap;
+  public:
+    MacroStateCache() : cacheMap(){}
+
+    StateSet& insert(size_t key, StateSet& value) {
+      auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
+       if (lss.size() != rss.size()) {
+         return false;
+       }
+       if (!lss.size() || !rss.size()) {
+         return false;
+       }
+       for (auto& ls : lss) {
+         //std:: cout << ls << std::endl;
+         if (!rss.count(ls)) {
+           return false;
+         }
+       }
+
+        return true;
+     };
+
+      auto iter = cacheMap.find(key);
+      if (iter == cacheMap.end()) { // new value
+        auto& list = cacheMap.insert(std::make_pair(key,SetList())).first->second;
+        list.push_back(StateSet(value));
+        return list.back();
+      }
+      else {
+        for (auto& set : iter->second) { // set already cashed
+          if (areEqual(set,value)) {
+            return set;
+          }
+        }
+        iter->second.push_back(StateSet(value));
+        return iter->second.back();
+      }
+    }
+
   };
 
   typedef typename AbstractFunctor::IndexType IndexType;
@@ -63,8 +109,10 @@ private: // Private data members
 
   Rel preorder_; // Simulation or identity
 
+  MacroStateCache cache;
+
 public:
-  ExplicitFACongrFunctorOpt(ProductStateSetType& relation, ProductStateSetType& next,
+  ExplicitFACongrFunctorCache(ProductStateSetType& relation, ProductStateSetType& next,
       Antichain1Type& singleAntichain,
       const ExplicitFA& smaller, 
       const ExplicitFA& bigger,
@@ -78,7 +126,8 @@ public:
     bigger_(bigger),
     index_(index),
     inv_(inv),
-    preorder_(preorder)
+    preorder_(preorder),
+    cache()
   {}
 
 public: // public functions
@@ -89,30 +138,41 @@ public: // public functions
     bool smallerInitFinal = false;
     bool biggerInitFinal = false;
 
+    size_t smallerHashNum = 0;
     for (auto state : smaller_.startStates_) {
+      if (!smallerInit.count(state)) smallerHashNum += state; // TODO: OPT special cycle?
       smallerInit.insert(state);
       smallerInitFinal |= smaller_.IsStateFinal(state);
     }
 
+    size_t biggerHashNum = 0;
     for (auto state : bigger_.startStates_) {
+      if (!biggerInit.count(state)) biggerHashNum += state; // TODO: OPT special cycle?
       biggerInit.insert(state);
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
-    //std::cout << "Smallerinit state: ";
+    //std::cerr << "Smallerinit state: ";
     //macroPrint(smallerInit);
-    //std::cout << "Biggerinit state: ";
+    //std::cerr << "Biggerinit state: ";
     //macroPrint(biggerInit);
-    next_.push_back(std::make_pair(StateSet(smallerInit),biggerInit));
+    StateSet& insertSmaller = cache.insert(smallerHashNum,smallerInit);
+    StateSet& insertBigger = cache.insert(biggerHashNum,biggerInit);
+    next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
 
-    //std::cout << "Kongruencuji to" <<  std::endl;
-    //std::cout << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
-    //std::cout << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
+    //std::cerr << "Kongruencuji to" <<  std::endl;
+    //std::cerr << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
+    //std::cerr << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
+    //std::cerr << "Adresa smaller " << &smaller << std::endl;
+
+    if (relation_.size() > 0) {
+    //std::cerr << "Jak vypada relation R: "; //macroPrint(*relation_[0].first);
+    }
 
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
@@ -131,6 +191,12 @@ public: // public functions
       return true;
     };
 
+    //std::cerr << "Smaller: " ;
+    //macroPrint(smaller);
+    //std::cerr << "Bigger: ";
+    //macroPrint(bigger);
+
+
     CongrMap congrMap;
     auto insertNewPair = [&congrMap](size_t i, StateSet& set) -> bool {
       congrMap.insert(std::make_pair(i,StateSet(set)));
@@ -148,31 +214,47 @@ public: // public functions
 
     StateSet congrBigger(bigger);
     if (GetCongrClosure(congrBigger,isCongrClosureSetNew)) {
+      //std::cerr << "Plati!!!!!" << std::endl;
+//std::cerr << "Smaller congr: " ;
+    //macroPrint(congrSmaller);
+    //std::cerr << "Bigger congr: " ;
+    //macroPrint(congrBigger);
       smaller.clear();
       bigger.clear();
       return;
     }
+
     MakePostForAut(smaller_,usedSymbols,smaller,bigger,smaller);
     if (this->inclNotHold_) {
       return;
     }
     MakePostForAut(bigger_,usedSymbols,smaller,bigger,bigger);
-
-    relation_.push_back(std::make_pair(smaller,StateSet(bigger)));
+    auto sum = [](StateSet& set, size_t& sum) {for (auto& state : set) sum+=state;};
+    size_t smallerHashNum = 0;
+    sum(smaller,smallerHashNum);
+    size_t biggerHashNum = 0;
+    sum(bigger,biggerHashNum);
+    SmallerElementType& s = cache.insert(smallerHashNum,smaller);
+    BiggerElementType& b = cache.insert(biggerHashNum,bigger);
+    relation_.push_back(std::make_pair(&s,&b));
     smaller.clear();
     bigger.clear();
   };
 
 private:
   bool MatchPair(const StateSet& closure, const StateSet& rule) {
+  //  //std::cerr << "matchin rule: ";
     if (rule.size() > closure.size()) {
         return false;
     }
     for (auto& s : rule) {
+    //    //std::cerr << s << " " << std::endl;
       if (!closure.count(s)) {
         return false;
+     ////std::cerr << std::endl;
       }
     }
+   // //std::cerr<< "Matched" << std::endl;
     return true;
   }
 
@@ -194,10 +276,13 @@ private:
          continue;
        }
 
-       if (MatchPair(set, next_[i].first) || 
-             MatchPair(set, next_[i].second)) { // Rule matches
-         AddSubSet(set,next_[i].first);
-         AddSubSet(set,next_[i].second);
+       if (MatchPair(set, *next_[i].first) || 
+             MatchPair(set, *next_[i].second)) { // Rule matches
+         AddSubSet(set,*next_[i].first);
+         AddSubSet(set,*next_[i].second);
+         //std::cerr << "Relation: " << std::endl;
+         //std::cerr << "New congr get: " << std::endl;
+         //macroPrint(set);
          usedRulesN.insert(i);
          appliedRule = true;
          congrMap(i,set);
@@ -208,11 +293,14 @@ private:
        if (usedRulesR.count(i)) {
          continue;
        }
-       if (MatchPair(set, relation_[i].first) || 
-             MatchPair(set, relation_[i].second)) { // Rule matches
-         AddSubSet(set,relation_[i].first);
-         AddSubSet(set,relation_[i].second);
+       if (MatchPair(set, *relation_[i].first) || 
+             MatchPair(set, *relation_[i].second)) { // Rule matches
+         AddSubSet(set,*relation_[i].first);
+         AddSubSet(set,*relation_[i].second);
          usedRulesR.insert(i);
+         //std::cerr << "Relation: " << std::endl;
+         //std::cerr << "New congr get: " << std::endl;
+         //macroPrint(set);
          appliedRule = true;
          if (!congrMap(next_.size()+i,set)) {
            return true;
@@ -228,12 +316,14 @@ private:
       const SmallerElementType& smaller, const BiggerElementType& bigger,
       const StateSet& actStateSet) {
 
+        //std::cerr << "POST" << std::endl;
     for (auto& state : actStateSet) {
       auto transIter = aut.transitions_->find(state);
       if (transIter == aut.transitions_->end()) {
         continue;
       }
       
+        //std::cerr << "KOKOS" << std::endl;
       for (auto& symbolToSet : *transIter->second) {
         if (usedSymbols.count(symbolToSet.first)) { // symbol already explored
           continue;
@@ -250,19 +340,29 @@ private:
               newBigger,bigger,symbolToSet.first,bigger_);
 
         if (newSmallerAccept != newBiggerAccpet) {
-          //macroPrint(newSmaller);
-          //macroPrint(newBigger);
-          //std::cout << "NEPLATI" << std::endl;
+          ////macroPrint(newSmaller);
+          ////macroPrint(newBigger);
+          ////std::cerr << "NEPLATI" << std::endl;
           this->inclNotHold_ = true;
           return;
         }
 
+        //std::cerr << "PRIDAVAM" << std::endl;
         if (newSmaller.size() || newBigger.size()) {
-          next_.push_back(std::make_pair(newSmaller,newBigger));
+          size_t smallerHashNum = 0;
+          size_t biggerHashNum = 0;
+          auto sum = [](StateSet& set, size_t& sum) {for (auto& state : set) sum+=state;};
+          sum(newSmaller,smallerHashNum);
+          sum(newBigger,biggerHashNum);
+          StateSet& insertSmaller = cache.insert(smallerHashNum,newSmaller);
+          StateSet& insertBigger = cache.insert(biggerHashNum,newBigger);
+          next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
+          //std::cerr << "pocet stavu pridavanych: " << newSmaller.size() << " "  << insertSmaller.size() << std::endl;
         }
       }
     }
   }
+
 };
 
 #endif

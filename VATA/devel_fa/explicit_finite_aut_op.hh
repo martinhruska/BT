@@ -23,6 +23,7 @@
 
 #include "explicit_finite_congr_fctor.hh"
 #include "explicit_finite_congr_fctor_opt.hh"
+#include "explicit_finite_congr_fctor_cache.hh"
 
 namespace VATA {
 
@@ -244,10 +245,12 @@ namespace VATA {
 		const ExplicitFiniteAut<SymbolType>& smaller, 
     const ExplicitFiniteAut<SymbolType>& bigger,
 		const Rel& preorder) {
-#ifndef OPT 
-    typedef ExplicitFACongrFunctor<SymbolType,Rel> FunctorType;
-#else
+#ifdef OPT 
     typedef ExplicitFACongrFunctorOpt<SymbolType,Rel> FunctorType;
+#elif CACHE
+    typedef ExplicitFACongrFunctorCache<SymbolType,Rel> FunctorType;
+#else
+    typedef ExplicitFACongrFunctor<SymbolType,Rel> FunctorType;
 #endif
 		return CheckFiniteAutInclusion<SymbolType,Rel,FunctorType>(smaller, bigger, preorder);
   }

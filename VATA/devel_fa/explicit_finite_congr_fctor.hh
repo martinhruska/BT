@@ -97,9 +97,9 @@ public: // public functions
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
-    //std::cout << "Smallerinit state: ";
+    //std::cerr << "Smallerinit state: ";
     //macroPrint(smallerInit);
-    //std::cout << "Biggerinit state: ";
+    //std::cerr << "Biggerinit state: ";
     //macroPrint(biggerInit);
     next_.push_back(std::make_pair(StateSet(smallerInit),biggerInit));
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
@@ -108,9 +108,9 @@ public: // public functions
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
 
-    //std::cout << "Kongruencuji to" <<  std::endl;
-    //std::cout << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
-    //std::cout << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
+    std::cerr << "Kongruencuji to" <<  std::endl;
+    std::cerr << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
+    std::cerr << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
 
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
@@ -134,18 +134,18 @@ public: // public functions
     macroPrint(smaller);
     StateSet congrSmaller(smaller);
     GetCongrClosure(congrSmaller);
-    //std::cout << "Smaler congr: " ;
-    //macroPrint(congrSmaller);
+    std::cerr << "Smaler congr: " ;
+    macroPrint(congrSmaller);
 
     std::cerr << "Bigger: ";
     macroPrint(bigger);
     StateSet congrBigger(bigger);
     GetCongrClosure(congrBigger);
-    //std::cout << "Bigger congr: ";
-    //macroPrint(congrBigger);
+    std::cerr << "Bigger congr: ";
+    macroPrint(congrBigger);
     
     if (areEqual(congrSmaller,congrBigger)) {
-      //std::cout << "equal" << std::endl;
+      std::cerr << "equal" << std::endl;
       smaller.clear();
       bigger.clear();
       return;
@@ -166,15 +166,15 @@ private:
 
   void GetCongrClosure(StateSet& set) {
     auto matchPair = [](const StateSet& closure, const StateSet& rule) -> bool {
-     // //std::cout << "matchin rule: ";
+     // //std::cerr << "matchin rule: ";
       if (rule.size() > closure.size()) {
         return false;
       }
       for (auto& s : rule) {
-        ////std::cout << s << " " << std::endl;
+        ////std::cerr << s << " " << std::endl;
         if (!closure.count(s)) {
           return false;
-     // //std::cout << std::endl;
+     // //std::cerr << std::endl;
         }
       }
       return true;
@@ -197,10 +197,10 @@ private:
          continue;
        }
 
-    ////std::cout << "PRAVIDLO: " << rel[i].first.size() << std::endl;
+    ////std::cerr << "PRAVIDLO: " << rel[i].first.size() << std::endl;
        if (matchPair(set, next_[i].first) || 
              matchPair(set, next_[i].second)) { // Rule matches
-     // //std::cout << "PRAVIDLO pridano, kongruenci uzaver: ";
+     // //std::cerr << "PRAVIDLO pridano, kongruenci uzaver: ";
     //   macroPrint(set);
          addSubSet(set,next_[i].first);
          addSubSet(set,next_[i].second);
@@ -208,7 +208,7 @@ private:
          appliedRule = true;
   //  macroPrint(set);
        }
-      // //std::cout << "PRAVIDLO preskoceno:" << std::endl;
+      // //std::cerr << "PRAVIDLO preskoceno:" << std::endl;
       }
       for (unsigned int i=0; i < relation_.size(); i++) {
 
@@ -216,10 +216,10 @@ private:
          continue;
        }
 
-    ////std::cout << "PRAVIDLO: " << rel[i].first.size() << std::endl;
+    ////std::cerr << "PRAVIDLO: " << rel[i].first.size() << std::endl;
        if (matchPair(set, relation_[i].first) || 
              matchPair(set, relation_[i].second)) { // Rule matches
-     // //std::cout << "PRAVIDLO pridano, kongruenci uzaver: ";
+     // //std::cerr << "PRAVIDLO pridano, kongruenci uzaver: ";
     //   macroPrint(set);
          addSubSet(set,relation_[i].first);
          addSubSet(set,relation_[i].second);
@@ -227,7 +227,7 @@ private:
          appliedRule = true;
   //  macroPrint(set);
        }
-      // //std::cout << "PRAVIDLO preskoceno:" << std::endl;
+      // //std::cerr << "PRAVIDLO preskoceno:" << std::endl;
       }
 
     }
@@ -261,7 +261,7 @@ private:
         if (newSmallerAccept != newBiggerAccpet) {
           //macroPrint(newSmaller);
           //macroPrint(newBigger);
-          //std::cout << "NEPLATI" << std::endl;
+          //std::cerr << "NEPLATI" << std::endl;
           this->inclNotHold_ = true;
           return;
         }
