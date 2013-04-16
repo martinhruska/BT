@@ -1,5 +1,5 @@
-#ifndef EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_
-#define EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_
+#ifndef EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_OP_
+#define EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_OP_
 
 #include <vata/vata.hh>
 #include <vata/util/antichain2c_v2.hh>
@@ -8,7 +8,7 @@
 #include "explicit_finite_abstract_fctor.hh"
 
 namespace VATA {
-  template <class SymbolType, class Rel> class ExplicitFACongrFunctorCache;
+  template <class SymbolType, class Rel> class ExplicitFACongrFunctorCacheOP;
 }
 
 template <class SymbolType, class Rel>
