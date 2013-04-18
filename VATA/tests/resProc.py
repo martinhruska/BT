@@ -9,15 +9,19 @@ file = open(sys.argv[1],'r')
 temp = []
 for i in range(0,6):
   temp = file.readline()
-print(temp.split(';')[2:-2])
-res = [1.0]*len(temp.split())
+neco = temp.split(';')[2:-2] 
+print(neco)
+res = [1.0]*len(neco)
 i=0
 for line in file:
   i+=1
   values = line.split()[1:-1]
   j = 0
   for value in values:
-    res[j] += float(value[0:-1])
+    if (value[0] == "-"):
+      res[j] += 5
+    else:
+      res[j] += float(value[0:-1])
     j+=1
 
 r = [""]*len(res)

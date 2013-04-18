@@ -29,16 +29,19 @@
 \contentsline {subsection}{\numberline {4.1.3}Implementation of New Efficient Algorithms}{15}{subsection.4.1.3}
 \contentsline {section}{\numberline {4.2}VATA library}{15}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}General}{15}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Design}{15}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.2}Design}{16}{subsection.4.2.2}
 \contentsline {subsubsection}{Explicit Encoding}{16}{section*.8}
 \contentsline {subsubsection}{Semi-symbolic Encoding}{17}{section*.9}
 \contentsline {subsubsection}{Operations}{17}{section*.10}
 \contentsline {subsection}{\numberline {4.2.3}Extension for Finite Automata}{18}{subsection.4.2.3}
 \contentsline {chapter}{\numberline {5}Design}{19}{chapter.5}
-\contentsline {section}{\numberline {5.1}Data Structure for Explicit FA Encoding}{19}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Simplyfing of the original data structure}{19}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Keeping the start states}{19}{subsection.5.1.2}
-\contentsline {subsection}{\numberline {5.1.3}Using timubk input format}{19}{subsection.5.1.3}
+\contentsline {section}{\numberline {5.1}Data Structure for Explicit Encoding of Finite Automata}{19}{section.5.1}
+\contentsline {section}{\numberline {5.2}Analysis}{19}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Symplifying of the original data structure}{19}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Keeping the start states}{19}{subsection.5.2.2}
+\contentsline {subsection}{\numberline {5.2.3}Translation of the states and symbols}{19}{subsection.5.2.3}
+\contentsline {section}{\numberline {5.3}Overview of used interfaces of VATA library}{19}{section.5.3}
+\contentsline {section}{\numberline {5.4}Usage of timubk format}{19}{section.5.4}
 \contentsline {chapter}{\numberline {6}Implementation}{20}{chapter.6}
 \contentsline {section}{\numberline {6.1}implementation of basic operations}{20}{section.6.1}
 \contentsline {section}{\numberline {6.2}implementation of antichain algorithms}{20}{section.6.2}

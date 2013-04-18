@@ -631,7 +631,7 @@ Comparing the mentioned approaches to the checking language inclusion can be see
 
 
 
-\chapter{Existing Finite Automata Libraries and the VATA Library} %TODO: zvazit zobecneni na prehled existujicich knihoven
+\chapter{Existing Finite Automata Libraries and the VATA Library} 
 \label{libraries}
 There are many different libraries for finite automata. These libraries have been created for various purposes and 
 are implemented in different languages. 
@@ -677,19 +677,26 @@ The \emph{RWHT FSA} is a toolkit for manipulating finite automata described in \
 The latest version is 0.9.4 from year 2005. The toolkit is written in C++
 and available under its special license, derived from Q Public License v1.0 and the Qt Non-Commercial License v1.0. Library can be downloaded from \cite{rwth}. 
 
-%TODO dopsat computation ceho
-The RWHT FSA toolkit supports on-demand computation for better memory efficiency. Another advantage is that it supports the weighted transitions 
-so it is possible to use it
-for wider range of applications. The RWHT FSA toolkit does not support the explicitly directly, but contains operations for intersection, complement and
-determinisation which are can be exploited for testing inclusion. There are used some optimization, but this not compensates the need of 
-determinisation. 
+The RWHT FSA does not support only the classical finite automata, but also automata with weighted transitions so the toolkit has wider range of application.
+The toolkit implements some techniques for better computation efficiency. E.g., it supports on-demand computation technique 
+so not all computations are evaluated immediatelly but some are not computed until their results are really
+needed. Usage of this technique leads to better memory efficiency. 
+
+The RWHT FSA toolkit does not support language inclusion checking explicitly, but contains operations for intersection, complement and
+determinisation which can be exploited for testing inclusion. This causes that the problem of a state explosion during 
+the explicit determinization of an automaton is still here. 
 
 \subsection{Implementation of New Efficient Algorithms}
-New efficient algorithms for inclusion testing, which were introduced in \cite{cav06,tacas10} and \cite{popl13}, was implemented for finite automata 
-only in OCaml for testing and evaluation purposes. But implementation in C++ could be much more efficient.
+There have been recently introduced some new efficient algorithms for inclusion checking 
+which are dealing with problem of a state explosion because they avoid the explicit determinization of a finite automaton \cite{cav06,tacas10} and \cite{popl13}.
+These state-of-the-art algorithms were implemented in OCaml languaue (mainly) for testing and evaluation purposes.
 
-The algorithm based on antichains and simulation introduced in \cite{taca10} have been implemented for tree automata in the VATA library. A description
-of this library will be placed in next section.
+Some of the mentioned algorithms (\cite{cav06,taca10}) are possible to use not only for finite automat but also for tree automata. 
+These algorithms for tree automata are provided by the VATA library which is implemented in C++ what brings the greater efficiency compared to OCaml implmentation. 
+A description of this library will be placed in next section.
+Despite the fact that a C++ implementation could be more efficient too, there is currently no library or toolkit similiar to VATA library providing 
+these algorithms of inclusion checking for finite automata.
+
 
 \begin{comment}
 For finite automata manipulation exists many different libraries. Libraries have different purposes and are implemented in different languages, 
@@ -739,15 +746,24 @@ any new encoding can share other parts of library such as parser or serializer \
 different encodings.
 
 \begin{figure}[h]
+\begin{center}
+\input{fig/tacas12/lib_design.tikz}
+		\label{picVataDesign}
+\end{center}
+\end{figure}
+\begin{comment}
+\begin{figure}[h]
 	\begin{center}
 		\scalebox{0.6}
 		{
 			\includegraphics{fig/vata_design.png}
+			\includegraphics{fig/tacas12/explicit.tikz}
 		}
 		\caption{The VATA library design. The image is taken from \cite{libvata}}.
-		\label{picVataDesign}
+		\label{picVataDesign} %TODO podivat se na font
 	\end{center}
 \end{figure}
+\end{comment}
 
 %%TODO: Vic se rozkecat o kodovanich
 \subsubsection{Explicit Encoding}
@@ -775,7 +791,8 @@ For purposes of VATA library was implemented new MTBDD package, which improved t
 %TODO povypravaet o MTBDD package
 
 \subsubsection{Operations}
-There are supported basic operations like union, intersection, elimination of unreachable states, but also some advance a algorithms for inclusion checking, 
+There are supported basic operations over tree automata 
+like union, intersection, elimination of unreachable states, but also some advance a algorithms for inclusion checking, 
 computation of simulation relation, language preserving size reduction based on simulation equivalence. 
 
 For inclusion testing are implemented optimized algorithms from \cite{cav06,tacas10}. The inclusion operation is implemented in more versions, so it is possible
@@ -785,7 +802,10 @@ Efficiency of advanced operations does not come only from the usage of efficient
 but there are also some implementation optimization like \emph{copy-on-write}
 principle for automata copying (briefly described in subsection \ref{sectionExplicitEnc}), buffering once computed clusters of transitions etc. 
 Other optimization could be found in exploitation of polymorphism using C++ function templates, instead of
-virtual method, because look-up in virtual-method precludes compiler's optimizer to perform some operations \cite{libvata}. %TODO dodelat lepsi citaci  Compiler Optimization of C++ Virtual Function Calls
+virtual method because call of virtual function leads to indirect functions call using look-up virtual-method table (because compiler does not know, which 
+function will be called in runtime) what brings an overhead comapred to classical direct
+function call and it also precludes compiler's optimizer to perform some operations \cite{libvata}. 
+%TODO Moznost citatce 
 
 More details about implementation optimization can be found in \cite{libvata}.
 
@@ -814,20 +834,42 @@ Especially advanced operations are able only for specific encoding. Some of oper
 
 
 \subsection{Extension for Finite Automata}
-This work creates extension of VATA library for finite automata in explicit encoding. The main goal is provide operation for language inclusion test of
+The main goal of this work is to 
+provide operation for language inclusion test of
 NFA without the need of explicit determinisation. To be precise, VATA library could be already used for finite automata, 
 which can be represented like one dimensional
 tree automata. But the VATA library data structures for manipulating tree automata are designated for more complex data structures
 and new special implementation for finite
-automata will be definitely more efficient. This new extension will use some already implemented features of VATA like parsing and serializing
+automata will be definitely more efficient. Not only inclusion checking algorithm will be implemented but also the algoritms for basic operations like
+such as union, intersection, removing unreachable or useless states etc.
+This new extension will use the explicit encoding for representing an automaton. 
+The extension will use some already implemented features of VATA like parsing and serializing
 the input automata or computation of simulation over states of an automaton.
 
 \chapter{Design}
 \label{arch}
-\section{Data Structure for Explicit FA Encoding}
-\subsection{Simplyfing of the original data structure}
+In this chapter will be described design of the newly created extension of VATA library. Firstly, data structures, which have been used for representation of
+finite automata in the explicit encoding, will be described. These data structures was created by simplifying the data structure for representing tree automata
+in explicit encoding so the comparsion of both will be given.
+%TODO dodelat podle konecneho obsahu
+
+\section{Data Structure for Explicit Encoding of Finite Automata}
+\section{Analysis}
+An NFA is defined by set of its states, its start and final states (which are subset of all states of a NFA) and also its
+transitions \ref{defNFA} and the input alphabet. But not all of the parts of the definition have to be saved alone. The set of states will be
+implicitly given by transitions and there is no need to save them alone in some special set. The same fact holds for input alphabet. On the other hand, 
+it is neccessesary to create special data structure for start state and final state to be able to distinguish between start state or final state 
+and ordinary state of an NFA, what is not possible to recoqnize from transtion alone. 
+
+While a data structure for storing the final and start states can be in set, data structure for representing the transtions of an NFA is more complicated.
+
+For the explicit encoding of tree automata is used data structure described earlier in this documents \ref{sectionExplicitEnc}. The evaluation of performance of 
+VATA library was proven that this data structure works quite well.
+\subsection{Symplifying of the original data structure}
 \subsection{Keeping the start states}
-\subsection{Using timubk input format}
+\subsection{Translation of the states and symbols}
+\section{Overview of used interfaces of VATA library}
+\section{Usage of timubk format}
 
 \chapter{Implementation}
 \label{implementation}

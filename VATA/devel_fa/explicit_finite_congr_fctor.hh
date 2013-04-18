@@ -108,10 +108,11 @@ public: // public functions
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
 
+    /*
     std::cerr << "Kongruencuji to" <<  std::endl;
     std::cerr << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
     std::cerr << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
-
+*/
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
         return false;
@@ -130,22 +131,24 @@ public: // public functions
     };
 
     //TODO tady bude provereni kongruencniho uzaveru
-    std::cerr << "Smaler: " ;
-    macroPrint(smaller);
+    //std::cerr << "Smaler: " ;
+    //macroPrint(smaller);
     StateSet congrSmaller(smaller);
     GetCongrClosure(congrSmaller);
+/*
     std::cerr << "Smaler congr: " ;
     macroPrint(congrSmaller);
 
     std::cerr << "Bigger: ";
     macroPrint(bigger);
+    */
     StateSet congrBigger(bigger);
     GetCongrClosure(congrBigger);
-    std::cerr << "Bigger congr: ";
-    macroPrint(congrBigger);
+    //std::cerr << "Bigger congr: ";
+    //macroPrint(congrBigger);
     
     if (areEqual(congrSmaller,congrBigger)) {
-      std::cerr << "equal" << std::endl;
+      //std::cerr << "equal" << std::endl;
       smaller.clear();
       bigger.clear();
       return;
