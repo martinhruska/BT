@@ -213,21 +213,7 @@ public: // public functions
     //std::cerr << "Adresa smaller " << &s << std::endl;
     //std::cerr << "Adresa bigger " << &b << std::endl;
    
-   
-    auto iters = congrHold.find(&s);
-    auto iterb = congrHold.find(&b);
-    if (iters == congrHold.end()) {
-      //std::cerr << "Nenasel maly " << congrHold.size() << std::endl;
-      for (auto& iter : congrHold) {
-        //std::cerr << iter.first << " ";
-      }
-      //std::cerr << std::endl;
-    }
-    else {
-      //std::cerr << "nasel maly " << iters->second.size() << //std::cerr;
-    }
-    if ((iters != congrHold.end() && iters->second.count(&b)) ||
-      (iterb != congrHold.end() && iterb->second.count(&s))) {
+    if (ContainsCongrHold(&s,&b) && !ContainsCongrHold(&b,&s)) {
       //std::cerr << "cache works" << std::endl;
       return;
     }
@@ -401,14 +387,16 @@ private:
           StateSet& insertSmaller = cache.insert(smallerHashNum,newSmaller);
           //macroPrint(newBigger);
           StateSet& insertBigger = cache.insert(biggerHashNum,newBigger);
-          next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
+          if (!ContainsCongrHold(&insertSmaller,&insertBigger) && 
+            !ContainsCongrHold(&insertBigger,&insertSmaller))
+            next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
           ////std::cerr << "pocet stavu pridavanych: " << newSmaller.size() << " "  << insertSmaller.size() << std::endl;
         }
       }
     }
   }
 
-  void AddToCongrHold(StateSet* k, StateSet* v) {
+  inline void AddToCongrHold(StateSet* k, StateSet* v) {
     auto iter = congrHold.find(k);
 
     if (iter == congrHold.end()) {
@@ -416,6 +404,17 @@ private:
     }
     else {
       iter->second.insert(v);
+    }
+  }
+
+  inline bool ContainsCongrHold(StateSet* k, StateSet* v) {
+    auto iter = congrHold.find(k);
+
+    if (iter == congrHold.end()) {
+      return false;
+    }
+    else {
+      return iter->second.count(v);
     }
   }
 
