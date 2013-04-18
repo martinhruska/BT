@@ -173,10 +173,11 @@ public: // public functions
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
 
-    //std::cerr << "Kongruencuji to" <<  std::endl;
-    //std::cerr << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
-    //std::cerr << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
 /*
+    std::cerr << "Kongruencuji to" <<  std::endl;
+    std::cerr << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
+    std::cerr << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
+
     if (relation_.size() > 0) {
     ////std::cerr << "Jak vypada relation R: "; //macroPrint(*relation_[0].first);
     }
@@ -204,11 +205,15 @@ public: // public functions
     sum(smaller,smallerHashNum);
     size_t biggerHashNum = 0;
     sum(bigger,biggerHashNum);
-    //std::cerr << "Smaller: " ;
-    // macroPrint(smaller);
+    /*
+    std::cerr << "Smaller: " ;
+     macroPrint(smaller);
+    */
     SmallerElementType& s = cache.insert(smallerHashNum,smaller);
-    //std::cerr << "Bigger: ";
-    //macroPrint(bigger);
+    /*
+    std::cerr << "Bigger: ";
+    macroPrint(bigger);
+    */
     BiggerElementType& b = cache.insert(biggerHashNum,bigger);
     //std::cerr << "Adresa smaller " << &s << std::endl;
     //std::cerr << "Adresa bigger " << &b << std::endl;
@@ -387,11 +392,20 @@ private:
           StateSet& insertSmaller = cache.insert(smallerHashNum,newSmaller);
           //macroPrint(newBigger);
           StateSet& insertBigger = cache.insert(biggerHashNum,newBigger);
+    //std::cerr << "pridavam do next : " << std::endl; 
+    //macroPrint(insertSmaller); 
+    //macroPrint(insertBigger); 
           if (!ContainsCongrHold(&insertSmaller,&insertBigger) && 
-            !ContainsCongrHold(&insertBigger,&insertSmaller))
+            !ContainsCongrHold(&insertBigger,&insertSmaller)) {
+    //std::cerr << "nenasek jsem to " << &insertSmaller << " " << &insertBigger << " " << std::endl;
+            AddToCongrHold(&insertSmaller,&insertBigger);
+            AddToCongrHold(&insertBigger,&insertSmaller);
             next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
+           }
+           //std::cerr << "proslo" << std::endl;
           ////std::cerr << "pocet stavu pridavanych: " << newSmaller.size() << " "  << insertSmaller.size() << std::endl;
         }
+
       }
     }
   }
@@ -399,12 +413,14 @@ private:
   inline void AddToCongrHold(StateSet* k, StateSet* v) {
     auto iter = congrHold.find(k);
 
+    //std::cerr << "pridani novych stavu do congr hold" << k << " " << v << " " << congrHold.size() << " " << std::endl;
     if (iter == congrHold.end()) {
       congrHold.insert(std::make_pair(k,SetPtrSet())).first->second.insert(v);
     }
     else {
       iter->second.insert(v);
     }
+    //std::cerr << "pridano"  << congrHold.size() << std::endl;
   }
 
   inline bool ContainsCongrHold(StateSet* k, StateSet* v) {
