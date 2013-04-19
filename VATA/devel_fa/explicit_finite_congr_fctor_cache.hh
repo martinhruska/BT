@@ -172,8 +172,8 @@ public: // public functions
 
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
-
-/*
+    static int i = 0;
+    std::cerr << "Processed states: " << i++ << std::endl;
     std::cerr << "Kongruencuji to" <<  std::endl;
     std::cerr << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
     std::cerr << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
@@ -181,7 +181,6 @@ public: // public functions
     if (relation_.size() > 0) {
     ////std::cerr << "Jak vypada relation R: "; //macroPrint(*relation_[0].first);
     }
-*/
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
         return false;
@@ -205,15 +204,11 @@ public: // public functions
     sum(smaller,smallerHashNum);
     size_t biggerHashNum = 0;
     sum(bigger,biggerHashNum);
-    /*
     std::cerr << "Smaller: " ;
      macroPrint(smaller);
-    */
     SmallerElementType& s = cache.insert(smallerHashNum,smaller);
-    /*
     std::cerr << "Bigger: ";
     macroPrint(bigger);
-    */
     BiggerElementType& b = cache.insert(biggerHashNum,bigger);
     //std::cerr << "Adresa smaller " << &s << std::endl;
     //std::cerr << "Adresa bigger " << &b << std::endl;
@@ -240,26 +235,23 @@ public: // public functions
     
     StateSet congrBigger(bigger);
     if (GetCongrClosure(congrBigger,isCongrClosureSetNew) || areEqual(congrBigger,congrSmaller)) {
-//std::cerr << "Plati!!!!!" << std::endl;
-/*
-//std::cerr << "Smaller congr: " ;
-    //macroPrint(congrSmaller);
-    //std::cerr << "Bigger congr: " ;
-    //macroPrint(congrBigger);
-    */
+std::cerr << "Plati!!!!!" << std::endl;
+std::cerr << "Smaller congr: " ;
+   macroPrint(congrSmaller);
+    std::cerr << "Bigger congr: " ;
+    macroPrint(congrBigger);
       AddToCongrHold(&s,&b);
       AddToCongrHold(&b,&s);
       smaller.clear();
       bigger.clear();
       return;
     }
-    /*
-      //std::cerr << "Neplati!!!!!" << std::endl;
-//std::cerr << "Smaller congr: " ;
-    //macroPrint(congrSmaller);
-    //std::cerr << "Bigger congr: " ;
-    //macroPrint(congrBigger);
-*/
+      std::cerr << "Neplati!!!!!" << std::endl;
+std::cerr << "Smaller congr: " ;
+    macroPrint(congrSmaller);
+    std::cerr << "Bigger congr: " ;
+    macroPrint(congrBigger);
+
     MakePostForAut(smaller_,usedSymbols,smaller,bigger,smaller);
     if (this->inclNotHold_) {
       return;

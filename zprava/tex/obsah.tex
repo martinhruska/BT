@@ -749,21 +749,9 @@ different encodings.
 \begin{center}
 \input{fig/tacas12/lib_design.tikz}
 		\label{picVataDesign}
+		\caption{The VATA library design. The image is taken from \cite{libvata}}.
 \end{center}
 \end{figure}
-\begin{comment}
-\begin{figure}[h]
-	\begin{center}
-		\scalebox{0.6}
-		{
-			\includegraphics{fig/vata_design.png}
-			\includegraphics{fig/tacas12/explicit.tikz}
-		}
-		\caption{The VATA library design. The image is taken from \cite{libvata}}.
-		\label{picVataDesign} %TODO podivat se na font
-	\end{center}
-\end{figure}
-\end{comment}
 
 %%TODO: Vic se rozkecat o kodovanich
 \subsubsection{Explicit Encoding}
@@ -773,16 +761,28 @@ is used \emph{hierarchical data structure based on hash tables}. First level of 
 table maps the states to \emph{transition cluster}. This clusters are also look-up table and maps symbols of input alphabet
 to the set of pointers (stored as \emph{red-black tree}) to tuples of states. Storing tuples of states is of course very memory demanding, so special
 designed hash table was used for storing them. Inserting new transition to this structure requires a constant number of steps (exception is worst case scenario)
-\cite{libvata}. 
+\cite{libvata}. This data structure can be seen on figure \ref{figExplicitTreeDataStr}.
+
+\begin{figure}[h]
+\begin{center}
+\input{fig/tacas12/explicit.tikz}
+		\label{figExplicitTreeDataStr}
+    \caption{The data structure for storing transtion of an tree automaton. There is a hash table (so-called top-level lookup table) 
+      for a given state which map this state to the pointer to another hash table (so-called transition cluster). Transition cluster
+      maps a symbols to the pointer to the set of pointers to tuples.}
+\end{center}
+\end{figure}
+
 
 For better performance is used \emph{copy-on-write} technique \cite{libvata}. The principle of this technique is, 
 that on copy of automaton is created just new pointer to transition table of original automaton and after adding new state to one automaton (original or
 copy) is modified only part of the shared transition table. 
+
 \subsubsection{Semi-symbolic Encoding}
 Transition functions in semi-symbolic encoding are stored in \emph{multi-terminal binary decision diagrams} (MTBDD), which are extension of \emph{binary decision 
 diagrams}. There are provided top-down (transitions are in form $q \xrightarrow{a} (q_1,...,q_n)$, for $a$ with arity $n$) 
 and bottom-up (transitions are in form $(q_1,...,q_n)\xrightarrow{a}q$) representation of tree automata in semi-symbolic encoding. 
-Interesting is saving of symbols in MTBDD. In top-down encoding, the input
+The interesting part is saving of symbols in MTBDD. In top-down encoding, the input
 symbols are stored in MTBDD with their arity, because we need to be able to distinguish between two instances of same symbols with different arity.
 In opposite case, bottom-up encoding does not need to store arity, because it is possible to get it from arity of tuple on left side of transition \cite{libvata}.
 
@@ -847,28 +847,41 @@ The extension will use some already implemented features of VATA like parsing an
 the input automata or computation of simulation over states of an automaton.
 
 \chapter{Design}
-\label{arch}
-In this chapter will be described design of the newly created extension of VATA library. Firstly, data structures, which have been used for representation of
+\label{design}
+In this chapter will be described design of the newly created extension of VATA library for finite automata. 
+Data structures, which have been used for representation of
 finite automata in the explicit encoding, will be described. These data structures was created by simplifying the data structure for representing tree automata
 in explicit encoding so the comparsion of both will be given.
 %TODO dodelat podle konecneho obsahu
 
 \section{Data Structure for Explicit Encoding of Finite Automata}
-\section{Analysis}
+\label{data structure explicit}
+\subsection{Analysis}
 An NFA is defined by set of its states, its start and final states (which are subset of all states of a NFA) and also its
-transitions \ref{defNFA} and the input alphabet. But not all of the parts of the definition have to be saved alone. The set of states will be
-implicitly given by transitions and there is no need to save them alone in some special set. The same fact holds for input alphabet. On the other hand, 
-it is neccessesary to create special data structure for start state and final state to be able to distinguish between start state or final state 
-and ordinary state of an NFA, what is not possible to recoqnize from transtion alone. 
+transitions \ref{defNFA} and the input alphabet. One needs to keep information about sets of start and final states to be able to distinguish
+between a start or a final state and the other states. But it is not neccessary to store the whole set of states because states that are not start or final
+are used within transitions. This fact also hold in case of input alphabet. 
 
-While a data structure for storing the final and start states can be in set, data structure for representing the transtions of an NFA is more complicated.
+The set of transitions keeps the most information about an NFA and is often used
+during operations over NFA, so the the performance of these operations hardly depend on efficiency of data structure for set of transitions. For example,
+one often has an state of an NFA and wants to get all states accessible for this state for each input alphabet symbols. The similiar situanion is in the case
+of tree automata, when it is not neccessary to hold the whole set of state but it is important to have efficient data structure for represanting 
+transitions of a given tree automata.
 
-For the explicit encoding of tree automata is used data structure described earlier in this documents \ref{sectionExplicitEnc}. The evaluation of performance of 
-VATA library was proven that this data structure works quite well.
-\subsection{Symplifying of the original data structure}
-\subsection{Keeping the start states}
-\subsection{Translation of the states and symbols}
+The data structure used for storing transions of a tree automaton in VATA library was described earlier \ref{sectionExplicitEnc} and can be seen
+on the figure \ref{figExplicitTreeDataStr}. The evaluation of VATA library \cite{libvata} shows that this data structure is efficient enough, so it was
+decided to modificate this data structure and use it also for part of VATA library for finite automata.
+
+\subsection{Design of Data Structure}
+popsat strukturu samotnou
+obrazek
+porovna s orignialnim
+
+\section{Translation of the states and symbols}
+popsat, ze taky predkladam do integre a ze jsem to vzla z vaty a ze je to efektivnejsi
 \section{Overview of used interfaces of VATA library}
+popsat, co jsem se rozhodl pouzit z vaty a proc
+
 \section{Usage of timubk format}
 
 \chapter{Implementation}

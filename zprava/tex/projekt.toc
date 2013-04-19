@@ -30,24 +30,23 @@
 \contentsline {section}{\numberline {4.2}VATA library}{15}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}General}{15}{subsection.4.2.1}
 \contentsline {subsection}{\numberline {4.2.2}Design}{16}{subsection.4.2.2}
-\contentsline {subsubsection}{Explicit Encoding}{16}{section*.8}
+\contentsline {subsubsection}{Explicit Encoding}{17}{section*.8}
 \contentsline {subsubsection}{Semi-symbolic Encoding}{17}{section*.9}
-\contentsline {subsubsection}{Operations}{17}{section*.10}
+\contentsline {subsubsection}{Operations}{18}{section*.10}
 \contentsline {subsection}{\numberline {4.2.3}Extension for Finite Automata}{18}{subsection.4.2.3}
-\contentsline {chapter}{\numberline {5}Design}{19}{chapter.5}
-\contentsline {section}{\numberline {5.1}Data Structure for Explicit Encoding of Finite Automata}{19}{section.5.1}
-\contentsline {section}{\numberline {5.2}Analysis}{19}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Symplifying of the original data structure}{19}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Keeping the start states}{19}{subsection.5.2.2}
-\contentsline {subsection}{\numberline {5.2.3}Translation of the states and symbols}{19}{subsection.5.2.3}
-\contentsline {section}{\numberline {5.3}Overview of used interfaces of VATA library}{19}{section.5.3}
-\contentsline {section}{\numberline {5.4}Usage of timubk format}{19}{section.5.4}
-\contentsline {chapter}{\numberline {6}Implementation}{20}{chapter.6}
-\contentsline {section}{\numberline {6.1}implementation of basic operations}{20}{section.6.1}
-\contentsline {section}{\numberline {6.2}implementation of antichain algorithms}{20}{section.6.2}
-\contentsline {section}{\numberline {6.3}improvments for simulation}{20}{section.6.3}
-\contentsline {section}{\numberline {6.4}implementation of congruence closure}{20}{section.6.4}
-\contentsline {chapter}{\numberline {7}Experimental evaluation}{21}{chapter.7}
-\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{21}{section.7.1}
-\contentsline {chapter}{\numberline {8}Conclusion}{22}{chapter.8}
-\contentsline {section}{\numberline {8.1}futher development}{22}{section.8.1}
+\contentsline {chapter}{\numberline {5}Design}{20}{chapter.5}
+\contentsline {section}{\numberline {5.1}Data Structure for Explicit Encoding of Finite Automata}{20}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Analysis}{20}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Design of Data Structure}{20}{subsection.5.1.2}
+\contentsline {section}{\numberline {5.2}Translation of the states and symbols}{20}{section.5.2}
+\contentsline {section}{\numberline {5.3}Overview of used interfaces of VATA library}{21}{section.5.3}
+\contentsline {section}{\numberline {5.4}Usage of timubk format}{21}{section.5.4}
+\contentsline {chapter}{\numberline {6}Implementation}{22}{chapter.6}
+\contentsline {section}{\numberline {6.1}implementation of basic operations}{22}{section.6.1}
+\contentsline {section}{\numberline {6.2}implementation of antichain algorithms}{22}{section.6.2}
+\contentsline {section}{\numberline {6.3}improvments for simulation}{22}{section.6.3}
+\contentsline {section}{\numberline {6.4}implementation of congruence closure}{22}{section.6.4}
+\contentsline {chapter}{\numberline {7}Experimental evaluation}{23}{chapter.7}
+\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{23}{section.7.1}
+\contentsline {chapter}{\numberline {8}Conclusion}{24}{chapter.8}
+\contentsline {section}{\numberline {8.1}futher development}{24}{section.8.1}
