@@ -278,7 +278,7 @@ private:
       if (!closure.count(s)) {
         return false;
      //////std::cerr << std::endl;
-      }
+     }
     }
    // ////std::cerr<< "Matched" << std::endl;
     return true;
