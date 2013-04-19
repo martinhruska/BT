@@ -59,8 +59,8 @@ bool VATA::CheckFiniteAutInclusion(
 
   //std::cout << "Antichainuju to" <<  std::endl;
   while(inclFunc.DoesInclusionHold() && next.get(procState,procMacroState)) {
-    static int i = 0;
-    std::cerr << "Processed states: " << i++ << std::endl;
+    //static int i = 0;
+    //std::cerr << "Processed states: " << i++ << std::endl;
     /*
     //std::cout << "New state: " << procState << " Macro: "; for (StateType s : procMacroState) { std::cout << s << " ";}; std::cout << std::endl;
     //std::cout << "Ac size " << antichain.size() << std::endl;
