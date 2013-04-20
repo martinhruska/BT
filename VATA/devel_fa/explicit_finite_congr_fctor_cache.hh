@@ -6,7 +6,7 @@
 
 #include "explicit_finite_aut.hh"
 #include "explicit_finite_abstract_fctor.hh"
-#include "util/macrostate_ptr_pair.hh"
+#include "util/map_to_list.hh"
 #include "util/macrostate_cache.hh"
 
 namespace VATA {
@@ -51,7 +51,7 @@ public : // data types
   };
   
   typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
-  typedef typename VATA::MacroStatePtrPair<ExplicitFA> MacrostatePtrPair;
+  typedef typename VATA::MapToList<StateSet*,StateSet*> MacrostatePtrPair;
 
   typedef typename AbstractFunctor::IndexType IndexType;
 
@@ -237,11 +237,10 @@ private:
     std::unordered_set<int> usedRulesR;
 
     bool appliedRule = true;
-    while (appliedRule) {
+    while (appliedRule) { // Apply all possible rules
       appliedRule = false;
-      for (unsigned int i=0; i < next_.size(); i++) {
-
-       if (usedRulesN.count(i)) {
+      for (unsigned int i=0; i < next_.size(); i++) { // relation next
+       if (usedRulesN.count(i)) { // already used rule
          continue;
        }
 
@@ -259,7 +258,7 @@ private:
          }
        }
       }
-      for (unsigned int i=0; i < relation_.size(); i++) {
+      for (unsigned int i=0; i < relation_.size(); i++) { // relation R
 
        if (usedRulesR.count(i)) {
          continue;
@@ -283,6 +282,9 @@ private:
   }
 
 
+  /*
+   * Create post of macro state for given automaton
+   */
   void MakePostForAut(const ExplicitFA& aut, SymbolSet& usedSymbols,
       const SmallerElementType& smaller, const BiggerElementType& bigger,
       const StateSet& actStateSet) {

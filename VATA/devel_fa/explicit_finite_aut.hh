@@ -108,8 +108,8 @@ class VATA::ExplicitFiniteAut : public AutBase {
   template<class SymbolType, class Rel>
   friend class ExplicitFAStateSetComparator;
   
-  template<class Aut>
-  friend class MacroStatePtrPair;
+  template<class Key, class Value>
+  friend class MapToList;
   template<class Aut>
   friend class MacroStateCache;
 
