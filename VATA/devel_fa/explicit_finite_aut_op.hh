@@ -26,6 +26,9 @@
 #include "explicit_finite_congr_fctor_cache.hh"
 #include "explicit_finite_congr_fctor_cache_opt.hh"
 
+#include "util/macrostate_ptr_pair.hh"
+#include "util/macrostate_cache.hh"
+
 namespace VATA {
 
   /*

@@ -6,6 +6,8 @@
 
 #include "explicit_finite_aut.hh"
 #include "explicit_finite_abstract_fctor.hh"
+#include "util/macrostate_ptr_pair.hh"
+#include "util/macrostate_cache.hh"
 
 namespace VATA {
   template <class SymbolType, class Rel> class ExplicitFACongrFunctorCache;
@@ -47,58 +49,9 @@ public : // data types
       return true;
     }
   };
-
-  class MacroStateCache {
-  private:
-    typedef std::list<StateSet> SetList;
-    typedef std::unordered_map<size_t,SetList> CacheMap;
-
-    CacheMap cacheMap;
-  public:
-    MacroStateCache() : cacheMap(){}
-
-    StateSet& insert(size_t key, StateSet& value) {
-      auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
-       if (lss.size() != rss.size()) {
-         return false;
-       }
-       if (!lss.size() || !rss.size()) {
-         return false;
-       }
-       for (auto& ls : lss) {
-         //std:: cout << ls << std::endl;
-         if (!rss.count(ls)) {
-           return false;
-         }
-       }
-
-        return true;
-     };
-
-      auto iter = cacheMap.find(key);
-      if (iter == cacheMap.end()) { // new value
-        //std::cerr << "pridavam zbrusu novy stav" << std::endl;
-        auto& list = cacheMap.insert(std::make_pair(key,SetList())).first->second;
-        list.push_back(StateSet(value));
-        return list.back();
-      }
-      else {
-        for (auto& set : iter->second) { // set already cashed
-          if (areEqual(set,value)) {
-        //std::cerr << "set cached" << std::endl;
-            return set;
-          }
-        }
-        iter->second.push_back(StateSet(value));
-        //std::cerr << "new hash" << std::endl;
-        return iter->second.back();
-      }
-    }
-
-  };
   
-  typedef std::unordered_set<StateSet*> SetPtrSet;
-  typedef std::unordered_map<StateSet*,SetPtrSet> SetPtrToPtrSet; 
+  typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
+  typedef typename VATA::MacroStatePtrPair<ExplicitFA> MacrostatePtrPair;
 
   typedef typename AbstractFunctor::IndexType IndexType;
 
@@ -116,7 +69,7 @@ private: // Private data members
   Rel preorder_; // Simulation or identity
 
   MacroStateCache cache;
-  SetPtrToPtrSet congrHold;
+  MacrostatePtrPair visitedPairs;
 
 public:
   ExplicitFACongrFunctorCache(ProductStateSetType& relation, ProductStateSetType& next,
@@ -135,7 +88,7 @@ public:
     inv_(inv),
     preorder_(preorder),
     cache(),
-    congrHold()
+    visitedPairs()
   {}
 
 public: // public functions
@@ -167,6 +120,7 @@ public: // public functions
     StateSet& insertSmaller = cache.insert(smallerHashNum,smallerInit);
     StateSet& insertBigger = cache.insert(biggerHashNum,biggerInit);
     next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
+    visitedPairs.add(&insertSmaller,&insertBigger);
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
@@ -204,23 +158,15 @@ public: // public functions
     sum(smaller,smallerHashNum);
     size_t biggerHashNum = 0;
     sum(bigger,biggerHashNum);
- /*
-    std::cerr << "Smaller: " ;
-    macroPrint(smaller);
-    */
+    //std::cerr << "Smaller: " ;
+    //macroPrint(smaller);
     SmallerElementType& s = cache.insert(smallerHashNum,smaller);
-    /*
-    std::cerr << "Bigger: ";
-    macroPrint(bigger);
-    */
+    //std::cerr << "Bigger: ";
+    //macroPrint(bigger);
     BiggerElementType& b = cache.insert(biggerHashNum,bigger);
     //std::cerr << "Adresa smaller " << &s << std::endl;
     //std::cerr << "Adresa bigger " << &b << std::endl;
    
-    if (ContainsCongrHold(&s,&b) && !ContainsCongrHold(&b,&s)) {
-      //std::cerr << "cache works" << std::endl;
-      return;
-    }
     CongrMap congrMap;
     auto insertNewPair = [&congrMap](size_t i, StateSet& set) -> bool {
       congrMap.insert(std::make_pair(i,StateSet(set)));
@@ -237,20 +183,19 @@ public: // public functions
     };
 
     StateSet congrBigger(bigger);
-/*
-    std::cerr << "Smaller congr: " ;
-   macroPrint(congrSmaller);
-    std::cerr << "Bigger congr: " ;
-    macroPrint(congrBigger);
-*/
+    //std::cerr << "Smaller congr: " ;
+    //macroPrint(congrSmaller);
     if (GetCongrClosure(congrBigger,isCongrClosureSetNew) || areEqual(congrBigger,congrSmaller)) {
+    //std::cerr << "Bigger congr: " ;
+    //macroPrint(congrBigger);
       //std::cerr << "Plati!!!!!" << std::endl;
-      AddToCongrHold(&s,&b);
-      AddToCongrHold(&b,&s);
       smaller.clear();
       bigger.clear();
       return;
     }
+    //std::cerr << "Bigger congr: " ;
+    //macroPrint(congrBigger);
+    //std::cerr << "Neplati!!!!!" << std::endl;
 
     MakePostForAut(smaller_,usedSymbols,smaller,bigger,smaller);
     if (this->inclNotHold_) {
@@ -259,9 +204,6 @@ public: // public functions
     MakePostForAut(bigger_,usedSymbols,smaller,bigger,bigger);
     
     relation_.push_back(std::make_pair(&s,&b));
-
-    AddToCongrHold(&s,&b);
-    AddToCongrHold(&b,&s);
 
     smaller.clear();
     bigger.clear();
@@ -290,7 +232,7 @@ private:
   }
 
   template<class CongrMapManipulator>
-  bool GetCongrClosure(StateSet& set, CongrMapManipulator& congrMap) {
+  bool GetCongrClosure(StateSet& set, CongrMapManipulator& congrMapManipulator) {
     std::unordered_set<int> usedRulesN;
     std::unordered_set<int> usedRulesR;
 
@@ -307,12 +249,14 @@ private:
              MatchPair(set, *next_[i].second)) { // Rule matches
          AddSubSet(set,*next_[i].first);
          AddSubSet(set,*next_[i].second);
-         ////std::cerr << "Relation: " << std::endl;
+         //std::cerr << "Relation: " << std::endl;
          ////std::cerr << "New congr get: " << std::endl;
          //macroPrint(set);
          usedRulesN.insert(i);
          appliedRule = true;
-         congrMap(i,set);
+         if (!congrMapManipulator(i,set)) {
+           return true;
+         }
        }
       }
       for (unsigned int i=0; i < relation_.size(); i++) {
@@ -329,7 +273,7 @@ private:
          ////std::cerr << "New congr get: " << std::endl;
          //macroPrint(set);
          appliedRule = true;
-         if (!congrMap(next_.size()+i,set)) {
+         if (!congrMapManipulator(next_.size()+i,set)) {
            return true;
          }
        }
@@ -389,11 +333,9 @@ private:
     //std::cerr << "pridavam do next : " << std::endl; 
     //macroPrint(insertSmaller); 
     //macroPrint(insertBigger); 
-          if (!ContainsCongrHold(&insertSmaller,&insertBigger) && 
-            !ContainsCongrHold(&insertBigger,&insertSmaller)) {
+          if (!visitedPairs.contains(&insertSmaller,&insertBigger)){ 
     //std::cerr << "nenasek jsem to " << &insertSmaller << " " << &insertBigger << " " << std::endl;
-            AddToCongrHold(&insertSmaller,&insertBigger);
-            AddToCongrHold(&insertBigger,&insertSmaller);
+            visitedPairs.add(&insertSmaller,&insertBigger);
             next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
             // TODO: OPTIMALIZACE
             //next_.insert(next_.begin(),std::make_pair(&insertSmaller,&insertBigger));
@@ -405,31 +347,6 @@ private:
       }
     }
   }
-
-  inline void AddToCongrHold(StateSet* k, StateSet* v) {
-    auto iter = congrHold.find(k);
-
-    //std::cerr << "pridani novych stavu do congr hold" << k << " " << v << " " << congrHold.size() << " " << std::endl;
-    if (iter == congrHold.end()) {
-      congrHold.insert(std::make_pair(k,SetPtrSet())).first->second.insert(v);
-    }
-    else {
-      iter->second.insert(v);
-    }
-    //std::cerr << "pridano"  << congrHold.size() << std::endl;
-  }
-
-  inline bool ContainsCongrHold(StateSet* k, StateSet* v) {
-    auto iter = congrHold.find(k);
-
-    if (iter == congrHold.end()) {
-      return false;
-    }
-    else {
-      return iter->second.count(v);
-    }
-  }
-
 };
 
 #endif
