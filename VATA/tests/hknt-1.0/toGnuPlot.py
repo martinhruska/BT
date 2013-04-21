@@ -7,13 +7,14 @@ if len(sys.argv) < 3:
   exit(1)
 
 fhk = open(sys.argv[1],'r')
-fv = open(sys.argv[2],'r')
 
 for lh in fhk:
+  fv = open(sys.argv[2],'r')
   sh = lh.split(";")
   for lv in fv:
     vh = lv.split(";")
     if len(vh) < 3:
       continue
     if (sh[0]==vh[0] and sh[2]==vh[1]):
-      print sh[1]+" "+sh[3]+" "+sh[4]+" "+vh[7]
+      print sh[1]+" "+sh[3]+" "+sh[4].strip()+" "+vh[7].strip()
+  fv.close()
