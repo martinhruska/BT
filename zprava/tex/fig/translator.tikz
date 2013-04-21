@@ -1,0 +1,32 @@
+\begin{tikzpicture}
+[
+  scale=0.85,
+  transform shape,
+	gen/.style={thick,fill=gray!10},
+	expl/.style={thick,fill=orange!50},
+	bu/.style={thick,fill=green!40},
+	td/.style={thick,fill=blue!30},
+	other/.style={fill=yellow!10,dashed}
+]
+
+\node[minimum size=35](states) at (0.65,-2) {};
+\draw (0.00,-2) rectangle +(1.25, .5) [expl] node[midway] {\textit{$q_1$}};
+\draw (0.00,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$1$}};
+\draw (1.25,-2) rectangle +(1.25, .5) [expl] node[midway] {\textit{$q_2$}};
+\draw (1.25,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$2$}};
+\draw (2.5,-2) rectangle +(1.25, .5) [expl] node[midway] {\textit{$q_3$}};
+\draw (2.5,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$3$}};
+\draw (3.75,-2) rectangle +(1.25, .5) [expl] node[midway] {\textit{$q_4$}};
+\draw (3.75,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$4$}};
+
+\node[minimum size=35](syms) at (0.65,-2) {};
+\draw (5.5,-2) rectangle +(1.25, .5) [expl] node[midway] {\textit{$a$}};
+\draw (5.5,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$1$}};
+\draw (6.75,-2) rectangle +(1.25, .5) [expl] node[midway] {\textit{$b$}};
+\draw (6.75,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$2$}};
+\draw (8.0,-2) rectangle +(1.25, .5) [expl] node[midway] {\textit{$c$}};
+\draw (8.0,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$3$}};
+\draw (9.25,-2) rectangle +(1.25, .5) [expl] node[midway] {\textit{$d$}};
+\draw (9.25,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$4$}};
+
+\end{tikzpicture}

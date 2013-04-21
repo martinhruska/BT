@@ -18,7 +18,7 @@
 
 \node at(10,0) {\shortstack{Top-level\\ Lookup Tables}};
 
-\node[minimum size=40pt](table1) at (2.75,0) {};
+\node[minimum size=40pt](table1) at (2.75,-0.2) {};
 \draw (2,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_1$}};
 \draw (2,-.5) rectangle +(0.5, .5) [td] node[midway] {};
 \draw (2.5,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_2$}};
@@ -26,7 +26,7 @@
 \draw (3,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_3$}};
 \draw (3,-.5) rectangle +(0.5, .5) [td] node[midway] {};
 
-\node[minimum size=40pt](table2) at (5,0) {};
+\node[minimum size=40pt](table2) at (5,-0.2) {};
 \draw (4.5,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_1$}};
 \draw (4.5,-.5) rectangle +(0.5, .5) [td] node[midway] {};
 \draw (5,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_2$}};

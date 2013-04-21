@@ -854,9 +854,10 @@ finite automata in the explicit encoding, will be described. These data structur
 in explicit encoding so the comparsion of both will be given.
 %TODO dodelat podle konecneho obsahu
 
-\section{Data Structure for Explicit Encoding of Finite Automata}
+\section{Data Structures for Explicit Encoding of Finite Automata}
 \label{data structure explicit}
 \subsection{Analysis}
+\label{analysis}
 An NFA is defined by set of its states, its start and final states (which are subset of all states of a NFA) and also its
 transitions \ref{defNFA} and the input alphabet. One needs to keep information about sets of start and final states to be able to distinguish
 between a start or a final state and the other states. But it is not neccessary to store the whole set of states because states that are not start or final
@@ -872,10 +873,37 @@ The data structure used for storing transions of a tree automaton in VATA librar
 on the figure \ref{figExplicitTreeDataStr}. The evaluation of VATA library \cite{libvata} proves efficiency of this data structure is efficient, so it was
 decided to modificate this data structure and use it also for part of VATA library for finite automata.
 
-\subsection{Design of Data Structure}
+\subsection{Design of Data Structure for Transtions of NFA}
 Data structure for storing transitions of an NFA is based on hash tables. The first hash table (top-level hash table) maps a given state to the pointer to
 the transition cluster. The transition cluster is another hash table which maps a symbol of the input alphabet to a set of states. Described data structure is on
-the figure \ref{figExplicitFADataStr}.
+the figure \ref{figExplicitFADataStr}
+
+The data structure for finite automata transitions is simplyfication of the data structure for tree automata what is can be seen by comparing figures 
+\ref{figExplicitFADataStr} and \ref{figExplicitTreeDataStr}. This simplyfication is possible because the tree version has to stored to whole tuples of
+states in transtions. Since these tuple can be very large it is more efficient to store them only once and in data structure keeps pointer to the 
+tuple, which is in a transtion, instead of the tuple alone. 
+In case of finite automata this advantage dissapears because there are no tuples of state but only states alone and keeping pointer to one state will not 
+bring any memory efficiency (the size of a pointer to a state and the state alone is quite similiar). This fact causes that in the data structure 
+for finite automata is not needed to use anything like set of pointers to tuples in tree automata version, but could be directly used the set of states. This 
+set of states would be pointed from transition cluster and would contain all states accessible from a given state under a symbol of input alphabet.
+
+But there is possible another simplyfication. The set of states does not need to be in special level of data structure but can be integrated to the transition
+cluster. When this optimization is applied, transition cluster maps symbol directly to the set of states accessible under this symbol.
+
+The mentioned optimization enables that the tree version of data structure, which has four leves, was simplyfied to the two level data structure what brings
+simplyier and more efficient manipulation with these data structure.
+
+This data structure also aplly the copy-on-write principle, what brings better memory efficiency. It means that the look-up tables and 
+the transtion clusters are shared among NFA when they are same and
+a new look-up table and a transition is created only when a new item is inserted to the one of the automata.
+
+Let give the examples for searching and inserting a trasition to this data structure for the NFA on the figure \ref{figExplicitFADataStr}. 
+If one wants to find all accessibale states for state $q_1$ and symbol $a$ in a NFA $A$
+so in the top-level lookup is found pointer to transition cluster for state $p$. In this
+transition cluster is symbol $a$ mapped to the set of states (in this case ($\{q_1,q_2\}$)) which are accessible from $q_1$ under $a$.
+If one wants to insert a new transition $q_3\rightarrow{e}q_2$ to a NFA $C$, the look-up table pointed by automaton $C$ is duplicated 
+and a state $q_3$ is inserted to it. A NFA $C$ now points to that newly duplicated look-up table. State $q_3$ is mapped to pointer to the newly created
+transition cluster. Symbol $e$ is inserted to this new transition cluster and mapped to the set of state which contains just state $q_2$.
 
 \begin{figure}[h]
 \begin{center}
@@ -887,12 +915,34 @@ the figure \ref{figExplicitFADataStr}.
 \end{center}
 \end{figure}
 
-popsat strukturu samotnou
-obrazek
-porovna s orignialnim
+\section{Start and final states data structure}
+As it was mentioned before \ref{analysis} it is neccessary to keep start and final states in the special sets to be able distinguish between them and the others
+states of an automaton. This is also main usage of these sets during operations over finite automata so there is no need to create special data structure and 
+unordered set is efficient enough for them.
 
 \section{Translation of the states and symbols}
-popsat, ze taky predkladam do integre a ze jsem to vzla z vaty a ze je to efektivnejsi
+The input automaton is is parsed and converted to intern representation. During this conversion to the intern representation are states translated
+(mapped) from input type (e.g., text description of an automaton) 
+to an integers and this also works for symbols of the input alphabet (principle can be seen on figure \ref{figExplicitFADataStr}). 
+This mechanism brings better efficiency for manipulation with states and symbols
+during the operations. It also provides unification all input forms to the one internal representation. 
+
+The translated integeres can be changed during some operations (e.g., union) over finite automata but the relation between mapping and mapped value will
+not be broken.
+
+When the input automaton is processed by VATA library operations it is often serialized back to the input format. The result 
+automaton's states are converted back to the input format from internal enconding using translation in reverse order
+so the result notation stays consistent with the input.
+
+\begin{figure}
+\begin{center}
+\input{fig/translator.tikz}
+		\label{figExplicitFADataStr}
+    \caption{Translator takes the input format (text format in this case) and maps it to the integer. On the figure can
+    be seen mapping symbols (on the left) and mapping input symbols (on the right).}
+\end{center}
+\end{figure}
+
 \section{Overview of used interfaces of VATA library}
 popsat, co jsem se rozhodl pouzit z vaty a proc
 
