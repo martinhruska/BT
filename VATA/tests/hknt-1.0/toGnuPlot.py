@@ -16,5 +16,5 @@ for lh in fhk:
     if len(vh) < 3:
       continue
     if (sh[0]==vh[0] and sh[2]==vh[1]):
-      print sh[1]+" "+sh[3]+" "+sh[4].strip()+" "+vh[7].strip()
+      print str((int(sh[1])+int(sh[3])))+" "+sh[4].strip()+" "+vh[7].strip()
   fv.close()

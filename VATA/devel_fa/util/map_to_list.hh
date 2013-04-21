@@ -26,7 +26,7 @@ public:
   /*
    * Add value v to key k.
    */
-  inline void add(Key k, ListValue v) {
+  void add(Key k, ListValue v) {
     auto iter = map.find(k);
     //std::cerr << "pridani novych stavu do congr hold" << k << " " << v << " " << map.size() << " " << std::endl;
     if (iter == map.end()) {
@@ -43,7 +43,7 @@ public:
    * Checks whether for the given key k there exists
    * value v in its list of pointers.
    */
-  inline bool contains(Key k, ListValue v) {
+  bool contains(Key k, ListValue v) {
     auto iter = map.find(k);
     //std::cerr << "Contains " << k << " " << v << std::endl;
     if (iter == map.end()) {
@@ -58,7 +58,7 @@ public:
     return map.find(k) != map.end();
   }
 
-  inline VList* getList(Key k) {
+  VList* getList(Key k) {
     if (containsKey(k)) {
       return &map.find(k)->second;
     }

@@ -102,14 +102,14 @@ public: // public functions
 
     size_t smallerHashNum = 0;
     for (auto state : smaller_.startStates_) {
-      if (!smallerInit.count(state)) smallerHashNum += state; // TODO: OPT special cycle?
+      smallerHashNum += state; 
       smallerInit.insert(state);
       smallerInitFinal |= smaller_.IsStateFinal(state);
     }
 
     size_t biggerHashNum = 0;
     for (auto state : bigger_.startStates_) {
-      if (!biggerInit.count(state)) biggerHashNum += state; // TODO: OPT special cycle?
+      biggerHashNum += state; 
       biggerInit.insert(state);
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
@@ -311,8 +311,9 @@ private:
           origSet,set,next_,congrMapManipulator,usedRulesNumbersN,appliedRule)) {
           return true;
         }
-        if (
-          ApplyRulesForRelation(origSet,set,relation_,congrMapManipulator,usedRulesNumbersN,appliedRule)) {
+        if (ApplyRulesForRelation(
+            origSet,set,relation_,congrMapManipulator,usedRulesNumbersN,
+            appliedRule)) {
           return true;
         }
       }
@@ -358,12 +359,16 @@ private:
         usedSymbols.insert(symbolToSet.first);
         SmallerElementType newSmaller;
         BiggerElementType newBigger;
+        size_t smallerHashNum = 0;
+        size_t biggerHashNum = 0;
         bool newSmallerAccept =  
-          this->CreatePostOfMacroState(
-              newSmaller,smaller,symbolToSet.first,smaller_);
+          this->CreatePostOfMacroStateWithSum(
+              newSmaller,smaller,symbolToSet.first,smaller_,
+              smallerHashNum);
         bool newBiggerAccpet =
-          this->CreatePostOfMacroState(
-              newBigger,bigger,symbolToSet.first,bigger_);
+          this->CreatePostOfMacroStateWithSum(
+              newBigger,bigger,symbolToSet.first,bigger_,
+              biggerHashNum);
 
        // std::cerr << "false or true " << newSmallerAccept << " " << newBiggerAccpet << std::endl;
         if (newSmallerAccept != newBiggerAccpet) {
@@ -376,11 +381,9 @@ private:
 
         ////std::cerr << "PRIDAVAM" << std::endl;
         if (newSmaller.size() || newBigger.size()) {
-          size_t smallerHashNum = 0;
-          size_t biggerHashNum = 0;
-          auto sum = [](StateSet& set, size_t& sum) {for (auto& state : set) sum+=state;};
-          sum(newSmaller,smallerHashNum);
-          sum(newBigger,biggerHashNum);
+          //auto sum = [](StateSet& set, size_t& sum) {for (auto& state : set) sum+=state;};
+          //sum(newSmaller,smallerHashNum);
+          //sum(newBigger,biggerHashNum);
           //macroPrint(newSmaller);
           StateSet& insertSmaller = cache_.insert(smallerHashNum,newSmaller);
           //macroPrint(newBigger);

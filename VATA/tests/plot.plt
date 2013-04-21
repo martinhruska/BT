@@ -1,5 +1,7 @@
 set xlabel "Number of states of automaton"
 set ylabel "Number of states of automaton"
-set zlabel "Time"
+#set zlabel "Time"
 set autoscale
-splot "tempPlot.data" using 1:2:3 title "pokus", "tempPlot.data" using 1:2:4 title "hokus"
+set yrange[0:0.04]
+set grid
+plot "hknt-1.0/tempPlot.data" using 1:2 title "pokus", "hknt-1.0/tempPlot.data" using 1:3 title "hokus"
