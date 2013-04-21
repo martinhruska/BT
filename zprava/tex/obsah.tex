@@ -767,9 +767,9 @@ designed hash table was used for storing them. Inserting new transition to this 
 \begin{center}
 \input{fig/tacas12/explicit.tikz}
 		\label{figExplicitTreeDataStr}
-    \caption{The data structure for storing transtion of an tree automaton. There is a hash table (so-called top-level lookup table) 
-      for a given state which map this state to the pointer to another hash table (so-called transition cluster). Transition cluster
-      maps a symbols to the pointer to the set of pointers to tuples.}
+    \caption{The data structure for storing transtion of an tree automaton. There is a hash table (top-level lookup table) 
+      which map a state to the pointer to another hash table (transition cluster). Transition cluster
+      maps a symbols of input alphabet to the pointer to the set of pointers to the tuples.}
 \end{center}
 \end{figure}
 
@@ -862,17 +862,31 @@ transitions \ref{defNFA} and the input alphabet. One needs to keep information a
 between a start or a final state and the other states. But it is not neccessary to store the whole set of states because states that are not start or final
 are used within transitions. This fact also hold in case of input alphabet. 
 
-The set of transitions keeps the most information about an NFA and is often used
-during operations over NFA, so the the performance of these operations hardly depend on efficiency of data structure for set of transitions. For example,
-one often has an state of an NFA and wants to get all states accessible for this state for each input alphabet symbols. The similiar situanion is in the case
-of tree automata, when it is not neccessary to hold the whole set of state but it is important to have efficient data structure for represanting 
+The set of transitions keeps the most information about an NFA and is also often used
+during operations over NFA, so the the performance of these operations hardly depend on the efficiency of data structure for a set of transitions. For example,
+one often wants to get all transitions for given state or for given state and given alphabet symbol. The similiar situaion is in the case
+of tree automata when it is not neccessary to hold the whole set of state but it is important to have efficient data structure for represanting 
 transitions of a given tree automata.
 
 The data structure used for storing transions of a tree automaton in VATA library was described earlier \ref{sectionExplicitEnc} and can be seen
-on the figure \ref{figExplicitTreeDataStr}. The evaluation of VATA library \cite{libvata} shows that this data structure is efficient enough, so it was
+on the figure \ref{figExplicitTreeDataStr}. The evaluation of VATA library \cite{libvata} proves efficiency of this data structure is efficient, so it was
 decided to modificate this data structure and use it also for part of VATA library for finite automata.
 
 \subsection{Design of Data Structure}
+Data structure for storing transitions of an NFA is based on hash tables. The first hash table (top-level hash table) maps a given state to the pointer to
+the transition cluster. The transition cluster is another hash table which maps a symbol of the input alphabet to a set of states. Described data structure is on
+the figure \ref{figExplicitFADataStr}.
+
+\begin{figure}[h]
+\begin{center}
+\input{fig/explicit_fa.tikz}
+		\label{figExplicitFADataStr}
+    \caption{The data structure for storing transtion of an finite automaton. There is a hash table (top-level lookup table) 
+      which map a state of a FA to the pointer to another hash table (transition cluster). Transition cluster maps a symbol of the input alphabet
+      to a set of states.}
+\end{center}
+\end{figure}
+
 popsat strukturu samotnou
 obrazek
 porovna s orignialnim

@@ -1,0 +1,80 @@
+\begin{tikzpicture}
+[
+  scale=0.85,
+  transform shape,
+	gen/.style={thick,fill=gray!10},
+	expl/.style={thick,fill=orange!50},
+	bu/.style={thick,fill=green!40},
+	td/.style={thick,fill=blue!30},
+	other/.style={fill=yellow!10,dashed}
+]
+
+\node at(10,2) {Automata};
+
+\node[expl,circle,draw] (aA) at(1.25,2) {\textit{$A$}};
+\node[expl,circle,draw] (aB) at(3.75,2) {\textit{$B$}};
+\node[expl,circle,draw] (aC) at(6.25,2) {\textit{$C$}};
+
+
+\node at(10,0) {\shortstack{Top-level\\ Lookup Tables}};
+
+\node[minimum size=40pt](table1) at (2.75,0) {};
+\draw (2,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_1$}};
+\draw (2,-.5) rectangle +(0.5, .5) [td] node[midway] {};
+\draw (2.5,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_2$}};
+\draw (2.5,-.5) rectangle +(0.5, .5) [td] node[midway] {};
+\draw (3,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_3$}};
+\draw (3,-.5) rectangle +(0.5, .5) [td] node[midway] {};
+
+\node[minimum size=40pt](table2) at (5,0) {};
+\draw (4.5,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_1$}};
+\draw (4.5,-.5) rectangle +(0.5, .5) [td] node[midway] {};
+\draw (5,0) rectangle +(0.5, .5) [td] node[midway] {\textit{$q_2$}};
+\draw (5,-.5) rectangle +(0.5, .5) [td] node[midway] {};
+
+
+\draw[->,thick,dashed] (aA) -- (table1);
+\draw[->,thick,dashed] (aB) -- (table2);
+\draw[->,thick,dashed] (aC) -- (table2);
+
+
+\node at(10.3,-2) {Transition Clusters};
+
+\node[minimum size=35](cluster1) at (0.65,-2) {};
+\draw (0.00,-2) rectangle +(1.25, .5) [td] node[midway] {\textit{$a$}};
+\draw (0.00,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$\{q_1,q_2\}$}};
+\draw (1.25,-2) rectangle +(1.25, .5) [td] node[midway] {\textit{$b$}};
+\draw (1.25,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$\{q_1,q_2\}$}};
+
+\node[minimum size=35pt](cluster2) at (3.55,-2.1) {};
+\draw (2.75,-2) rectangle +(0.75, .5) [td] node[midway] {\textit{$c$}};
+\draw (2.75,-2.5) rectangle +(0.75, .5) [td] node[midway] {\textit{$\{q_1\}$}};
+\draw (3.5,-2) rectangle +(0.75, .5) [td] node[midway] {\textit{$e$}};
+\draw (3.5,-2.5) rectangle +(0.75, .5) [td] node[midway] {\textit{$\{\}$}};
+
+\node[minimum size=35pt](cluster3) at (6.5,-1.75) {};
+\draw (4.75,-2) rectangle +(1.25, .5) [td] node[midway] {\textit{$b$}};
+\draw (4.75,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$\{q_2,q_2\}$}};
+\draw (6.0,-2) rectangle +(1.25, .5) [td] node[midway] {\textit{$c$}};
+\draw (6.0,-2.5) rectangle +(1.25, .5) [td] node[midway] {\textit{$\{q_2,q_3\}$}};
+
+\node[minimum size=35pt](cluster4) at (8.5,-1.75) {};
+\draw (7.5,-2) rectangle +(0.75, .5) [td] node[midway] {\textit{$e$}};
+\draw (7.5,-2.5) rectangle +(0.75, .5) [td] node[midway] {\textit{$\{q_3\}$}};
+
+
+\draw[thick,fill=black] (2.25,-0.25) circle (0.5mm);
+\draw[->,thick,dashed] (2.25,-.25) -- (cluster2);
+
+\draw[thick,fill=black] (2.75,-0.25) circle (0.5mm);
+\draw[->,thick,dashed] (2.75,-.25) -- (cluster1);
+
+\draw[thick,fill=black] (3.25,-0.25) circle (0.5mm);
+\draw[->,thick,dashed] (3.25,-.25) -- (cluster3);
+
+\draw[thick,fill=black] (4.75,-0.25) circle (0.5mm);
+\draw[->,thick,dashed] (4.75,-.25) -- (cluster2);
+
+\draw[thick,fill=black] (5.25,-0.25) circle (0.5mm);
+\draw[->,thick,dashed] (5.25,-.25) -- (cluster4);
+\end{tikzpicture}
