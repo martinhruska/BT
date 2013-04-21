@@ -67,9 +67,9 @@ private: // Private data members
 
   Rel preorder_; // Simulation or identity
 
-  MacroStateCache cache;
-  MacroStatePtrPair visitedPairs;
-  MacroStatePtrPair usedRules;
+  MacroStateCache cache_;
+  MacroStatePtrPair visitedPairs_;
+  MacroStatePtrPair usedRules_;
 
 public:
   ExplicitFACongrFunctorCacheOpt(ProductStateSetType& relation, ProductStateSetType& next,
@@ -87,9 +87,9 @@ public:
     index_(index),
     inv_(inv),
     preorder_(preorder),
-    cache(),
-    visitedPairs(),
-    usedRules()
+    cache_(),
+    visitedPairs_(),
+    usedRules_()
   {}
 
 public: // public functions
@@ -118,10 +118,10 @@ public: // public functions
     //macroPrint(smallerInit);
     //std::cerr << "Biggerinit state: ";
     //macroPrint(biggerInit);
-    StateSet& insertSmaller = cache.insert(smallerHashNum,smallerInit);
-    StateSet& insertBigger = cache.insert(biggerHashNum,biggerInit);
+    StateSet& insertSmaller = cache_.insert(smallerHashNum,smallerInit);
+    StateSet& insertBigger = cache_.insert(biggerHashNum,biggerInit);
     next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
-    visitedPairs.add(&insertSmaller,&insertBigger);
+    visitedPairs_.add(&insertSmaller,&insertBigger);
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
@@ -158,10 +158,10 @@ public: // public functions
     sum(bigger,biggerHashNum);
     //std::cerr << "Smaller: " ;
     //macroPrint(smaller);
-    SmallerElementType& s = cache.insert(smallerHashNum,smaller);
+    SmallerElementType& s = cache_.insert(smallerHashNum,smaller);
     //std::cerr << "Bigger: ";
     //macroPrint(bigger);
-    BiggerElementType& b = cache.insert(biggerHashNum,bigger);
+    BiggerElementType& b = cache_.insert(biggerHashNum,bigger);
     //std::cerr << "Adresa smaller " << &s << std::endl;
     //std::cerr << "Adresa bigger " << &b << std::endl;
    
@@ -224,60 +224,111 @@ private:
   }
 
   template<class CongrMapManipulator>
+  bool ApplyRulesForRelation(StateSet& origSet, StateSet& set, 
+    ProductStateSetType& relation, CongrMapManipulator& congrMapManipulator,
+    std::unordered_set<int>& usedRulesNumbers,
+    bool& appliedRule) {
+    bool visited = usedRules_.containsKey(&origSet);
+
+   for (unsigned int i=0; i < relation.size(); i++) { // relation next
+     if (usedRulesNumbers.count(i)) { // already used rule
+       continue;
+     }
+/*
+     std::cerr << "rel: ";macroPrint(*relation_[i].second);
+     if (usedRules_.contains(&origSet,relation_[i].second)) {
+      std::cerr << "going: " << std::endl;
+      }
+      */
+     if (MatchPair(set, *relation[i].second)) { // Rule matches
+       AddSubSet(set,*relation[i].first);
+       AddSubSet(set,*relation[i].second);
+       usedRules_.add(&origSet,relation[i].second); 
+       usedRulesNumbers.insert(i);
+      //std::cerr << "matched: " << std::endl;
+       //std::cerr << "Relation: " << std::endl;
+       ////std::cerr << "New congr get: " << std::endl;
+       //macroPrint(set);
+       appliedRule = true;
+       if (!congrMapManipulator(set)) {
+         return true;
+       }
+     }
+    }
+    return false;
+  }
+
+
+  template<class CongrMapManipulator>
+  bool ApplyRulesForRelationVisited(StateSet& origSet, StateSet& set, 
+    ProductStateSetType& relation, CongrMapManipulator& congrMapManipulator,
+    std::unordered_set<int>& usedRulesNumbers,
+    bool& appliedRule) {
+    bool visited = usedRules_.containsKey(&origSet);
+
+   for (unsigned int i=0; i < relation.size(); i++) { // relation next
+     if (usedRulesNumbers.count(i)) { // already used rule
+       continue;
+     }
+/*
+     std::cerr << "rel: ";macroPrint(*relation_[i].second);
+     if (usedRules_.contains(&origSet,relation_[i].second)) {
+      std::cerr << "going: " << std::endl;
+      }
+      */
+     if ((visited && usedRules_.contains(&origSet,relation[i].second)) ||
+      MatchPair(set, *relation[i].second)) { // Rule matches
+       AddSubSet(set,*relation[i].first);
+       AddSubSet(set,*relation[i].second);
+       usedRulesNumbers.insert(i);
+      //std::cerr << "matched: " << std::endl;
+       //std::cerr << "Relation: " << std::endl;
+       ////std::cerr << "New congr get: " << std::endl;
+       //macroPrint(set);
+       appliedRule = true;
+       if (!congrMapManipulator(set)) {
+         return true;
+       }
+     }
+    }
+    return false;
+  }
+
+  template<class CongrMapManipulator>
   bool GetCongrClosure(StateSet& origSet,StateSet& set, CongrMapManipulator& congrMapManipulator) {
-    std::unordered_set<int> usedRulesN;
-    std::unordered_set<int> usedRulesR;
+    std::unordered_set<int> usedRulesNumbersN;
+    std::unordered_set<int> usedRulesNumbersR;
 
     bool appliedRule = true;
+    bool visited = usedRules_.containsKey(&origSet);
+
+//if (visited) std::cerr << "Visited" << std::endl;
+    if (!visited) {
+      while (appliedRule) { // Apply all possible rules
+        appliedRule = false;
     
-    while (appliedRule) { // Apply all possible rules
-      appliedRule = false;
-      for (unsigned int i=0; i < next_.size(); i++) { // relation next
-       if (usedRulesN.count(i)) { // already used rule
-         continue;
-       }
-
-       if (//usedRules.contains(&origSet,next_[i].second) ||
-        MatchPair(set, *next_[i].second)) { // Rule matches
-         AddSubSet(set,*next_[i].first);
-         AddSubSet(set,*next_[i].second);
-         //usedRules.add(&origSet,next_[i].second); 
-         //std::cerr << "Relation: " << std::endl;
-         ////std::cerr << "New congr get: " << std::endl;
-         //macroPrint(set);
-         usedRulesN.insert(i);
-         appliedRule = true;
-         if (!congrMapManipulator(set)) {
-           return true;
-         }
-       }
+        if (ApplyRulesForRelation(
+          origSet,set,next_,congrMapManipulator,usedRulesNumbersN,appliedRule)) {
+          return true;
+        }
+        if (
+          ApplyRulesForRelation(origSet,set,relation_,congrMapManipulator,usedRulesNumbersN,appliedRule)) {
+          return true;
+        }
       }
-      for (unsigned int i=0; i < relation_.size(); i++) { // relation R
-
-       if (usedRulesR.count(i)) {
-         continue;
-       }
-       /*
-       if (usedRules.contains(&origSet,relation_[i].second)) {
-        std::cerr << "going: ";macroPrint(origSet);macroPrint(*relation_[i].second);
-       }
-       */
-       if (//usedRules.contains(&origSet,relation_[i].second) ||
-        MatchPair(set, *relation_[i].second)) { // Rule matching
-         AddSubSet(set,*relation_[i].first);
-         AddSubSet(set,*relation_[i].second);
-         //usedRules.add(&origSet,relation_[i].second); 
-         usedRulesR.insert(i);
-       // std::cerr << "matched: ";macroPrint(origSet);macroPrint(*relation_[i].second);
-         ////std::cerr << "Relation: " << std::endl;
-         ////std::cerr << "New congr get: " << std::endl;
-         //macroPrint(set);
-         appliedRule = true;
-         if (!congrMapManipulator(set)) {
-           return true;
-         }
-       }
-       //std::cerr << "passed" << std::endl;
+    }
+    else {
+      while (appliedRule) { // Apply all possible rules
+        appliedRule = false;
+    
+        if (ApplyRulesForRelationVisited(
+          origSet,set,next_,congrMapManipulator,usedRulesNumbersN,appliedRule)){
+          return true;
+        }
+        if (ApplyRulesForRelationVisited(
+          origSet,set,relation_,congrMapManipulator,usedRulesNumbersN,appliedRule)) {
+          return true;
+        }
       }
     }
     return false;
@@ -331,15 +382,15 @@ private:
           sum(newSmaller,smallerHashNum);
           sum(newBigger,biggerHashNum);
           //macroPrint(newSmaller);
-          StateSet& insertSmaller = cache.insert(smallerHashNum,newSmaller);
+          StateSet& insertSmaller = cache_.insert(smallerHashNum,newSmaller);
           //macroPrint(newBigger);
-          StateSet& insertBigger = cache.insert(biggerHashNum,newBigger);
+          StateSet& insertBigger = cache_.insert(biggerHashNum,newBigger);
     //std::cerr << "pridavam do next : " << std::endl; 
     //macroPrint(insertSmaller); 
     //macroPrint(insertBigger); 
-          if (!visitedPairs.contains(&insertSmaller,&insertBigger)){ 
+          if (!visitedPairs_.contains(&insertSmaller,&insertBigger)){ 
     //std::cerr << "nenasek jsem to " << &insertSmaller << " " << &insertBigger << " " << std::endl;
-            visitedPairs.add(&insertSmaller,&insertBigger);
+            visitedPairs_.add(&insertSmaller,&insertBigger);
             next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
             // TODO: OPTIMALIZACE
             //next_.insert(next_.begin(),std::make_pair(&insertSmaller,&insertBigger));
