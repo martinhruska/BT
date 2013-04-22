@@ -95,6 +95,8 @@ class VATA::ExplicitFiniteAut : public AutBase {
 
   template<class SymbolType, class Rel>
   friend class ExplicitFAInclusionFunctor;
+  template<class SymbolType, class Rel>
+  friend class ExplicitFAInclusionFunctorOpt;
 
   template<class SymbolType, class Rel>
   friend class ExplicitFACongrFunctor;
@@ -107,6 +109,8 @@ class VATA::ExplicitFiniteAut : public AutBase {
 
   template<class SymbolType, class Rel>
   friend class ExplicitFAStateSetComparator;
+  template<class SymbolType, class Rel>
+  friend class ExplicitFAStateSetComparatorOpt;
   
   template<class Key, class Value>
   friend class MapToList;
