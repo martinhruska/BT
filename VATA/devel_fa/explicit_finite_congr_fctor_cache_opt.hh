@@ -312,7 +312,7 @@ private:
           return true;
         }
         if (ApplyRulesForRelation(origSet,set,relation_,
-            congrMapManipulator,usedRulesNumbersN,appliedRule)) {
+            congrMapManipulator,usedRulesNumbersR,appliedRule)) {
           return true;
         }
       }
@@ -326,7 +326,7 @@ private:
           return true;
         }
         if (ApplyRulesForRelationVisited(
-          origSet,set,relation_,congrMapManipulator,usedRulesNumbersN,appliedRule)) {
+          origSet,set,relation_,congrMapManipulator,usedRulesNumbersR,appliedRule)) {
           return true;
         }
       }

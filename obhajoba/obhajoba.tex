@@ -120,16 +120,17 @@
 				\item Bonchi, Pous. POPL'13.
 			\end{itemize}
 		\end{itemize}
-		
-		\begin{figure}
-			\begin{tikzpicture}[scale=0.2]
-				\draw (-3.0,-29.6) circle (6);
-				\draw (0.0,-29.6) node {$B$};
-				\filldraw [red] (-6.0,-29.6) circle (3);
-				\draw (-6.0,-29.6) node {$A$};
-			\end{tikzpicture}
-		\caption{Inkluze}
-		\end{figure}
+	\begin{figure}[bht]
+\begin{center}
+	\scalebox{0.6}
+	{
+		\includegraphics[scale=0.45]{congr1.pdf}
+		\hspace{0.55cm}
+  	\includegraphics[scale=0.55]{ac1.pdf}
+	}
+  \label{automata}
+\end{center}
+\end{figure}	
 }
 
 \frame{\frametitle{Existující knihovny}
@@ -156,13 +157,16 @@
 	\end{itemize}
 }
 
-\section{Další postup}
-\frame{\frametitle{Co bude ještě uděláno}
-	\begin{itemize}
-		\item Implementace algoritmů
-		\item Testování a optimalizace
-		\item Vyhodnocení výsledků práce
-	\end{itemize}
+\section{Návrh}
+\frame{\frametitle{Datové struktury}
+  \begin{figure}[h]
+  \begin{center}
+  \input{explicit.tikz}
+      \caption{Stromové automaty}
+  \input{explicit_fa.tikz}
+      \caption{Konečné automaty}
+  \end{center}
+  \end{figure}
 }
 
 \section{Závěr}
