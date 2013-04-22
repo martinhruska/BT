@@ -1,18 +1,13 @@
-# Autor: Martin Hruska
-# E-mail: xhrusk16@stud.fit.vutbr.cz
-
 PROJ=obhajoba
-TEX_COMP=latex # prekladac latexu
+TEX_COMP=pdflatex # prekladac latexu
+BIB=bibtex
 DVI=dvips # prevod do post scriptu
-PDF=ps2pdf #prevod do pdf
-A4=-sPAPERSIZE=a4
+PDF=pdflatex #prevod do pdf
+$A4=-sPAPERSIZE=a4
 VLNA=vlna
 VLNA_OPTS=-l -m -n
 
 all:
 	$(VLNA) $(VLNA_OPTS) $(PROJ).tex 
-	$(TEX_COMP) $(PROJ).tex
-	$(TEX_COMP) $(PROJ).tex
-	$(TEX_COMP) $(PROJ).tex
-	$(DVI) $(PROJ).dvi
-	$(PDF) $(A4) $(PROJ).ps
+	$(PDF) $(PROJ).tex
+	$(PDF) $(PROJ).tex

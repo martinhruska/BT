@@ -20,7 +20,7 @@
 
 \frame{\titlepage} 
 
-\frame{\frametitle{Motivace a cíl}
+\frame{\frametitle{Motivace}
 		\textcolor{Green}{Motivace}
 		\begin{itemize}
 			\item Konečné automaty
@@ -34,8 +34,27 @@
 		\begin{itemize}
 			\item Vytvořit knihovnu pro práci s~konečnými automaty
 		\end{itemize}
-			
-		\begin{center}
+}
+
+\frame{\frametitle{Definice NKA}
+	\textcolor{red}{Nedeterministický konečný automat (NKA)} je pětice $(Q,\Sigma,\delta,S,F)$, kde
+	\begin{itemize}
+		\item $Q$ je konečná množina stavů
+		\item $\Sigma$ je vstupní abeceda
+		\item $\delta$ je přechodová funkce $Q\times\Sigma\rightarrow 2^Q$
+		\item $S\subseteq Q$ je množina vstupních stavů
+		\item $F \subseteq Q$ je množina koncových stavů
+	\end{itemize}
+
+  \begin{figure}[htp]
+    \begin{center}
+      \includegraphics[scale=0.3]{tf_model.pdf}
+    \end{center}
+	\end{figure}
+}
+
+
+ \begin{comment}
 		\begin{tikzpicture}[scale=0.09]
 				\tikzstyle{every node}+=[inner sep=0pt]
 				\draw [blue] (9.4,-29.6) circle (3);
@@ -80,19 +99,9 @@
 				\fill [blue] (23.28,-47.75) -- (24.13,-47.33) -- (23.28,-46.81);
 				\draw (27.12,-39.26) node [left] {$a$};
 				\end{tikzpicture}
-			\end{center}
-}
+        \end{comment}
 
-\frame{\frametitle{Definice NKA}
-	\textcolor{red}{Nedeterministický konečný automat (NKA)} je pětice $(Q,\Sigma,\delta,S,F)$, kde
-	\begin{itemize}
-		\item $Q$ je konečná množina stavů
-		\item $\Sigma$ je vstupní abeceda
-		\item $\delta$ je přechodová funkce $Q\times\Sigma\rightarrow 2^Q$
-		\item $S\subseteq Q$ je množina vstupních stavů
-		\item $F \subseteq Q$ je množina výstupních stavů
-	\end{itemize}
-}
+
 
 \frame{\frametitle{Algoritmy pro test jazykové inkluze}
 		\textcolor{Green}{Klasický přístup}
