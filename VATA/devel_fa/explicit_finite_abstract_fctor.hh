@@ -86,7 +86,7 @@ protected:
 
       for (auto& s : symbolToStateSet->second) {
         newMacroState.insert(s);
-        sum += 31*sum + s;
+        sum += s;
         res |= macroFA.IsStateFinal(s);
       }
     }
