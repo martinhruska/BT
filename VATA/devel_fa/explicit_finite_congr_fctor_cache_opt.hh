@@ -102,14 +102,14 @@ public: // public functions
 
     size_t smallerHashNum = 0;
     for (auto state : smaller_.startStates_) {
-      if (!smallerInit.count(state)) smallerHashNum += state; // TODO: OPT special cycle?
+      smallerHashNum += state; 
       smallerInit.insert(state);
       smallerInitFinal |= smaller_.IsStateFinal(state);
     }
 
     size_t biggerHashNum = 0;
     for (auto state : bigger_.startStates_) {
-      if (!biggerInit.count(state)) biggerHashNum += state; // TODO: OPT special cycle?
+      biggerHashNum += state; 
       biggerInit.insert(state);
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
@@ -264,7 +264,6 @@ private:
     ProductStateSetType& relation, CongrMapManipulator& congrMapManipulator,
     std::unordered_set<int>& usedRulesNumbers,
     bool& appliedRule) {
-    bool visited = usedRules_.containsKey(&origSet);
 
    for (unsigned int i=0; i < relation.size(); i++) { // relation next
      if (usedRulesNumbers.count(i)) { // already used rule
@@ -276,7 +275,7 @@ private:
       std::cerr << "going: " << std::endl;
       }
       */
-     if ((visited && usedRules_.contains(&origSet,relation[i].second)) ||
+     if (usedRules_.contains(&origSet,relation[i].second) ||
       MatchPair(set, *relation[i].second)) { // Rule matches
        AddSubSet(set,*relation[i].first);
        AddSubSet(set,*relation[i].second);
@@ -308,18 +307,18 @@ private:
         appliedRule = false;
     
         if (ApplyRulesForRelation(
-          origSet,set,next_,congrMapManipulator,usedRulesNumbersN,appliedRule)) {
+          origSet,set,next_,congrMapManipulator,
+          usedRulesNumbersN,appliedRule)) {
           return true;
         }
-        if (ApplyRulesForRelation(
-            origSet,set,relation_,congrMapManipulator,usedRulesNumbersN,
-            appliedRule)) {
+        if (ApplyRulesForRelation(origSet,set,relation_,
+            congrMapManipulator,usedRulesNumbersN,appliedRule)) {
           return true;
         }
       }
     }
     else {
-      while (appliedRule) { // Apply all possible rules
+      while (appliedRule) { // Macrostate allready visited
         appliedRule = false;
     
         if (ApplyRulesForRelationVisited(
