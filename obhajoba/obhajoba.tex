@@ -161,239 +161,62 @@
 \frame{\frametitle{Datové struktury}
   \begin{figure}[h]
   \begin{center}
-  \input{explicit.tikz}
-      \caption{Stromové automaty}
+  \minipage{0.5\textwidth}
   \input{explicit_fa.tikz}
-      \caption{Konečné automaty}
+  \endminipage
+  \minipage{0.5\textwidth}
+  \input{explicit.tikz}
+  \endminipage
+  \caption{Datová struktura pro ukládní přechodů \textcolor{red}{konečných (vlevo)} a \textcolor{green}{stromových (vpravo)} automatů}
   \end{center}
   \end{figure}
 }
 
-\section{Závěr}
-\frame{\frametitle{Závěr}
-	\begin{center}
-		\Large{\textbf{Děkuji za pozornost}}
-	\end{center}
-}
-\begin{comment}
-
-\frame{\frametitle{Obsah}
-				\begin{center}
-				\begin{tikzpicture}[scale=0.2]
-				\tikzstyle{every node}+=[inner sep=0pt]
-				\draw [red] (11.8,-11.4) circle (3);
-				\draw [red] (11.8,-11.4) node {Úvod};
-				\draw [black] (48.7,-18.1) circle (3);
-				\draw (48.7,-18.1) node {KA};
-				\draw [black] (10.1,-35.6) circle (3);
-				\draw (10.1,-35.6) node {VATA};
-				\draw [black] (48.7,-41.5) circle (3);
-				\draw (48.7,-41.5) node {Závěr};
-				\draw [black] (48.7,-41.5) circle (2.7);
-				\draw [black] (6.5,-6.4) -- (9.62,-9.34);
-				\fill [black] (9.62,-9.34) -- (9.38,-8.43) -- (8.69,-9.16);
-				\draw [black] (14.75,-11.94) -- (45.75,-17.56);
-				\fill [black] (45.75,-17.56) -- (45.05,-16.93) -- (44.87,-17.91);
-				\draw [black] (45.97,-19.34) -- (12.83,-34.36);
-				\fill [black] (12.83,-34.36) -- (13.77,-34.49) -- (13.35,-33.58);
-				\draw [black] (13.07,-36.05) -- (45.73,-41.05);
-				\fill [black] (45.73,-41.05) -- (45.02,-40.43) -- (44.87,-41.42);
-				\end{tikzpicture}
-				\end{center}
+\section{Použité algoritmy a optimalizace}
+\frame{\frametitle{Použité algoritmy}
+  \begin{itemize}
+    \item Použit a testován algoritmus fungující na základě výpočtu kongruenčního uzávěru množiny stavů
+    \item Optimalizován speciálně na test inkluze
+    \item Použity implementační optimalizace (cachování již spočtených množin)
+  \end{itemize}
 }
 
-\section{Úvod} 
-\frame{\frametitle{Úvod} 
-	\begin{itemize}
-		\item Vytvoření knihovny pro práci s~konečnými automaty
-		\item Možnost testování inkluze konečných automatů -- využití ve formální verifikaci
-		\item Realizace jako rozšíření knihovny VATA
-	\end{itemize}
+\section{Evaluace}
+\frame{\frametitle{Porovnání s~OCaml verzí}
+
+  \begin{center}
+  \begin{figure}
+    \includegraphics[scale=0.35]{plot_hkc.png}
+  \end{figure}
+  \vspace{0.5cm}
+   \begin{tabular}{ | l | r | r |}
+   \hline
+    & \textbf{OCaml} & \textbf{VATA} \\ \hline \hline
+    rychlejší & $26\%$ & $74\%$ \\ \hline
+   \end{tabular}
+ \end{center}
 }
+\frame{\frametitle{Porovnání s~VATA pro TA}
 
-\frame{\frametitle{Zadání} 
-	\begin{itemize}
-		\item Studijnní část:
-		\begin{itemize}
-			\item Seznámit se s~teorií konečných automatů
-			\item Seznámit se s~knihovnou VATA
-	\end{itemize}
-		\item Implementační část:
-		\begin{itemize}
-			\item Implementovat operace nad konečnými automaty
-			\item Testování a vyhodnocení
-		\end{itemize}
-	\end{itemize}
-}
+  \begin{center}
+   \begin{tabular}{ | l | r | r |}
+   \hline
+    & \textbf{OCaml} & \textbf{VATA} \\ \hline \hline
+    vítěz & $75\%$ & $25\%$ \\ \hline
+   \end{tabular}
+ \end{center}
+} 
 
-\frame{\frametitle{Obsah}
-				\begin{center}
-				\begin{tikzpicture}[scale=0.2]
-				\tikzstyle{every node}+=[inner sep=0pt]
-				\draw [black] (11.8,-11.4) circle (3);
-				\draw (11.8,-11.4) node {Úvod};
-				\draw [red] (48.7,-18.1) circle (3);
-				\draw [red] (48.7,-18.1) node {KA};
-				\draw [black] (10.1,-35.6) circle (3);
-				\draw (10.1,-35.6) node {VATA};
-				\draw [black] (48.7,-41.5) circle (3);
-				\draw (48.7,-41.5) node {Závěr};
-				\draw [black] (48.7,-41.5) circle (2.7);
-				\draw [black] (6.5,-6.4) -- (9.62,-9.34);
-				\fill [black] (9.62,-9.34) -- (9.38,-8.43) -- (8.69,-9.16);
-				\draw [black] (14.75,-11.94) -- (45.75,-17.56);
-				\fill [black] (45.75,-17.56) -- (45.05,-16.93) -- (44.87,-17.91);
-				\draw [black] (45.97,-19.34) -- (12.83,-34.36);
-				\fill [black] (12.83,-34.36) -- (13.77,-34.49) -- (13.35,-33.58);
-				\draw [black] (13.07,-36.05) -- (45.73,-41.05);
-				\fill [black] (45.73,-41.05) -- (45.02,-40.43) -- (44.87,-41.42);
-				\end{tikzpicture}
-				\end{center}
-}
-
-
-
-\section{Operace pro konečné automaty}
-\frame{\frametitle{Algoritmy pro konečné automaty}
-	\begin{itemize}
-		\item Operace -- sjednocení, průnik a především \textbf{test inkluze}
-		\item Požadavek efektivity
-		\begin{itemize}
-			\item Použití efektivních algoritmů
-			\item Implementační optimalizace
-		\end{itemize}
-		\begin{figure}
-			\begin{tikzpicture}[scale=0.2]
-				\draw (-3.0,-29.6) circle (6);
-				\draw (0.0,-29.6) node {$B$};
-				\filldraw [blue] (-6.0,-29.6) circle (3);
-				\draw (-6.0,-29.6) node {$A$};
-
-				%\filldraw [blue] (15.0,-29.6) circle (6);
-				%\filldraw [blue] (21.0,-29.6) circle (6);
-				
-				%\filldraw [red] (36.0,-29.6) circle (6);
-				%\filldraw [blue] (42.0,-29.6) circle (6);
-			\end{tikzpicture}
-		\caption{Inkluze}
-		\end{figure}
-	\end{itemize}
-}
-
-\frame{\frametitle{Efektivní algoritmy pro testování inkluze}
-	\begin{itemize}
-		\item Není třeba generovat všechny stavy
-		\item Princip antichain a relace simulace
-		\item Princip kongruence - především test ekvivalence, lze použít i pro inkluzi:
-		\begin{itemize}
-			\item $(X \cup Y = Y) \Rightarrow (X\subseteq Y)$
-		\end{itemize}
-	\end{itemize}
-}
-\begin{comment}
-\frame{\frametitle{Obsah}
-				\begin{center}
-				\begin{tikzpicture}[scale=0.2]
-				\tikzstyle{every node}+=[inner sep=0pt]
-				\draw [black] (11.8,-11.4) circle (3);
-				\draw (11.8,-11.4) node {Úvod};
-				\draw [black] (48.7,-18.1) circle (3);
-				\draw (48.7,-18.1) node {KA};
-				\draw [red] (10.1,-35.6) circle (3);
-				\draw [red] (10.1,-35.6) node {VATA};
-				\draw [black] (48.7,-41.5) circle (3);
-				\draw (48.7,-41.5) node {Závěr};
-				\draw [black] (48.7,-41.5) circle (2.7);
-				\draw [black] (6.5,-6.4) -- (9.62,-9.34);
-				\fill [black] (9.62,-9.34) -- (9.38,-8.43) -- (8.69,-9.16);
-				\draw [black] (14.75,-11.94) -- (45.75,-17.56);
-				\fill [black] (45.75,-17.56) -- (45.05,-16.93) -- (44.87,-17.91);
-				\draw [black] (45.97,-19.34) -- (12.83,-34.36);
-				\fill [black] (12.83,-34.36) -- (13.77,-34.49) -- (13.35,-33.58);
-				\draw [black] (13.07,-36.05) -- (45.73,-41.05);
-				\fill [black] (45.73,-41.05) -- (45.02,-40.43) -- (44.87,-41.42);
-				\end{tikzpicture}
-				\end{center}
-}
-
-\section{VATA}
-\frame{\frametitle{VATA}
-	\begin{itemize}
-		\item Knihovna pro práci se stromovými automaty
-		\item Zaměřena na oblast formální verifikace
-		\item Podporuje explicitní a semi-symbolickou kódování
-		\item Cíl práce: rozšíření VATA pro konečné automaty v~explicitním kódování
-	\end{itemize}
-
-		\begin{figure}
-			\begin{tikzpicture}[scale=0.1]
-				\draw [blue] (41.8,-10.4) circle (3);
-				\draw (41.8,-10.4) node {$f$};
-				\draw [blue] (30,-21.3) circle (3);
-				\draw (30,-21.3) node {$g$};
-				\draw [blue] (41.8,-21.3) circle (3);
-				\draw (41.8,-21.3) node {$a$};
-				\draw [blue] (53.6,-22) circle (3);
-				\draw (53.6,-22) node {$g$};
-				\draw [blue] (24.5,-29.3) circle (3);
-				\draw (24.5,-29.3) node {$a$};
-				\draw [blue] (35.5,-30) circle (3);
-				\draw (35.5,-30) node {$a$};
-				\draw [blue] (48.3,-30.7) circle (3);
-				\draw (48.3,-30.7) node {$a$};
-				\draw [blue] (60.2,-30.7) circle (3);
-				\draw (60.2,-30.7) node {$a$};
-				\draw [blue] (32.2,-19.26) -- (39.6,-12.44);
-				\draw [blue] (41.8,-18.3) -- (41.8,-13.4);
-				\draw [blue] (51.46,-19.9) -- (43.94,-12.5);
-				\draw [blue] (26.2,-26.83) -- (28.3,-23.77);
-				\draw [blue] (33.9,-27.46) -- (31.6,-23.84);
-				\draw [blue] (49.86,-28.14) -- (52.04,-24.56);
-				\draw [blue] (58.39,-28.31) -- (55.41,-24.39);
-			\end{tikzpicture}
-		\caption{Stromový automat}
-	\end{figure}			
-}
-
-\frame{\frametitle{Obsah}
-				\begin{center}
-				\begin{tikzpicture}[scale=0.2]
-				\tikzstyle{every node}+=[inner sep=0pt]
-				\draw [black] (11.8,-11.4) circle (3);
-				\draw (11.8,-11.4) node {Úvod};
-				\draw [black] (48.7,-18.1) circle (3);
-				\draw (48.7,-18.1) node {KA};
-				\draw [black] (10.1,-35.6) circle (3);
-				\draw [black] (10.1,-35.6) node {VATA};
-				\draw [red] (48.7,-41.5) circle (3);
-				\draw [red] (48.7,-41.5) node {Závěr};
-				\draw [red] (48.7,-41.5) circle (2.7);
-				\draw [black] (6.5,-6.4) -- (9.62,-9.34);
-				\fill [black] (9.62,-9.34) -- (9.38,-8.43) -- (8.69,-9.16);
-				\draw [black] (14.75,-11.94) -- (45.75,-17.56);
-				\fill [black] (45.75,-17.56) -- (45.05,-16.93) -- (44.87,-17.91);
-				\draw [black] (45.97,-19.34) -- (12.83,-34.36);
-				\fill [black] (12.83,-34.36) -- (13.77,-34.49) -- (13.35,-33.58);
-				\draw [black] (13.07,-36.05) -- (45.73,-41.05);
-				\fill [black] (45.73,-41.05) -- (45.02,-40.43) -- (44.87,-41.42);
-				\end{tikzpicture}
-				\end{center}
-}
-
-\section{Další postup}
-\frame{\frametitle{Co bude ještě uděláno}
-	\begin{itemize}
-		\item Implementace algoritmů
-		\item Testování a optimalizace
-		\item Vyhodnocení výsledků práce
-	\end{itemize}
+\section{Možnost dalšího vývoje}
+\frame{\frametitle{Další vývoj}
+  \begin{itemize}
+    \item Optimalizace algoritmu používajícího principu antichainů
+    \item Využití simulace
+  \end{itemize}
 }
 
 \section{Závěr}
 \frame{\frametitle{Závěr}
-	\begin{center}
-		\Large{\textbf{Děkuji za pozornost}}
-	\end{center}
+  tady budou znovy vysledky
 }
-\end{comment}
 \end{document}
