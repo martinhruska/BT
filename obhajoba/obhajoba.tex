@@ -32,7 +32,7 @@
 
 		\textcolor{Green}{Cíl}
 		\begin{itemize}
-			\item Vytvořit knihovnu pro práci s~konečnými automaty
+			\item Vytvořit knihovnu pro práci s~konečnými automaty implementující nové a efektivní algoritmy.
 		\end{itemize}
 }
 
@@ -42,7 +42,7 @@
 		\item $Q$ je konečná množina stavů
 		\item $\Sigma$ je vstupní abeceda
 		\item $\delta$ je přechodová funkce $Q\times\Sigma\rightarrow 2^Q$
-		\item $S\subseteq Q$ je množina vstupních stavů
+		\item $S\subseteq Q$ je množina počátečních stavů
 		\item $F \subseteq Q$ je množina koncových stavů
 	\end{itemize}
 
@@ -102,14 +102,22 @@
         \end{comment}
 
 
-
 \frame{\frametitle{Algoritmy pro test jazykové inkluze}
-		\textcolor{Green}{Klasický přístup}
+  \textcolor{Green}{Klasický přístup}
 		\begin{itemize}
 			\item $L(A)\cap \overline{L(B)}=\emptyset$
 			\item Nutná determinizace $\Rightarrow$ stavová exploze
 		\end{itemize}
+    \begin{center}
+      \begin{figure}
+    \includegraphics<1>[scale=0.35]{inc_step1.pdf}
+    \includegraphics<2>[scale=0.35]{inc_step2.pdf}
+    \includegraphics<3>[scale=0.35]{inc_step3.pdf}
+      \end{figure}
+    \end{center}
+}
 
+\frame{\frametitle{Algoritmy pro test jazykové inkluze}
 		\textcolor{Green}{Efektivní algoritmy}
 		\begin{itemize}
 			\item Umí pracovat s~nedeterministickými konečnými automaty
@@ -159,17 +167,41 @@
 
 \section{Návrh}
 \frame{\frametitle{Datové struktury}
-  \begin{figure}[h]
+	\begin{itemize}
+    \item Datová struktura pro ukládání přechodů KA v~\textcolor{red}{explicitím} kódování
+	\end{itemize}
   \begin{center}
-  \minipage{0.5\textwidth}
+  \begin{figure}[h]
   \input{explicit_fa.tikz}
-  \endminipage
-  \minipage{0.5\textwidth}
-  \input{explicit.tikz}
-  \endminipage
-  \caption{Datová struktura pro ukládní přechodů \textcolor{red}{konečných (vlevo)} a \textcolor{green}{stromových (vpravo)} automatů}
-  \end{center}
   \end{figure}
+  \end{center}
+
+  \begin{itemize}
+    \item Konečný automat \textcolor{red}{$B$} uložený v~datové struktuře výše
+	\end{itemize}
+  \begin{center}
+  \begin{figure}[h]
+  \begin{tikzpicture}[scale=0.1,expl/.style={thick,fill=orange!50} ]
+    \tikzstyle{every node}+=[inner sep=0pt]
+    \draw [blue] (29.4,-37.7) circle (3);
+    \draw (29.4,-37.7) node {$q_1$};
+    \draw [blue] (41.3,-25.6) circle (3);
+    \draw (41.3,-25.6) node {$q_2$};
+    \draw [blue] (52.6,-38.6) circle (3);
+    \draw (52.6,-38.6) node {$q_3$};
+    \draw [blue] (27.221,-35.655) arc (254.55605:-33.44395:2.25);
+    \draw (26.14,-30.86) node [above] {$c$};
+    \fill [blue] (29.7,-34.73) -- (30.39,-34.09) -- (29.43,-33.82);
+    \draw [blue] (31.5,-35.56) -- (39.2,-27.74);
+    \fill [blue] (39.2,-27.74) -- (38.28,-27.96) -- (38.99,-28.66);
+    \draw (35.88,-33.12) node [right] {$e$};
+    \draw [blue] (43.27,-27.86) -- (50.63,-36.34);
+    \fill [blue] (50.63,-36.34) -- (50.48,-35.4) -- (49.73,-36.06);
+    \draw (46.41,-33.55) node [left] {$e$};
+    \end{tikzpicture}
+
+  \end{figure}
+  \end{center}
 }
 
 \section{Použité algoritmy a optimalizace}
@@ -186,13 +218,14 @@
 
   \begin{center}
   \begin{figure}
-    \includegraphics[scale=0.35]{plot_hkc.png}
+    \includegraphics<1>[scale=0.35]{plot_hkc.png}
+    \includegraphics<2>[scale=0.35]{plot_hkc_step1.png}
   \end{figure}
   \vspace{0.5cm}
    \begin{tabular}{ | l | r | r |}
    \hline
     & \textbf{OCaml} & \textbf{VATA} \\ \hline \hline
-    rychlejší & $26\%$ & $74\%$ \\ \hline
+    rychlejší & $7\%$ & $93\%$ \\ \hline
    \end{tabular}
  \end{center}
 }
@@ -202,13 +235,12 @@
   \begin{figure}
     \includegraphics<1>[scale=0.35]{plot_ca.png}
     \includegraphics<2>[scale=0.35]{plot_ca_step.png}
-    \includegraphics<3>[scale=0.35]{plot_ca_step2.png}
   \end{figure}
   \vspace{0.5cm}
    \begin{tabular}{ | l | r | r |}
    \hline
-    & \textbf{VATA AC} & \textbf{VATA CL} \\ \hline \hline
-    rychlejší & $55\%$ & $45\%$ \\ \hline
+    & \textbf{VATA AC} & \textbf{VATA CONGR} \\ \hline \hline
+    rychlejší & $8\%$ & $92\%$ \\ \hline
    \end{tabular}
  \end{center}
 } 

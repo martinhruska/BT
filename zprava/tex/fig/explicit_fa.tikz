@@ -50,7 +50,7 @@
 \draw (2.75,-2) rectangle +(0.75, .5) [td] node[midway] {\textit{$c$}};
 \draw (2.75,-2.5) rectangle +(0.75, .5) [td] node[midway] {\textit{$\{q_1\}$}};
 \draw (3.5,-2) rectangle +(0.75, .5) [td] node[midway] {\textit{$e$}};
-\draw (3.5,-2.5) rectangle +(0.75, .5) [td] node[midway] {\textit{$\{\}$}};
+\draw (3.5,-2.5) rectangle +(0.75, .5) [td] node[midway] {\textit{$\{q_2\}$}};
 
 \node[minimum size=35pt](cluster3) at (6.5,-1.75) {};
 \draw (4.75,-2) rectangle +(1.25, .5) [td] node[midway] {\textit{$b$}};
