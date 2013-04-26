@@ -61,13 +61,11 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::GetCandidateTree(
 
         if (aut.IsStateFinal(stateInSet)) { // Set final state
           res.SetStateFinal(stateInSet);
-          goto found_;
+          return RemoveUselessStates(res);
         }
       }
     }
   }
-
-found_:
 
   //TODO optimalizace res.trasitions_=aut.transitions pokud byly napumpovany veschny stavy
 

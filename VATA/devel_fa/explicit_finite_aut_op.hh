@@ -37,6 +37,8 @@ namespace VATA {
   /*
    * Creates union of two automata. It just reindexs
    * existing states of both automata to a new one.
+   * Reindexing of states is not done in this function, this
+   * function just prepares translators.
    */
 	template <class SymbolType>
 	ExplicitFiniteAut<SymbolType> Union(const ExplicitFiniteAut<SymbolType>& lhs,

@@ -59,6 +59,10 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     if (lhs.IsStateFinal(actState->first.first)
       && rhs.IsStateFinal(actState->first.second)) {
       res.SetStateFinal(actState->second);
+
+      //TODO otestovat zdali tyhle dva cykly funguji
+      //PRIDAT pridani pocatecnich stavu
+      
     }
 
     // Get transition clusters for given state
