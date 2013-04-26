@@ -130,9 +130,9 @@
 		\end{itemize}
 	\begin{figure}[bht]
 \begin{center}
-	\scalebox{0.6}
+	\scalebox{0.7}
 	{
-		\includegraphics[scale=0.45]{congr1.pdf}
+		\includegraphics[scale=0.55]{congr1.pdf}
 		\hspace{0.55cm}
   	\includegraphics[scale=0.55]{ac1.pdf}
 	}
@@ -168,7 +168,7 @@
 \section{Návrh}
 \frame{\frametitle{Datové struktury}
 	\begin{itemize}
-    \item Datová struktura pro ukládání přechodů KA v~\textcolor{red}{explicitím} kódování
+    \item Datová struktura pro ukládání přechodů KA v~\textcolor{red}{explicitním} kódování
 	\end{itemize}
   \begin{center}
   \begin{figure}[h]
@@ -204,13 +204,75 @@
   \end{center}
 }
 
-\section{Použité algoritmy a optimalizace}
-\frame{\frametitle{Použité algoritmy}
+\section{Algoritmus výpočtu kongruenčního uzávěru}
+\frame{\frametitle{Algoritmus výpočtu kongruenčního uzávěru}
   \begin{itemize}
-    \item Použit a testován algoritmus fungující na základě výpočtu kongruenčního uzávěru množiny stavů
-    \item Optimalizován speciálně na test inkluze
-    \item Použity implementační optimalizace (cachování již spočtených množin)
+    \item \textcolor{red}{$A\subseteq B \Leftrightarrow A\cup B = B$}
+    \item Mějme relaci navštívených stavů $R=\{(x,u),(y+z,u)\}$ a nově vygenerovaný stav $(\textcolor{Green}{x+y},\textcolor{blue}{u})$
   \end{itemize}
+
+  \begin{center}
+  \begin{figure}[h]
+  \begin{tikzpicture}[scale=0.1]
+    \tikzstyle{every node}+=[inner sep=0pt]
+    \draw (-20,0) node {\textit{\textcolor{Green}{$x+y$}}};
+    \node (xy) at (-20,-2) {};  
+    \draw (34,0) node {\textit{\textcolor{blue}{$u$}}};
+    \node (u) at (32,-2) {};  
+
+    \node (xyuU) at (-12,-8) {}; 
+    \draw (-10,-10) node {\textit{\textcolor{Green}{$x+y+u$}}};
+    \node (xyuP) at (-6,-12) {};
+
+    \node (xuU) at (25,-8) {}; 
+    \draw (22,-10) node {\textit{\textcolor{blue}{$x+u$}}};
+    \node (xuP) at (20,-12) {}; 
+
+    \node (xyzu) at (5,-18) {};
+    \node (xyzu1) at (9,-18) {};
+    \node (xyzu2) at (45,-18) {};
+    \draw (7,-20) node {\textit{\textcolor{red}{$x+y+z+u$}}};
+
+    
+    \draw[->,thick,dashed] (xy) -- (xyuU);
+    \draw[->,thick,dashed] (xyuP) -- (xyzu);
+    \draw[->,thick,dashed] (u) -- (xuU);
+    \draw[->,thick,dashed] (xuP) -- (xyzu1);
+    \end{tikzpicture}
+
+  \end{figure}
+  \end{center}
+}
+
+\section{Algoritmus výpočtu kongruenčního uzávěru}
+\frame{\frametitle{Algoritmus výpočtu kongruenčního uzávěru}
+  \begin{itemize}
+    \item \textcolor{red}{$A\subseteq B \Leftrightarrow A\cup B = B$}
+    \item Mějme relaci navštívených stavů $R=\{(x+u,u),(y+z+u,u)\}$ a nově vygenerovaný stav $(\textcolor{Green}{x+y+u},
+        \textcolor{blue}{u})$
+  \end{itemize}
+
+  \begin{center}
+  \begin{figure}[h]
+  \begin{tikzpicture}[scale=0.1]
+    \tikzstyle{every node}+=[inner sep=0pt]
+    \draw (-30,0) node {\textit{\textcolor{Green}{$x+y+u$}}};
+    \node (xy) at (-10,0) {};  
+    \draw (-17.5,0) node {\textcolor{red}{$\subseteq$}};
+    \draw (-2,0) node {\textit{\textcolor{blue}{$x+y+z+u$}}};
+    \node (xmax) at (10,0) {};  
+    \node (x+uP) at (19,0) {};  
+    \draw (25,0) node {\textit{\textcolor{blue}{$x+u$}}};
+    \node (x+u) at (32,0) {};  
+    \draw (44,0) node {\textit{\textcolor{blue}{$u$}}};
+    \node (u) at (41,0) {};  
+    
+    \draw[->,thick,dashed] (u) -- (x+u) ;
+    \draw[->,thick,dashed] (x+uP) -- (xmax) ;
+    \end{tikzpicture}
+
+  \end{figure}
+  \end{center}
 }
 
 \section{Evaluace}
@@ -225,11 +287,12 @@
    \begin{tabular}{ | l | r | r |}
    \hline
     & \textbf{OCaml} & \textbf{VATA} \\ \hline \hline
-    rychlejší & $7\%$ & $93\%$ \\ \hline
+    vítězí & $8\%$ & $92\%$ \\ \hline
+    rychlejší & $0.48\times$ & $78\times$ \\ \hline
    \end{tabular}
  \end{center}
 }
-\frame{\frametitle{Porovnání s~VATA pro TA}
+\frame{\frametitle{Porovnání s~VATA pro strom. automaty}
 
   \begin{center}
   \begin{figure}
@@ -240,7 +303,8 @@
    \begin{tabular}{ | l | r | r |}
    \hline
     & \textbf{VATA AC} & \textbf{VATA CONGR} \\ \hline \hline
-    rychlejší & $8\%$ & $92\%$ \\ \hline
+    vítězí & $7\%$ & $93\%$ \\ \hline
+    rychlejší & $0.15\times$ & $135\times$ \\ \hline
    \end{tabular}
  \end{center}
 } 
