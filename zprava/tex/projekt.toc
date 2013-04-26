@@ -40,15 +40,18 @@
 \contentsline {subsection}{\numberline {5.1.2}Design of Data Structure for Transtions of NFA}{20}{subsection.5.1.2}
 \contentsline {section}{\numberline {5.2}Start and final states data structure}{22}{section.5.2}
 \contentsline {section}{\numberline {5.3}Translation of the states and symbols}{22}{section.5.3}
-\contentsline {section}{\numberline {5.4}Overview of used interfaces of VATA library}{22}{section.5.4}
-\contentsline {section}{\numberline {5.5}Usage of timubk format}{22}{section.5.5}
-\contentsline {chapter}{\numberline {6}Implementation}{23}{chapter.6}
-\contentsline {section}{\numberline {6.1}implementation of basic operations}{23}{section.6.1}
-\contentsline {section}{\numberline {6.2}implementation of antichain algorithms}{23}{section.6.2}
-\contentsline {section}{\numberline {6.3}improvments for simulation}{23}{section.6.3}
-\contentsline {section}{\numberline {6.4}implementation of congruence closure}{23}{section.6.4}
-\contentsline {chapter}{\numberline {7}Experimental evaluation}{24}{chapter.7}
-\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{24}{section.7.1}
-\contentsline {chapter}{\numberline {8}Conclusion}{25}{chapter.8}
-\contentsline {section}{\numberline {8.1}futher development}{25}{section.8.1}
-\contentsline {chapter}{\numberline {A}Storage Medium}{28}{appendix.A}
+\contentsline {section}{\numberline {5.4}Usage of the Timbuk format}{22}{section.5.4}
+\contentsline {section}{\numberline {5.5}Overview of used interfaces of VATA library}{23}{section.5.5}
+\contentsline {subsubsection}{Parser and Serializer}{23}{section*.11}
+\contentsline {subsubsection}{Simulation}{23}{section*.12}
+\contentsline {subsubsection}{Utilities}{23}{section*.13}
+\contentsline {chapter}{\numberline {6}Implementation}{25}{chapter.6}
+\contentsline {section}{\numberline {6.1}implementation of basic operations}{25}{section.6.1}
+\contentsline {section}{\numberline {6.2}implementation of antichain algorithms}{25}{section.6.2}
+\contentsline {section}{\numberline {6.3}improvments for simulation}{25}{section.6.3}
+\contentsline {section}{\numberline {6.4}implementation of congruence closure}{25}{section.6.4}
+\contentsline {chapter}{\numberline {7}Experimental evaluation}{26}{chapter.7}
+\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{26}{section.7.1}
+\contentsline {chapter}{\numberline {8}Conclusion}{27}{chapter.8}
+\contentsline {section}{\numberline {8.1}futher development}{27}{section.8.1}
+\contentsline {chapter}{\numberline {A}Storage Medium}{30}{appendix.A}

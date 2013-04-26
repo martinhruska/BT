@@ -453,6 +453,7 @@ We define post-image of the product state $(p,P)$ of a NFA $A\times B$ by:\
 $Post((p,P)):=\{(p',P')\ |\ \exists a \in \Sigma: (p,a,p')\in \delta, P'=\{p''\ |\ \exists p \in P:(p,a,p'')\in \delta\}\}$
 
 \section{Checking Inclusion with Antichains and Simulation}
+\label{sectionAntichain}
 We define an antichain, simulation and some others terms before describing the algorithm itself.
 
 Given a partially ordered set $Y$, an \emph {antichain} is a set $X \subseteq Y$ such that all elements of $X$ are incomparable.
@@ -874,7 +875,7 @@ decided to modificate this data structure and use it also for part of VATA libra
 \subsection{Design of Data Structure for Transtions of NFA}
 Data structure for storing transitions of an NFA is based on hash tables. The first hash table (top-level hash table) maps a given state to the pointer to
 the transition cluster. The transition cluster is another hash table which maps a symbol of the input alphabet to a set of states. Described data structure is on
-the figure \ref{figExplicitFADataStr}
+the figure \ref{figExplicitFADataStr}.
 
 The data structure for finite automata transitions is simplyfication of the data structure for tree automata what is can be seen by comparing figures 
 \ref{figExplicitFADataStr} and \ref{figExplicitTreeDataStr}. This simplyfication is possible because the tree version has to stored to whole tuples of
@@ -941,10 +942,67 @@ so the result notation stays consistent with the input.
 \end{center}
 \end{figure}
 
-\section{Overview of used interfaces of VATA library}
-popsat, co jsem se rozhodl pouzit z vaty a proc
-
 \section{Usage of the Timbuk format}
+\label{usageTimub}
+Because there is no standard format for describing the finite automato, the Timbuk format \cite{timbuk} was chosen as input and output text format
+of the finite automata. The timbuk format is also used as an format for tree automata in VATA library. 
+In fact, the original purpose of the Timbuk format is describing tree automata but with some modifications can be used also for finite automata. 
+Here is an example of a finite automaton in the Timbuk format:\\
+\texttt {
+  \textbf{Ops} $a:1$ $x:0$\\
+  \textbf{Automaton} example\\
+  \textbf{States} $s$ $p$ $q$ $f$\\
+  \textbf{Final States} $f$\\
+  \textbf{Transitions}\\
+  \indent $x \rightarrow s$\\
+  \indent $a(s) \rightarrow p$\\
+  \indent $a(s) \rightarrow q$\\
+  \indent $a(p) \rightarrow f$\\
+  \indent $a(q) \rightarrow f$\\
+}
+On the first line of the specification in the Timbuk format
+is specified that the automaton has only one symbol of the input alphabet $a$ with arity one (arity of the symbols of finita automata will
+be always one). 
+The need of specification of the arity of an input symbol is
+lack which comes from the original purpose of the timbuk format because it is necessary to give the arity of an symbol of the input alphabet of an tree automaton.
+
+The second symbol $x$ with arity zero is not actually symbol of the input alphabet but is used for definition of the start states. The
+start states are defined in section \emph{Transitions} by the transitions which has on the left side some symbol with zero symbol and on the
+right side of the transiton is a start state. This is again disadvantage
+of the Timbuk format because in the case of tree automata there are defined no start states.
+
+On the second line of the given example specification in the Timbuk format is name of the automaton (in our case is the name \emph{example}). 
+On the third line is a list of states of the automaton and on the fourth line is a list of final states of the automaton.
+
+Then there is list of the transitions of the automaton. 
+For example, the transition $s \xrightarrow{a} q$ is in the Timbuk format described like $a(s)\rightarrow q$.
+
+\section{Overview of used interfaces of VATA library}
+The new extension of VATA library has not been built from scratch but uses some parts of the existing library and here is give their list.
+
+\subsubsection{Parser and Serializer}
+Because for finite automata have been used the same input and output format \ref{usageTimbuk} it possible to use the original parse and serializer for this 
+format which have been implemented in the existing part of library. 
+The parser returns a data structure which generally describes a finite automaton and this data structure is futher processed in part of library for 
+finite automata where is converted to the data structure for explicit encoding of the finite automata. When one wants to dump an automaton from explicit encoding
+back to the text format, the automaton is converted to a data structure which is identical with a data structure returned by parser. 
+Description of an automaton in this
+data structure is given to the serializer which dumps it to the text format.
+
+\subsubsection{Simulation}
+One of the operations over finite automata, which VATA provides, is computing simulation of an automaton. For computation of the simulation relation
+is possible to use the existing implementation of this operation. 
+The difference is in the conversion of an finite automaton into the Labeled Transition System (LTS) which
+needs to be implemented in part of library for finite automata.
+
+\subsubsection{Utilities}
+The original VATA library also provides lot of utilities which are also usefull for implementation of extension for the finite automata. These utilities
+provides classes for easier processing of finite automata. For example, the classes \emph{TwoWayDict} and \emph{TranslatorStrict} are uses for conversion
+of an finite automaton to the explicit encoding, the class \emph{Antichain2Cv2} is used for storing states to the antichain during checking inclusion using
+antichain algorithm \ref{sectionAntichain} and the class \emph{AutDescription} for represanting an automaton after the parsing.
+
+The usage of the of this utilies speeds up the development of the module for finite automata and also keeps the library more compact because no
+redundat code is produced.
 
 \chapter{Implementation}
 \label{implementation}

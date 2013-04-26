@@ -76,6 +76,7 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{chapInclusion}{{3}{10}{Inclusion Checking over NFA\relax }{chapter.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}Checking Inclusion with Antichains and Simulation}{10}{section.3.1}}
+\newlabel{sectionAntichain}{{3.1}{10}{Checking Inclusion with Antichains and Simulation\relax }{section.3.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Antichain Algorithm Description}{10}{subsection.3.1.1}}
 \citation{tacas10}
 \citation{tacas10}
@@ -154,49 +155,55 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Design of Data Structure for Transtions of NFA}{20}{subsection.5.1.2}}
 \newlabel{figExplicitFADataStr}{{5.1.2}{21}{Design of Data Structure for Transtions of NFA\relax }{subsection.5.1.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces The data structure for storing transtion of an finite automaton. There is a hash table (top-level lookup table) which map a state of a FA to the pointer to another hash table (transition cluster). Transition cluster maps a symbol of the input alphabet to a set of states.}}{21}{figure.5.1}}
+\citation{timbuk}
 \newlabel{figExplicitFADataStr}{{5.3}{22}{Translation of the states and symbols\relax }{section.5.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Translator takes the input format (text format in this case) and maps it to the integer. On the figure can be seen mapping symbols (on the left) and mapping input symbols (on the right).}}{22}{figure.5.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.2}Start and final states data structure}{22}{section.5.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.3}Translation of the states and symbols}{22}{section.5.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Overview of used interfaces of VATA library}{22}{section.5.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Usage of timubk format}{22}{section.5.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Usage of the Timbuk format}{22}{section.5.4}}
+\newlabel{usageTimub}{{5.4}{22}{Usage of the Timbuk format\relax }{section.5.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Overview of used interfaces of VATA library}{23}{section.5.5}}
+\@writefile{toc}{\contentsline {subsubsection}{Parser and Serializer}{23}{section*.11}}
+\@writefile{toc}{\contentsline {subsubsection}{Simulation}{23}{section*.12}}
+\@writefile{toc}{\contentsline {subsubsection}{Utilities}{23}{section*.13}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Implementation}{23}{chapter.6}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Implementation}{25}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{implementation}{{6}{23}{Implementation\relax }{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}implementation of basic operations}{23}{section.6.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}implementation of antichain algorithms}{23}{section.6.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}improvments for simulation}{23}{section.6.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}implementation of congruence closure}{23}{section.6.4}}
+\newlabel{implementation}{{6}{25}{Implementation\relax }{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}implementation of basic operations}{25}{section.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}implementation of antichain algorithms}{25}{section.6.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}improvments for simulation}{25}{section.6.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}implementation of congruence closure}{25}{section.6.4}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Experimental evaluation}{24}{chapter.7}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Experimental evaluation}{26}{chapter.7}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{eval}{{7}{24}{Experimental evaluation\relax }{chapter.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{24}{section.7.1}}
+\newlabel{eval}{{7}{26}{Experimental evaluation\relax }{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{26}{section.7.1}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \bibstyle{plain}
 \bibdata{literatura}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{25}{chapter.8}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{27}{chapter.8}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{concl}{{8}{25}{Conclusion\relax }{chapter.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8.1}futher development}{25}{section.8.1}}
+\newlabel{concl}{{8}{27}{Conclusion\relax }{chapter.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}futher development}{27}{section.8.1}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\bibcite{tacas10}{1}
-\bibcite{fare}{2}
-\bibcite{popl13}{3}
-\bibcite{armc}{4}
-\bibcite{cav06}{5}
-\bibcite{metal}{6}
-\bibcite{mona}{7}
-\bibcite{kanthakN04}{8}
-\bibcite{rwth}{9}
-\bibcite{libvata}{10}
-\bibcite{libfa}{11}
-\bibcite{brics}{12}
+\bibcite{timbuk}{1}
+\bibcite{tacas10}{2}
+\bibcite{fare}{3}
+\bibcite{popl13}{4}
+\bibcite{armc}{5}
+\bibcite{cav06}{6}
+\bibcite{metal}{7}
+\bibcite{mona}{8}
+\bibcite{kanthakN04}{9}
+\bibcite{rwth}{10}
+\bibcite{libvata}{11}
+\bibcite{libfa}{12}
+\bibcite{brics}{13}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{28}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{30}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
