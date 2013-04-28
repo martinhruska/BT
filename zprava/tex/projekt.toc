@@ -41,24 +41,25 @@
 \contentsline {section}{\numberline {5.2}Start and final states data structure}{22}{section.5.2}
 \contentsline {section}{\numberline {5.3}Translation of the states and symbols}{22}{section.5.3}
 \contentsline {section}{\numberline {5.4}Usage of the Timbuk format}{22}{section.5.4}
-\contentsline {section}{\numberline {5.5}Used parts of existing implementation of VATA library}{23}{section.5.5}
-\contentsline {subsubsection}{Parser and Serializer}{23}{section*.11}
-\contentsline {subsubsection}{Simulation}{23}{section*.12}
-\contentsline {subsubsection}{Utilities}{24}{section*.13}
-\contentsline {chapter}{\numberline {6}Implementation}{25}{chapter.6}
-\contentsline {section}{\numberline {6.1}Loading and Manipulation with an Finite Automata to the Explicit Encoding}{25}{section.6.1}
-\contentsline {section}{\numberline {6.2}Implementation of Basic Operations}{25}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Union}{25}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}Intersection}{26}{subsection.6.2.2}
-\contentsline {subsection}{\numberline {6.2.3}Reverse}{26}{subsection.6.2.3}
-\contentsline {subsection}{\numberline {6.2.4}Removing Unreachable States}{26}{subsection.6.2.4}
-\contentsline {subsection}{\numberline {6.2.5}Removing Useless States}{27}{subsection.6.2.5}
-\contentsline {subsection}{\numberline {6.2.6}Get Candidate}{27}{subsection.6.2.6}
-\contentsline {section}{\numberline {6.3}implementation of antichain algorithms}{27}{section.6.3}
-\contentsline {section}{\numberline {6.4}improvments for simulation}{27}{section.6.4}
-\contentsline {section}{\numberline {6.5}implementation of congruence closure}{27}{section.6.5}
-\contentsline {chapter}{\numberline {7}Experimental evaluation}{28}{chapter.7}
-\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{28}{section.7.1}
-\contentsline {chapter}{\numberline {8}Conclusion}{29}{chapter.8}
-\contentsline {section}{\numberline {8.1}futher development}{29}{section.8.1}
-\contentsline {chapter}{\numberline {A}Storage Medium}{32}{appendix.A}
+\contentsline {section}{\numberline {5.5}Algorithms for Basic Operations}{23}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Union}{23}{subsection.5.5.1}
+\contentsline {subsubsection}{Union of Disjunct States}{23}{section*.11}
+\contentsline {subsection}{\numberline {5.5.2}Intersection}{24}{subsection.5.5.2}
+\contentsline {subsection}{\numberline {5.5.3}Reverse}{24}{subsection.5.5.3}
+\contentsline {subsection}{\numberline {5.5.4}Removing Unreachable States}{25}{subsection.5.5.4}
+\contentsline {subsection}{\numberline {5.5.5}Removing Useless States}{25}{subsection.5.5.5}
+\contentsline {subsection}{\numberline {5.5.6}Get Candidate}{25}{subsection.5.5.6}
+\contentsline {chapter}{\numberline {6}Implementation}{27}{chapter.6}
+\contentsline {section}{\numberline {6.1}Loading and Manipulation with an Finite Automata in the Explicit Encoding}{27}{section.6.1}
+\contentsline {section}{\numberline {6.2}Used parts of existing implementation of VATA library}{27}{section.6.2}
+\contentsline {subsubsection}{Parser and Serializer}{27}{section*.12}
+\contentsline {subsubsection}{Simulation}{28}{section*.13}
+\contentsline {subsubsection}{Utilities}{28}{section*.14}
+\contentsline {section}{\numberline {6.3}implementation of antichain algorithms}{28}{section.6.3}
+\contentsline {section}{\numberline {6.4}improvments for simulation}{28}{section.6.4}
+\contentsline {section}{\numberline {6.5}Implementation of Congruence Closure}{28}{section.6.5}
+\contentsline {chapter}{\numberline {7}Experimental evaluation}{30}{chapter.7}
+\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{30}{section.7.1}
+\contentsline {chapter}{\numberline {8}Conclusion}{31}{chapter.8}
+\contentsline {section}{\numberline {8.1}futher development}{31}{section.8.1}
+\contentsline {chapter}{\numberline {A}Storage Medium}{34}{appendix.A}

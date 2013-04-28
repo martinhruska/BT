@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+[
+  scale=0.6
+]
+
+\draw (2,8.5) node {$\mathcal{B}$};
+
+\draw (4,5) circle (1);
+\draw (4,5) circle (0.75);
+\draw (4,5) node {$u$};
+
+\node (s) at (1.5,7.5) {};
+\node (sx) at (3.7,5.7) {};
+
+\node (x) at (4.7,5.5) {};
+
+\path[->,thick,every node/.style={font=\sffamily\small}]
+  (x) edge [loop above] node {$a$} (x)
+
+  (s) edge (sx);
+\end{tikzpicture}

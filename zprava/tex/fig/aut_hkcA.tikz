@@ -1,0 +1,39 @@
+\begin{tikzpicture}
+[
+  scale=0.6
+]
+
+\draw (2,8.5) node {$\mathcal{A}$};
+
+\draw (4,5) circle (1);
+\draw (4,5) circle (0.75);
+\draw (4,5) node {$x$};
+\draw (10,8) circle (1);
+\draw (10,8) circle (0.75);
+\draw (10,8) node {$y$};
+\draw (10,2) circle (1);
+\draw (10,2) node {$z$};
+
+\node (s) at (1.5,7.5) {};
+\node (sx) at (3.7,5.7) {};
+
+\node (x) at (4.7,5.5) {};
+\node (y) at (9.2,7.75) {};
+
+\node (xz) at (4.7,4.5) {};
+\node (z) at (9.4,2.5) {};
+
+\node (yz) at (10,7.1) {};
+\node (zy) at (10,2.8) {};
+
+\path[->,thick,every node/.style={font=\sffamily\small}]
+(x) edge [bend right] node[right] {$a$} (y)
+(y) edge [bend right] node[left] {$a$} (x)
+
+(xz) edge node[left] {$a$} (z)
+
+(yz) edge node[right] {$a$} (zy)
+
+(s) edge (sx);
+
+\end{tikzpicture}

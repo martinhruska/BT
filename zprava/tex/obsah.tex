@@ -373,7 +373,7 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
   An \emph{unreachable} state $q$ of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ is a state for which there is no run $r=q_0\ldots q$ of 
   $\mathcal{A}$ over a word $w \in \Sigma^{*}$ 
   such that $q_0\in I$.
-  An \emph{useless} (also called nonterminating) state $q$ of an NFA $\emph{A}=(Q,\Sigma,\delta,I,F)$ is state that there is no run $r=q\ldots q$ 
+  An \emph{useless} (also called nonterminating) state $q$ of an NFA $\emph{A}=(Q,\Sigma,\delta,I,F)$ is state that there is no run $r=q\ldots q_n$ 
   of $\emph{A}$ over a word
   $w \in \Sigma^{*}$ such that $q_n \in F$.
   Given a pair of states $p,q$ of an NFA $\emph{A}=(Q,\Sigma,\delta,I,F)$, these states are equivalent if 
@@ -542,6 +542,7 @@ lines 4 and 7 in algorithm \ref{algAntichain}. Proof for this optimization is ag
 \end{comment}
 
 \section{Checking Inclusion with Bisimulation up to Congruence}
+\label{sectCongr}
 Another approach to checking language inclusion of NFA is based on bisimulation up to congruence\cite{popl13}. The definition of congruence relation is
 following:
 
@@ -570,7 +571,7 @@ also be used for checking language inclusion, based on the observation that $L_\
 
 
  \subsection{Congruence Algorithm Description}
-
+\label{subsectCongr}
 The congruence algorithm works on a similar principle as the antichains algorithm. 
 It starts building $\mathcal{A}_{det}$ and $\mathcal{B}_{det}$ and checks if macrostates in generated pairs are both
 final or not. The optimization used is based on computing congruence closure of the set of already visited pairs of macrostates. 
@@ -980,51 +981,8 @@ On the third line is a list of states of the automaton and on the fourth line is
 Then there is list of the transitions of the automaton. 
 For example, the transition $s \xrightarrow{a} q$ is in the Timbuk format described like $a(s)\rightarrow q$.
 
-\section{Used parts of existing implementation of VATA library}
-There are some parts of VATA library which can be used also for development of the new extension for finite automata. In this section is given a list of modules
-which is efficient to use also for finite automata module of library.
-
-\subsubsection{Parser and Serializer}
-For loading automaton from text specification is used module of VATA library called \emph{parser} and for serializing back to this specification module called
-\emph{serializer}.
-Because for finite automata have been used the same input and output text format \ref{usageTimbuk} 
-it is possible to use the original parse and serializer for this 
-format which have been implemented in the existing part of library. 
-The parser returns a data structure which generally describes a finite automaton and this data structure is futher processed in part of library for 
-finite automata where is converted to the data structure for explicit encoding of the finite automata. When one wants to dump an automaton from explicit encoding
-back to the text format, the automaton is converted to a data structure which is identical with a data structure returned by parser. 
-Description of an automaton in this
-data structure is given to the serializer which dumps it to the text format.
-
-\subsubsection{Simulation}
-One of the operations over finite automata, which VATA provides, is computing simulation of an automaton. For computation of the simulation relation
-is possible to use the existing implementation of this operation. 
-The difference is in the conversion of an finite automaton into the Labeled Transition System (LTS) which
-needs to be implemented in part of library for finite automata.
-
-\subsubsection{Utilities}
-The original VATA library also provides lot of utilities which are also usefull for implementation of extension for the finite automata. These utilities
-provides classes for easier processing of finite automata. For example, the classes \emph{TwoWayDict} and \emph{TranslatorStrict} are uses for conversion
-of an finite automaton to the explicit encoding, the class \emph{Antichain2Cv2} is used for storing states to the antichain during checking inclusion using
-antichain algorithm \ref{sectionAntichain} and the class \emph{AutDescription} for represanting an automaton after the parsing.
-
-The usage of the of this utilies speeds up the development of the module for finite automata and also keeps the library more compact because no
-redundat code is produced.
-
-\chapter{Implementation}
-\label{implementation}
-This chapter provides description of the module of VATA library for the finite automata. The description of the loading of an finite
-automata will be given at first. Then the operations for basic operations like union or intersection will be explained and finally the algorithms (based
-on bisimulation up-to congruence and on the antichain is given) for testing inclusion of the finite automata is given.
-
-\section{Loading and Manipulation with an Finite Automata to the Explicit Encoding}
-Loading of the finite to the explicit is done by class \emph{ExplicitFiniteAut} what is the main class for representation of an finite automaton. 
-This class has the data members that implements the data structure for explicit encoding of an finite automaton described in previous chapter \ref{design}. 
-It also provides operations for manipulation with an automaton like setting specific state as start or final one.
-The class \emph{ExplicitFiniteAut} also ensures translation \ref{sectionTranslate} of the states and symbols to the internal representation of integers. 
-
-\section{Implementation of Basic Operations}
-In this section are described algorithms used for implementation of basic like union, intersection or removing useless states and others. 
+\section{Algorithms for Basic Operations}
+In this section are described algorithms used for implementation of basic operations like union, intersection or removing useless states and others. 
 \subsection{Union}
 The union of two NFA $\mathcal{A}$ and $\mathcal{B}$ is done by following process. First, a bran new automaton is created (this automaton
 will be result of union). To this automaton are copied sets of start and final states from both original automata. Then the all transitions from $\mathcal{A}$ and
@@ -1032,10 +990,17 @@ $\mathcal{B}$ are added to the newly created automaton. What is the most importa
 that the both automata have the same input alphabet so the symbols of it are not reindexed). The reindexing means that there is created index which maps
 integer that represents a state in original automaton \ref{sectionTranslate} 
 to a new integer which will represent the same state in the automaton created by this union.
-The reindexing of states is done because the same integer can represent one state of NFA $\mathcal{A}$ and also another state of $\mathcal{B}$ and it is important
+
+The reindexing of states is done because the same integer can be used for representing one state of NFA $\mathcal{A}$ 
+and also another state of $\mathcal{B}$ and it is important
 to be able to distinguish between these two states in the result NFA. This technique also makes text output of serialization of the automaton which is result of 
 the union more readable because the states have the same names as it has in the input automata, only indecies $1$ and $2$ are added for 
 distinguish between states from both automaton are added.
+
+\subsubsection{Union of Disjunct States}
+The special case of union of two NFA is union of disjunct states of these NFA. This is done by copying the one of the NFA to the result automaton and
+copying of the states (and transitions which contain these states) of the second NFA which are not yet in the result NFA and also copying only of transitions.
+During this operation no reindexing of states is done.
 
 \subsection{Intersection}
 The intersecion of two NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$
@@ -1050,6 +1015,7 @@ The principle of this algorithm is following.
 The both NFA are explored parellely and to the result automata are added just product states constisting two states (each from different automaton) 
 that are accessible for given words in the both NFA and to the result automaton are also added only transitions for this states.
 \\
+
 \begin{algorithm}[H]
 	\label{algIntersection}
 	\KwIn{NFA's $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A}),\ \mathcal{B}=(Q_\mathcal{A},\Sigma,
@@ -1084,20 +1050,41 @@ that are accessible for given words in the both NFA and to the result automaton 
 \subsection{Reverse}
 The reversion of an NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ is an NFA 
 $\mathcal{A}_{rev}=(Q_{\mathcal{A}_{rev}},\Sigma,\delta_{\mathcal{A}_{rev}},I_{\mathcal{A}_{rev}},F_{\mathcal{A}_{rev}})$ 
-which is created just by assigning $I_\mathcal{A}$ to $F_{\mathcal{A}_{rev}}$ and $F_\mathcal{A}$ to $I_{\mathcal{A}_{rev}}$ what
-is just changing start state's set by final state's set and reverting all transitions, so e.g., transition
-$p\xrightarrow{x}q \in \delta_\mathcal{A}$ is added to $\delta_\mathcal{B}$ in form $q\xrightarrow{a}p$.
+which is created just by changing start state's set by final state's set what is done by
+assigning $I_\mathcal{A}$ to $F_{\mathcal{A}_{rev}}$ and $F_\mathcal{A}$ to $I_{\mathcal{A}_{rev}}$ and reverting all transitions  so e.g., transition
+$p\xrightarrow{x}q \in \delta_\mathcal{A}$ is added to $\delta_{\mathcal{A}_{rev}}$ in form $q\xrightarrow{a}p$. This principle is described by the algorithm
+\ref{algRev}
+\\
+
+\begin{algorithm}[H]
+	\label{algRev}
+	\KwIn{NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$} 
+
+  \KwOut{NFA $\mathcal{A}_{rev}=(Q_{\mathcal{A}_{rev}},\Sigma,\delta_{\mathcal{A}_{rev}},I_{\mathcal{A}_{rev}},F_{\mathcal{A}_{rev}})$} 
+  
+  $F_{\mathcal{A}_{rev}}=I_\mathcal{A}$\; 
+  $I_{\mathcal{A}_{rev}}=F_\mathcal{A}$\;
+
+  \ForAll{$(p,a,q) \in \delta_{\mathcal{A}}$} {
+    Add $(q,a,p)$ to $\delta_{\mathcal{A}_{rev}}$\;
+  }
+	\Return NFA $\mathcal{A}_{rev}$;
+	\caption{Algorithm for reverting of an NFA}
+\end{algorithm}
 
 \subsection{Removing Unreachable States}
 Let the NFA $\mathcal{B}$ be created by removing all unreachable states from an NFA $\mathcal{A}$ (an unreachable state of an NFA was defined in
 chapter preliminaries \ref{defRun}). The algorithm for removing all unreachable states implemented in VATA library is described by algorithm \ref{algRemove}.
 
-The intuition behind the algorithm is that the NFA $\mathcal{A}$ is explored from its start states and to the result automaton are added only states which are
-reachable from this start states for some word $w \in \Sigma^{*}$. So firstly, all reachable states are found and then for each of them are
-added to the result NFA $\mathcal{B}$ the transitions where is a reachable state on the left side of the transition. If a reachable state is final in 
-$\mathcal{A}$, it is added also to set of final states in $\mathcal{B}$. A set of start states is coppied from
+The intuition behind the algorithm is following. The NFA $\mathcal{A}$ is explored 
+from its start states and to the result automaton are added only states which are
+reachable from this start states for some word $w \in \Sigma^{*}$. So firstly, all reachable states are found and addded to a set of the reachable states. 
+Then the transitions, where is a reachable state on left side of the transition, are added to the result NFA $\mathcal{B}$ .
+If a found reachable state is final state of 
+$\mathcal{A}$ it is also added to set of final states in $\mathcal{B}$. A set of start states is coppied from
 NFA $\mathcal{A}$ to NFA $\mathcal{B}$
 \\
+
 \begin{algorithm}[H]
 	\label{algRemove}
 	\KwIn{NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$} 
@@ -1125,17 +1112,138 @@ NFA $\mathcal{A}$ to NFA $\mathcal{B}$
     Add $\{(p,a,q)\ |\ \exists a \in \Sigma \wedge q\in Q_\mathcal{A}: (p,a,q)\in \delta_\mathcal{A}\}$ to $\delta_\mathcal{B}$\;
   }
 		\Return NFA $\mathcal{B}$;
-	\caption{Algorithm for removing unreachable states of NFA}
+	\caption{Algorithm for removing the unreachable states of NFA}
+\end{algorithm}
+
+\subsection{Removing Useless States}
+The useless state of an NFA was defined in preliminaries section \ref{defRun}. Removing of the useless states from an NFA $\mathcal{A}$ is done simply by
+removing all unreachable states of the NFA $\mathcal{A}$, 
+then is the NFA $\mathcal{A}$ reverted and the unreachable states are removed also in this reverted automaton and finally is $\mathcal{A}$ reverted back to the
+origanally direction. The NFA $\mathcal{A}$ does not contain any useless states after these operations.
+
+\subsection{Get Candidate}
+Get a candidate (word), also called get a witness, is operation over an NFA $\mathcal{A}$ which creates an NFA $\mathcal{B}$ which's language $L(\mathcal{B})$
+is subset of a language $L(\mathcal{A})$ of the NFA $\mathcal{A})$ and is also non-empty if $L(\mathcal{A})$ is non-empty too.
+The NFA $\mathcal{B}$ should have as little states and transitions as possible.
+
+The operation for getting candidate is implemented by the algorithm \ref{algCandidate}. 
+This algorithm copies the set of start states of $\mathcal{A}$ to the set of start
+states of $\mathcal{B}$ and also add this set to a set of reachable states. Then all transitions for states in a reachable state's set 
+that are in $\delta_\mathcal{A}$ are added to $\mathcal{B}$ and finally
+states accessible from current set of reachable states are added to this set. This is repeated until the whole NFA $\mathcal{A}$ is coppied to the NFA 
+$\mathcal{B}$ or the final state is not in set of the newly added states. 
+\\
+
+\begin{algorithm}[H]
+	\label{algCandidate}
+	\KwIn{NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$} 
+
+  \KwOut{NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$}
+
+
+  $I_\mathcal{B} = I_\mathcal{A}$\;
+  $Reachable = I_\mathcal{A}$\;
+  $Stack = Reachable$\;
+	
+  \While{($Stack\neq \varnothing$)} {
+			Pick and remove a $p$ from $Stack$\;
+			\ForAll{$\{(p,a,q)\ |\ \exists a\in \Sigma:(p,a,q)\in\delta_\mathcal{A}\}$}{
+        \If{$(q \not\in\ Reachable)$} {
+          Push $q$ on $Stack$\;
+          Add $q$ to $Reachable$\;
+        }
+        Insert $(p,a,q)$ to $\delta_{\mathcal{B}}$\;
+        \If{$q\in\ F_\mathcal{A}$}{
+          Add $q$ to $F_\mathcal{B}$\;
+	        \Return NFA $\mathcal{B}$;
+        }
+      }
+	}
+
+	\Return NFA $\mathcal{B}$;
+	\caption{Algorithm for getting witness in NFA}
 \end{algorithm}
 
 
 
-\subsection{Removing Useless States}
-\subsection{Get Candidate}
+\chapter{Implementation}
+\label{implementation}
+This chapter provides description of the module of VATA library for the finite automata. The description of the loading of an finite
+automata will be given at first. Then the operations for basic operations like union or intersection will be explained and finally the algorithms (based
+on bisimulation up-to congruence and on the antichain is given) for testing inclusion of the finite automata is given.
+
+\section{Loading and Manipulation with an Finite Automata in the Explicit Encoding}
+Loading of the finite to the explicit is done by class \emph{ExplicitFiniteAut} what is the main class for representation of an finite automaton. 
+This class has the data members that implements the data structure for explicit encoding of an finite automaton described in previous chapter \ref{design}. 
+It also provides operations for manipulation with an automaton like setting specific state as start or final one.
+The class \emph{ExplicitFiniteAut} also ensures translation \ref{sectionTranslate} of the states and symbols to the internal representation of integers. 
+
+\section{Used parts of existing implementation of VATA library}
+There are some parts of VATA library which can be used also for development of the new extension for finite automata. In this section is given a list of modules
+which is efficient to use also for finite automata module of library.
+
+\subsubsection{Parser and Serializer}
+For loading automaton from text specification is used module of VATA library called \emph{parser} and for serializing back to this specification module called
+\emph{serializer}.
+Because for finite automata have been used the same input and output text format \ref{usageTimbuk} 
+it is possible to use the original parse and serializer for this 
+format which have been implemented in the existing part of library. 
+The parser returns a data structure which generally describes a finite automaton and this data structure is futher processed in part of library for 
+finite automata where is converted to the data structure for explicit encoding of the finite automata. When one wants to dump an automaton from explicit encoding
+back to the text format, the automaton is converted to a data structure which is identical with a data structure returned by parser. 
+Description of an automaton in this
+data structure is given to the serializer which dumps it to the text format.
+
+\subsubsection{Simulation}
+One of the operations over finite automata, which VATA provides, is computing simulation of an automaton. For computation of the simulation relation
+is possible to use the existing implementation of this operation. 
+The difference is in the conversion of an finite automaton into the Labeled Transition System (LTS) which
+needs to be implemented in part of library for finite automata.
+
+\subsubsection{Utilities}
+The original VATA library also provides lot of utilities which are also usefull for implementation of extension for the finite automata. These utilities
+provides classes for easier processing of finite automata. For example, the classes \emph{TwoWayDict} and \emph{TranslatorStrict} are uses for conversion
+of an finite automaton to the explicit encoding, the class \emph{Antichain2Cv2} is used for storing states to the antichain during checking inclusion using
+antichain algorithm \ref{sectionAntichain} and the class \emph{AutDescription} for represanting an automaton after the parsing.
+
+The usage of the of this utilies speeds up the development of the module for finite automata and also keeps the library more compact because no
+redundat code is produced.
+
+
+
 \section{implementation of antichain algorithms}
 \section{improvments for simulation}
-\section{implementation of congruence closure}
+\section{Implementation of Congruence Closure}
+The algorithm using bisimiluation up to congruence for checking inclusion of languages of NFA is described in its own section (\ref{sectCongr}). This algorithm
+reduces number of macro states that are neccessary to check to determine if inclusion holds or not thanks to the computation of a congruence closure of a relation
+of the visited macro states because if the newly generated macro state is in the congruence closure it is not neccessary to explore macro state which
+are accessible from this macro state. 
 
+The implementation of the computation of the congruence closure is crucial for performance and efficiency of the whole method. In VATA library is used
+an algorithm described by \cite{popl13} which is based on using of the so-called rewriting rules. For each pair of macro states $(X,Y)$ in 
+a relation $R$ of the visited macro states exists two rewriting rules which has following form:
+\begin{center}
+$X\rightarrow X+Y$ \hspace{5cm} $Y\rightarrow X+Y$
+\end{center}
+These rules can be used for computing a \emph{normal form} of a set of states \cite{popl13}. The normal form of a set of states $X$ created with
+usage of rewriting rules of a relation $R$ is denoted as $X{\downarrow_R}$.
+
+One can check if $(X,Y)\in c(R)$ using the principle of rewriting rules because once there are computed normal forms $X{\downarrow_R}$ and $Y{\downarrow_R}$ so
+$X{\downarrow_R}=Y{\downarrow_R}$ holds iff $(X,Y)\in c(R)$ \cite{popl13}.
+
+An example (taken from \cite{popl13}) of applying this approach for checking inclusion of NFA $\mathcal{A}$ and $\mathcal{B}$ (both are on
+figure \ref{example}) is given on the figure \ref{example}.
+
+\begin{figure}[h]
+\input{fig/aut_hkcA.tikz}
+\medskip
+\input{fig/aut_hkcB.tikz}
+		\label{figHKCex}
+\end{figure}
+
+
+Problem of this approach is that we do not know which rules of relation $R$ to use, in which order and each rule can be used only once for computing a normal
+form of a one set of states.
 \chapter{Experimental evaluation}
 \label{eval}
 \section{improvemnet give by congrunce}
