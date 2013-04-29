@@ -1,8 +1,9 @@
 \begin{tikzpicture}
 [
-  scale=0.6
+  scale=0.4
 ]
 
+\draw (2,8.5)[fill=orange] circle (0.75);
 \draw (2,8.5) node {$\mathcal{A}$};
 
 \draw (4,5) circle (1);
@@ -14,8 +15,8 @@
 \draw (10,2) circle (1);
 \draw (10,2) node {$z$};
 
-\node (s) at (1.5,7.5) {};
-\node (sx) at (3.7,5.7) {};
+\node (s) at (2.5,6.5) {};
+\node (sx) at (3.4,5.4) {};
 
 \node (x) at (4.7,5.5) {};
 \node (y) at (9.2,7.75) {};
@@ -32,7 +33,7 @@
 
 (xz) edge node[left] {$a$} (z)
 
-(yz) edge node[right] {$a$} (zy)
+(zy) edge node[right] {$a$} (yz)
 
 (s) edge (sx);
 

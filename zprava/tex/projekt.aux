@@ -84,30 +84,49 @@
 \newlabel{algAntichain}{{1}{11}{Antichain Algorithm Description\relax }{algocfline.1}{}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Language inclusion checking with antichains and simulations}}{11}{algocf.1}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Checking Inclusion with Bisimulation up to Congruence}{11}{section.3.2}}
-\newlabel{sectCongr}{{3.2}{11}{Checking Inclusion with Bisimulation up to Congruence\relax }{section.3.2}{}}
+\newlabel{sectionCongr}{{3.2}{11}{Checking Inclusion with Bisimulation up to Congruence\relax }{section.3.2}{}}
 \citation{tacas10}
 \citation{tacas10}
+\citation{popl13}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Congruence Algorithm Description}{12}{subsection.3.2.1}}
 \newlabel{subsectCongr}{{3.2.1}{12}{Congruence Algorithm Description\relax }{subsection.3.2.1}{}}
 \newlabel{algCongr}{{2}{12}{Congruence Algorithm Description\relax }{algocfline.2}{}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Language equivalence checking with congruence}}{12}{algocf.2}}
-\@writefile{loa}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Computation of Congruence Closure}{12}{subsection.3.2.2}}
+\newlabel{subsectionCongr}{{3.2.2}{12}{Computation of Congruence Closure\relax }{subsection.3.2.2}{}}
+\citation{popl13}
+\citation{popl13}
+\citation{popl13}
+\citation{popl13}
+\citation{popl13}
+\citation{popl13}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces  \rm  { \hspace  {0.1cm} The picture is based on an example from \cite  {tacas10}. It shows the procedure of checking language inclusion between two NFA using the mentioned approaches (which correspond to the labeled areas). The antichain algorithm reduces number of the generated states compared with the classical, e.g., $(p_2,\{q_1,q_2\})$ is not further explored because $(p_2,\{q_2\}) \sqsubseteq (p_2,\{q_1,q_2\})$. The optimization a and b are improvements of the antichain algorithm using simulation. The congruence algorithm also reduces number of the generated states, so $(\{p_1,p_2\},\{q_1,q_2\})$ is not further explored because it is in congruence closure of the set of visited states.}}}{13}{figure.3.1}}
 \newlabel{automata}{{3.1}{13}{ \rm { \hspace {0.1cm} The picture is based on an example from \cite {tacas10}. It shows the procedure of checking language inclusion between two NFA using the mentioned approaches (which correspond to the labeled areas). The antichain algorithm reduces number of the generated states compared with the classical, e.g., $(p_2,\{q_1,q_2\})$ is not further explored because $(p_2,\{q_2\}) \sqsubseteq (p_2,\{q_1,q_2\})$. The optimization a and b are improvements of the antichain algorithm using simulation. The congruence algorithm also reduces number of the generated states, so $(\{p_1,p_2\},\{q_1,q_2\})$ is not further explored because it is in congruence closure of the set of visited states.}\relax }{figure.3.1}{}}
+\citation{popl13}
+\citation{popl13}
+\newlabel{figHKCex}{{3.2.2}{14}{Computation of Congruence Closure\relax }{subsection.3.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Two NFA $\mathcal  {A}$ and $\mathcal  {B}$ are used in example describing computation of a congruence closure in figure \ref  {figHKCRew}}}{14}{figure.3.2}}
+\newlabel{figHKCRew}{{3.2.2}{14}{Computation of Congruence Closure\relax }{figure.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces The figure (taken from \cite  {popl13}) shows the deriving of the normal forms of the sets $\{x,y\}$ and $\{u\}$ using rewriting rules of the macro states of a relation $R=\{(\{x\},\{u\}),(\{y,z\},\{u\})\}$. The normal form of the set $\{x,y\}$ is derived in two steps. At the first step is applied rule $\{x\}\rightarrow \{x,u\}$ (base on $(\{x\},\{u\})\in R$) so we get a set $\{x,y,u\}$. As the second one is applied rule $\{u\}\rightarrow \{y,z,u\}$ (based on $(\{y,z\},\{u\})\in R$), so the result is $\{x,y,z,u\}$. The normal form of the set $\{u\}$ is derived in two steps too. At the first step is applied rule $\{u\}\rightarrow \{x,u\}$ so we get a set $\{x,u\}$ and then is used rule $\{u\}\rightarrow \{y,z,u\}$ and the result set is $\{x,y,z,u\}$. The derived normal sets are equal so it holds $(\{x,y\},u)\in c(R)$.}}{14}{figure.3.3}}
+\@writefile{toc}{\contentsline {subsubsection}{Optimization for Inclusion Checking}{14}{section*.6}}
+\newlabel{congrOpt}{{3.2.2}{14}{Optimization for Inclusion Checking\relax }{section*.6}{}}
+\newlabel{figHKCRew}{{3.2.2}{15}{Optimization for Inclusion Checking\relax }{section*.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces The figure shows the deriving of the normal forms of the sets $\{x,y,u\}$ and $\{u\}$ using rewriting rules of the macro states of a relation $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$. The normal form of the set $\{u\}$ is derived in two steps, first is applied rule $\{u\}\rightarrow \{x,u\}$ (based on $(\{x,u\},\{u\})\in R$) so we get a set $\{x,u\}$ and then is used rule $\{u\}\rightarrow \{y,z,u\}$ (based on $(\{y,z,u\},u)$) so the derived normanl form is set $(\{x,y,z,u\})$. It holds that $\{x,y,u\}\subseteq \{x,y,z,u\}$ so $(\{x,y,u\},u)$ is in the congruence closure of $R$.}}{15}{figure.3.4}}
+\@writefile{loa}{\addvspace {10\p@ }}
 \citation{brics}
 \citation{cav06}
 \citation{tacas10}
 \citation{libfa}
 \citation{fare}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Existing Finite Automata Libraries and the VATA Library}{14}{chapter.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Existing Finite Automata Libraries and the VATA Library}{16}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{libraries}{{4}{14}{Existing Finite Automata Libraries and the VATA Library\relax }{chapter.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Existing Finite Automata Libraries}{14}{section.4.1}}
-\newlabel{existinglibraries}{{4.1}{14}{Existing Finite Automata Libraries\relax }{section.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}dk.brics.automaton}{14}{subsection.4.1.1}}
-\newlabel{brics}{{4.1.1}{14}{dk.brics.automaton\relax }{subsection.4.1.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{libfa}{14}{section*.6}}
+\newlabel{libraries}{{4}{16}{Existing Finite Automata Libraries and the VATA Library\relax }{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Existing Finite Automata Libraries}{16}{section.4.1}}
+\newlabel{existinglibraries}{{4.1}{16}{Existing Finite Automata Libraries\relax }{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}dk.brics.automaton}{16}{subsection.4.1.1}}
+\newlabel{brics}{{4.1.1}{16}{dk.brics.automaton\relax }{subsection.4.1.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{libfa}{16}{section*.7}}
 \citation{kanthakN04}
 \citation{rwth}
 \citation{cav06}
@@ -116,103 +135,104 @@
 \citation{cav06}
 \citation{taca10}
 \citation{libvata}
-\@writefile{toc}{\contentsline {subsubsection}{Fare}{15}{section*.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}The RWHT FSA toolkit}{15}{subsection.4.1.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Implementation of New Efficient Algorithms}{15}{subsection.4.1.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}VATA library}{15}{section.4.2}}
-\newlabel{VATA}{{4.2}{15}{VATA library\relax }{section.4.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}General}{15}{subsection.4.2.1}}
+\@writefile{toc}{\contentsline {subsubsection}{Fare}{17}{section*.8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}The RWHT FSA toolkit}{17}{subsection.4.1.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Implementation of New Efficient Algorithms}{17}{subsection.4.1.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}VATA library}{17}{section.4.2}}
+\newlabel{VATA}{{4.2}{17}{VATA library\relax }{section.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}General}{17}{subsection.4.2.1}}
 \citation{libvata}
 \citation{libvata}
 \citation{libvata}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Design}{16}{subsection.4.2.2}}
-\newlabel{sectionDesignVata}{{4.2.2}{16}{Design\relax }{subsection.4.2.2}{}}
-\newlabel{picVataDesign}{{4.2.2}{16}{Design\relax }{subsection.4.2.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces The VATA library design. The image is taken from \cite  {libvata}}}{16}{figure.4.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Design}{18}{subsection.4.2.2}}
+\newlabel{sectionDesignVata}{{4.2.2}{18}{Design\relax }{subsection.4.2.2}{}}
+\newlabel{picVataDesign}{{4.2.2}{18}{Design\relax }{subsection.4.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces The VATA library design. The image is taken from \cite  {libvata}}}{18}{figure.4.1}}
 \citation{libvata}
 \citation{libvata}
-\@writefile{toc}{\contentsline {subsubsection}{Explicit Encoding}{17}{section*.8}}
-\newlabel{sectionExplicitEnc}{{4.2.2}{17}{Explicit Encoding\relax }{section*.8}{}}
-\newlabel{figExplicitTreeDataStr}{{4.2.2}{17}{Explicit Encoding\relax }{section*.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces The data structure for storing transtion of an tree automaton. There is a hash table (top-level lookup table) which map a state to the pointer to another hash table (transition cluster). Transition cluster maps a symbols of input alphabet to the pointer to the set of pointers to the tuples.}}{17}{figure.4.2}}
-\@writefile{toc}{\contentsline {subsubsection}{Semi-symbolic Encoding}{17}{section*.9}}
+\@writefile{toc}{\contentsline {subsubsection}{Explicit Encoding}{19}{section*.9}}
+\newlabel{sectionExplicitEnc}{{4.2.2}{19}{Explicit Encoding\relax }{section*.9}{}}
+\newlabel{figExplicitTreeDataStr}{{4.2.2}{19}{Explicit Encoding\relax }{section*.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces The data structure for storing transtion of an tree automaton. There is a hash table (top-level lookup table) which map a state to the pointer to another hash table (transition cluster). Transition cluster maps a symbols of input alphabet to the pointer to the set of pointers to the tuples.}}{19}{figure.4.2}}
+\@writefile{toc}{\contentsline {subsubsection}{Semi-symbolic Encoding}{19}{section*.10}}
 \citation{cav06}
 \citation{tacas10}
 \citation{libvata}
 \citation{libvata}
-\@writefile{toc}{\contentsline {subsubsection}{Operations}{18}{section*.10}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Table of some supported operations}}{18}{table.4.1}}
-\newlabel{tab1}{{4.1}{18}{Table of some supported operations\relax }{table.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Extension for Finite Automata}{18}{subsection.4.2.3}}
+\@writefile{toc}{\contentsline {subsubsection}{Operations}{20}{section*.11}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Table of some supported operations}}{20}{table.4.1}}
+\newlabel{tab1}{{4.1}{20}{Table of some supported operations\relax }{table.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Extension for Finite Automata}{20}{subsection.4.2.3}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \citation{libvata}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Design}{20}{chapter.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Design}{22}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{design}{{5}{20}{Design\relax }{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Data Structures for Explicit Encoding of Finite Automata}{20}{section.5.1}}
-\newlabel{data structure explicit}{{5.1}{20}{Data Structures for Explicit Encoding of Finite Automata\relax }{section.5.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Analysis}{20}{subsection.5.1.1}}
-\newlabel{analysis}{{5.1.1}{20}{Analysis\relax }{subsection.5.1.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Design of Data Structure for Transtions of NFA}{20}{subsection.5.1.2}}
-\newlabel{figExplicitFADataStr}{{5.1.2}{21}{Design of Data Structure for Transtions of NFA\relax }{subsection.5.1.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces The data structure for storing transtion of an finite automaton. There is a hash table (top-level lookup table) which map a state of a FA to the pointer to another hash table (transition cluster). Transition cluster maps a symbol of the input alphabet to a set of states.}}{21}{figure.5.1}}
+\newlabel{design}{{5}{22}{Design\relax }{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Data Structures for Explicit Encoding of Finite Automata}{22}{section.5.1}}
+\newlabel{data structure explicit}{{5.1}{22}{Data Structures for Explicit Encoding of Finite Automata\relax }{section.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Analysis}{22}{subsection.5.1.1}}
+\newlabel{analysis}{{5.1.1}{22}{Analysis\relax }{subsection.5.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Design of Data Structure for Transtions of NFA}{22}{subsection.5.1.2}}
+\newlabel{figExplicitFADataStr}{{5.1.2}{23}{Design of Data Structure for Transtions of NFA\relax }{subsection.5.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces The data structure for storing transtion of an finite automaton. There is a hash table (top-level lookup table) which map a state of a FA to the pointer to another hash table (transition cluster). Transition cluster maps a symbol of the input alphabet to a set of states.}}{23}{figure.5.1}}
 \citation{timbuk}
-\newlabel{figExplicitFADataStr}{{5.3}{22}{Translation of the states and symbols\relax }{section.5.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Translator takes the input format (text format in this case) and maps it to the integer. On the figure can be seen mapping symbols (on the left) and mapping input symbols (on the right).}}{22}{figure.5.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Start and final states data structure}{22}{section.5.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Translation of the states and symbols}{22}{section.5.3}}
-\newlabel{sectionTranslate}{{5.3}{22}{Translation of the states and symbols\relax }{section.5.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Usage of the Timbuk format}{22}{section.5.4}}
-\newlabel{usageTimub}{{5.4}{22}{Usage of the Timbuk format\relax }{section.5.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Algorithms for Basic Operations}{23}{section.5.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Union}{23}{subsection.5.5.1}}
-\@writefile{toc}{\contentsline {subsubsection}{Union of Disjunct States}{23}{section*.11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Intersection}{24}{subsection.5.5.2}}
-\newlabel{algIntersection}{{3}{24}{Intersection\relax }{algocfline.3}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Algorithm for intersection of NFA}}{24}{algocf.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Reverse}{24}{subsection.5.5.3}}
-\newlabel{algRev}{{4}{24}{Reverse\relax }{algocfline.4}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {4}{\ignorespaces Algorithm for reverting of an NFA}}{24}{algocf.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.4}Removing Unreachable States}{25}{subsection.5.5.4}}
-\newlabel{algRemove}{{5}{25}{Removing Unreachable States\relax }{algocfline.5}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {5}{\ignorespaces Algorithm for removing the unreachable states of NFA}}{25}{algocf.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.5}Removing Useless States}{25}{subsection.5.5.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.6}Get Candidate}{25}{subsection.5.5.6}}
-\newlabel{algCandidate}{{6}{26}{Get Candidate\relax }{algocfline.6}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {6}{\ignorespaces Algorithm for getting witness in NFA}}{26}{algocf.6}}
+\newlabel{figExplicitFADataStr}{{5.3}{24}{Translation of the states and symbols\relax }{section.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Translator takes the input format (text format in this case) and maps it to the integer. On the figure can be seen mapping symbols (on the left) and mapping input symbols (on the right).}}{24}{figure.5.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Start and final states data structure}{24}{section.5.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Translation of the states and symbols}{24}{section.5.3}}
+\newlabel{sectionTranslate}{{5.3}{24}{Translation of the states and symbols\relax }{section.5.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Usage of the Timbuk format}{24}{section.5.4}}
+\newlabel{usageTimub}{{5.4}{24}{Usage of the Timbuk format\relax }{section.5.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Algorithms for Basic Operations}{25}{section.5.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Union}{25}{subsection.5.5.1}}
+\@writefile{toc}{\contentsline {subsubsection}{Union of Disjunct States}{25}{section*.12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Intersection}{26}{subsection.5.5.2}}
+\newlabel{algIntersection}{{3}{26}{Intersection\relax }{algocfline.3}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Algorithm for intersection of NFA}}{26}{algocf.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Reverse}{26}{subsection.5.5.3}}
+\newlabel{algRev}{{4}{26}{Reverse\relax }{algocfline.4}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {4}{\ignorespaces Algorithm for reverting of an NFA}}{26}{algocf.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.4}Removing Unreachable States}{27}{subsection.5.5.4}}
+\newlabel{algRemove}{{5}{27}{Removing Unreachable States\relax }{algocfline.5}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {5}{\ignorespaces Algorithm for removing the unreachable states of NFA}}{27}{algocf.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.5}Removing Useless States}{27}{subsection.5.5.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.6}Get Candidate}{27}{subsection.5.5.6}}
+\newlabel{algCandidate}{{6}{28}{Get Candidate\relax }{algocfline.6}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {6}{\ignorespaces Algorithm for getting witness in NFA}}{28}{algocf.6}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Implementation}{27}{chapter.6}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Implementation}{29}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{implementation}{{6}{27}{Implementation\relax }{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Loading and Manipulation with an Finite Automata in the Explicit Encoding}{27}{section.6.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Used parts of existing implementation of VATA library}{27}{section.6.2}}
-\@writefile{toc}{\contentsline {subsubsection}{Parser and Serializer}{27}{section*.12}}
-\citation{popl13}
-\citation{popl13}
-\citation{popl13}
-\citation{popl13}
-\@writefile{toc}{\contentsline {subsubsection}{Simulation}{28}{section*.13}}
-\@writefile{toc}{\contentsline {subsubsection}{Utilities}{28}{section*.14}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}implementation of antichain algorithms}{28}{section.6.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}improvments for simulation}{28}{section.6.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.5}Implementation of Congruence Closure}{28}{section.6.5}}
-\newlabel{figHKCex}{{6.5}{29}{Implementation of Congruence Closure\relax }{section.6.5}{}}
+\newlabel{implementation}{{6}{29}{Implementation\relax }{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Loading and Manipulation with an Finite Automata in the Explicit Encoding}{29}{section.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Used parts of existing implementation of VATA library}{29}{section.6.2}}
+\@writefile{toc}{\contentsline {subsubsection}{Parser and Serializer}{29}{section*.13}}
+\@writefile{toc}{\contentsline {subsubsection}{Simulation}{30}{section*.14}}
+\@writefile{toc}{\contentsline {subsubsection}{Utilities}{30}{section*.15}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Macrostate Cache}{30}{section.6.3}}
+\newlabel{figMacroCache}{{6.3}{31}{Macrostate Cache\relax }{section.6.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces This figure show the macrostate cache. The cache is based on a hash table where a key is the sum of the integers representing the states of the macrostate. A value of the hash table is a list of macrostates with identical sum}}{31}{figure.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Implementation of Antichain Algorithm}{31}{section.6.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}improvments for simulation}{31}{section.6.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.6}Implementation of Bisimulation up to Congruence Algorithm}{31}{section.6.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.1}Caching macrostates}{31}{subsection.6.6.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.2}Optimization Used for Equivalence Checking}{31}{subsection.6.6.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.3}Optimization Used for Inclusion Checking}{31}{subsection.6.6.3}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Experimental evaluation}{30}{chapter.7}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Experimental evaluation}{32}{chapter.7}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{eval}{{7}{30}{Experimental evaluation\relax }{chapter.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{30}{section.7.1}}
+\newlabel{eval}{{7}{32}{Experimental evaluation\relax }{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{32}{section.7.1}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \bibstyle{plain}
 \bibdata{literatura}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{31}{chapter.8}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{33}{chapter.8}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{concl}{{8}{31}{Conclusion\relax }{chapter.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8.1}futher development}{31}{section.8.1}}
+\newlabel{concl}{{8}{33}{Conclusion\relax }{chapter.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}futher development}{33}{section.8.1}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \bibcite{timbuk}{1}
 \bibcite{tacas10}{2}
@@ -228,6 +248,6 @@
 \bibcite{libfa}{12}
 \bibcite{brics}{13}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{34}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{36}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}

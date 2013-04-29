@@ -1,0 +1,26 @@
+\begin{tikzpicture}[scale=0.1]
+    \tikzstyle{every node}+=[inner sep=0pt]
+    \draw (-20,0) node {\textit{\textcolor{Green}{$x+y$}}};
+    \node (xy) at (-20,-2) {};  
+    \draw (34,0) node {\textit{\textcolor{blue}{$u$}}};
+    \node (u) at (32,-2) {};  
+
+    \node (xyuU) at (-12,-8) {}; 
+    \draw (-10,-10) node {\textit{\textcolor{Green}{$x+y+u$}}};
+    \node (xyuP) at (-6,-12) {};
+
+    \node (xuU) at (25,-8) {}; 
+    \draw (22,-10) node {\textit{\textcolor{blue}{$x+u$}}};
+    \node (xuP) at (20,-12) {}; 
+
+    \node (xyzu) at (5,-18) {};
+    \node (xyzu1) at (9,-18) {};
+    \node (xyzu2) at (45,-18) {};
+    \draw (7,-20) node {\textit{\textcolor{red}{$x+y+z+u$}}};
+
+    
+    \draw[->,thick,dashed] (xy) -- (xyuU);
+    \draw[->,thick,dashed] (xyuP) -- (xyzu);
+    \draw[->,thick,dashed] (u) -- (xuU);
+    \draw[->,thick,dashed] (xuP) -- (xyzu1);
+\end{tikzpicture}

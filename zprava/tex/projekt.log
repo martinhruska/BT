@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  28 APR 2013 16:48
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  29 APR 2013 11:48
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -541,6 +541,26 @@ Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 324.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 325.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 326.
 )
+(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+(/usr/share/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+
+(/usr/share/texmf/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
 (/usr/share/texmf/tex/latex/tools/verbatim.sty
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks28
@@ -609,23 +629,6 @@ File: pgfsyssoftpath.code.tex 2008/07/18  (rcs-revision 1.7)
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
 ))
-(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
-
-(/usr/share/texmf/tex/latex/config/color.cfg
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
-)
-Package xcolor Info: Driver file: pdftex.def on input line 225.
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
-Package xcolor Info: Model `RGB' extended on input line 1353.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
-)
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2010/04/11 v2.10 (rcs-revision 1.7)
 
@@ -1004,39 +1007,42 @@ Package: footnote 1997/01/28 1.13 Save footnotes around boxes
 LaTeX Warning: Label `pic_ex_nfa' multiply defined.
 
 
+LaTeX Warning: Label `figHKCRew' multiply defined.
+
+
 LaTeX Warning: Label `figExplicitFADataStr' multiply defined.
 
 )
 \openout1 = `projekt.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for IL2/cmr/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 117.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 117.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for IL2/cmr/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 118.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 118.
 
  (/usr/share/texmf/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 117.
-LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 118.
+LaTeX Font Info:    ... okay on input line 118.
 
 ABD: EveryShipout initializing macros
-Package hyperref Info: Link coloring OFF on input line 117.
+Package hyperref Info: Link coloring OFF on input line 118.
 
 (/usr/share/texmf/tex/latex/hyperref/nameref.sty
 Package: nameref 2006/12/27 v2.28 Cross-referencing by name of section
@@ -1046,14 +1052,14 @@ Package: refcount 2006/02/20 v3.0 Data extraction from references (HO)
 )
 \c@section@level=\count133
 )
-LaTeX Info: Redefining \ref on input line 117.
-LaTeX Info: Redefining \pageref on input line 117.
+LaTeX Info: Redefining \ref on input line 118.
+LaTeX Info: Redefining \pageref on input line 118.
  (./projekt.out)
 (./projekt.out)
 \@outlinefile=\write4
 \openout4 = `projekt.out'.
 
-LaTeX Font Info:    Try loading font information for IL2+phv on input line 123.
+LaTeX Font Info:    Try loading font information for IL2+phv on input line 124.
 
  (/usr/share/texmf/tex/cslatex/base/il2phv.fd
 File: il2phv.fd 1998/12/27 CS Helvetica
@@ -1069,37 +1075,37 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@vyskartext=\skip64
 \@vyskaobr=\skip65
 
-<fig/vut-zp2.pdf, id=236, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=256, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
-Overfull \hbox (109.58464pt too wide) in paragraph at lines 123--123
+Overfull \hbox (109.58464pt too wide) in paragraph at lines 124--124
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=237, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=257, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
-Overfull \hbox (109.58464pt too wide) in paragraph at lines 123--123
+Overfull \hbox (109.58464pt too wide) in paragraph at lines 124--124
 [][] 
  []
 
 [2 <./fig/vut-zp2.pdf> <./fig/fit-zp2.pdf>]
 
 LaTeX Font Warning: Font shape `IL2/cmr/m/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 123.
+(Font)              size <17.28> substituted on input line 124.
 
 
 LaTeX Font Warning: Font shape `IL2/cmr/bx/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 123.
+(Font)              size <17.28> substituted on input line 124.
 
 [3]
 
 LaTeX Font Warning: Font shape `IL2/cmr/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 123.
+(Font)              size <17.28> substituted on input line 124.
 
 
 LaTeX Font Warning: Font shape `IL2/cmr/bx/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 123.
+(Font)              size <17.28> substituted on input line 124.
 
 [4] (./projekt.toc
 LaTeX Font Info:    Try loading font information for U+msa on input line 4.
@@ -1114,7 +1120,7 @@ File: umsb.fd 2002/01/19 v2.2g AMS font definitions
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.47 ...{5.5.2}Intersection}{24}{subsection.5.5.2}
+l.47 ...erline {5.5.1}Union}{25}{subsection.5.5.1}
                                                    [1
 
 
@@ -1190,95 +1196,17 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
 ion <1.5>, but at most version <1.4> allowed
-<fig/congr1.pdf, id=429, 244.112pt x 274.626pt>
+<fig/congr1.pdf, id=454, 244.112pt x 274.626pt>
 File: fig/congr1.pdf Graphic file (type pdf)
  <use fig/congr1.pdf>
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: found PDF version
  <1.5>, but at most version <1.4> allowed
-<fig/ac1.pdf, id=430, 552.46402pt x 232.87pt>
+<fig/ac1.pdf, id=455, 552.46402pt x 232.87pt>
 File: fig/ac1.pdf Graphic file (type pdf)
- <use fig/ac1.pdf> [12] [13 <./fig/congr1.pdf
-
-pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: Page Group det
-ected which pdfTeX can't handle. Ignoring it.
-> <./fig/ac1.pdf
-
-pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: Page Group detect
-ed which pdfTeX can't handle. Ignoring it.
->]
-Chapter 4.
-[14
-
-]
-
-LaTeX Warning: Citation `taca10' on page 15 undefined on input line 696.
-
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 722
-.
-(/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
-File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
-) [15]
-(./fig/tacas12/lib_design.tikz) [16] (./fig/tacas12/explicit.tikz) [17]
-[18] [19]
-Chapter 5.
-
-Overfull \hbox (4.84106pt too wide) in paragraph at lines 857--857
-[]\IL2/cmr/bx/n/14.4 Data Struc-tures for Ex-plicit En-cod-ing of Fi-nite Au-to
-mata 
- []
-
-[20
-
-] (./fig/explicit_fa.tikz) [21] (./fig/translator.tikz)
-LaTeX Font Info:    Font shape `IL2/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 966.
- [22] [23]
-Underfull \hbox (badness 10000) in paragraph at lines 1014--1018
-
- []
-
-
-Overfull \hbox (22.21315pt too wide) in paragraph at lines 1051--1058
-\IL2/cmr/m/n/10.95 The re-ver-sion of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/
-n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
- ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is an NFA $\OMS/cmsy/m
-/n/10.95 A[] \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 
-^^F\OML/cmm/m/it/10.95 ; ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1051--1058
-
- []
-
-[24]
-Underfull \hbox (badness 10000) in paragraph at lines 1079--1087
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1129--1136
-
- []
-
-[25] [26]
-Chapter 6.
-
-LaTeX Warning: Reference `usageTimbuk' on page 27 undefined on input line 1188.
-
-
-[27
-
-]
-
-LaTeX Warning: Reference `example' on page 28 undefined on input line 1235.
-
-
-LaTeX Warning: Reference `example' on page 28 undefined on input line 1235.
-
+ <use fig/ac1.pdf> [12]
 (./fig/aut_hkcA.tikz
-LaTeX Font Info:    Try loading font information for IL2+cmss on input line 30.
+LaTeX Font Info:    Try loading font information for IL2+cmss on input line 31.
 
  (/usr/share/texmf/tex/latex/cslatex/il2cmss.fd
 File: il2cmss.fd 1997/02/13 CsLaTeX font definitions
@@ -1287,19 +1215,104 @@ File: il2cmss.fd 1997/02/13 CsLaTeX font definitions
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[28] [29]
+(./fig/congr_closure.tikz)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[13 <./fig/congr1.pdf
+
+pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: Page Group det
+ected which pdfTeX can't handle. Ignoring it.
+> <./fig/ac1.pdf
+
+pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: Page Group detect
+ed which pdfTeX can't handle. Ignoring it.
+>]
+
+LaTeX Warning: Reference `digHKCRewO' on page 14 undefined on input line 707.
+
+[14] (./fig/congr_closure_opt.tikz) [15]
+Chapter 4.
+[16
+
+]
+
+LaTeX Warning: Citation `taca10' on page 17 undefined on input line 782.
+
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 808
+.
+(/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
+File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
+) [17]
+(./fig/tacas12/lib_design.tikz) [18] (./fig/tacas12/explicit.tikz) [19]
+[20] [21]
+Chapter 5.
+
+Overfull \hbox (4.84106pt too wide) in paragraph at lines 944--944
+[]\IL2/cmr/bx/n/14.4 Data Struc-tures for Ex-plicit En-cod-ing of Fi-nite Au-to
+mata 
+ []
+
+[22
+
+] (./fig/explicit_fa.tikz) [23] (./fig/translator.tikz)
+LaTeX Font Info:    Font shape `IL2/cmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1053.
+
+ [24] [25]
+Underfull \hbox (badness 10000) in paragraph at lines 1101--1105
+
+ []
+
+
+Overfull \hbox (22.21315pt too wide) in paragraph at lines 1138--1145
+\IL2/cmr/m/n/10.95 The re-ver-sion of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/
+n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
+ ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is an NFA $\OMS/cmsy/m
+/n/10.95 A[] \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 
+^^F\OML/cmm/m/it/10.95 ; ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1138--1145
+
+ []
+
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 1166--1174
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1216--1223
+
+ []
+
+[27] [28]
+Chapter 6.
+
+LaTeX Warning: Reference `usageTimbuk' on page 29 undefined on input line 1275.
+
+
+[29
+
+] (./fig/macrostate_cache.tikz)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[30] [31]
 Chapter 7.
-[30
+[32
 
 ]
 Chapter 8.
-) (./projekt.bbl [31
+) (./projekt.bbl [33
 
-] [32
+] [34
 
-]) (./prilohy.tex [33]
+]) (./prilohy.tex [35]
 Appendix A.
-) [34
+) [36
 
 ] (./projekt.aux)
 
@@ -1314,13 +1327,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 18485 strings out of 256216
- 331799 string characters out of 1917072
- 438429 words of memory out of 1500000
- 21122 multiletter control sequences out of 10000+200000
+ 18752 strings out of 256216
+ 335689 string characters out of 1917072
+ 446523 words of memory out of 1500000
+ 21364 multiletter control sequences out of 10000+200000
  30038 words of font info for 83 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 49i,24n,73p,823b,893s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 49i,24n,73p,951b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
  </home/martin/.texlive2007/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1095.60
 0pk> </home/martin/.texlive2007/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.
 600pk>{/usr/share/texmf/fonts/enc/dvips/base/8a.enc}</usr/share/texmf/fonts/typ
@@ -1339,9 +1352,9 @@ c/cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/t
 exmf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/c
 stt9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf
 /fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (38 pages, 458814 bytes).
+Output written on projekt.pdf (40 pages, 479871 bytes).
 PDF statistics:
- 854 PDF objects out of 1000 (max. 8388607)
- 212 named destinations out of 1000 (max. 131072)
- 553 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 913 PDF objects out of 1000 (max. 8388607)
+ 224 named destinations out of 1000 (max. 131072)
+ 593 words of extra memory for PDF output out of 10000 (max. 10000000)
 

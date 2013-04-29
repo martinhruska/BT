@@ -192,6 +192,7 @@ private: // private functions
     };
 
     // Get candidates for given state
+    // TODO zamyslet se, zdali se ma davat do candidates tahkle
     std::vector<StateType> candidates;
     for (StateType candidate : singleAntichain_.data()) {
       if (preorder_.get(candidate,state)) {
@@ -237,7 +238,8 @@ private: // private functions
 
     auto gte = [&comparator_](const StateSet& lss, const StateSet& rss) {
       return comparator_.gte(lss,rss);
-    };    std::vector<StateType> tempStateSet = {state};
+    };    
+    std::vector<StateType> tempStateSet = {state};
     if (!next_.contains(tempStateSet,set,lte)) {
       next_.refine(tempStateSet,set,gte);
       next_.insert(state,set);

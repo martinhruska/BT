@@ -542,7 +542,7 @@ lines 4 and 7 in algorithm \ref{algAntichain}. Proof for this optimization is ag
 \end{comment}
 
 \section{Checking Inclusion with Bisimulation up to Congruence}
-\label{sectCongr}
+\label{sectionCongr}
 Another approach to checking language inclusion of NFA is based on bisimulation up to congruence\cite{popl13}. The definition of congruence relation is
 following:
 
@@ -631,7 +631,93 @@ Comparing the mentioned approaches to the checking language inclusion can be see
 \end{center}
 \end{figure}
 
+\subsection{Computation of Congruence Closure}
+\label{subsectionCongr}
+The algorithm using bisimiluation up to congruence for checking equivalance (and also inclusion)
+of languages of NFA is described in its own section (\ref{sectionCongr}). This algorithm
+reduces number of macro states that are neccessary to check to determine if equivalence
+holds or not thanks to the computation of a congruence closure of a relation
+of the visited macro states because if the newly generated macro state is in the congruence closure it is not neccessary to explore macro state which
+are accessible from this macro state. 
 
+The implementation of the computation of the congruence closure is crucial for performance and efficiency of the whole method. In VATA library is used
+an algorithm described by \cite{popl13} which is based on using of the so-called rewriting rules. For each pair of macro states $(X,Y)$ in 
+a relation $R$ of the visited macro states exists two rewriting rules which has following form:
+\begin{center}
+$X\rightarrow X\cup Y$ \hspace{5cm} $Y\rightarrow X\cup Y$
+\end{center}
+These rules can be used for computing a \emph{normal form} of a set of states \cite{popl13}. The normal form of a set of states $X$ created with
+usage of rewriting rules of a relation $R$ is denoted as $X{\downarrow_R}$.
+
+One can check if $(X,Y)\in c(R)$ using the principle of rewriting rules because once there are computed normal forms $X{\downarrow_R}$ and $Y{\downarrow_R}$ so
+$X{\downarrow_R}=Y{\downarrow_R}$ holds iff $(X,Y)\in c(R)$ \cite{popl13}.
+
+An example (taken from \cite{popl13}) follows to ilustrate an application of this approach for checking equivalance of 
+NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ (both NFA are on figure \ref{figHKCex}). 
+Let have a relation $R=\{(\{x\},\{u\}),(\{y,z\},\{u\})\}$ of the visited macrostates and a newly generated macrostate 
+$(\{x,y\},\{u\})$ (where $\{x,y\}\subseteq Q_\mathcal{A}$ and 
+$\{u\} \subseteq Q_\mathcal{B}$). Using the principle of the rewriting rules for checking if $(\{x,y\},\{u\})\in c(R)$ holds
+the normal forms of sets $\{x,y\}$ and $\{u\}$ have to be computed. Derivation of both sets is shown on \ref{figHKCRew} and its result
+shows that the normal set of $\{x,y\}$ is $\{x,y,z,u\}$ and is the same as derived normal set of $\{u\}$. It confirms that $(\{x,y\},\{u\})\in c(R)$ and
+it is not necessary to futher explore product automaton $\mathcal{A}\times \mathcal{B}$ from this state.
+
+\begin{figure}[h]
+\begin{center}
+  \input{fig/aut_hkcA.tikz}
+  \input{fig/aut_hkcB.tikz}
+		\label{figHKCex}
+    \caption{Two NFA $\mathcal{A}$ and $\mathcal{B}$ are used in example describing computation of a congruence closure in figure \ref{figHKCRew}}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{center}
+    \input{fig/congr_closure.tikz}
+    \label{figHKCRew}
+    \caption{The figure (taken from \cite{popl13}) shows the deriving of the normal forms of the sets $\{x,y\}$ and $\{u\}$ using rewriting
+      rules of the macro states of a relation $R=\{(\{x\},\{u\}),(\{y,z\},\{u\})\}$. The normal form of the set $\{x,y\}$ is derived in two steps.
+      At the first step is applied rule $\{x\}\rightarrow\{x,u\}$ (base on $(\{x\},\{u\})\in R$) so we get a set $\{x,y,u\}$. As the second one is applied rule 
+      $\{u\}\rightarrow\{y,z,u\}$ (based on $(\{y,z\},\{u\})\in R$), so the result is $\{x,y,z,u\}$. The normal form of the set $\{u\}$
+      is derived in two steps too. At the first step is applied rule $\{u\}\rightarrow\{x,u\}$ so we get a set $\{x,u\}$ and then is used rule 
+      $\{u\}\rightarrow\{y,z,u\}$ and the result set is $\{x,y,z,u\}$. The derived normal sets are equal so it holds $(\{x,y\},u)\in c(R)$.}
+  \end{center}
+\end{figure}
+
+Problem of this approach is that we do not know which rules of relation $R$ to use, in which order and each rule can be used only once for computing a normal
+form of a set of states. If $r=|R|$ and $n=Q$ where $Q$ is set of states of the NFA the time complexity for finding one rule is in the worst case $rn$.
+The whole derivation of the normal set is bounded by complexity $r^2 n$ because we apply maximally $r$ rules \cite{popl13}.
+
+\subsubsection{Optimization for Inclusion Checking}
+\label{congrOpt}
+Since the algorithm based on bisimulation up to congruence is primarily used for checking equivalence of NFA it is possible to make some simplyfication for
+checking inclusion. Some simplyfications are possible also in checking whether macrostate $(X,Y)$ is in congruence closure of a relation $R$. This optimization
+is based on the fact that when one checks inclusion between NFA $\mathcal{A}$ and $\mathcal{B}$ it is done by checking if holds $\mathcal{A}\cup\mathcal{B}=
+\mathcal{B}$ so in all macrostates $(X,Y)$ is $X$ set of states of NFA $\mathcal{A}\cup\mathcal{B}$ and $Y$ set of states of NFA $\mathcal{B}$. On account
+of this fact one can use the rewriting rules only in following form \cite{popl13}:
+\begin{center}
+$Y\rightarrow X\cup Y$
+\end{center}
+Usage of a rewriting rule in reverse direction ($X\rightarrow X\cup Y$) is not so effective because state of $\mathcal{B}$ are allready in $X$ and because
+during checking inclusion of two NFA it is not neccesary to achieve $X{\downarrow_R}=Y{\downarrow_R}$ to prove that $(X,Y)\in c(R)$ 
+but just $X \subseteq Y{\downarrow_R}$ to prove that $(X\cup Y,Y)\in c(R)$ \cite{popl13}.
+
+As an example is given computation of congruence closure during checking inlcusion between NFA $\mathcal{A}$ and $\mathcal{B}$ (both are on the figure 
+\ref{figHKCex}). Let have a relation of visited macrostates $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$ and newly generated macrostate $(\{x,y,u\},\{u\})$. The
+derivation of the normal form the set $\{u\}$ is shown on the figure \ref{digHKCRewO}. The result of this derivation is a set $\{x,y,z,u\}$ and
+the set $\{x,y,u\}$ is subset of the derivated set so it holds that $(\{x,y,u\},\{u\})\in c(R)$.
+
+\begin{figure}[h]
+  \begin{center}
+    \input{fig/congr_closure_opt.tikz}
+    \label{figHKCRew}
+    \caption{The figure shows the deriving of the normal forms of the sets $\{x,y,u\}$ and $\{u\}$ using rewriting
+      rules of the macro states of a relation $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$. The normal form of the set $\{u\}$
+      is derived in two steps, first is applied rule $\{u\}\rightarrow\{x,u\}$ (based on $(\{x,u\},\{u\})\in R$) so we get a set $\{x,u\}$ and then is used rule 
+      $\{u\}\rightarrow\{y,z,u\}$ (based on $(\{y,z,u\},u)$) so the derived normanl form is set $(\{x,y,z,u\})$. 
+      It holds that $\{x,y,u\}\subseteq \{x,y,z,u\}$ so $(\{x,y,u\},u)$ is in the congruence closure of $R$.}
+  \end{center}
+\end{figure}
 
 \chapter{Existing Finite Automata Libraries and the VATA Library} 
 \label{libraries}
@@ -852,7 +938,8 @@ the input automata or computation of simulation over states of an automaton.
 \label{design}
 In this chapter will be described design of the newly created extension of VATA library for finite automata. 
 Firstly, the data structures used for storing a finite automaton will be explain, then principle of translation of the states and the symbols to internal
-representation and finally chosen input format and its modification.
+representation and chosen input format and its modification. At the end of the chapter are described algorithms for basic operations over NFA like union, 
+intersection or removing unreachable states and etc.
 
 \section{Data Structures for Explicit Encoding of Finite Automata}
 \label{data structure explicit}
@@ -1169,8 +1256,8 @@ $\mathcal{B}$ or the final state is not in set of the newly added states.
 \chapter{Implementation}
 \label{implementation}
 This chapter provides description of the module of VATA library for the finite automata. The description of the loading of an finite
-automata will be given at first. Then the operations for basic operations like union or intersection will be explained and finally the algorithms (based
-on bisimulation up-to congruence and on the antichain is given) for testing inclusion of the finite automata is given.
+automata will be given at first. Then the used modules from existing VATA implementation are described and finally implementation of algorithms
+for checking of inclusion of languages of NFA.
 
 \section{Loading and Manipulation with an Finite Automata in the Explicit Encoding}
 Loading of the finite to the explicit is done by class \emph{ExplicitFiniteAut} what is the main class for representation of an finite automaton. 
@@ -1209,41 +1296,72 @@ antichain algorithm \ref{sectionAntichain} and the class \emph{AutDescription} f
 The usage of the of this utilies speeds up the development of the module for finite automata and also keeps the library more compact because no
 redundat code is produced.
 
+\section{Macrostate Cache}
+\label{sectionCache}
+In both mentioned algorithms (\ref{sectionAntichain},\ref{sectionCongr}) for checing inclusion of NFA are compared set of states, 
+respectivly is checked some relation between this these some sets of states. It is possible that there will be needed to check some relation between
+two macrostate several times. In the case of antichains it is possible situation when is checked $(p_1,P) \sqsubseteq (q_1,Q)$ and then $(p_1,P)\sqsubseteq
+(q_2,Q)$, where $p_1,q_1,q_2$ are states of some NFA and $P$ and $Q$ are sets of states (so-called  so-called macrostates) of these NFA. 
+When the $(p_1,P)\sqsubseteq(q_2,Q)$ is being checkd the relation between $p_1$ and $q_2$ is very easy to get between they are just two states, but checking
+relation between $P$ and $Q$, which are macrostates that could contain many of states, is very computionaly demanding and it is also not neccessary because
+the result has already been computer by checking $(p_1,P) \sqsubseteq (q_1,Q)$. So it seems to be efficient to save the result of once computed
+operations.
 
+Similiar situation could happen using the algorithm based on bisimulation up to congruence. There one wants to know all rewriting rules which are possible to use
+for creating $X{\downarrow_R}$ for some macrostate $X$ and relation of visited pairs of macrostates $R$. Searching for usable rules is also very computionaly
+demanding and it seems to be efficient to save all usable rewriting rules from $R$ for given macrostate $X$.
 
-\section{implementation of antichain algorithms}
-\section{improvments for simulation}
-\section{Implementation of Congruence Closure}
-The algorithm using bisimiluation up to congruence for checking inclusion of languages of NFA is described in its own section (\ref{sectCongr}). This algorithm
-reduces number of macro states that are neccessary to check to determine if inclusion holds or not thanks to the computation of a congruence closure of a relation
-of the visited macro states because if the newly generated macro state is in the congruence closure it is not neccessary to explore macro state which
-are accessible from this macro state. 
+Because of the possibility of improving the performance by storing the results of once computed relations of macrostates was implemented so-called 
+\emph{Macrostate cache}. This cache stores all macrostates which have been generated during exploring of an NFA during inclusion checking. Each macrostate is 
+stored in cache only once and in the program alone are not used the whole macrostates but only pointers to this cache what brings the advantage that it is not
+neccessary to compare the whole macrostates but just pointers.
 
-The implementation of the computation of the congruence closure is crucial for performance and efficiency of the whole method. In VATA library is used
-an algorithm described by \cite{popl13} which is based on using of the so-called rewriting rules. For each pair of macro states $(X,Y)$ in 
-a relation $R$ of the visited macro states exists two rewriting rules which has following form:
-\begin{center}
-$X\rightarrow X+Y$ \hspace{5cm} $Y\rightarrow X+Y$
-\end{center}
-These rules can be used for computing a \emph{normal form} of a set of states \cite{popl13}. The normal form of a set of states $X$ created with
-usage of rewriting rules of a relation $R$ is denoted as $X{\downarrow_R}$.
-
-One can check if $(X,Y)\in c(R)$ using the principle of rewriting rules because once there are computed normal forms $X{\downarrow_R}$ and $Y{\downarrow_R}$ so
-$X{\downarrow_R}=Y{\downarrow_R}$ holds iff $(X,Y)\in c(R)$ \cite{popl13}.
-
-An example (taken from \cite{popl13}) of applying this approach for checking inclusion of NFA $\mathcal{A}$ and $\mathcal{B}$ (both are on
-figure \ref{example}) is given on the figure \ref{example}.
+The macrostate cache alone is implemented as the hash table, where a key is the sum of integers representing the states of macrostate the value is the
+list of macrostate which has the same state's sum. The macrostate can be seen on figure \ref{figMacroCache}
 
 \begin{figure}[h]
-\input{fig/aut_hkcA.tikz}
-\medskip
-\input{fig/aut_hkcB.tikz}
-		\label{figHKCex}
+  \input{fig/macrostate_cache.tikz}
+  \label{figMacroCache}
+  \caption{This figure show the macrostate cache. The cache is based on a hash table where a key is 
+    the sum of the integers representing the states of the macrostate. A value of the hash table is a list of macrostates with identical sum}
 \end{figure}
 
+\section{Implementation of Antichain Algorithm}
+\section{improvments for simulation}
+\section{Implementation of Bisimulation up to Congruence Algorithm}
+The algorithm for checking inlcusion of the languages of NFA is described in its own section \ref{sectionCongr}. For computation of a congruence closure, 
+what is crucial part of the approach, was used an algorithm based on the rewriting rules. This algorithm was implemented generally for checking equivalence
+of NFA \ref{subsectionCongr} and its optimalized version for checknig inclusion was implemented too \ref{congrOpt} 
+because the main goal of this work is to achieve the best performance of the inclusion checking. In this section will be described some implementation
+optimization of the algorithm. For this section let think two NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ and
+$\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$.
 
-Problem of this approach is that we do not know which rules of relation $R$ to use, in which order and each rule can be used only once for computing a normal
-form of a one set of states.
+
+\subsection{Exploring Product NFA}
+Exploring of a product NFA $\mathcal{A}\times\mathcal{B}$ during checking inclusion between the languages of $\mathcal{A}$ and $\mathcal{B}$ could be done by 
+the \emph{breadth-search} algorithm or the \emph{depth-first} search algorithm what
+determines order in which the states of the product NFA are explored. Usage of one or another algorithm can effect the number of states that are processed. 
+Difference between this two approaches in implementation is in usage of a data structure for storing newly generated states of $\mathcal{A}\times\mathcal{B}$
+which should be futher processed.
+
+\subsection{Caching Visited States}
+When one checks inclusion (or equivalence) of languages of NFA $\mathcal{A}$ and $\mathcal{B}$ there are generated states states of product NFA $\mathcal{A}
+\times \mathcal{B}$ which are pair $(X,Y)$ where $X$ is macrostate of states of $\mathcal{A}$ nad $Y$ is macrostate of states of $\mathcal{B}$. $X$ and $Y$
+are stored to macrostate cache and it is worked only with pointers to this macrostates in cache.
+
+The original algorithm does not control if the newly generated state $(X,Y)$ has not already been visited and always checks if $(X,Y)$ is in
+congruence closure of relation of the visited states $R$  what is
+computionaly demanding operation. Thanks to the working just with pointers to macrostates is easy to check whether the new state is already in a set of 
+visited states without computing the congruence closure. It is done by hash table which maps pointer to some macrostate $P$ to list of all
+pointers to macrostates $Q$ which are with $P$ in relation $R$. Then it is easy to check whether a newly generated state has not already been
+processed. 
+
+This technique reduces the number of the states of $\mathcal{A}\times\mathcal{B}$ for which is neccessary compute congruence closure what helps improvement in
+performence of the whole algorithm.
+
+\subsection{Optimization Used for Equivalence Checking}
+\subsection{Optimization Used for Inclusion Checking}
+
 \chapter{Experimental evaluation}
 \label{eval}
 \section{improvemnet give by congrunce}
