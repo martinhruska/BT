@@ -26,4 +26,4 @@ for l in f:
 
 print hs,vs
 print float(hs)/(hs+vs),float(vs)/(hs+vs)
-print acch/(hs+vs), accv/(hs+vs)
+print acch/(hs), accv/(vs)

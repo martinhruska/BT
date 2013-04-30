@@ -211,28 +211,39 @@
 \@writefile{toc}{\contentsline {subsubsection}{Simulation}{30}{section*.14}}
 \@writefile{toc}{\contentsline {subsubsection}{Utilities}{30}{section*.15}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.3}Macrostate Cache}{30}{section.6.3}}
+\newlabel{sectionCache}{{6.3}{30}{Macrostate Cache\relax }{section.6.3}{}}
 \newlabel{figMacroCache}{{6.3}{31}{Macrostate Cache\relax }{section.6.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces This figure show the macrostate cache. The cache is based on a hash table where a key is the sum of the integers representing the states of the macrostate. A value of the hash table is a list of macrostates with identical sum}}{31}{figure.6.1}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.4}Implementation of Antichain Algorithm}{31}{section.6.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.5}improvments for simulation}{31}{section.6.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Translation of an NFA to LTS}{31}{section.6.5}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.6}Implementation of Bisimulation up to Congruence Algorithm}{31}{section.6.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.1}Caching macrostates}{31}{subsection.6.6.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.2}Optimization Used for Equivalence Checking}{31}{subsection.6.6.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.3}Optimization Used for Inclusion Checking}{31}{subsection.6.6.3}}
+\newlabel{sectionCongrImpl}{{6.6}{31}{Implementation of Bisimulation up to Congruence Algorithm\relax }{section.6.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.1}Exploring Product NFA}{32}{subsection.6.6.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.2}Caching Visited States}{32}{subsection.6.6.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.3}Computing Congruence Closure for Equivalence Checking}{32}{subsection.6.6.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.4}Computing Congruence Closure for Inclusion Checking}{33}{subsection.6.6.4}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Experimental evaluation}{32}{chapter.7}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Experimental Evaluation}{34}{chapter.7}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{eval}{{7}{32}{Experimental evaluation\relax }{chapter.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{32}{section.7.1}}
+\newlabel{eval}{{7}{34}{Experimental Evaluation\relax }{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Bisimulation up to Congrunce}{34}{section.7.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.1}Comparsion with OCaml Implementation}{34}{subsection.7.1.1}}
+\newlabel{figGraphOCaml}{{7.1.1}{35}{Comparsion with OCaml Implementation\relax }{subsection.7.1.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces The plot shows the relation between time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked. The plotted time was limited to 50 seconds.}}{35}{figure.7.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.1}{\ignorespaces Table gives summarization of the evaluation and gives the two information. The first on is in how many cases was faster one implementation then the another implementation and the second one is how many times was averagely one implementation faster then the other.}}{35}{table.7.1}}
+\newlabel{tabOcaml}{{7.1}{35}{Table gives summarization of the evaluation and gives the two information. The first on is in how many cases was faster one implementation then the another implementation and the second one is how many times was averagely one implementation faster then the other}{table.7.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.2}Comparsion with VATA Tree Automata Implementation}{35}{subsection.7.1.2}}
 \@writefile{loa}{\addvspace {10\p@ }}
+\newlabel{figGraphOCamlOpt}{{7.1.1}{36}{Comparsion with OCaml Implementation\relax }{table.7.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.2}{\ignorespaces The plot shows the relation between time needed to check language inclusion and number of states of NFA. The the time axis is focused to show cases where OCaml implementation is faster then the VATA library.}}{36}{figure.7.2}}
 \bibstyle{plain}
 \bibdata{literatura}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{33}{chapter.8}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{37}{chapter.8}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{concl}{{8}{33}{Conclusion\relax }{chapter.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8.1}futher development}{33}{section.8.1}}
+\newlabel{concl}{{8}{37}{Conclusion\relax }{chapter.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}futher development}{37}{section.8.1}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \bibcite{timbuk}{1}
 \bibcite{tacas10}{2}
@@ -248,6 +259,6 @@
 \bibcite{libfa}{12}
 \bibcite{brics}{13}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{36}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{40}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}

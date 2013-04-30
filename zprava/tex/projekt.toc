@@ -59,13 +59,16 @@
 \contentsline {subsubsection}{Utilities}{30}{section*.15}
 \contentsline {section}{\numberline {6.3}Macrostate Cache}{30}{section.6.3}
 \contentsline {section}{\numberline {6.4}Implementation of Antichain Algorithm}{31}{section.6.4}
-\contentsline {section}{\numberline {6.5}improvments for simulation}{31}{section.6.5}
+\contentsline {section}{\numberline {6.5}Translation of an NFA to LTS}{31}{section.6.5}
 \contentsline {section}{\numberline {6.6}Implementation of Bisimulation up to Congruence Algorithm}{31}{section.6.6}
-\contentsline {subsection}{\numberline {6.6.1}Caching macrostates}{31}{subsection.6.6.1}
-\contentsline {subsection}{\numberline {6.6.2}Optimization Used for Equivalence Checking}{31}{subsection.6.6.2}
-\contentsline {subsection}{\numberline {6.6.3}Optimization Used for Inclusion Checking}{31}{subsection.6.6.3}
-\contentsline {chapter}{\numberline {7}Experimental evaluation}{32}{chapter.7}
-\contentsline {section}{\numberline {7.1}improvemnet give by congrunce}{32}{section.7.1}
-\contentsline {chapter}{\numberline {8}Conclusion}{33}{chapter.8}
-\contentsline {section}{\numberline {8.1}futher development}{33}{section.8.1}
-\contentsline {chapter}{\numberline {A}Storage Medium}{36}{appendix.A}
+\contentsline {subsection}{\numberline {6.6.1}Exploring Product NFA}{32}{subsection.6.6.1}
+\contentsline {subsection}{\numberline {6.6.2}Caching Visited States}{32}{subsection.6.6.2}
+\contentsline {subsection}{\numberline {6.6.3}Computing Congruence Closure for Equivalence Checking}{32}{subsection.6.6.3}
+\contentsline {subsection}{\numberline {6.6.4}Computing Congruence Closure for Inclusion Checking}{33}{subsection.6.6.4}
+\contentsline {chapter}{\numberline {7}Experimental Evaluation}{34}{chapter.7}
+\contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Bisimulation up to Congrunce}{34}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Comparsion with OCaml Implementation}{34}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}Comparsion with VATA Tree Automata Implementation}{35}{subsection.7.1.2}
+\contentsline {chapter}{\numberline {8}Conclusion}{37}{chapter.8}
+\contentsline {section}{\numberline {8.1}futher development}{37}{section.8.1}
+\contentsline {chapter}{\numberline {A}Storage Medium}{40}{appendix.A}

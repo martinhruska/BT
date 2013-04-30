@@ -1290,7 +1290,7 @@ needs to be implemented in part of library for finite automata.
 \subsubsection{Utilities}
 The original VATA library also provides lot of utilities which are also usefull for implementation of extension for the finite automata. These utilities
 provides classes for easier processing of finite automata. For example, the classes \emph{TwoWayDict} and \emph{TranslatorStrict} are uses for conversion
-of an finite automaton to the explicit encoding, the class \emph{Antichain2Cv2} is used for storing states to the antichain during checking inclusion using
+of an finite automaton to the explicit encoding, the class \emph{Antichain2Cv2} for represanting of antichain during checking inclusion using
 antichain algorithm \ref{sectionAntichain} and the class \emph{AutDescription} for represanting an automaton after the parsing.
 
 The usage of the of this utilies speeds up the development of the module for finite automata and also keeps the library more compact because no
@@ -1327,8 +1327,28 @@ list of macrostate which has the same state's sum. The macrostate can be seen on
 \end{figure}
 
 \section{Implementation of Antichain Algorithm}
-\section{improvments for simulation}
+The implementation of the algorithm for checking language inclusion of NFA using antichains has been implemented by algorithm described in section 
+\ref{sectionAntichain}.  There were used existing data structures for represanting antichains (classes \emph{Antichain2Cv2} and \emph{Antichain1c}). 
+
+The improvement of the antichain algorithm by simulation is provided. This is done by parameterizing class for checking inclusion, where one of the given 
+parameters is a relation which is simulation or identity (default).
+
+No futher optimization for antichain algorithm are used so it is not as efficient as the algorithm based on bisimulation up to congruence and not even as the 
+tree version of this algorithm. The suggestions for some optimization are given in another section \ref{example}.
+
+\section{Translation of an NFA to LTS}
+Before computing simulation relation over an NFA it is necessary to convert the NFA to labeled transition system (LTS), sort the states of the NFA to
+two or three partitions (final, non-final and class represanting start state) and initialize the simulation relation. This is done by algorithm where 
+the all transitions of NFA are converted to the LTS and at the same time each of the processed states is sorted to the partitions in according if
+the state is final or not. If all states are final, there will be created only one partition in this part of the algorithm otherwise two partitions will
+be created. After the trasitions are processed, there is added other one partition which represents start state. Then the simulation relation is initialized
+by the rule that each final state simulates other final state and each non-final simulates other non-final. The non-final does not simulate final, but 
+final simulates non-final.
+
+The created paritions, LTS and initiliazed simulation is given to the algorithm for computing the whole simulation. 
+
 \section{Implementation of Bisimulation up to Congruence Algorithm}
+\label{sectionCongrImpl}
 The algorithm for checking inlcusion of the languages of NFA is described in its own section \ref{sectionCongr}. For computation of a congruence closure, 
 what is crucial part of the approach, was used an algorithm based on the rewriting rules. This algorithm was implemented generally for checking equivalence
 of NFA \ref{subsectionCongr} and its optimalized version for checknig inclusion was implemented too \ref{congrOpt} 
@@ -1339,15 +1359,21 @@ $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B
 
 \subsection{Exploring Product NFA}
 Exploring of a product NFA $\mathcal{A}\times\mathcal{B}$ during checking inclusion between the languages of $\mathcal{A}$ and $\mathcal{B}$ could be done by 
-the \emph{breadth-search} algorithm or the \emph{depth-first} search algorithm what
+the \emph{breadth-first search} algorithm or the \emph{depth-first search} algorithm what
 determines order in which the states of the product NFA are explored. Usage of one or another algorithm can effect the number of states that are processed. 
 Difference between this two approaches in implementation is in usage of a data structure for storing newly generated states of $\mathcal{A}\times\mathcal{B}$
-which should be futher processed.
+which should be futher processed. If the used data structure is list then breadth-first search is applied and if the used data structure is stack then 
+depth-first search is applied.
+
+The VATA library module for NFA currently supports only the breadth-first search algorithm. This approach has not been chosen for any special reason or superiority
+but has evolved during the implementation because the Antichain algorithm uses for storing of 
+the newly generated states is also list, not stack, what leads to the implementation of breadth-first search.
+
 
 \subsection{Caching Visited States}
 When one checks inclusion (or equivalence) of languages of NFA $\mathcal{A}$ and $\mathcal{B}$ there are generated states states of product NFA $\mathcal{A}
 \times \mathcal{B}$ which are pair $(X,Y)$ where $X$ is macrostate of states of $\mathcal{A}$ nad $Y$ is macrostate of states of $\mathcal{B}$. $X$ and $Y$
-are stored to macrostate cache and it is worked only with pointers to this macrostates in cache.
+are stored to macrostates cache and it is worked only with pointers to this macrostates in cache.
 
 The original algorithm does not control if the newly generated state $(X,Y)$ has not already been visited and always checks if $(X,Y)$ is in
 congruence closure of relation of the visited states $R$  what is
@@ -1359,12 +1385,121 @@ processed.
 This technique reduces the number of the states of $\mathcal{A}\times\mathcal{B}$ for which is neccessary compute congruence closure what helps improvement in
 performence of the whole algorithm.
 
-\subsection{Optimization Used for Equivalence Checking}
-\subsection{Optimization Used for Inclusion Checking}
+\subsection{Computing Congruence Closure for Equivalence Checking}
+The computation of the congruence closure of the visited states of an NFA $\mathcal{A}\times\mathcal{B}$ for equivalence checking using rewriting
+rules as it was described in section \ref{subsectionCongr} is computationally demanding operation, 
+so there were implemented an optimization to enhance the performance of the algorithm.
 
-\chapter{Experimental evaluation}
+The optimization is based on the observing that when the normal form of macrostates $X$ and $Y$ for some relation $R$ are derived to find out if holds that
+$(X,Y)\in c(R)$ it is not necessary to use all rewriting rules of $R$ which are possible to use and add as much state as possible to the normal form
+of macrostate. It is possible to stop derivation of
+$X{\downarrow_R}$ and $Y{\downarrow_R}$ when these sets are equal and it is not necessary to achieve the equality $X{\downarrow_R}$ and $Y{\downarrow_R}$ by
+applying the same rules, not even by the same number of rules. 
+This fact makes possible to control $X{\downarrow_R} = Y{\downarrow_R}$ on the fly and not only after the whole derivation.
+
+This simplyfication leads to the implementation optimization, which is based on creating of $X{\downarrow_R}$ which has as much state as possible and all
+possible rules are used. When a rule is applied it is stored to a hash table where the rule is mapped to form of $X{\downarrow_R}$ after application of the rule.
+Then $Y{\downarrow_R}$ is derived gradually and after each step is checked if the current form of $Y{\downarrow_R}$ is not same as one of the forms of
+$X{\downarrow_R}$ which has been reached during its derivation. But comparing $Y{\downarrow_R}$ after each step to all forms of $X{\downarrow_R}$ is not efficient
+and it slows down the algorithm instead of improving it. This leads to implementation where the form of $Y{\downarrow_R}$ after applying of a rewriting rule 
+is compared to the form of $X{\downarrow_R}$ after the usage of the same rule. 
+This second approach is not maybe so efficient because it is not detect if $X{\downarrow_R}=Y{\downarrow_R}$ as early as the first one but this disadvantage is
+compensated by lesser comaprsion of $X{\downarrow_R}$ and $Y{\downarrow_R}$.
+
+\subsection{Computing Congruence Closure for Inclusion Checking}
+In section \ref{congrOpt} was described optimization that can be used when one uses the algorithm based on bisimulation up to congruence for checking 
+the language inclusion. The optimization is based on the fact that inclusion checking is done by checking equivalence $\mathcal{A}\cup\mathcal{B}=\mathcal{B}$,
+so for a state $(X,Y)$ holds $(X,Y)\in c(R)$ iff $X\subseteq Y{\downarrow_R}$ for a relation $R$ of visited states. 
+This optimization was implemented in the VATA library module for NFA too to achieve the best performance in checking language inclusion.
+
+This optimization is futher enhanced by the improvements in implementation. Once there is checked a generated state $(X,Y)$ and the normal form 
+$Y{\downarrow_R}$ is computeted it is efficient to store all rewriting rules that was used during the computation because there can be
+generated another state within $Y$, e.g., $(Z,Y)$ and the whole computation has to be done again. At the same time the rewriting rules can be used only in one
+direction ($Y\rightarrow X\cup Y$) so for some state $(X,Y)\in R$ and newly generated state $(P,Q)$ it is needed to check if $Y \subseteq Q$ to be able to apply
+the rewriting rule. If the rewriting rule is applied macrostate $X$ is added to $Q{\downarrow_R}$. Once the rewriting rule is possible to apply it is 
+efficient to store that for computing of normal form of macrostate $Q$ is possible to use all elements of $R$ within $Y$.
+
+This principle of storing rules that are applicable is implemented by hash table where a key is the pointer to a macrostate (which is cached)
+and a value is a list of pointers to the macrostates (which are also cached). Each macrostate in the list enables usage of rewriting rule of an element in $R$ 
+which contains this macrostate. Notice that is not able to store elements of $R$ which's rewriting rule is not applicable because thare are added gradualy
+new elements to $R$ and after applying of the rewriting rules of these elements can be also usable rule which has not been usable before.%Preformulovat
+
+During the exeperimental evaluation was found that this optimization is not as usefull as it was expected because it does not happen very often that the one
+macrostate of NFA $\mathcal{B}$ (e.g., macrostate $Y$) is in the two different states of a product NFA $\mathcal{A}\cup\mathcal{B}\times\mathcal{B}$ (e.g., $(X,Y)$
+and $(Z,Y)$ where $X$ and $Z$ are macrostates of $\mathcal{A}\cup\mathcal{B}$) and can slow down the algorithm because of the overhead which is given by checking
+if a normal form $Y$ has not already been computed, so it was implemented a special function for computing $Y{\downarrow_R}$ and special function for computing
+normal forms of macrostates which has not been already explored. Seperation of these two situation prevents slowing down of algorithm by trying applying
+optimization in the worse cases.
+
+\chapter{Experimental Evaluation}
 \label{eval}
-\section{improvemnet give by congrunce}
+This chapter is about the experimental evalutaion of the algorithm for checking inclusion based on bisimulation up to congruence. The algortihm based on antichains
+has not been evaluated yet because there are not implemented relavant optimization so it is naturally slower the current VATA implementation for tree automata
+which is using such optimization.
+
+\section{Evaluation of Algorithm Based on Bisimulation up to Congrunce}
+The evaluation of the algorithm based on bisimulation up to congrunce was done by implementation which includes all optimization described in section 
+\ref{sectionCongrImpl}. There are provided two comparsion, the first one is with original OCaml implementation of this algorithm and the second one is with
+VATA library module for tree automata.
+
+For both of the evalutations were used NFA for model checking provided by dr. Lukáš Holík.
+\footnote{Automata can be found on the web page: \url{http://www.fit.vutbr.cz/~holik/pub/ARMCautomata.tar.gz}}.  
+The evaluation was done on the set of about 29 000 of pairs of NFA where laguage inclusion was tested. 
+
+\subsection{Comparsion with OCaml Implementation}
+The algorithm based on bisimulation up to congruence was implemented in \emph{OCaml} language (object-oriented implementation of Caml language)
+\footnote{The implementation can be found here: \url{http://perso.ens-lyon.fr/damien.pous/hknt/}}. This implementation provides checking of the equivalence
+and the inclusion of languages of NFA and also inclusion. It is also possible to use breadth-first search or depth-first search algorithm for searching 
+product NFA and it is possible to use a simulation for improvement of performance of the algorithm.
+
+For evaluation purposes was OCaml implementation run with breadth-first search (which is the only one currently implemented by VATA library), without
+simulation (which is not currently not provided by VATA library) and in the version for inclusion checking.
+
+The comparsion of the VATA library implementation and OCaml implementation can be seen on the figure \ref{figGraphOCaml}. The plot shows the relation between 
+time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked. This plot shows that VATA library
+implementation was faster in the most cases, the exact numbers are given in table \ref{tabOcaml}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{fig/plot_hkc_zprava.png}
+\label{figGraphOCaml}
+\caption{The plot shows the relation between time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked.
+The plotted time was limited to 50 seconds.}
+\end{center}
+\end{figure}
+
+\begin{center}
+\begin{table}
+\begin{center}
+  \begin{tabular}{ | l | r | r |}
+   \hline
+    & \textbf{OCaml} & \textbf{VATA} \\ \hline \hline
+    winner & $7\%$ & $93\%$ \\ \hline
+    faster & $6.5\times$ & $84\times$ \\ \hline
+   \end{tabular}
+   \caption{Table gives summarization of the evaluation and gives the two information. The first on is
+     in how many cases was faster one implementation then the another implementation 
+   and the second one is how many times was averagely one implementation faster then the other.}
+   \label{tabOcaml}
+\end{center}
+\end{table}
+\end{center}
+
+Antoher plot on the figure \ref{figGraphOCamlOpt} is focused on the measurements with small amount of time and 
+shows that in some cases is OCaml implementation faster. It was cases when only a few states were explored to 
+check the language inclusion and the VATA library was slower due the overhead caused by its richer data structures (like macrostate cache). The plot also show
+how exponentionaly grow time needed to check inclusion with number of states of NFA. The growth of amount of time is much faster in case of OCaml implementation.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{fig/plot_hkc_step_zprava.png}
+\label{figGraphOCamlOpt}
+\caption{The plot shows the relation between time needed to check language inclusion and number of states of NFA. The the time axis is focused to show
+  cases where OCaml implementation is faster then the VATA library.}
+\end{center}
+\end{figure}
+
+\subsection{Comparsion with VATA Tree Automata Implementation}
 
 \chapter{Conclusion}
 \label{concl}

@@ -57,7 +57,7 @@ public : // data types
 private: // Private data members
   ProductStateSetType& relation_;
   ProductStateSetType&  next_;
-  Antichain1Type& singleAntichain_;
+  Antichain1Type& singleAntichain_; // just for compability with the antichain functor
 
   const ExplicitFA& smaller_;
   const ExplicitFA& bigger_;

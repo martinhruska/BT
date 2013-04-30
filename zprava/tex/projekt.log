@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  29 APR 2013 11:48
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  30 APR 2013 12:33
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1075,14 +1075,14 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@vyskartext=\skip64
 \@vyskaobr=\skip65
 
-<fig/vut-zp2.pdf, id=256, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=268, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 124--124
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=257, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=269, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 124--124
@@ -1196,13 +1196,13 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
 ion <1.5>, but at most version <1.4> allowed
-<fig/congr1.pdf, id=454, 244.112pt x 274.626pt>
+<fig/congr1.pdf, id=469, 244.112pt x 274.626pt>
 File: fig/congr1.pdf Graphic file (type pdf)
  <use fig/congr1.pdf>
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: found PDF version
  <1.5>, but at most version <1.4> allowed
-<fig/ac1.pdf, id=455, 552.46402pt x 232.87pt>
+<fig/ac1.pdf, id=470, 552.46402pt x 232.87pt>
 File: fig/ac1.pdf Graphic file (type pdf)
  <use fig/ac1.pdf> [12]
 (./fig/aut_hkcA.tikz
@@ -1300,19 +1300,37 @@ LaTeX Warning: Reference `usageTimbuk' on page 29 undefined on input line 1275.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[30] [31]
+[30]
+
+LaTeX Warning: Reference `example' on page 31 undefined on input line 1337.
+
+[31] [32] [33]
 Chapter 7.
-[32
 
-]
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1455--1457
+[]\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
+un with breadth-first search (which
+ []
+
+[34
+
+] <fig/plot_hkc_zprava.png, id=799, 642.4pt x 481.8pt>
+File: fig/plot_hkc_zprava.png Graphic file (type png)
+
+<use fig/plot_hkc_zprava.png>
+<fig/plot_hkc_step_zprava.png, id=801, 642.4pt x 481.8pt>
+File: fig/plot_hkc_step_zprava.png Graphic file (type png)
+
+<use fig/plot_hkc_step_zprava.png> [35 <./fig/plot_hkc_zprava.png (PNG copy)>]
+[36 <./fig/plot_hkc_step_zprava.png (PNG copy)>]
 Chapter 8.
-) (./projekt.bbl [33
+) (./projekt.bbl [37
 
-] [34
+] [38
 
-]) (./prilohy.tex [35]
+]) (./prilohy.tex [39]
 Appendix A.
-) [36
+) [40
 
 ] (./projekt.aux)
 
@@ -1327,10 +1345,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 18752 strings out of 256216
- 335689 string characters out of 1917072
- 446523 words of memory out of 1500000
- 21364 multiletter control sequences out of 10000+200000
+ 18783 strings out of 256216
+ 336239 string characters out of 1917072
+ 447082 words of memory out of 1500000
+ 21381 multiletter control sequences out of 10000+200000
  30038 words of font info for 83 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  49i,24n,73p,951b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
@@ -1352,9 +1370,9 @@ c/cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/t
 exmf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/c
 stt9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf
 /fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (40 pages, 479871 bytes).
+Output written on projekt.pdf (44 pages, 521062 bytes).
 PDF statistics:
- 913 PDF objects out of 1000 (max. 8388607)
- 224 named destinations out of 1000 (max. 131072)
- 593 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 968 PDF objects out of 1000 (max. 8388607)
+ 236 named destinations out of 1000 (max. 131072)
+ 627 words of extra memory for PDF output out of 10000 (max. 10000000)
 
