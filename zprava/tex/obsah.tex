@@ -36,8 +36,8 @@ described in chapter \ref{eval} and final conclusion in chapter \ref{concl}.
 
 
 \chapter{Preliminaries}
-This chapter contains theoretical fundations of the thesis. No proofs are given, because they can be found in literature. 
-First, the languages will be defined, then finite automata and their context, the regular languages and their closure properties. 
+This chapter contains theoretical fundations of the thesis. No proofs are given because they can be found in literature \cite{kozen,ullman}. 
+First, the languages will be defined then finite automata and their context, the regular languages and their closure properties. 
 \label{teorie}
 
 \section{Languages}
@@ -47,7 +47,7 @@ We define \emph{concatenation} as an associative binary operation on words over 
 and $v=b_1\ldots b_n$ over $\Sigma$ it holds that $\epsilon\cdot u=u\cdot\epsilon=u$ and $u\cdot v=a_1 \ldots a_nb_1 \ldots b_m$.
 We define a symbol $\Sigma^{*}$ as a set of all words over $\Sigma$ including the empty word and a symbol $\Sigma^{+}$ as a set of 
 all words over $\Sigma$ without the empty word, 
-so it holds that $\Sigma_{*}=\Sigma_{+}\cup\epsilon$. A~\emph{language} $L$ over $\Sigma$ is a subset of $\Sigma^{*}$.
+so it holds that $\Sigma^{*}=\Sigma_{+}\cup\epsilon$. A~\emph{language} $L$ over $\Sigma$ is a subset of $\Sigma^{*}$.
 Given a pair of languages $L_1$ over an alphabet $\Sigma_{1}$ and $L_{2}$ over an alphabet $\Sigma_{2}$. Their concatenation is defined by 
 $L_1\cdot L_2=\{x\cdot y\ |\ x\in L_1, y\in L_2 \}$.
 We define \emph{iteration} $L^{*}$ and \emph{positive} iteration $L^{+}$ of a language $L$ over an alphabet $\Sigma$ \emph{iteration} as:
@@ -382,7 +382,6 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 
 	\subsection{Minimum DFA}
 	\label{defMinDFA}
-	\begin{definition}
   %TODO nejak inteligentne to zaradit
 		Minimum DFA satisfies this conditions:
 		\begin{itemize}
@@ -390,7 +389,6 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 			\item There is maximal one nonterminating state, which terminates on itself for each symbol.
 			\item Equivalent states are collapsed.
 		\end{itemize}
-	\end{definition}
 
 
   \subsection{Language of Finite Automaton}
@@ -475,7 +473,7 @@ Product state $(p,P)$ is accepting, if $p$ is accepting in automaton $A$ and $P$
 \subsection{Antichain Algorithm Description}
 The antichains algorithm \cite{cav06} starts searching for a final state of the automaton $\mathcal{A}\times \overline{\mathcal{B}_{det}}$ while
 pruning out the states which are not necessary to explore. $\mathcal{A}$ is explored nondeterministically and $\mathcal{B}$ 
-is gradually determinized, so the algorithm explores pairs $(p,P)$. 
+is gradually determinized, so the algorithm explores pairs $(p,P)$ where $p\in Q_\mathcal{A}$ and $P \subseteq Q_\mathcal{B}$. 
 The antichains algorithm derives new states along the product automaton transitions and inserts them to the set of visited pairs $X$.
 $X$ keeps only minimal elements with respect to the ordering given by $(r,R)\sqsubseteq (p,P)$ iff $r=p \wedge R \subseteq P$. 
 If there is generated a pair $(p,P)$ and there is 
@@ -497,10 +495,10 @@ The whole pseudocode of the antichain algorithm is given as algorithm \ref{algAn
 
 \begin{algorithm}[H]
 	\label{algAntichain}
-	\KwIn{NFA's $\mathcal{A}=(Q_A,\Sigma,\delta_A,S_A,F_A),\ \mathcal{B}=(Q_B,\Sigma,\delta_B,S_B,F_B)$.\\ 
+	\KwIn{NFA's $\mathcal{A}=(Q_A,\Sigma,\delta_A,I_A,F_A),\ \mathcal{B}=(Q_B,\Sigma,\delta_B,I_B,F_B)$.\\ 
 	 A relation $\preceq \in (\mathcal{A} \cup \mathcal{B})^{\subseteq}$.}
 	\KwOut{TRUE if $\mathcal{L(A)}\subseteq\mathcal{L(B)}$. Otherwise, FALSE.}
-		\If{there is an accepting product-state in \{$(s,S_{\mathcal{B}})|s\in S_{\mathcal{A}}$\}}
+		\If{there is an accepting product-state in \{$(i,I_{\mathcal{B}})|i\in I_{\mathcal{A}}$\}}
 			{return FALSE\;}
 		Processed:=$\varnothing$\;
 		Next:= Initialize(\{$(s,Minimize(S_B))\mid s\in S_A$\})\;
@@ -580,25 +578,25 @@ If the generated pair is in this congruence closure, it can be skipped and furth
 
 	\begin{algorithm}[h]
 		\label{algCongr}
-		\KwIn{NFA's $A=(Q_A,\Sigma,\delta_A,s_A,F_A),\ B=(Q_B,\Sigma,\delta_B,s_B,F_B)$.} 
+		\KwIn{NFA's $A=(Q_A,\Sigma,\delta_A,I_A,F_A),\ B=(Q_B,\Sigma,\delta_B,I_B,F_B)$.} 
 		\KwOut{TRUE, if $L(A)$ and $L(B)$ are in equivalence relation. Otherwise, FALSE.}
 			$Processed = \varnothing$\;
 			$Next = \varnothing$\;
-			insert($s_A$,$s_B$) into $Next$\;
+			insert($I_A$,$I_B$) into $Next$\;
 			\While{$Next \neq \varnothing$}
 			{
-				extract($x$,$y$) from $Next$\;
-				\If {$x$,$y \in c(Processed \cup Next)$}
+				extract $(X,Y)$ from $Next$\;
+				\If {($X$,$Y) \in c(Processed \cup Next)$}
 				{skip\;}
-				\If{$(x \in F_A \Leftrightarrow y \in F_B)$}
+				\If {$\neg(\{x\in X| x\in Q_\mathcal{A}\} \neq \varnothing \Leftrightarrow \{y\in Y| y\in Q_\mathcal{B}\}\neq \varnothing)$}
 				{
 					\Return FALSE\;
 				}
 				%\ForAll {$a\in \Sigma$}
 				%{
-					insert($post(x,y)$) in $Next$\;
+					insert($post(X,X)$) in $Next$\;
 				%}
-				insert($x$,$y$) in $Processed$\;
+				insert($X$,$Y$) in $Processed$\;
 			}
 			\Return TRUE;
 		\caption{Language equivalence checking with congruence}
@@ -690,8 +688,8 @@ The whole derivation of the normal set is bounded by complexity $r^2 n$ because 
 
 \subsubsection{Optimization for Inclusion Checking}
 \label{congrOpt}
-Since the algorithm based on bisimulation up to congruence is primarily used for checking equivalence of NFA it is possible to make some simplyfication for
-checking inclusion. Some simplyfications are possible also in checking whether macrostate $(X,Y)$ is in congruence closure of a relation $R$. This optimization
+Since the algorithm based on bisimulation up to congruence is primarily used for checking equivalence of NFA it is possible to make some simplification for
+checking inclusion. Some simplifications are possible also in checking whether macrostate $(X,Y)$ is in congruence closure of a relation $R$. This optimization
 is based on the fact that when one checks inclusion between NFA $\mathcal{A}$ and $\mathcal{B}$ it is done by checking if holds $\mathcal{A}\cup\mathcal{B}=
 \mathcal{B}$ so in all macrostates $(X,Y)$ is $X$ set of states of NFA $\mathcal{A}\cup\mathcal{B}$ and $Y$ set of states of NFA $\mathcal{B}$. On account
 of this fact one can use the rewriting rules only in following form \cite{popl13}:
@@ -776,14 +774,15 @@ the explicit determinization of an automaton is still here.
 
 \subsection{Implementation of New Efficient Algorithms}
 There have been recently introduced some new efficient algorithms for inclusion checking 
-which are dealing with problem of a state explosion because they avoid the explicit determinization of a finite automaton \cite{cav06,tacas10} and \cite{popl13}.
-These state-of-the-art algorithms were implemented in OCaml languaue (mainly) for testing and evaluation purposes.
+which are dealing with problem of a state explosion because they avoid the explicit determinization of a finite automaton. These 
+algorithms have been described in section \ref{chapInclusion}.
+All of the mentioned state-of-the-art algorithms were implemented in OCaml languauge for testing and evaluation purposes.
 
-Some of the mentioned algorithms (\cite{cav06,taca10}) are possible to use not only for finite automat but also for tree automata. 
-These algorithms for tree automata are provided by the VATA library which is implemented in C++ what brings the greater efficiency compared to OCaml implmentation. 
+The algorithms using the antichains are possible to use not only for finite automat but also for tree automata(\cite{cav06,taca10}). 
+The algorithms for tree automata are provided by the VATA library which is implemented in C++ what brings the greater efficiency compared to OCaml implmentation. 
 A description of this library will be placed in next section.
-Despite the fact that a C++ implementation could be more efficient too, there is currently no library or toolkit similiar to VATA library providing 
-these algorithms of inclusion checking for finite automata.
+Despite the fact that a C++ implementation could be more efficient then OCaml  implementation, there is currently 
+no library or toolkit similiar to VATA library providing these algorithms for language inclusion checking over NFA.
 
 
 \begin{comment}
@@ -816,22 +815,21 @@ for finite automata.
 \label{sectionDesignVata}
 VATA provides two kind of encoding for tree automata -- Explicit Encoding (top-down) and Semi-symbolic encoding (top-down and bottom-up). The main difference
 between encoding is
-in data structure for storing transition of \emph{tree} automata. Semi-symbolic encoding is primary for automata with large alphabets. 
+in data structure for storing transition of tree automata. Semi-symbolic encoding is primary for automata with large alphabets. 
 
-The main idea of the desing of VATA library is show on the image \ref{picVataDesign}. Here is also brief description of that idea. 
+The main idea of the desing of VATA library is show on the image \ref{picVataDesign} and here is also brief description of it. 
 The input automata are processed by one of the parsers (currently
 here is only Timbuk format parser implemented). A result of parsing is a data structure with the information about automaton (it keeps the list
 of transtion of given automaton, its final states etc.). The main progam choose one of the internal encodings of the automata. These encodings
 contain a definiton of a data structure for a representation of automaton and fuctions which create transform the automaton from the data structure
 created by parser to the data structure of chosen encoding. Each encoding also provide
 an implementation of the operations over automata. 
-Finally, once all needed operations over the input automata are processed, the result automaton can be dump to a output text format using one of serializers 
-(currently there is only Timbuk format serializer implemented).
+Finally, once all needed operations over the input automata are processed, the result automaton can be dump to a output text format using one of the serializers 
+(currently there is implemented only the Timbuk format serializer too).
 
-As you
-can see on picture \ref{picVataDesign}, VATA is written in a modular way, so it is easy to make an extension for finite automata. Thanks to the modularity, 
-any new encoding can share other parts of library such as parser or serializer \cite{libvata}. VATA also provides a command line interface which is shared by
-different encodings.
+As you can see on the figure \ref{picVataDesign},  the VATA library is written in a modular way, so it is easy to make an extension for finite automata. 
+Thanks to the modularity, any new encoding can share other parts of library such as parser or serializer \cite{libvata}. 
+The VATA library also provides a command line interface which is shared by different encodings.
 
 \begin{figure}[h]
 \begin{center}
@@ -855,7 +853,7 @@ designed hash table was used for storing them. Inserting new transition to this 
 \begin{center}
 \input{fig/tacas12/explicit.tikz}
 		\label{figExplicitTreeDataStr}
-    \caption{The data structure for storing transtion of an tree automaton. There is a hash table (top-level lookup table) 
+    \caption{The data structure for storing transtions of the tree automaton. There is a hash table (top-level lookup table) 
       which map a state to the pointer to another hash table (transition cluster). Transition cluster
       maps a symbols of input alphabet to the pointer to the set of pointers to the tuples.}
 \end{center}
@@ -870,7 +868,7 @@ copy) is modified only part of the shared transition table.
 Transition functions in semi-symbolic encoding are stored in \emph{multi-terminal binary decision diagrams} (MTBDD), which are extension of \emph{binary decision 
 diagrams}. There are provided top-down (transitions are in form $q \xrightarrow{a} (q_1,...,q_n)$, for $a$ with arity $n$) 
 and bottom-up (transitions are in form $(q_1,...,q_n)\xrightarrow{a}q$) representation of tree automata in semi-symbolic encoding. 
-The interesting part is saving of symbols in MTBDD. In top-down encoding, the input
+The specific part is the saving of symbols in MTBDD. In top-down encoding, the input
 symbols are stored in MTBDD with their arity, because we need to be able to distinguish between two instances of same symbols with different arity.
 In opposite case, bottom-up encoding does not need to store arity, because it is possible to get it from arity of tuple on left side of transition \cite{libvata}.
 
@@ -897,7 +895,8 @@ function call and it also precludes compiler's optimizer to perform some operati
 
 More details about implementation optimization can be found in \cite{libvata}.
 
-Especially advanced operations are able only for specific encoding. Some of operations implemented in VATA library and their supported encodings are in this table:
+Especially advanced operations are able only for specific encoding. Some of operations implemented in VATA library and their supported encodings are in 
+the table \ref{tabOp}.
 \begin{savenotes}
 \begin{table}[h]
 	\begin{center}
@@ -914,8 +913,8 @@ Especially advanced operations are able only for specific encoding. Some of oper
 		Bottom-Up Inclusion  & $+$ & $+$ & $-$ \\ 
 		Simulation over LTS\footnote{LTS -- Labeled Transitions System} & $+$ & $-$ & $-$ \\ \hline
 		\end{tabular}
-	\caption{Table of some supported operations}
-	\label{tab1}
+	\caption{Table shows which operations are supported for the tree automata in the encodings implemented in VATA library.}
+	\label{tabOp}
 	\end{center}
 \end{table}
 \end{savenotes}
@@ -929,7 +928,7 @@ which can be represented like one dimensional
 tree automata. But the VATA library data structures for manipulating tree automata are designated for more complex data structures
 and new special implementation for finite
 automata will be definitely more efficient. Not only inclusion checking algorithm will be implemented but also the algoritms for basic operations like
-such as union, intersection, removing unreachable or useless states etc.
+union, intersection, removing unreachable or useless states etc.
 This new extension will use the explicit encoding for representing an automaton. 
 The extension will use some already implemented features of VATA like parsing and serializing
 the input automata or computation of simulation over states of an automaton.
@@ -952,45 +951,50 @@ are used within transitions. This fact also hold in case of input alphabet.
 
 The set of transitions keeps the most information about an NFA and is also often used
 during operations over NFA, so the the performance of these operations hardly depend on the efficiency of data structure for a set of transitions. For example,
-one often wants to get all transitions for given state or for given state and given alphabet symbol. The similiar situaion is in the case
-of tree automata when it is not neccessary to hold the whole set of state but it is important to have efficient data structure for represanting 
-transitions of a given tree automata.
+one often wants to get all transitions for given state or for given state and given alphabet symbol. The similiar situation is in the case
+of tree automata when it is not neccessary to hold the whole set of state but it is important to have an efficient data structure for represanting 
+transitions of the given tree automata.
 
-The data structure used for storing transions of a tree automaton in VATA library was described earlier \ref{sectionExplicitEnc} and can be seen
-on the figure \ref{figExplicitTreeDataStr}. The evaluation of VATA library \cite{libvata} proves efficiency of this data structure is efficient, so it was
-decided to modificate this data structure and use it also for part of VATA library for finite automata.
+The data structure used for storing transions of a tree automaton in the VATA library was described earlier \ref{sectionExplicitEnc} and can be seen
+on the figure \ref{figExplicitTreeDataStr}. The evaluation of the VATA library \cite{libvata} proves efficiency of this data structure is efficient, so it was
+decided to modificate this data structure and use it also for part of the VATA library for finite automata.
 
 \subsection{Design of Data Structure for Transtions of NFA}
 Data structure for storing transitions of an NFA is based on hash tables. The first hash table (top-level hash table) maps a given state to the pointer to
 the transition cluster. The transition cluster is another hash table which maps a symbol of the input alphabet to a set of states. Described data structure is on
 the figure \ref{figExplicitFADataStr}.
 
-The data structure for finite automata transitions is simplyfication of the data structure for tree automata what is can be seen by comparing figures 
-\ref{figExplicitFADataStr} and \ref{figExplicitTreeDataStr}. This simplyfication is possible because the tree version has to stored to whole tuples of
+The data structure for storing of the finite automata transitions is simplification of the data structure for the tree automata because a tree automaton's
+transition has following form: $(q_1,\ldots,q_n) \xrightarrow{a} q$ where $q,q_1\ldots q_n$ are states of the tree automaton and $a$ is the symbol of 
+alphabet of the tree automaton, while a finite automaton has transition in form: $q_1 \xrightarrow{a} q_2$ where $q_1,q_2$ are states of the finite automaton and
+$a$ is its symbol so the left side of the transition is simpler in the case of finite automaton. A comparsion of data structure for the finite 
+automata and the tree automata can be seen by comparing figures 
+\ref{figExplicitFADataStr} and \ref{figExplicitTreeDataStr}. This simplification is possible because the tree version has to stored to whole tuples of
 states in transtions. Since these tuple can be very large it is more efficient to store them only once and in data structure keeps pointer to the 
 tuple, which is in a transtion, instead of the tuple alone. 
 In case of finite automata this advantage dissapears because there are no tuples of state but only states alone and keeping pointer to one state will not 
 bring any memory efficiency (the size of a pointer to a state and the state alone is quite similiar). This fact causes that in the data structure 
 for finite automata is not needed to use anything like set of pointers to tuples in tree automata version, but could be directly used the set of states. This 
-set of states would be pointed from transition cluster and would contain all states accessible from a given state under a symbol of input alphabet.
+set of states would be pointed from transition cluster and would contain all states accessible from a given state under a certain symbol of the input alphabet.
 
-But there is possible another simplyfication. The set of states does not need to be in special level of data structure but can be integrated to the transition
+But there is possible another simplification. The set of states does not need to be in special level of data structure but can be integrated to the transition
 cluster. When this optimization is applied, transition cluster maps symbol directly to the set of states accessible under this symbol.
 
 The mentioned optimization enables that the tree version of data structure, which has four leves, was simplyfied to the two level data structure what brings
 simplyier and more efficient manipulation with these data structure.
 
-This data structure also aplly the copy-on-write principle, what brings better memory efficiency. It means that the look-up tables and 
+This data structure aplly also the copy-on-write principle, what brings better memory efficiency. It means that the look-up tables and 
 the transtion clusters are shared among NFA when they are same and
 a new look-up table and a transition is created only when a new item is inserted to the one of the automata.
 
 Let give the examples for searching and inserting a trasition to this data structure for the NFA on the figure \ref{figExplicitFADataStr}. 
 If one wants to find all accessibale states for state $q_1$ and symbol $a$ in a NFA $A$
-so in the top-level lookup is found pointer to transition cluster for state $p$. In this
+so in the top-level lookup is found pointer to transition cluster for state $q_1$. In this
 transition cluster is symbol $a$ mapped to the set of states (in this case ($\{q_1,q_2\}$)) which are accessible from $q_1$ under $a$.
 If one wants to insert a new transition $q_3\rightarrow{e}q_2$ to a NFA $C$, the look-up table pointed by automaton $C$ is duplicated 
-and a state $q_3$ is inserted to it. A NFA $C$ now points to that newly duplicated look-up table. State $q_3$ is mapped to pointer to the newly created
-transition cluster. Symbol $e$ is inserted to this new transition cluster and mapped to the set of state which contains just state $q_2$.
+and a state $q_3$ is inserted to it. A NFA $C$ now points to that newly duplicated look-up table. State $q_3$ is in this look-up table 
+mapped to pointer to the newly created transition cluster. 
+Symbol $e$ is inserted to this new transition cluster and mapped to the set of state which contains just state $q_2$.
 
 \begin{figure}[h]
 \begin{center}
@@ -1003,42 +1007,43 @@ transition cluster. Symbol $e$ is inserted to this new transition cluster and ma
 \end{figure}
 
 \section{Start and final states data structure}
-As it was mentioned before \ref{analysis} it is neccessary to keep start and final states in the special sets to be able distinguish between them and the others
-states of an automaton. This is also main usage of these sets during operations over finite automata so there is no need to create special data structure and 
-unordered set is efficient enough for them.
+As it was mentioned before (section \ref{analysis}) it is neccessary to keep start and final states in the special sets to 
+be able distinguish between them and the others states of an automaton. This is also main usage of these sets during operations 
+over finite automata so there is no need to create special data structure and unordered set is efficient enough for them.
 
 \section{Translation of the states and symbols}
 \label{sectionTranslate}
-The input automaton is is parsed and converted to intern representation. During this conversion to the intern representation are states translated
-(mapped) from input type (e.g., text description of an automaton) 
-to an integers and this also works for symbols of the input alphabet (principle can be seen on figure \ref{figExplicitFADataStr}). 
+An input automaton is always parsed and converted to the intern representation from its input format. 
+During this conversion to the intern representation are states translated (mapped) from input type (e.g. text description of the automaton) 
+to the integers and this principle is also applied for symbols of the input alphabet (principle can be seen on figure \ref{figExplicitFADataStr}). 
 This mechanism brings better efficiency for manipulation with states and symbols
-during the operations. It also provides unification all input forms to the one internal representation. 
+during the operations. It also provides unification of all input forms to the one internal representation. 
 
-The translated integeres can be changed during some operations (e.g., union) over finite automata but the relation between mapping and mapped value will
-not be broken.
+During some operations (e.g. union) can be states reindexed what means that the integers which represents a state of an automaton is changed. When the integer
+is changed the old value is mapped to the new one in a hash table what helps to keep mapping of the original input to the new value.
 
-When the input automaton is processed by VATA library operations it is often serialized back to the input format. The result 
-automaton's states are converted back to the input format from internal enconding using translation in reverse order
-so the result notation stays consistent with the input.
+When the operations over a NFA are performed the NFA is often serialized back to the input format. The result 
+automaton's states are converted back to the input format by using hash tables where is mapping to the internal representation stored. This
+principle leads to the better readable output after serialization because notation is not changed.
 
 \begin{figure}
 \begin{center}
 \input{fig/translator.tikz}
 		\label{figExplicitFADataStr}
-    \caption{Translator takes the input format (text format in this case) and maps it to the integer. On the figure can
-    be seen mapping symbols (on the left) and mapping input symbols (on the right).}
+    \caption{The figure show principle of translation of the input format to the internal representation which is done by the hashs table like those
+      on the figure. The states (the left hash table) or the symbols (the right hash table) of an NFa are strings in the input format but are mapped to integers
+    which are used as the internal representation of these states and symbols.}
 \end{center}
 \end{figure}
 
 \section{Usage of the Timbuk format}
 \label{usageTimub}
-VATA library provides command-line interface and it is possible to load finite automata from a text file and make some operations over it. 
-The automaton given in a text file needs to have specified format and because 
-there is no standard format for describing the finite automaton, the Timbuk format \cite{timbuk} was chosen as input and output text format
-of the finite automata. The timbuk format is also used as an format for tree automata in VATA library. 
-In fact, the original purpose of the Timbuk format is describing tree automata but with some modifications can be used also for finite automata. 
-Here is an example of a finite automaton in the Timbuk format:\\
+VATA library provides command-line interface and it is possible to load a finite automaton from a text specification. 
+The text specification has to have some standard format but there is no such format for the finite automata so it was chosen
+the Timbuk format \cite{timbuk}. The Timbuk format is primarily used for description of the tree automata but can be also used for the finite automata
+after some modifications. 
+
+Here is an example of an finite automaton defined by text description in the Timbuk format:\\
 \texttt {
   \textbf{Ops} $a:1$ $x:0$\\
   \textbf{Automaton} example\\
@@ -1397,7 +1402,7 @@ $X{\downarrow_R}$ and $Y{\downarrow_R}$ when these sets are equal and it is not 
 applying the same rules, not even by the same number of rules. 
 This fact makes possible to control $X{\downarrow_R} = Y{\downarrow_R}$ on the fly and not only after the whole derivation.
 
-This simplyfication leads to the implementation optimization, which is based on creating of $X{\downarrow_R}$ which has as much state as possible and all
+This simplification leads to the implementation optimization, which is based on creating of $X{\downarrow_R}$ which has as much state as possible and all
 possible rules are used. When a rule is applied it is stored to a hash table where the rule is mapped to form of $X{\downarrow_R}$ after application of the rule.
 Then $Y{\downarrow_R}$ is derived gradually and after each step is checked if the current form of $Y{\downarrow_R}$ is not same as one of the forms of
 $X{\downarrow_R}$ which has been reached during its derivation. But comparing $Y{\downarrow_R}$ after each step to all forms of $X{\downarrow_R}$ is not efficient
@@ -1565,15 +1570,15 @@ The main goal of this thesis is to create an extension of the VATA library for t
 which are often used in the formal verificition (e.g., model checking of safety temporal properties or 
 abstract regular model checking) what is the branch of computer science on which is the library focused. The library is supporting
 basic operations like union, intersection, removing useless or unreachable states and etc., but the main aim of this work is to provide
-efficient implementation of algorithms for checking language inclusion of nondeterministic finite automata.
+efficient implementation of the algorithms for checking language inclusion of nondeterministic finite automata.
 
 The new extension of VATA library uses explicit encoding for represantation of the finite automata. The data structures for the encoding has been designed
 and implemented by modification and optimization of the data structures for the tree automata. The original VATA library has been analysed to be able to determine
 which modules can be reused for a new extension and also to be able efficiently integrate this extension.
 
 To achieve the best performance for language inclusion checking are used the state-of-the-art algortihms, so-called antichains and so-called bisimulation
-up to congruence. The antichains algorithms is implemented in its default version and also optimized version which uses simulation of a finite automataon. 
-For bisimulation up to congruence is implemtend its general version (for checking equivalence of finite automata) and also 
+up to congruence. The antichains algorithms is implemented in its default version and also optimized version which uses simulation of a finite automaton. 
+The bisimulation up to congruence algorithm is implemtend its general version (for checking equivalence of finite automata) and also in
 version specialized to checking inclusion which brings better performance. The other improvement of this algorithm is realized by implementation optimization.
 
 For proving contribution of this work has been performaned evalution which compares the performance of our implementation of language

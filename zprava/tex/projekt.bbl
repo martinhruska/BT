@@ -61,6 +61,12 @@ Jesper~G. Henriksen, Ole~J.L. Jensen, Michael~E. Jorgensen, Nils Klarlund,
   analysis of systems, first international workshop (TACAS '95)}. Springer
   Verlag, 1995.
 
+\bibitem{ullman}
+John~E. Hopcroft, Rajeev Motwani, and Jeffrey~D. Ullman.
+\newblock {\em Automata Theory, Languages, and Computation}.
+\newblock Pearson, 3 edition, 2007.
+\newblock ISBN~0-321-47617-4.
+
 \bibitem{kanthakN04}
 Stephan Kanthak and Hermann Ney.
 \newblock {FSA: An Efficient and Flexible C++ Toolkit for Finite State Automata
@@ -73,6 +79,12 @@ Stephan Kanthak and Hermann Ney.
 \newblock {\tt
   http://www-i6.informatik.rwth-aachen.de/\verb|~|kanthak/fsa.html}, 2005 [cit.
   2013-01-19].
+
+\bibitem{kozen}
+Dexter Kozen.
+\newblock {\em Automata and Computability}.
+\newblock Springer, 1997.
+\newblock ISBN~0-387-94907-0.
 
 \bibitem{libvata}
 {Lengál, Ondřej and Šimáček, Jiří and Vojnar, Tomáš}.
