@@ -68,7 +68,7 @@
 \contentsline {chapter}{\numberline {7}Experimental Evaluation}{34}{chapter.7}
 \contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Bisimulation up to Congrunce}{34}{section.7.1}
 \contentsline {subsection}{\numberline {7.1.1}Comparsion with OCaml Implementation}{34}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}Comparsion with VATA Tree Automata Implementation}{35}{subsection.7.1.2}
-\contentsline {chapter}{\numberline {8}Conclusion}{37}{chapter.8}
-\contentsline {section}{\numberline {8.1}futher development}{37}{section.8.1}
-\contentsline {chapter}{\numberline {A}Storage Medium}{40}{appendix.A}
+\contentsline {subsection}{\numberline {7.1.2}Comparsion with VATA library Tree Automata Implementation}{35}{subsection.7.1.2}
+\contentsline {chapter}{\numberline {8}Conclusion}{38}{chapter.8}
+\contentsline {section}{\numberline {8.1}futher development}{38}{section.8.1}
+\contentsline {chapter}{\numberline {A}Storage Medium}{41}{appendix.A}
