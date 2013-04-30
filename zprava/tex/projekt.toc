@@ -70,5 +70,4 @@
 \contentsline {subsection}{\numberline {7.1.1}Comparsion with OCaml Implementation}{34}{subsection.7.1.1}
 \contentsline {subsection}{\numberline {7.1.2}Comparsion with VATA library Tree Automata Implementation}{35}{subsection.7.1.2}
 \contentsline {chapter}{\numberline {8}Conclusion}{38}{chapter.8}
-\contentsline {section}{\numberline {8.1}futher development}{38}{section.8.1}
 \contentsline {chapter}{\numberline {A}Storage Medium}{41}{appendix.A}

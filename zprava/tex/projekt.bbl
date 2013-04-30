@@ -14,6 +14,12 @@
   and Algorithms for the Construction and Analysis of Systems}}, TACAS'10,
   pages 158--174, Berlin, Heidelberg, 2010. Springer-Verlag.
 
+\bibitem{principles}
+Christel Baier and Joost-Pieter Katoen.
+\newblock {\em Principles of Model Checking}.
+\newblock The MIT Press, 2008.
+\newblock ISBN~978-0-262-02649-9.
+
 \bibitem{fare}
 Nikos Baxevanis.
 \newblock Fare.

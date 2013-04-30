@@ -2,7 +2,7 @@
 \label{introduction}
 A finite automaton (FA) is a model of computation with applications in different branches of computer science, e.g., compiler design, formal verification, 
 designing of digital circuits or natural language processing. In formal verification alone are its uses abundant, 
-for example in model checking of safety temporal properties, abstract regular model checking \cite{armc}, static analysis \cite{metal}, 
+for example in model checking of safety temporal properties \cite{principles}, abstract regular model checking \cite{armc}, static analysis \cite{metal}, 
 or decision procedures of some logics, such as Presburger arithmetic or weak 
 monadic second-order theory of one successor (WS1S) \cite{mona}.
 
@@ -1561,4 +1561,26 @@ of set of states that is neccessary to check to verify if language inclusion hol
 
 \chapter{Conclusion}
 \label{concl}
-\section{futher development}
+The main goal of this thesis is to create an extension of the VATA library for the nondeterministic finite automata 
+which are often used in the formal verificition (e.g., model checking of safety temporal properties or 
+abstract regular model checking) what is the branch of computer science on which is the library focused. The library is supporting
+basic operations like union, intersection, removing useless or unreachable states and etc., but the main aim of this work is to provide
+efficient implementation of algorithms for checking language inclusion of nondeterministic finite automata.
+
+The new extension of VATA library uses explicit encoding for represantation of the finite automata. The data structures for the encoding has been designed
+and implemented by modification and optimization of the data structures for the tree automata. The original VATA library has been analysed to be able to determine
+which modules can be reused for a new extension and also to be able efficiently integrate this extension.
+
+To achieve the best performance for language inclusion checking are used the state-of-the-art algortihms, so-called antichains and so-called bisimulation
+up to congruence. The antichains algorithms is implemented in its default version and also optimized version which uses simulation of a finite automataon. 
+For bisimulation up to congruence is implemtend its general version (for checking equivalence of finite automata) and also 
+version specialized to checking inclusion which brings better performance. The other improvement of this algorithm is realized by implementation optimization.
+
+For proving contribution of this work has been performaned evalution which compares the performance of our implementation of language
+inclusion checking (particulary the optimized algorithm based on bisimulation up to congruence) to the other implementations. 
+Our implementation beats the other tested implementation in over 90\% of the tested cases.
+
+The implementation of the antichains algorithm can be optimized by avoiding repeatition of some computation. For the bisimulation up to congruence
+algorithm is possible to implement version which will use simulation for pruning out some other states which are not necessary to use. The simulation can be
+fully integrated to the new extension and its algorithms to be able to use it with all its advantages. The full integration of the new extentsion could be done
+by application of it in the fields where is the original implementation used.
