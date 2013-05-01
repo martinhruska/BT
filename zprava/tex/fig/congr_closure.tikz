@@ -1,4 +1,4 @@
-\begin{tikzpicture}[scale=0.1]
+\begin{tikzpicture}[scale=0.12]
     \tikzstyle{every node}+=[inner sep=0pt]
     \draw (-20,0) node {\textit{\textcolor{Green}{$x+y$}}};
     \node (xy) at (-20,-2) {};  

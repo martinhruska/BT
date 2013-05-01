@@ -1,6 +1,6 @@
 \begin{tikzpicture}
 [
-  scale=0.4
+  scale=0.5
 ]
 
 \node (start) at(-1,1) {};

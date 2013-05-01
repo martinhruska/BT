@@ -1,6 +1,6 @@
 \begin{tikzpicture}
 [
-  scale=0.4
+  scale=0.5
 ]
 
 \draw (2,8.5)[fill=orange] circle (0.75);

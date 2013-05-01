@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  1 MAY 2013 18:04
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  1 MAY 2013 19:27
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1002,8 +1002,14 @@ File: hpdftex.def 2007/02/07 v6.75r Hyperref driver for pdfTeX
 Package: footnote 1997/01/28 1.13 Save footnotes around boxes
 \fn@notes=\box64
 \fn@width=\dimen168
+) (./projekt.aux
+
+LaTeX Warning: Label `pic_ex_nfa' multiply defined.
+
+
+LaTeX Warning: Label `figExplicitFADataStr' multiply defined.
+
 )
-No file projekt.aux.
 \openout1 = `projekt.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 130.
@@ -1023,7 +1029,7 @@ LaTeX Font Info:    ... okay on input line 130.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 130.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 130.
 
-(/usr/share/texmf/tex/latex/base/ts1cmr.fd
+ (/usr/share/texmf/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 130.
@@ -1045,13 +1051,14 @@ Package: refcount 2006/02/20 v3.0 Data extraction from references (HO)
 )
 LaTeX Info: Redefining \ref on input line 130.
 LaTeX Info: Redefining \pageref on input line 130.
+ (./projekt.out)
+(./projekt.out)
 \@outlinefile=\write4
 \openout4 = `projekt.out'.
 
 LaTeX Font Info:    Try loading font information for IL2+phv on input line 136.
 
-
-(/usr/share/texmf/tex/cslatex/base/il2phv.fd
+ (/usr/share/texmf/tex/cslatex/base/il2phv.fd
 File: il2phv.fd 1998/12/27 CS Helvetica
 LaTeX Font Info:     CS Helvetica on input line 2.
 LaTeX Font Info:    (C) Z. Wagner,1998/12/27 on input line 3.
@@ -1064,15 +1071,15 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@rtext=\box66
 \@vyskartext=\skip64
 \@vyskaobr=\skip65
- <fig/vut-zp2.pdf, id=32, 109.40875pt x 109.40875pt>
-File: fig/vut-zp2.pdf Graphic file (type pdf)
 
-<use fig/vut-zp2.pdf>
+<fig/vut-zp2.pdf, id=264, 109.40875pt x 109.40875pt>
+File: fig/vut-zp2.pdf Graphic file (type pdf)
+ <use fig/vut-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 136--136
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=33, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=265, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 136--136
@@ -1097,103 +1104,49 @@ LaTeX Font Warning: Font shape `IL2/cmr/m/n' in size <18> not available
 LaTeX Font Warning: Font shape `IL2/cmr/bx/n' in size <18> not available
 (Font)              size <17.28> substituted on input line 136.
 
-[4]
+[4] (./projekt.toc
+LaTeX Font Info:    Try loading font information for U+msa on input line 4.
+ (/usr/share/texmf/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 4.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+)pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.47 ...erline {5.5.1}Union}{25}{subsection.5.5.1}
+                                                   [1
+
+
+])
 \tf@toc=\write5
 \openout5 = `projekt.toc'.
 
  (./obsah.texpdfTeX warning (ext4): destination with the same identifier (name{
-page.1}) has been already used, duplicate ignored
+page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.1 \chapter
-            {Introduction} [1
-
-
-]
+            {Introduction} [2]
 Chapter 1.
-
-LaTeX Warning: Citation `principles' on page 2 undefined on input line 5.
-
-
-LaTeX Warning: Citation `armc' on page 2 undefined on input line 5.
-
-
-LaTeX Warning: Citation `metal' on page 2 undefined on input line 5.
-
-
-LaTeX Warning: Citation `mona' on page 2 undefined on input line 7.
-
-
-LaTeX Warning: Citation `cav06' on page 2 undefined on input line 14.
-
-
-LaTeX Warning: Citation `cav06' on page 2 undefined on input line 17.
-
-
-LaTeX Warning: Citation `tacas10' on page 2 undefined on input line 17.
-
-
-LaTeX Warning: Citation `popl13' on page 2 undefined on input line 17.
-
-
-LaTeX Warning: Citation `libvata' on page 2 undefined on input line 23.
-
-
-LaTeX Warning: Reference `teorie' on page 2 undefined on input line 30.
-
-
-LaTeX Warning: Reference `chapInclusion' on page 2 undefined on input line 31.
-
-
-LaTeX Warning: Reference `libraries' on page 2 undefined on input line 33.
-
-
-LaTeX Warning: Reference `design' on page 2 undefined on input line 35.
-
-
-LaTeX Warning: Reference `implementation' on page 2 undefined on input line 37.
-
-
-
-LaTeX Warning: Reference `eval' on page 2 undefined on input line 37.
-
-
-LaTeX Warning: Reference `concl' on page 2 undefined on input line 38.
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
+pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.39 
-      [2
+      [3
 
-]pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
+]pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.41 \chapter
-             {Preliminaries} [3]
+             {Preliminaries} [4]
 Chapter 2.
-
-LaTeX Warning: Citation `kozen' on page 4 undefined on input line 42.
-
-
-LaTeX Warning: Citation `ullman' on page 4 undefined on input line 42.
-
-LaTeX Font Info:    Try loading font information for U+msa on input line 47.
-(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2002/01/19 v2.2g AMS font definitions
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 47.
-
-(/usr/share/texmf/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2002/01/19 v2.2g AMS font definitions
-)pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
- been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.76 		\end{itemize}
-                     [4
+[5
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 136--140
@@ -1201,12 +1154,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 136--140
  []
 
 
-LaTeX Warning: Reference `pic_ex_dfa' on page 5 undefined on input line 147.
-
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5]
+[6]
 Overfull \hbox (2.34967pt too wide) in paragraph at lines 263--268
 \IL2/cmr/m/n/10.95 Now we will de-fine how to con-struct equiv-a-lent DFA $\OMS
 /cmsy/m/n/10.95 A[]$ \IL2/cmr/m/n/10.95 for a given NFA $\OMS/cmsy/m/n/10.95 A 
@@ -1220,113 +1170,35 @@ Underfull \hbox (badness 10000) in paragraph at lines 263--268
  []
 
 
-LaTeX Warning: Reference `pic_sub' on page 6 undefined on input line 275.
-
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7] [8]
+[7] [8] [9]
 Chapter 3.
-
-LaTeX Warning: Citation `cav06' on page 9 undefined on input line 442.
-
-
-LaTeX Warning: Reference `subset' on page 9 undefined on input line 444.
-
-
-LaTeX Warning: Citation `cav06' on page 9 undefined on input line 449.
-
-
-LaTeX Warning: Citation `tacas10' on page 9 undefined on input line 449.
-
-
-LaTeX Warning: Citation `popl13' on page 9 undefined on input line 450.
-
-
-LaTeX Warning: Citation `focs95' on page 9 undefined on input line 467.
-
-
-LaTeX Warning: Citation `cav06' on page 9 undefined on input line 478.
-
-[9
+[10
 
 ]
-
-LaTeX Warning: Citation `tacas10' on page 10 undefined on input line 486.
-
-
-LaTeX Warning: Reference `algAntichain' on page 10 undefined on input line 490.
-
-
-
-LaTeX Warning: Citation `tacas10' on page 10 undefined on input line 492.
-
-
-LaTeX Warning: Reference `algAntichain' on page 10 undefined on input line 496.
-
-
-
-LaTeX Warning: Reference `algAntichain' on page 10 undefined on input line 498.
-
-
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 506.
 
-(/usr/share/texmf/tex/latex/base/omscmr.fd
+ (/usr/share/texmf/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 506.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 508.
-
-
-LaTeX Warning: Citation `popl13' on page 10 undefined on input line 548.
-
-[10]
-
-LaTeX Warning: Reference `algCongr' on page 11 undefined on input line 588.
-
-
-LaTeX Warning: Reference `automata' on page 11 undefined on input line 615.
-
-
+ [11]
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
 ion <1.5>, but at most version <1.4> allowed
-<fig/congr1.pdf, id=147, 244.112pt x 274.626pt>
+<fig/congr1.pdf, id=471, 244.112pt x 274.626pt>
 File: fig/congr1.pdf Graphic file (type pdf)
  <use fig/congr1.pdf>
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: found PDF version
  <1.5>, but at most version <1.4> allowed
-<fig/ac1.pdf, id=148, 552.46402pt x 232.87pt>
+<fig/ac1.pdf, id=472, 552.46402pt x 232.87pt>
 File: fig/ac1.pdf Graphic file (type pdf)
- <use fig/ac1.pdf>
-
-LaTeX Warning: Citation `tacas10' on page 11 undefined on input line 634.
-
-
-LaTeX Warning: Citation `tacas10' on page 11 undefined on input line 634.
-
-
-LaTeX Warning: Citation `popl13' on page 11 undefined on input line 645.
-
-[11]
-
-LaTeX Warning: Citation `popl13' on page 12 undefined on input line 650.
-
-
-LaTeX Warning: Citation `popl13' on page 12 undefined on input line 654.
-
-
-LaTeX Warning: Citation `popl13' on page 12 undefined on input line 656.
-
-
-LaTeX Warning: Reference `figHKCex' on page 12 undefined on input line 658.
-
-
-LaTeX Warning: Reference `figHKCRew' on page 12 undefined on input line 662.
-
+ <use fig/ac1.pdf> [12]
 (./fig/aut_hkcA.tikz
 LaTeX Font Info:    Try loading font information for IL2+cmss on input line 31.
 
@@ -1335,43 +1207,13 @@ File: il2cmss.fd 1997/02/13 CsLaTeX font definitions
 ))
 (./fig/aut_hkcB.tikz)
 
-LaTeX Warning: Reference `figHKCRew' on page 12 undefined on input line 672.
-
-
-LaTeX Warning: Reference `figHKCRew' on page 12 undefined on input line 672.
-
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 (./fig/congr_closure.tikz)
 
-LaTeX Warning: Citation `popl13' on page 12 undefined on input line 685.
-
-
-LaTeX Warning: Citation `popl13' on page 12 undefined on input line 685.
-
-
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-LaTeX Warning: Citation `popl13' on page 12 undefined on input line 692.
-
-
-! LaTeX Error: \mathcal allowed only in math mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.701 states of \mathcal
-                        {B} are allready in macrostate $X$ it is useful to u...
-
-? q
-OK, entering \batchmode...
-
-LaTeX Warning: Citation `popl13' on page 12 undefined on input line 701.
-
- [12 <./fig/congr1.pdf
+[13 <./fig/congr1.pdf
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: Page Group det
 ected which pdfTeX can't handle. Ignoring it.
@@ -1379,196 +1221,42 @@ ected which pdfTeX can't handle. Ignoring it.
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: Page Group detect
 ed which pdfTeX can't handle. Ignoring it.
->]
-
-LaTeX Warning: Citation `popl13' on page 13 undefined on input line 706.
-
-
-LaTeX Warning: Reference `figHKCex' on page 13 undefined on input line 709.
-
-
-LaTeX Warning: Reference `digHKCRewO' on page 13 undefined on input line 710.
-
- (./fig/congr_closure_opt.tikz)
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
- [13] [14]
+>] [14] (./fig/congr_closure_opt.tikz) [15]
 Chapter 4.
-
-LaTeX Warning: Citation `brics' on page 15 undefined on input line 741.
-
-
-LaTeX Warning: Citation `cav06' on page 15 undefined on input line 748.
-
-
-LaTeX Warning: Citation `tacas10' on page 15 undefined on input line 748.
-
-
-LaTeX Warning: Citation `libfa' on page 15 undefined on input line 756.
-
-
-LaTeX Warning: Citation `fare' on page 15 undefined on input line 764.
-
- [15
+[16
 
 ]
-
-LaTeX Warning: Citation `kanthakN04' on page 16 undefined on input line 767.
-
-
-LaTeX Warning: Citation `rwth' on page 16 undefined on input line 769.
-
-
-LaTeX Warning: Reference `chapInclusion' on page 16 undefined on input line 783
-.
-
-
-LaTeX Warning: Citation `cav06' on page 16 undefined on input line 786.
-
-
-LaTeX Warning: Citation `taca10' on page 16 undefined on input line 786.
-
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 812
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 813
 .
  (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
-)
-
-LaTeX Warning: Citation `libvata' on page 16 undefined on input line 812.
-
- [16]
-
-LaTeX Warning: Reference `picVataDesign' on page 17 undefined on input line 825
-.
-
-
-LaTeX Warning: Reference `picVataDesign' on page 17 undefined on input line 835
-.
-
-
-LaTeX Warning: Citation `libvata' on page 17 undefined on input line 836.
-
- (./fig/tacas12/lib_design.tikz)
-
-LaTeX Warning: Citation `libvata' on page 17 undefined on input line 843.
-
-
-LaTeX Warning: Citation `libvata' on page 17 undefined on input line 855.
-
-
-LaTeX Warning: Reference `figExplicitTreeDataStr' on page 17 undefined on input
- line 855.
-
- [17] (./fig/tacas12/explicit.tikz)
-
-LaTeX Warning: Citation `libvata' on page 18 undefined on input line 868.
-
-
-LaTeX Warning: Citation `libvata' on page 18 undefined on input line 878.
-
- [18]
-
-LaTeX Warning: Citation `cav06' on page 19 undefined on input line 889.
-
-
-LaTeX Warning: Citation `tacas10' on page 19 undefined on input line 889.
-
-
-LaTeX Warning: Reference `sectionExplicitEnc' on page 19 undefined on input lin
-e 894.
-
-
-LaTeX Warning: Citation `libvata' on page 19 undefined on input line 898.
-
-
-LaTeX Warning: Citation `libvata' on page 19 undefined on input line 901.
-
-
-LaTeX Warning: Reference `tabOp' on page 19 undefined on input line 904.
-
- [19] [20]
+) [17]
+(./fig/tacas12/lib_design.tikz) [18] (./fig/tacas12/explicit.tikz) [19]
+[20] [21]
 Chapter 5.
 
-Overfull \hbox (4.84106pt too wide) in paragraph at lines 948--948
+Overfull \hbox (4.84106pt too wide) in paragraph at lines 949--949
 []\IL2/cmr/bx/n/14.4 Data Struc-tures for Ex-plicit En-cod-ing of Fi-nite Au-to
 mata 
  []
 
+[22
 
-LaTeX Warning: Reference `defNFA' on page 21 undefined on input line 953.
-
-
-LaTeX Warning: Reference `sectionExplicitEnc' on page 21 undefined on input lin
-e 963.
-
-
-LaTeX Warning: Reference `figExplicitTreeDataStr' on page 21 undefined on input
- line 964.
-
-
-LaTeX Warning: Citation `libvata' on page 21 undefined on input line 964.
-
-
-LaTeX Warning: Reference `figExplicitFADataStr' on page 21 undefined on input l
-ine 970.
-
-
-LaTeX Warning: Reference `figExplicitFADataStr' on page 21 undefined on input l
-ine 977.
-
-
-LaTeX Warning: Reference `figExplicitTreeDataStr' on page 21 undefined on input
- line 977.
-
- [21
-
-]
-
-LaTeX Warning: Reference `figExplicitFADataStr' on page 22 undefined on input l
-ine 995.
-
- (./fig/explicit_fa.tikz)
+] (./fig/explicit_fa.tikz)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-LaTeX Warning: Reference `analysis' on page 22 undefined on input line 1015.
-
-
-LaTeX Warning: Reference `figExplicitFADataStr' on page 22 undefined on input l
-ine 1023.
-
- [22] (./fig/translator.tikz)
-
-LaTeX Warning: Citation `timbuk' on page 23 undefined on input line 1048.
-
- [23]
+[23] (./fig/translator.tikz) [24]
 LaTeX Font Info:    Font shape `IL2/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1063.
+(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1064.
 
-
-LaTeX Warning: Reference `sectionTranslate' on page 24 undefined on input line 
-1088.
-
- [24]
-
-LaTeX Warning: Reference `defAInter' on page 25 undefined on input line 1105.
-
-
-LaTeX Warning: Reference `algIntersection' on page 25 undefined on input line 1
-109.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1111--1115
+ [25]
+Underfull \hbox (badness 10000) in paragraph at lines 1112--1116
 
  []
 
 
-LaTeX Warning: Reference `algRev' on page 25 undefined on input line 1153.
-
-
-Overfull \hbox (22.21315pt too wide) in paragraph at lines 1148--1155
+Overfull \hbox (22.21315pt too wide) in paragraph at lines 1149--1156
 \IL2/cmr/m/n/10.95 The re-ver-sion of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/
 n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is an NFA $\OMS/cmsy/m
@@ -1577,174 +1265,81 @@ n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1148--1155
+Underfull \hbox (badness 10000) in paragraph at lines 1149--1156
 
  []
 
- [25]
-
-LaTeX Warning: Reference `defRun' on page 26 undefined on input line 1174.
-
-
-LaTeX Warning: Reference `algRemove' on page 26 undefined on input line 1174.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1176--1184
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 1177--1185
 
  []
 
-
-LaTeX Warning: Reference `defRun' on page 26 undefined on input line 1216.
-
- [26]
-
-LaTeX Warning: Reference `algCandidate' on page 27 undefined on input line 1226
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1226--1233
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 1227--1234
 
  []
 
- [27]
+[28]
 Chapter 6.
 
-LaTeX Warning: Reference `design' on page 28 undefined on input line 1274.
+LaTeX Warning: Reference `usageTimbuk' on page 29 undefined on input line 1286.
 
 
-LaTeX Warning: Reference `sectionTranslate' on page 28 undefined on input line 
-1276.
+[29
 
-
-LaTeX Warning: Reference `usageTimbuk' on page 28 undefined on input line 1285.
-
-
- [28
-
-]
-
-LaTeX Warning: Reference `sectionAntichain' on page 29 undefined on input line 
-1304.
-
-
-LaTeX Warning: Reference `sectionAntichain' on page 29 undefined on input line 
-1311.
-
-
-LaTeX Warning: Reference `sectionCongr' on page 29 undefined on input line 1311
-.
-
-
-LaTeX Warning: Reference `figMacroCache' on page 29 undefined on input line 133
-0.
-
- (./fig/macrostate_cache.tikz)
+] (./fig/macrostate_cache.tikz)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+[30]
 
-LaTeX Warning: Reference `sectionAntichain' on page 29 undefined on input line 
-1341.
+LaTeX Warning: Reference `example' on page 31 undefined on input line 1348.
 
- [29]
-
-LaTeX Warning: Reference `example' on page 30 undefined on input line 1347.
-
-
-LaTeX Warning: Reference `sectionCongr' on page 30 undefined on input line 1362
-.
-
-
-LaTeX Warning: Reference `subsectionCongr' on page 30 undefined on input line 1
-364.
-
-
-LaTeX Warning: Reference `congrOpt' on page 30 undefined on input line 1364.
-
- [30]
-
-LaTeX Warning: Citation `taocp' on page 31 undefined on input line 1372.
-
-
-LaTeX Warning: Citation `taocp' on page 31 undefined on input line 1372.
-
-
-LaTeX Warning: Reference `subsectionCongr' on page 31 undefined on input line 1
-400.
-
- [31]
-
-LaTeX Warning: Reference `congrOpt' on page 32 undefined on input line 1420.
-
- [32]
+[31] [32] [33]
 Chapter 7.
 
-LaTeX Warning: Reference `sectionCongrImpl' on page 33 undefined on input line 
-1452.
-
-
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1465--1467
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1466--1468
 []\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
 un with breadth-first search (which
  []
 
+[34
 
-LaTeX Warning: Reference `figGraphOCaml' on page 33 undefined on input line 146
-8.
-
-
-LaTeX Warning: Reference `tabOcaml' on page 33 undefined on input line 1470.
-
- [33
-
-] <fig/plot_hkc_zprava.png, id=433, 642.4pt x 481.8pt>
+] <fig/plot_hkc_zprava.png, id=803, 642.4pt x 481.8pt>
 File: fig/plot_hkc_zprava.png Graphic file (type png)
- <use fig/plot_hkc_zprava.png>
-<fig/plot_hkc_step_zprava.png, id=434, 642.4pt x 481.8pt>
+
+<use fig/plot_hkc_zprava.png>
+<fig/plot_hkc_step_zprava.png, id=804, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
- <use fig/plot_hkc_step_zprava.png>
 
-LaTeX Warning: Reference `figGraphOCaml' on page 34 undefined on input line 150
-0.
-
-
-LaTeX Warning: Reference `figPlotAc' on page 34 undefined on input line 1512.
-
-
-LaTeX Warning: Reference `figPlotCa' on page 34 undefined on input line 1512.
-
-
-LaTeX Warning: Reference `tabAc' on page 34 undefined on input line 1513.
-
- <fig/plot_ac_zprava.png, id=435, 642.4pt x 481.8pt>
+<use fig/plot_hkc_step_zprava.png>
+<fig/plot_ac_zprava.png, id=809, 642.4pt x 481.8pt>
 File: fig/plot_ac_zprava.png Graphic file (type png)
- <use fig/plot_ac_zprava.png>
-<fig/plot_ac_step_zprava.png, id=436, 642.4pt x 481.8pt>
+
+<use fig/plot_ac_zprava.png>
+<fig/plot_ac_step_zprava.png, id=810, 642.4pt x 481.8pt>
 File: fig/plot_ac_step_zprava.png Graphic file (type png)
- <use fig/plot_ac_step_zprava.png>
 
-LaTeX Warning: Reference `figPlotAc' on page 34 undefined on input line 1554.
-
-
-LaTeX Warning: Reference `figPlotCa' on page 34 undefined on input line 1554.
-
- [34 <./fig/plot_hkc_zprava.png (PNG copy)> <./fig/plot_hkc_step_zprava.png (PN
-G copy)>] [35 <./fig/plot_ac_zprava.png (PNG copy)> <./fig/plot_ac_step_zprava.
-png (PNG copy)>] <fig/plot_ca_zprava.png, id=454, 642.4pt x 481.8pt>
+<use fig/plot_ac_step_zprava.png> [35 <./fig/plot_hkc_zprava.png (PNG copy)> <.
+/fig/plot_hkc_step_zprava.png (PNG copy)>] [36 <./fig/plot_ac_zprava.png (PNG c
+opy)> <./fig/plot_ac_step_zprava.png (PNG copy)>]
+<fig/plot_ca_zprava.png, id=829, 642.4pt x 481.8pt>
 File: fig/plot_ca_zprava.png Graphic file (type png)
- <use fig/plot_ca_zprava.png>
-<fig/plot_ca_step_zprava.png, id=455, 642.4pt x 481.8pt>
-File: fig/plot_ca_step_zprava.png Graphic file (type png)
- <use fig/plot_ca_step_zprava.png> [36 <./fig/plot_ca_zprava.png (PNG copy)> <.
-/fig/plot_ca_step_zprava.png (PNG copy)>]
-Chapter 8.
-)
-No file projekt.bbl.
- (./prilohy.tex [37
 
-]
+<use fig/plot_ca_zprava.png>
+<fig/plot_ca_step_zprava.png, id=830, 642.4pt x 481.8pt>
+File: fig/plot_ca_step_zprava.png Graphic file (type png)
+
+<use fig/plot_ca_step_zprava.png> [37 <./fig/plot_ca_zprava.png (PNG copy)> <./
+fig/plot_ca_step_zprava.png (PNG copy)>]
+Chapter 8.
+) (./projekt.bbl [38
+
+] [39
+
+]) (./prilohy.tex [40]
 Appendix A.
-) [38
+) [41
 
 ] (./projekt.aux)
 
@@ -1755,17 +1350,17 @@ LaTeX Font Warning: Size substitutions with differences
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 18721 strings out of 256216
- 335622 string characters out of 1917072
- 443442 words of memory out of 1500000
- 21343 multiletter control sequences out of 10000+200000
+ 18812 strings out of 256216
+ 336866 string characters out of 1917072
+ 448907 words of memory out of 1500000
+ 21402 multiletter control sequences out of 10000+200000
  29657 words of font info for 82 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 49i,24n,73p,965b,934s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 49i,24n,73p,965b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
  </home/martin/.texlive2007/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.60
 0pk>{/usr/share/texmf/fonts/enc/dvips/base/8a.enc}</usr/share/texmf/fonts/type1
 /bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></us
@@ -1783,9 +1378,9 @@ cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/tex
 mf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cst
 t9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/f
 onts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (42 pages, 523878 bytes).
+Output written on projekt.pdf (45 pages, 592658 bytes).
 PDF statistics:
- 600 PDF objects out of 1000 (max. 8388607)
- 219 named destinations out of 1000 (max. 131072)
- 175 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 988 PDF objects out of 1000 (max. 8388607)
+ 241 named destinations out of 1000 (max. 131072)
+ 639 words of extra memory for PDF output out of 10000 (max. 10000000)
 

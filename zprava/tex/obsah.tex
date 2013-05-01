@@ -34,7 +34,7 @@ The list of the existing libraries for finite automata manipulation is given in 
 can be found description of the VATA library. 
 The design of the new module of the VATA library and algorithms used in it are described in the chapter \ref{design}. 
 The implementation optimization of the algorithms for language inclusion checking and the others implementation's issues will take a place
-in chapter \ref{implementation}. The evaluation of the optimized algorithms for the inclusion checking is in chapter \ref{eval}. The summarization of the whole
+in chapter \ref{implementation}. The evaluation of the optimized algorithms for the inclusion checking is in chapter \ref{eval}. The summarizing of the whole
 thesis is given in the last chapter \ref{concl}.
 
 
@@ -579,7 +579,7 @@ it starts building not only $\mathcal{B}_{det}$ but also $\mathcal{A}_{det}$ bec
 product automaton $\mathcal{A}_{det} \times \mathcal{B}_{det}$ which states (so-called product states) are the pairs 
 $(P_\mathcal{A},P_\mathcal{B})$ of macrostate $P_\mathcal{A} \subseteq Q_\mathcal{A}$ and macrostate
 $P_\mathcal{B} \subseteq Q_\mathcal{B}$. 
-The algorithm searchs for a victim that proves $L_\mathcal{A} \neq L_\mathcal{B}$. The victim is a product state $(P_\mathcal{A},P_\mathcal{B})$ 
+The algorithm searches for a victim that proves $L_\mathcal{A} \neq L_\mathcal{B}$. The victim is a product state $(P_\mathcal{A},P_\mathcal{B})$ 
 which breaks a condition that
 the $P_\mathcal{A}$ contains a final state of $Q_\mathcal{A}$ if and only if $P_\mathcal{B}$ contains a final state of $Q_\mathcal{B}$. 
 
@@ -697,8 +697,8 @@ Since the algorithm based on bisimulation up to congruence is primarily used for
 checking inclusion. An optimization is possible also in checking whether macrostate $(X,Y)$ is in congruence closure of a relation $R$ of the visited
 product states. The optimization
 is based on the fact that when one checks inclusion between NFA $\mathcal{A}$ and $\mathcal{B}$ it is done by checking if $\mathcal{A}\cup\mathcal{B}=
-\mathcal{B}$ so in all macrostates $(X,Y)$ is $X$ set of states of NFA $\mathcal{A}\cup\mathcal{B}$ and $Y$ set of states of NFA $\mathcal{B}$. Since the
-states of \mathcal{B} are allready in macrostate $X$ it is useful to use the rewriting rules only in following form \cite{popl13}:
+\mathcal{B}$ so in all product states $(X,Y)$ is $X$ set of states of NFA $\mathcal{A}\cup\mathcal{B}$ and $Y$ set of states of NFA $\mathcal{B}$. Since the
+states of $\mathcal{B}$ are already in macrostate $X$ it is useful to use the rewriting rules only in following form \cite{popl13}:
 \begin{center}
 $Y\rightarrow X\cup Y$
 \end{center}
@@ -706,16 +706,16 @@ During checking inclusion of two NFA is not also necessary to achieve $X{\downar
 but just $X \subseteq Y{\downarrow_R}$ to prove that $(X\cup Y,Y)\in c(R)$ \cite{popl13}.
 
 As an example is given computation of congruence closure during checking inclusion between NFA $\mathcal{A}$ and $\mathcal{B}$ (both are on the figure 
-\ref{figHKCex}). Let have a relation of visited macrostates $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$ and newly generated macrostate $(\{x,y,u\},\{u\})$. The
-derivation of the normal form the set $\{u\}$ is shown on the figure \ref{digHKCRewO}. The result of this derivation is a set $\{x,y,z,u\}$ and
-the set $\{x,y,u\}$ is subset of the derived set so it holds that $(\{x,y,u\},\{u\})\in c(R)$.
+\ref{figHKCex}). Let have a relation of visited product states $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$ and newly generated product state $(\{x,y,u\},\{u\})$. The
+derivation of the normal form of the set $\{u\}$ is shown on the figure \ref{figHKCRewO}. The result of this derivation is a set $\{x,y,z,u\}$ and because
+the set $\{x,y,u\}$ is subset of the derived set it holds that $(\{x,y,u\},\{u\})\in c(R)$.
 
 \begin{figure}[h]
   \begin{center}
     \input{fig/congr_closure_opt.tikz}
-    \label{figHKCRew}
-    \caption{The figure shows the deriving of the normal forms of the sets $\{x,y,u\}$ and $\{u\}$ using rewriting
-      rules of the macro states of a relation $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$. The normal form of the set $\{u\}$
+    \label{figHKCRewO}
+    \caption{The figure shows the deriving of the normal form the set $\{u\}$ using rewriting
+      rules of the elements of a relation $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$. The normal form of the set $\{u\}$
       is derived in two steps, first is applied rule $\{u\}\rightarrow\{x,u\}$ (based on $(\{x,u\},\{u\})\in R$) so we get a set $\{x,u\}$ and then is used rule 
       $\{u\}\rightarrow\{y,z,u\}$ (based on $(\{y,z,u\},u)$) so the derived normal form is set $(\{x,y,z,u\})$. 
       It holds that $\{x,y,u\}\subseteq \{x,y,z,u\}$ so $(\{x,y,u\},u)$ is in the congruence closure of $R$.}
@@ -729,7 +729,8 @@ are implemented in different languages.
 At this chapter, some libraries will be described. Described libraries are just examples which represents typical disadvantages of existing libraries like
 classical approach for language inclusion testing which needs determinisation of finite automaton. 
 
-As the second VATA library for manipulating of \emph{tree} automata will be introduced. It will be briefly describe library design, operations for tree
+At the second part of this chapter 
+VATA library for manipulating of \emph{tree} automata will be introduced. It will be briefly described library design, operations for tree
 automata and plans for extension of VATA library.
 
 \section{Existing Finite Automata Libraries}
@@ -740,7 +741,7 @@ automata and plans for extension of VATA library.
 was released on September 7th, 2011.
 Library can be downloaded and more information are on \cite{brics}. 
 
-Library can use as input regular expression created by the Java \emph{RegExp} class.
+Library can use as input regular expression created by the Java \emph{RegEx} class.
 It supports manipulation with NFA and DFA. Basic operation like union,
 intersection, complementation or run of automaton on the given word etc., are available.
 
@@ -756,7 +757,7 @@ Regular expressions could serve like input again.
 libfa can be found and downloaded on \cite{libfa}.
 libfa has no explicit operation for inclusion checking, but has the operations for intersection and complement of automata
 which can serve for the inclusion checking.
-Main disadvantage of libfa is again need of determinisation.
+Main disadvantage of libfa is again the need of the explicit determinisation during inclusion checking.
 
 \subsubsection{Fare}
 \emph{Fare} is a library, which brings dk.brics.automaton from Java to .NET. 
@@ -769,13 +770,13 @@ The latest version is 0.9.4 from year 2005. The toolkit is written in C++
 and available under its special license, derived from Q Public License v1.0 and the Qt Non-Commercial License v1.0. Library can be downloaded from \cite{rwth}. 
 
 The RWHT FSA does not support only the classical finite automata, but also automata with weighted transitions so the toolkit has wider range of application.
-The toolkit implements some techniques for better computation efficiency. E.g., it supports on-demand computation technique 
+The toolkit implements some techniques for better computation efficiency. E.g., it supports on-demand computation technique for operations over finite automata 
 so not all computations are evaluated immediately but some are not computed until their results are really
 needed. Usage of this technique leads to better memory efficiency. 
 
 The RWHT FSA toolkit does not support language inclusion checking explicitly, but contains operations for intersection, complement and
-determinisation which can be exploited for testing inclusion. This causes that the problem of a state explosion during 
-the explicit determinization of an automaton is still here. 
+determinisation which can be exploited for testing inclusion. This brings again the disadvantage of a state explosion during 
+the explicit determinization. 
 
 \subsection{Implementation of New Efficient Algorithms}
 There have been recently introduced some new efficient algorithms for inclusion checking 
@@ -783,11 +784,11 @@ which are dealing with problem of a state explosion because they avoid the expli
 algorithms have been described in section \ref{chapInclusion}.
 All of the mentioned state-of-the-art algorithms were implemented in OCaml language for testing and evaluation purposes.
 
-The algorithms using the antichains are possible to use not only for finite automata but also for tree automata(\cite{cav06,taca10}). 
+The algorithms using the antichains are possible to use not only for finite automata but also for tree automata(\cite{cav06,tacas10}). 
 The algorithms for tree automata are provided by the VATA library which is implemented in C++ what brings the greater efficiency compared to OCaml implementation. 
 A description of this library will be placed in next section.
 Despite the fact that a C++ implementation could be more efficient then OCaml  implementation, there is currently 
-no library or toolkit simile to VATA library providing these algorithms for language inclusion checking over NFA.
+no library or toolkit similar to VATA library providing efficient implementation of these algorithms for language inclusion checking over NFA.
 
 
 \begin{comment}
@@ -806,15 +807,13 @@ Because of these reasons, algorithms for finite automata manipulation will be im
 \section{VATA library}
 \label{VATA}
 \subsection{General}
-VATA is a highly efficient open source library for manipulating \emph{non deterministic tree} automata licensed under GPL, version 3. 
-Main application of VATA is in formal verification.
-VATA library is implemented in C++ and uses the Boost C++ library. Download of library can be found on its website 
-\footnote{\url{http://www.fit.vutbr.cz/research/groups/verifit/tools/libvata/}} \cite{libvata}.  
+VATA is a highly efficient open source library for \emph{nondeterministic tree} automata licensed under GPL, version 3. 
+Main application of VATA is formal verification \cite{libvata}.
+VATA library is implemented in C++ and uses the Boost C++ library. The library can be downloaded from its website 
+\footnote{\url{http://www.fit.vutbr.cz/research/groups/verifit/tools/libvata/}}.  
 
-Purposes of VATA library are similar as purposes of this work and because VATA also provides basic infrastructure for 
-parsing, serializing and writing finite automata from an input format, 
-it was decided not to create a brand new library, but makes extension of VATA.
-for finite automata.
+The purposes of VATA library are similar as purposes of this work and because VATA is written in modular way it is easy to extend it by another module so it
+was it was decided not to create a brand new library, but implement a new extension of VATA for finite automata.
 
 \subsection{Design}
 \label{sectionDesignVata}
@@ -824,15 +823,16 @@ in data structure for storing transition of tree automata. Semi-symbolic encodin
 
 The main idea of the design of VATA library is show on the image \ref{picVataDesign} and here is also brief description of it. 
 The input automata are processed by one of the parsers (currently
-here is only Timbuk format parser implemented). A result of parsing is a data structure with the information about automaton (it keeps the list
-of transition of given automaton, its final states etc.). The main program choose one of the internal encodings of the automata. These encodings
-contain a definition of a data structure for a representation of automaton and functions which create transform the automaton from the data structure
-created by parser to the data structure of chosen encoding. Each encoding also provide
+is implemented only Timbuk format parser). A result of parsing is a data structure with the information about automaton (the data structure stores a list
+of transitions of a given automaton, its final states etc.). The main program choose one of the internal encodings of the automata. The encodings
+differs by a data structure they use for a representation of automaton. Each encoding also provides the functions for transformation of the automaton 
+from the data structure given by parser to the data structure used by chosen encoding. The encodings also implements
 an implementation of the operations over automata. 
-Finally, once all needed operations over the input automata are processed, the result automaton can be dump to a output text format using one of the serializers 
-(currently there is implemented only the Timbuk format serializer too).
+When the automaton is processed it is often dumped to output format. 
+This is done by one of the serializers (currently there is implemented only the Timbuk format serializer too) 
+which takes as input the same data structure which uses parser.
 
-As you can see on the figure \ref{picVataDesign},  the VATA library is written in a modular way, so it is easy to make an extension for finite automata. 
+As you can see on the figure \ref{picVataDesign}, the VATA library is written in a modular way, so it is easy to make an extension for finite automata. 
 Thanks to the modularity, any new encoding can share other parts of library such as parser or serializer \cite{libvata}. 
 The VATA library also provides a command line interface which is shared by different encodings.
 
@@ -847,11 +847,12 @@ The VATA library also provides a command line interface which is shared by diffe
 %%TODO: Vic se rozkecat o kodovanich
 \subsubsection{Explicit Encoding}
 \label{sectionExplicitEnc}
-For storing explicit encoding top-down transitions (transitions are in form $q \xrightarrow{a} (q_1,...,q_n)$) 
-is used \emph{hierarchical data structure based on hash tables}. First level of look-up
-table maps the states to \emph{transition cluster}. This clusters are also look-up table and maps symbols of input alphabet
-to the set of pointers (stored as \emph{red-black tree}) to tuples of states. Storing tuples of states is of course very memory demanding, so special
-designed hash table was used for storing them. Inserting new transition to this structure requires a constant number of steps (exception is worst case scenario)
+The explicit encoding supports storing the transitions in top-down direction (transitions are in form $q \xrightarrow{a} (q_1,...,q_n)$). The transitions
+are stored in a \emph{hierarchical data structure based on hash tables}. First level of the data structure is hash table
+that maps the states to \emph{transition cluster}. This clusters are also look-up tables and maps symbols of an input alphabet
+to a set of pointers (stored as \emph{red-black tree}) to tuples of states. Storing tuples of states can be very memory demanding, so each tuple is stored
+only once and is pointed by different transitions. 
+Inserting new transition to this structure requires a constant number of steps (exception is the worst case scenario)
 \cite{libvata}. This data structure can be seen on figure \ref{figExplicitTreeDataStr}.
 
 \begin{figure}[h]
@@ -860,7 +861,7 @@ designed hash table was used for storing them. Inserting new transition to this 
 		\label{figExplicitTreeDataStr}
     \caption{The data structure for storing transitions of the tree automaton. There is a hash table (top-level look-up table) 
       which map a state to the pointer to another hash table (transition cluster). Transition cluster
-      maps a symbols of input alphabet to the pointer to the set of pointers to the tuples.}
+      maps a symbols of input alphabet to the pointer to the set of pointers to the tuples of states.}
 \end{center}
 \end{figure}
 
@@ -933,7 +934,7 @@ which can be represented like one dimensional
 tree automata. But the VATA library data structures for manipulating tree automata are designated for more complex data structures
 and new special implementation for finite
 automata will be definitely more efficient. Not only inclusion checking algorithm will be implemented but also the algorithms for basic operations like
-union, intersection, removing unreachable or useless states etc.
+union, intersection, removing unreachable or useless states.
 This new extension will use the explicit encoding for representing an automaton. 
 The extension will use some already implemented features of VATA like parsing and serializing
 the input automata or computation of simulation over states of an automaton.
@@ -1340,7 +1341,7 @@ list of macrostate which has the same state's sum. The macrostate can be seen on
 The implementation of the algorithm for checking language inclusion of NFA using antichains has been implemented by algorithm described in section 
 \ref{sectionAntichain}.  There were used existing data structures for representing antichains (classes \emph{Antichain2Cv2} and \emph{Antichain1c}). 
 
-The improvement of the antichain algorithm by simulation is provided. This is done by parameterizing class for checking inclusion, where one of the given 
+The improvement of the antichain algorithm by simulation is provided. This is done by parameterization of class for checking inclusion, where one of the given 
 parameters is a relation which is simulation or identity (default).
 
 No further optimization for antichain algorithm are used so it is not as efficient as the algorithm based on bisimulation up to congruence and not even as the 
@@ -1573,24 +1574,26 @@ of set of states that is necessary to check to verify if language inclusion hold
 \label{concl}
 The main goal of this thesis is to create an extension of the VATA library for the nondeterministic finite automata 
 which are often used in the formal verification (e.g., model checking of safety temporal properties or 
-abstract regular model checking) what is the branch of computer science on which is the library focused. The library is supporting
+abstract regular model checking) what is the branch of computer science which is the library focused on. The extension of the library is supporting
 basic operations like union, intersection, removing useless or unreachable states and etc., but the main aim of this work is to provide
 efficient implementation of the algorithms for checking language inclusion of nondeterministic finite automata.
 
-The new extension of VATA library uses explicit encoding for representation of the finite automata. The data structures for the encoding has been designed
+The new extension of VATA library uses the explicit encoding for representation of the finite automata. 
+The data structures for the explicit encoding has been designed
 and implemented by modification and optimization of the data structures for the tree automata. The original VATA library has been analyzed to be able to determine
-which modules can be reused for a new extension and also to be able efficiently integrate this extension.
+which modules can be reused for a new extension and also to be able efficiently integrate the new extension.
 
-To achieve the best performance for language inclusion checking are used the state-of-the-art algorithms, so-called antichains and so-called bisimulation
+To achieve the best performance for language inclusion checking are used the state-of-the-art algorithms, based on so-called antichains and so-called bisimulation
 up to congruence. The antichains algorithms is implemented in its default version and also optimized version which uses simulation of a finite automaton. 
-The bisimulation up to congruence algorithm is implemented its general version (for checking equivalence of finite automata) and also in
-version specialized to checking inclusion which brings better performance. The other improvement of this algorithm is realized by implementation optimization.
+The bisimulation up to congruence algorithm is implemented in its general version (for checking equivalence of finite automata) and also in
+version specialized to checking inclusion what brings better performance. The other improvement of this algorithm is realized by implementation's optimization.
 
 For proving contribution of this work has been performed evaluation which compares the performance of our implementation of language
 inclusion checking (particular the optimized algorithm based on bisimulation up to congruence) to the other implementations. 
 Our implementation beats the other tested implementation in over 90\% of the tested cases.
 
-The implementation of the antichains algorithm can be optimized by avoiding repetition of some computation. For the bisimulation up to congruence
-algorithm is possible to implement version which will use simulation for pruning out some other states which are not necessary to use. The simulation can be
-fully integrated to the new extension and its algorithms to be able to use it with all its advantages. The full integration of the new extension could be done
+Further development could be in optimization of the implementation of the antichains algorithm by caching results of some computation. 
+For the bisimulation up to congruence
+algorithm is possible to implement version of the algorithm 
+which will use simulation for pruning out some other states which are not necessary to explore. The full integration of the new extension could be done
 by application of it in the fields where is the original implementation used.
