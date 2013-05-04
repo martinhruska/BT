@@ -87,23 +87,25 @@
   %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
   %===========================================================================
   %Klicova slova
-  keywords.cs={konečné automaty, fomarlní verifikace, jazyková inkluze, bisimulace ke kongruenci, antchain, knihovna VATA}, %klicova slova v anglickem jazyce
+  keywords.cs={konečné automaty, formální verifikace, jazyková inkluze, bisimulace ke kongruenci, antichain, knihovna VATA}, %klicova slova v anglickem jazyce
   keywords.en={finite automata, formal verification, language inclusion, bisimulation up to congruence, antichains, VATA library},
   %Abstract
-  abstract.cs={Nedeterministické konečné automaty (NKA) jsou používány v mnoha oblastech informatiky, mimo jiné také ve formalní verifikace nebo pro návrh
+  abstract.cs={Nedeterministické konečné automaty (NKA) jsou používány v mnoha oblastech informatiky, mimo jiné také ve formalní verifikaci nebo pro návrh
   číslicových obvodů. Jejich výhodou oproti deterministikcým konečným automatům (DKA) je schopnost stručnějšího popisu problému. Nicméně, tato výhoda
-  může být pozbyta, jestliže je zvolen naivní přístup k některým operacím, např. test jazykové inkluze, jenž vyžaduje explicitní determinizaci
-  NKA. V součastnosti bylo ale představeno několik nových přístupů, které se explicitní determinizace vyhýbají. Tyto přístupy využívají technik tzv. antichainů
+  může být pozbyta, jestliže je zvolen naivní přístup k některým operacím, např. k testu jazykové inkluze, jenž vyžaduje explicitní determinizaci
+  NKA. V součastnosti bylo ale představeno několik nových přístupů, které se právě explicitní determinizace vyhýbají. 
+  Tyto přístupy využívají technik tzv. antichainů
   nebo tzv. bisimulace ke kongruenci. Cílém této práce je vytvoření efektivní implementace 
-  zmíněných přístupů v podobě nového rozšíření knihovny VATA a následné otestování a vyhodnocení efektivity této implementace.},
+  zmíněných přístupů v podobě nového rozšíření knihovny VATA. Tato implementace byla otestována a je zhruba stonásobně rychlejší v 90\% testovaných případů
+  nežli jiné implementace.},
   abstract.en={
     Nondeterministic finite automata (NFA) are used in many areas of computer science, including, but not limited to, formal verification, or the design of digital
     circuits. Their advantages over deterministic finite automata (DFA) is that they may be exponentially conciser. 
     However, this advantage may be lost if a na\"{\i}ve
     approach to some operations, in particular checking language inclusion, which performs explicit determinization of the NFA, is taken. Recently, several new
     techniques for this problem that avoid explicit determinization (using the so-called antichains or bisimulation up to congruence) have been proposed. 
-    The main goal of this thesis is to efficiently implement these techniques as the new extension for the VATA library and 
-    evaluate the performance of the implementation.},
+    The main goal of this thesis is to efficiently implement these techniques as the new extension of the VATA library. The implementation has been evaluated
+    and beats the other implementation in over 90\% for about a hundred times.},
   %Prohlaseni
   declaration={Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně pod vedením\\ pana Ing. Ondřeje Lengála},
   %Podekovani (nepovinne)

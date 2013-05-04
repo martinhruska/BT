@@ -174,82 +174,82 @@
 \newlabel{data structure explicit}{{5.1}{22}{Data Structures for Explicit Encoding of Finite Automata\relax }{section.5.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Analysis}{22}{subsection.5.1.1}}
 \newlabel{analysis}{{5.1.1}{22}{Analysis\relax }{subsection.5.1.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Design of Data Structure for Transitions of NFA}{22}{subsection.5.1.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Start and final states data structure}{23}{section.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Design of Data Structure for Transitions of NFA}{23}{subsection.5.1.2}}
 \citation{timbuk}
 \newlabel{figExplicitFADataStr}{{5.1.2}{24}{Design of Data Structure for Transitions of NFA\relax }{subsection.5.1.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces The data structure for storing transition of an finite automaton. There is a hash table (top-level look-up table) which map a state of a FA to the pointer to another hash table (transition cluster). Transition cluster maps a symbol of the input alphabet to a set of states.}}{24}{figure.5.1}}
-\newlabel{figExplicitFADataStr}{{5.3}{24}{Translation of the states and symbols\relax }{section.5.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces The figure show principle of translation of the input format to the internal representation which is done by the hash table like those on the figure. The states (the left hash table) or the symbols (the right hash table) of an NFA are strings in the input format but are mapped to integers which are used as the internal representation of these states and symbols.}}{24}{figure.5.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Translation of the states and symbols}{24}{section.5.3}}
-\newlabel{sectionTranslate}{{5.3}{24}{Translation of the states and symbols\relax }{section.5.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Usage of the Timbuk format}{24}{section.5.4}}
-\newlabel{usageTimub}{{5.4}{24}{Usage of the Timbuk format\relax }{section.5.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Data Structure for Start and Final States}{24}{section.5.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Translation of the States and Symbols}{24}{section.5.3}}
+\newlabel{sectionTranslate}{{5.3}{24}{Translation of the States and Symbols\relax }{section.5.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Usage of the Timbuk Format}{24}{section.5.4}}
+\newlabel{usageTimbuk}{{5.4}{24}{Usage of the Timbuk Format\relax }{section.5.4}{}}
+\newlabel{figExplicitFADataStr}{{5.3}{25}{Translation of the States and Symbols\relax }{section.5.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces The figure shows a principle of the translation of the input format to the internal representation by a hash table. The states (the left hash table) or of the symbols (the right hash table) of a NFA are mapped from strings to the integers.}}{25}{figure.5.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.5}Algorithms for Basic Operations}{25}{section.5.5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Union}{25}{subsection.5.5.1}}
 \@writefile{toc}{\contentsline {subsubsection}{Union of Disjunct States}{26}{section*.12}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Intersection}{26}{subsection.5.5.2}}
-\newlabel{algIntersection}{{3}{26}{Intersection\relax }{algocfline.3}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Algorithm for intersection of NFA}}{26}{algocf.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Reverse}{26}{subsection.5.5.3}}
+\newlabel{algIntersection}{{3}{27}{Intersection\relax }{algocfline.3}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Algorithm for intersection of NFA}}{27}{algocf.3}}
 \newlabel{algRev}{{4}{27}{Reverse\relax }{algocfline.4}{}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {4}{\ignorespaces Algorithm for reverting of an NFA}}{27}{algocf.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5.4}Removing Unreachable States}{27}{subsection.5.5.4}}
-\newlabel{algRemove}{{5}{27}{Removing Unreachable States\relax }{algocfline.5}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {5}{\ignorespaces Algorithm for removing the unreachable states of NFA}}{27}{algocf.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.5}Removing Useless States}{27}{subsection.5.5.5}}
+\newlabel{algRemove}{{5}{28}{Removing Unreachable States\relax }{algocfline.5}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {5}{\ignorespaces Algorithm for removing the unreachable states of NFA}}{28}{algocf.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.5}Removing Useless States}{28}{subsection.5.5.5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5.6}Get Candidate}{28}{subsection.5.5.6}}
-\newlabel{algCandidate}{{6}{28}{Get Candidate\relax }{algocfline.6}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {6}{\ignorespaces Algorithm for getting witness in NFA}}{28}{algocf.6}}
+\newlabel{algCandidate}{{6}{29}{Get Candidate\relax }{algocfline.6}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {6}{\ignorespaces Algorithm for getting witness in NFA}}{29}{algocf.6}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Implementation}{29}{chapter.6}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Implementation}{30}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{implementation}{{6}{29}{Implementation\relax }{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Loading and Manipulation with an Finite Automata in the Explicit Encoding}{29}{section.6.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Used parts of existing implementation of VATA library}{29}{section.6.2}}
-\@writefile{toc}{\contentsline {subsubsection}{Parser and Serializer}{29}{section*.13}}
-\@writefile{toc}{\contentsline {subsubsection}{Simulation}{30}{section*.14}}
-\@writefile{toc}{\contentsline {subsubsection}{Utilities}{30}{section*.15}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Macrostate Cache}{30}{section.6.3}}
-\newlabel{sectionCache}{{6.3}{30}{Macrostate Cache\relax }{section.6.3}{}}
-\newlabel{figMacroCache}{{6.3}{31}{Macrostate Cache\relax }{section.6.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces This figure show the macrostate cache. The cache is based on a hash table where a key is the sum of the integers representing the states of the macrostate. A value of the hash table is a list of macrostates with identical sum}}{31}{figure.6.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}Implementation of Antichain Algorithm}{31}{section.6.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.5}Translation of an NFA to LTS}{31}{section.6.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.6}Implementation of Bisimulation up to Congruence Algorithm}{31}{section.6.6}}
-\newlabel{sectionCongrImpl}{{6.6}{31}{Implementation of Bisimulation up to Congruence Algorithm\relax }{section.6.6}{}}
+\newlabel{implementation}{{6}{30}{Implementation\relax }{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Loading and Manipulation with Finite Automata in the Explicit Encoding}{30}{section.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Used Modules of the VATA Library}{30}{section.6.2}}
+\@writefile{toc}{\contentsline {subsubsection}{Parser and Serializer}{30}{section*.13}}
+\@writefile{toc}{\contentsline {subsubsection}{Simulation}{31}{section*.14}}
+\@writefile{toc}{\contentsline {subsubsection}{Utilities}{31}{section*.15}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Macrostate Cache}{31}{section.6.3}}
+\newlabel{sectionCache}{{6.3}{31}{Macrostate Cache\relax }{section.6.3}{}}
+\newlabel{figMacroCache}{{6.3}{32}{Macrostate Cache\relax }{section.6.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces This figure shows the macrostate cache based on a hash table where key is the sum of a macrostate and a value is a list of the macrostates.}}{32}{figure.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Implementation of Antichain Algorithm}{32}{section.6.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Translation of an NFA to LTS}{32}{section.6.5}}
 \citation{taocp}
 \citation{taocp}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.1}Exploring Product NFA}{32}{subsection.6.6.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.2}Caching Visited States}{32}{subsection.6.6.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.3}Computing Congruence Closure for Equivalence Checking}{32}{subsection.6.6.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.4}Computing Congruence Closure for Inclusion Checking}{33}{subsection.6.6.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.6}Implementation of Bisimulation up to Congruence Algorithm}{33}{section.6.6}}
+\newlabel{sectionCongrImpl}{{6.6}{33}{Implementation of Bisimulation up to Congruence Algorithm\relax }{section.6.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.1}Exploring Product NFA}{33}{subsection.6.6.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.2}Caching Visited States}{33}{subsection.6.6.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.3}Computing Congruence Closure for Equivalence Checking}{34}{subsection.6.6.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.4}Computing Congruence Closure for Inclusion Checking}{34}{subsection.6.6.4}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Experimental Evaluation}{34}{chapter.7}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Experimental Evaluation}{36}{chapter.7}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{eval}{{7}{34}{Experimental Evaluation\relax }{chapter.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Bisimulation up to Congruence}{34}{section.7.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.1}Comparison with OCaml Implementation}{34}{subsection.7.1.1}}
-\newlabel{figGraphOCaml}{{7.1.1}{35}{Comparison with OCaml Implementation\relax }{subsection.7.1.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces The plot shows a relation between time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked. On the figure is comparison OCaml implementation of a congruence algorithm (red) and VATA library implementation of the algorithm (green). The left plot shows the whole data set and the right plot is focused to the time interval where are the most of the measurements belong.}}{35}{figure.7.1}}
-\@writefile{lot}{\contentsline {table}{\numberline {7.1}{\ignorespaces Table gives summarizing of the evaluation and gives the two information. The first one is in how many cases was faster one implementation then the another implementation and the second one is how many times was averagely one implementation faster then the other.}}{35}{table.7.1}}
-\newlabel{tabOcaml}{{7.1}{35}{Table gives summarizing of the evaluation and gives the two information. The first one is in how many cases was faster one implementation then the another implementation and the second one is how many times was averagely one implementation faster then the other}{table.7.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.2}Comparison with VATA library Tree Automata Implementation}{35}{subsection.7.1.2}}
-\newlabel{figPlotAc}{{7.1.2}{36}{Comparison with VATA library Tree Automata Implementation\relax }{subsection.7.1.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.2}{\ignorespaces On the both plots is comparison of VATA library implementation of antichain algorithm for tree automata in upward direction (red points) with VATA library implementation of the congruence algorithm for NFA (green points). On the left plot can be seen the whole data set and the right plot is focused to the time interval where the most measurements belongs.}}{36}{figure.7.2}}
-\@writefile{lot}{\contentsline {table}{\numberline {7.2}{\ignorespaces The table gives information in how many case was faster on implementation over the other and how many times was the better implementation averagely faster. The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the algorithm based on bisimulation up to congruence and the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by using cache for macrostates.}}{36}{table.7.2}}
-\newlabel{tabAc}{{7.2}{36}{The table gives information in how many case was faster on implementation over the other and how many times was the better implementation averagely faster. The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the algorithm based on bisimulation up to congruence and the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by using cache for macrostates}{table.7.2}{}}
-\newlabel{figPlotCa}{{7.1.2}{37}{Comparison with VATA library Tree Automata Implementation\relax }{table.7.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.3}{\ignorespaces The figure shows comparison of VATA library implementation of antichain algorithm for tree automata in downward direction using cache optimization (red points) with VATA library implementation of the congruence algorithm for NFA (green points). The left plot shows results for the whole data set and on the right plot are shown just data in time interval in which the most of the test has been processed.}}{37}{figure.7.3}}
+\newlabel{eval}{{7}{36}{Experimental Evaluation\relax }{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Bisimulation up to Congruence}{36}{section.7.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.1}Comparison with OCaml Implementation}{36}{subsection.7.1.1}}
+\newlabel{figGraphOCaml}{{7.1.1}{37}{Comparison with OCaml Implementation\relax }{subsection.7.1.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces The plot shows a relation between time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked. On the figure is comparison OCaml implementation of a congruence algorithm (red) and VATA library implementation of the algorithm (green). The left plot shows the whole data set and the right plot is focused to the time interval where are the most of the measurements belong.}}{37}{figure.7.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.1}{\ignorespaces Table gives summarizing of the evaluation and gives the two information. The first one is in how many cases was faster one implementation then the another implementation and the second one is how many times was averagely one implementation faster then the other.}}{37}{table.7.1}}
+\newlabel{tabOcaml}{{7.1}{37}{Table gives summarizing of the evaluation and gives the two information. The first one is in how many cases was faster one implementation then the another implementation and the second one is how many times was averagely one implementation faster then the other}{table.7.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.2}Comparison with Tree Automata Implementation of VATA Library}{37}{subsection.7.1.2}}
+\newlabel{figPlotAc}{{7.1.2}{38}{Comparison with Tree Automata Implementation of VATA Library\relax }{subsection.7.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.2}{\ignorespaces On the both plots is comparison of VATA library implementation of antichain algorithm for tree automata in upward direction (red points) with VATA library implementation of the congruence algorithm for NFA (green points). On the left plot can be seen the whole data set and the right plot is focused to the time interval where the most measurements belongs.}}{38}{figure.7.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.2}{\ignorespaces The table gives information in how many case was faster on implementation over the other and how many times was the better implementation averagely faster. The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the algorithm based on bisimulation up to congruence and the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by using cache for macrostates.}}{38}{table.7.2}}
+\newlabel{tabAc}{{7.2}{38}{The table gives information in how many case was faster on implementation over the other and how many times was the better implementation averagely faster. The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the algorithm based on bisimulation up to congruence and the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by using cache for macrostates}{table.7.2}{}}
+\newlabel{figPlotCa}{{7.1.2}{39}{Comparison with Tree Automata Implementation of VATA Library\relax }{table.7.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.3}{\ignorespaces The figure shows comparison of VATA library implementation of antichain algorithm for tree automata in downward direction using cache optimization (red points) with VATA library implementation of the congruence algorithm for NFA (green points). The left plot shows results for the whole data set and on the right plot are shown just data in time interval in which the most of the test has been processed.}}{39}{figure.7.3}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \bibstyle{plain}
 \bibdata{literatura}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{38}{chapter.8}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{40}{chapter.8}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{concl}{{8}{38}{Conclusion\relax }{chapter.8}{}}
+\newlabel{concl}{{8}{40}{Conclusion\relax }{chapter.8}{}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \bibcite{tacas10}{1}
 \bibcite{principles}{2}
@@ -270,6 +270,6 @@
 \bibcite{timbuk}{17}
 \bibcite{cav06}{18}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{41}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{43}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
