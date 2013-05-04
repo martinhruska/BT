@@ -12,58 +12,10 @@
 #include <vector>
 
 namespace VATA {
-  template <class SymbolType, class Rel> class ExplicitFAInclusionFunctorOpt;
-  template <class SymbolType,class Rel> class ExplicitFAStateSetComparatorOpt;
+  template <class SymbolType, class Rel, class Comparator> class ExplicitFAInclusionFunctorOpt;
 }
 
-template<class SymbolType, class Rel>
-class VATA::ExplicitFAStateSetComparatorOpt {
-
-public:
-  typedef ExplicitFiniteAut<SymbolType> ExplicitFA;
-  typedef typename ExplicitFA::StateSet StateSet;
-
-private: // private data members
-  Rel preorder_;
-
-public:
-  ExplicitFAStateSetComparatorOpt(Rel preorder) : preorder_(preorder) {}
-public: // public methods
-  // lss is subset of rss
-  inline bool lte(const StateSet& lss, const StateSet& rss) {
-      bool res = true;
-
-      // refraktoring, ktery udela special tridu pro preorder
-      /*
-      if (lss.size() > rss.size()) {// TODO dodelat, ze neplati pro simulaci
-      DODELAT komparator ktery zohledni tuhle podminku a jeste taky podminku p=<P - v nesimulaci bude true/false(?) vzddycky
-        return false;
-      }
-      */
-      for (auto ls : lss) {
-        bool tempres = false;
-        for (auto rs : rss) {
-          if (preorder_.get(ls,rs)) {
-            tempres |= true;
-            break;
-          }
-        }
-        res &= tempres;
-        if (!res) {
-          return false;
-        }
-      }
-      //return true;
-      return res;
-  }
-
-  // rss is subset of lss
-  inline bool gte(const StateSet& lss, const StateSet& rss) {
-    return lte(rss,lss);
-  }
-};
-
-template <class SymbolType, class Rel>
+template <class SymbolType, class Rel, class Comparator>
 class VATA::ExplicitFAInclusionFunctorOpt : 
   public ExplicitFAAbstractFunctor <SymbolType,Rel> {
 
@@ -85,8 +37,6 @@ public : // data types
   typedef AntichainType ProductStateSetType;
 
   typedef typename AbstractFunctor::IndexType IndexType;
-
-  typedef ExplicitFAStateSetComparator<SymbolType,Rel> Comparator;
 
 private: // data memebers
   AntichainType& antichain_;
@@ -149,7 +99,6 @@ public: // public functions
    */
   void MakePost(StateType procState, StateSet& procMacroState) {
       //std::cout << "Antichainuju to" <<  std::endl;
-      //TODO overit korektnos podminky
     auto iteratorSmallerSymbolToState = smaller_.transitions_->find(procState);
     if (iteratorSmallerSymbolToState == smaller_.transitions_->end()) {
       return;
@@ -191,20 +140,16 @@ private: // private functions
       return comparator_.gte(lss,rss);
     };
 
-    // Get candidates for given state
-    std::vector<StateType> candidates;
-    for (StateType candidate : singleAntichain_.data()) {
-      if (preorder_.get(candidate,state)) {
-        candidates.push_back(candidate);
-      }
-    }
+    
 
     // Check whether the antichain does not already 
     // contains given product state
-    std::vector<StateType> tempStateSet = {state};
+    std::vector<StateType> candidates;
+    // Get candidates for given state
+    comparator_.getCandidate(candidates,state,singleAntichain_);
     //  std::cout << "state " << state << std::endl;
-    if (!antichain_.contains(tempStateSet,set,lte)) {
-      antichain_.refine(tempStateSet,set,gte);
+    if (!antichain_.contains(candidates,set,lte)) {
+      antichain_.refine(candidates,set,gte);
       antichain_.insert(state,set);
       AddToSingleAC(state);
       AddToNext(state,set);

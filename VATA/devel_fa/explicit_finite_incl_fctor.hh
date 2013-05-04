@@ -34,12 +34,10 @@ public: // public methods
       bool res = true;
 
       // refraktoring, ktery udela special tridu pro preorder
-      /*
       if (lss.size() > rss.size()) {// TODO dodelat, ze neplati pro simulaci
-      DODELAT komparator ktery zohledni tuhle podminku a jeste taky podminku p=<P - v nesimulaci bude true/false(?) vzddycky
+     // DODELAT komparator ktery zohledni tuhle podminku a jeste taky podminku p=<P - v nesimulaci bude true/false(?) vzddycky
         return false;
       }
-      */
       for (auto ls : lss) {
         bool tempres = false;
         for (auto rs : rss) {

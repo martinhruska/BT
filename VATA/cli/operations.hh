@@ -112,7 +112,7 @@ bool CheckInclusion(Automaton smaller, Automaton bigger, const Arguments& args)
 				throw optErrorEx;
 			}
 
-			return VATA::CheckUpwardInclusionWithPreorder(smaller, bigger, sim);
+			return VATA::CheckUpwardInclusionWithSim(smaller, bigger, sim);
 		}
 		else if (options["dir"] == "down")
 		{

@@ -19,12 +19,17 @@ for l in f:
     state = state+1
   elif state == 2:
     m =  re.search('.*(armcNFA_inclTest_[0-9]*): ([1-9][0-9.]*) states',l)
+    print l
     res = res + m.group(1)+";"+m.group(2)+";"
     state = state+1
   elif state == 3:
     state = state+1
   elif state == 4:
     m =  re.search('([0-9][0-9]*\.[0-9][0-9]*) seconds.*',l)
-    state = 0
-    res = res+m.group(1)
+    if (m != None and m.group(1) != None):
+      state = 0
+      res = res+m.group(1)
+    else:
+      state = 1
+      res = res+"60"
     print res

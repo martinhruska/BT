@@ -23,6 +23,7 @@
 
 #include "explicit_finite_incl_fctor.hh"
 #include "explicit_finite_incl_fctor_opt.hh"
+#include "util/comparators.hh"
 
 #include "explicit_finite_congr_fctor.hh"
 #include "explicit_finite_congr_fctor_opt.hh"
@@ -246,13 +247,33 @@ namespace VATA {
 		const Rel& preorder) {
 
 #ifdef OPT 
-    typedef ExplicitFAInclusionFunctorOpt<SymbolType,Rel> FunctorType;
+    typedef ExplicitFAStateSetComparatorIdentity<SymbolType,Rel> Comparator;
+    typedef ExplicitFAInclusionFunctorOpt<SymbolType,Rel,Comparator> FunctorType;
 #else
     typedef ExplicitFAInclusionFunctor<SymbolType,Rel> FunctorType;
 #endif
 		return CheckFiniteAutInclusion<SymbolType,Rel,FunctorType>(smaller, bigger, preorder);
 	}
 
+  // Special for simulation
+  template <class SymbolType, class Rel>
+	bool CheckUpwardInclusionWithSim(
+		const ExplicitFiniteAut<SymbolType>& smaller, 
+    const ExplicitFiniteAut<SymbolType>& bigger,
+		const Rel& preorder) {
+
+#ifdef OPT 
+    typedef ExplicitFAStateSetComparatorSimulation<SymbolType,Rel> Comparator;
+    typedef ExplicitFAInclusionFunctorOpt<SymbolType,Rel,Comparator> FunctorType;
+#else
+    typedef ExplicitFAInclusionFunctor<SymbolType,Rel> FunctorType;
+#endif
+		return CheckFiniteAutInclusion<SymbolType,Rel,FunctorType>(smaller, bigger, preorder);
+	}
+
+  /*
+   * Congruence function
+   */
   template <class SymbolType, class Rel>
   bool CheckInclusionWithCongr(
 		const ExplicitFiniteAut<SymbolType>& smaller, 

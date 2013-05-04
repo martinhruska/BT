@@ -105,6 +105,16 @@ namespace VATA
 			VATA::UpwardInclusionFunctor>(smaller, bigger, preorder);
 	}
 
+  // Added for FA extension
+	template <class Rel>
+	bool CheckUpwardInclusionWithSim(
+		const BDDBottomUpTreeAut& smaller, const BDDBottomUpTreeAut& bigger,
+		const Rel& preorder)
+	{
+		return CheckUpwardTreeInclusion<BDDBottomUpTreeAut,
+			VATA::UpwardInclusionFunctor>(smaller, bigger, preorder);
+	}
+
 	inline bool CheckInclusion(const BDDBottomUpTreeAut& smaller,
 		const BDDBottomUpTreeAut& bigger)
 	{

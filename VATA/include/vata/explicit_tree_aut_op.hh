@@ -289,6 +289,14 @@ namespace VATA {
 
 	}
 
+  // Added for FA extension
+ 	template <class SymbolType, class Rel>
+	bool CheckUpwardInclusionWithSim(const ExplicitTreeAut<SymbolType>& smaller,
+		const ExplicitTreeAut<SymbolType>& bigger, const Rel& preorder) {
+
+		return ExplicitUpwardInclusion::Check(smaller, bigger, preorder);
+	}
+
   template <class SymbolType, class Rel>
   bool CheckInclusionWithCongr(
 		const ExplicitTreeAut<SymbolType>& smaller, 

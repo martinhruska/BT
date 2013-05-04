@@ -1484,17 +1484,20 @@ For evaluation purposes was OCaml implementation run with breadth-first search (
 simulation (which is not currently not provided by VATA library) and in the version for inclusion checking.
 
 The comparison of the VATA library implementation and OCaml implementation can be seen on the figure \ref{figGraphOCaml}. The plot shows the relation between 
-time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked. The plot shows that VATA library
-implementation was faster in the most cases, the exact numbers are given in table \ref{tabOcaml}.
+time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked.
+On the figure is comparison OCaml implementation of a congruence algorithm (red) and VATA library implementation of the algorithm (green). The left plot shows
+the whole data set and the right plot is focused to the time interval where are the most of the measurements belong. The plot shows that VATA library
+implementation was faster in the most cases, the exact numbers are given in tables \ref{tabOcaml}. There are two tables where the first one says
+in how many cases was faster one implementation then the another implementation and the second one
+is how many times was averagely one implementation faster then the other.
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.3]{fig/plot_hkc_zprava.png}
 \includegraphics[scale=0.3]{fig/plot_hkc_step_zprava.png}
 \label{figGraphOCaml}
-\caption{The plot shows a relation between time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked.
-On the figure is comparison OCaml implementation of a congruence algorithm (red) and VATA library implementation of the algorithm (green). The left plot shows
-the whole data set and the right plot is focused to the time interval where are the most of the measurements belong.}
+\caption{
+Comparison of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithm.}
 \end{center}
 \end{figure}
 
@@ -1507,9 +1510,8 @@ the whole data set and the right plot is focused to the time interval where are 
     winner & $7\%$ & $93\%$ \\ \hline
     faster & $6.5\times$ & $84\times$ \\ \hline
    \end{tabular}
-   \caption{Table gives summarizing of the evaluation and gives the two information. The first one is
-     in how many cases was faster one implementation then the another implementation 
-   and the second one is how many times was averagely one implementation faster then the other.}
+   \caption{Table gives summarizing of the evaluation of comparing of OCaml implementation of a congruence algorithm and VATA library implementation 
+     of the algorithn and gives the two information.}
    \label{tabOcaml}
 \end{center}
 \end{table}
@@ -1527,19 +1529,18 @@ VATA library for tree automata used with explicit encoding and inclusion was che
 optimization based on caching of macrostates. The timeout for checking inclusion was set to 5 seconds.
 
 The result of comparison of the checking language inclusion using bisimulation up to congruence for NFA and antichains for tree automata 
-is given on the figures \ref{figPlotAc} and \ref{figPlotCa}, particular on the left plot in these figures.
-The particular data about speed up which brings implementation for NFA is given in table \ref{tabAc}
+is given on the figures \ref{figPlotAc} and \ref{figPlotCa}, particular on the left plot in these figures. The plot shows number of states of the input
+automaton and time needed to check the inclusion, red points are the antichain algorithm, the green ones are congruence algorithm.
+The particular data about speed up which brings implementation for NFA is given in table \ref{tabAc}, where is the information in how many cases is faster
+one implmentation then the other and also how many times is implementation is averagely faster.
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.3]{fig/plot_ac_zprava.png}
 \includegraphics[scale=0.3]{fig/plot_ac_step_zprava.png}
 \label{figPlotAc}
-\caption{On the both plots
-  is comparison of VATA library implementation of antichain algorithm for tree automata in upward direction (red points) 
-    with VATA library implementation of the congruence
-    algorithm for NFA (green points). On the left plot can be seen the whole data set and the right plot is focused to the time interval
-    where the most measurements belongs.}
+\caption{The comparison of VATA library implementation of an antichain algorithm for tree automata in upward direction
+    with VATA library implementation of the congruence algorithm for NFA.}
 \end{center}
 \end{figure}
 
@@ -1561,8 +1562,7 @@ The particular data about speed up which brings implementation for NFA is given 
     faster & $2\times$ & $146\times$ \\ \hline
    \end{tabular}
    }
-   \caption{The table gives information in how many case was faster on implementation over the other and how many times was the better implementation
-     averagely faster. The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with
+   \caption{The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with
        implementation of the algorithm based on bisimulation up to congruence and
    the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by using cache for macrostates.}
    \label{tabAc}
@@ -1580,10 +1580,8 @@ of set of states that is necessary to check to verify if language inclusion hold
 \includegraphics[scale=0.3]{fig/plot_ca_step_zprava.png}
 \label{figPlotCa}
 \caption{The figure shows
- comparison of VATA library implementation of antichain algorithm for tree automata in downward direction using cache optimization (red points) 
-   with VATA library implementation of the congruence algorithm for NFA (green points). 
-   The left plot shows results for the whole data set and on the right plot are shown just data in time interval in which the most 
-   of the test has been processed.}
+ comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization 
+ with VATA library implementation of the congruence algorithm for NFA.}
 \end{center}
 \end{figure}
 
@@ -1613,4 +1611,4 @@ Further development could be in optimization of the implementation of the antich
 For the bisimulation up to congruence
 algorithm is possible to implement version of the algorithm 
 which will use simulation for pruning out some other states which are not necessary to explore. The full integration of the new extension could be done
-by application of it in the fields where is the original implementation used.
+by application of it in the fields where the implementation of VATA library for tree automata is used.

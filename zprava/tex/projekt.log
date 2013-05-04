@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  4 MAY 2013 14:04
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  4 MAY 2013 14:50
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1290,7 +1290,7 @@ LaTeX Warning: Reference `Conclusion' on page 32 undefined on input line 1359.
 [32] [33] [34] [35]
 Chapter 7.
 
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1480--1482
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1483--1485
 []\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
 un with breadth-first search (which
  []
@@ -1304,26 +1304,26 @@ File: fig/plot_hkc_zprava.png Graphic file (type png)
 <fig/plot_hkc_step_zprava.png, id=811, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
 
-<use fig/plot_hkc_step_zprava.png>
-<fig/plot_ac_zprava.png, id=816, 642.4pt x 481.8pt>
+<use fig/plot_hkc_step_zprava.png> [37 <./fig/plot_hkc_zprava.png (PNG copy)> <
+./fig/plot_hkc_step_zprava.png (PNG copy)>]
+<fig/plot_ac_zprava.png, id=824, 642.4pt x 481.8pt>
 File: fig/plot_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_zprava.png>
-<fig/plot_ac_step_zprava.png, id=817, 642.4pt x 481.8pt>
+<fig/plot_ac_step_zprava.png, id=825, 642.4pt x 481.8pt>
 File: fig/plot_ac_step_zprava.png Graphic file (type png)
 
-<use fig/plot_ac_step_zprava.png> [37 <./fig/plot_hkc_zprava.png (PNG copy)> <.
-/fig/plot_hkc_step_zprava.png (PNG copy)>] [38 <./fig/plot_ac_zprava.png (PNG c
-opy)> <./fig/plot_ac_step_zprava.png (PNG copy)>]
-<fig/plot_ca_zprava.png, id=836, 642.4pt x 481.8pt>
+<use fig/plot_ac_step_zprava.png>
+<fig/plot_ca_zprava.png, id=828, 642.4pt x 481.8pt>
 File: fig/plot_ca_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_zprava.png>
-<fig/plot_ca_step_zprava.png, id=837, 642.4pt x 481.8pt>
+<fig/plot_ca_step_zprava.png, id=829, 642.4pt x 481.8pt>
 File: fig/plot_ca_step_zprava.png Graphic file (type png)
 
-<use fig/plot_ca_step_zprava.png> [39 <./fig/plot_ca_zprava.png (PNG copy)> <./
-fig/plot_ca_step_zprava.png (PNG copy)>]
+<use fig/plot_ca_step_zprava.png> [38 <./fig/plot_ac_zprava.png (PNG copy)> <./
+fig/plot_ac_step_zprava.png (PNG copy)>] [39 <./fig/plot_ca_zprava.png (PNG cop
+y)> <./fig/plot_ca_step_zprava.png (PNG copy)>]
 Chapter 8.
 ) (./projekt.bbl [40
 
@@ -1348,7 +1348,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  18813 strings out of 256216
  336871 string characters out of 1917072
- 450044 words of memory out of 1500000
+ 449810 words of memory out of 1500000
  21401 multiletter control sequences out of 10000+200000
  29657 words of font info for 82 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
@@ -1370,7 +1370,7 @@ cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/tex
 mf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cst
 t9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/f
 onts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (47 pages, 594815 bytes).
+Output written on projekt.pdf (47 pages, 594807 bytes).
 PDF statistics:
  995 PDF objects out of 1000 (max. 8388607)
  243 named destinations out of 1000 (max. 131072)
