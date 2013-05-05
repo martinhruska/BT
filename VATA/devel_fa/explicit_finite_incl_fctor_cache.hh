@@ -3,6 +3,7 @@
 
 #include <vata/vata.hh>
 #include <vata/util/antichain2c_v2.hh>
+#include <vata/util/ordered_antichain2c.hh>
 #include <vata/util/antichain1c.hh>
 #include "explicit_finite_aut.hh"
 
@@ -13,6 +14,7 @@
 
 // standard libraries
 #include <vector>
+#include <utility>
 
 namespace VATA {
   template <class SymbolType, class Rel, class Comparator> class ExplicitFAInclusionFunctorCache;
@@ -34,8 +36,20 @@ public : // data types
   typedef StateType SmallerElementType;
   typedef StateSet BiggerElementType;
 
-  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType*> 
-    AntichainType;
+  typedef std::pair<SmallerElementType,BiggerElementType*> ProductPair;
+
+  struct less {
+    bool operator()(const ProductPair& p1, const ProductPair& p2) const {
+      if (p1.second->size() < p2.second->size()) return true;
+      if (p1.second->size() > p2.second->size()) return false;
+      if (p1.first < p2.first) return true;
+      if (p1.first > p2.first) return false;
+      return p1.second < p2.second;
+    }
+  };
+
+  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType*> Antichain2;
+  typedef VATA::Util::OrderedAntichain2C<Antichain2,less> AntichainType;
 
   typedef AntichainType ProductStateSetType;
 
