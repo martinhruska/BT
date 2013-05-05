@@ -1,0 +1,309 @@
+#ifndef EXPLICIT_FINITE_AUT_INCL_FCTOR_CACHE_HH_
+#define EXPLICIT_FINITE_AUT_INCL_FCTOR_CACHE_HH_
+
+#include <vata/vata.hh>
+#include <vata/util/antichain2c_v2.hh>
+#include <vata/util/antichain1c.hh>
+#include "explicit_finite_aut.hh"
+
+#include "explicit_finite_abstract_fctor.hh"
+
+#include "util/map_to_list.hh"
+#include "util/macrostate_cache.hh"
+
+// standard libraries
+#include <vector>
+
+namespace VATA {
+  template <class SymbolType, class Rel, class Comparator> class ExplicitFAInclusionFunctorCache;
+}
+
+template <class SymbolType, class Rel, class Comparator>
+class VATA::ExplicitFAInclusionFunctorCache : 
+  public ExplicitFAAbstractFunctor <SymbolType,Rel> {
+
+public : // data types
+  typedef ExplicitFAAbstractFunctor<SymbolType,Rel> AbstractFunctor;
+  typedef typename AbstractFunctor::ExplicitFA ExplicitFA;
+
+  typedef typename AbstractFunctor::StateType StateType;
+  typedef typename AbstractFunctor::StateSet StateSet;
+
+  typedef typename AbstractFunctor::Antichain1Type Antichain1Type;
+
+  typedef StateType SmallerElementType;
+  typedef StateSet BiggerElementType;
+
+  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType*> 
+    AntichainType;
+
+  typedef AntichainType ProductStateSetType;
+
+  typedef typename AbstractFunctor::IndexType IndexType;
+  typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
+  
+  // Key is subset of all values
+  typedef typename VATA::MapToList<const StateSet*,const StateSet*> SubSetMap; 
+
+private: // data memebers
+  AntichainType& antichain_;
+  AntichainType& next_;
+  Antichain1Type& singleAntichain_;
+
+  const ExplicitFA& smaller_;
+  const ExplicitFA& bigger_;
+
+  IndexType& index_;
+  IndexType& inv_;
+
+  Rel preorder_; // Simulation or identity
+
+  Comparator comparator_;
+  MacroStateCache cache_;
+  SubSetMap subsetMap_;
+  SubSetMap subsetNotMap_;
+
+public: // constructor
+  ExplicitFAInclusionFunctorCache(AntichainType& antichain, AntichainType& next,
+      Antichain1Type& singleAntichain,
+      const ExplicitFA& smaller, 
+      const ExplicitFA& bigger,
+      IndexType& index,
+      IndexType& inv,
+      Rel preorder) :
+    antichain_(antichain),
+    next_(next),
+    singleAntichain_(singleAntichain),
+    smaller_(smaller),
+    bigger_(bigger),
+    index_(index),
+    inv_(inv),
+    preorder_(preorder),
+    comparator_(preorder),
+    cache_(),
+    subsetMap_(),
+    subsetNotMap_()
+  {}
+
+public: // public functions
+
+  // Initialize the antichain from init states of given automata
+  void Init() {
+    bool macroFinal=false;
+    StateSet procMacroState; 
+
+    int sum = 0;
+
+    // Create macro state of initial states
+    for (StateType startState : bigger_.startStates_) {
+      procMacroState.insert(startState);
+      sum += startState;
+      macroFinal |= bigger_.IsStateFinal(startState);
+    }
+
+    // Check the initial states
+    for (StateType smallState : smaller_.startStates_) {
+      this->inclNotHold_ |= smaller_.IsStateFinal(smallState) && !macroFinal;
+      StateSet& cachedMacro = cache_.insert(sum,procMacroState);
+      this->AddNewPairToAntichain(smallState,cachedMacro);
+    }
+  }
+
+  /*
+   * Make post set of the product states
+   * for given product state (r,R) and
+   * add states to the antichain
+   */
+  void MakePost(StateType procState, StateSet& procMacroState) {
+      //std::cout << "Antichainuju to" <<  std::endl;
+     
+
+    auto sum = [](StateSet& set, size_t& sum) {for (auto& state : set) sum+=state;};
+
+    size_t s = 0;
+    sum(procMacroState,s);
+    auto iteratorSmallerSymbolToState = smaller_.transitions_->find(procState);
+    if (iteratorSmallerSymbolToState == smaller_.transitions_->end()) {
+      return;
+    }
+    // Iterate through the all symbols in the transitions for the given state
+    for (auto& smallerSymbolToState : *(iteratorSmallerSymbolToState->second)) {
+      for (const StateType& newSmallerState : smallerSymbolToState.second) {
+        StateSet newMacroState;
+
+        bool IsMacroAccepting = this->CreatePostOfMacroState(
+            newMacroState,procMacroState,smallerSymbolToState.first,
+            bigger_);
+    
+        size_t macroSum = 0;
+        sum(newMacroState,macroSum);
+        StateSet& newCachedMacro = cache_.insert(macroSum,newMacroState);
+
+        this->inclNotHold_ |= smaller_.IsStateFinal(newSmallerState) && 
+          !IsMacroAccepting; 
+
+        if (this->inclNotHold_) {
+          return;
+        }
+
+        //TODO dodelat podminku p <= p', p \in  P,
+        this->AddNewPairToAntichain(newSmallerState,newCachedMacro);
+      }
+    }
+    //procMacroState.clear(); OPT CACHE
+  }
+
+private: // private functions
+  /*
+   * Add a new product state to the antichains sets
+   */
+  void AddNewPairToAntichain(StateType state, StateSet &set) {
+    //lss is subset of rss -> return TRUE
+    auto lte = [&comparator_,&subsetMap_,&subsetNotMap_](const StateSet* lss, 
+        const StateSet* rss) -> bool {
+      bool res;
+
+      if (subsetMap_.contains(lss,rss)) {
+        res = true;
+      }
+      else if (subsetNotMap_.contains(lss,rss)) {
+        res = false;
+      }
+      else {
+        res = comparator_.lte(*lss,*rss);
+        if (res) {
+          subsetMap_.add(lss,rss);
+          subsetNotMap_.add(rss,lss);
+        }
+        else {
+          subsetMap_.add(rss,lss);
+          subsetNotMap_.add(lss,rss);
+        }
+      }
+      return res;
+    };
+
+    // lss is greater then rss -> return TRUE
+    auto gte = [&comparator_,&subsetMap_,&subsetNotMap_](const StateSet* lss, const StateSet* rss) -> bool {
+      bool res;
+ 
+      if (subsetMap_.contains(lss,rss)) {
+        res = false;
+      }
+      else if (subsetNotMap_.contains(lss,rss)) {
+        res = true;
+      }
+      else {
+        res = comparator_.gte(*lss,*rss);
+        if (res) {
+          subsetMap_.add(rss,lss);
+          subsetNotMap_.add(lss,rss);
+        }
+        else {
+          subsetMap_.add(lss,rss); // rss is subset of lss
+          subsetNotMap_.add(rss,lss);
+        }
+      }
+      return res;
+    };
+
+    // Check whether the antichain does not already 
+    // contains given product state
+    std::vector<StateType> candidates;
+    // Get candidates for given state
+    comparator_.getCandidate(candidates,state,singleAntichain_);
+    //  std::cout << "state " << state << std::endl;
+    if (!antichain_.contains(candidates,&set,lte)) {
+      antichain_.refine(candidates,&set,gte);
+      antichain_.insert(state,&set);
+      AddToSingleAC(state);
+      AddToNext(state,set);
+    }
+    /*
+    else {
+      std::cout << "antichains works" << std::endl;
+    }
+    */
+  }
+
+  /*
+   * Add state to the small antichain
+   */
+  void AddToSingleAC(StateType state) {
+    std::vector<StateType> tempStateSet = {state};
+    if (!singleAntichain_.contains(tempStateSet)) {
+      singleAntichain_.insert(state);
+    }
+  }
+
+  /*
+   * Add product state to the next set
+   */
+  void AddToNext(StateType state, StateSet& set) {
+    //lss is subset of rss -> return TRUE
+    auto lte = [&comparator_,&subsetMap_,&subsetNotMap_](const StateSet* lss, 
+        const StateSet* rss) -> bool {
+      bool res;
+
+      if (subsetMap_.contains(lss,rss)) {
+        res = true;
+      }
+      else if (subsetNotMap_.contains(lss,rss)) {
+        res = false;
+      }
+      else {
+        res = comparator_.lte(*lss,*rss);
+        if (res) {
+          subsetMap_.add(lss,rss);
+          subsetNotMap_.add(rss,lss);
+        }
+        else {
+          subsetMap_.add(rss,lss);
+          subsetNotMap_.add(lss,rss);
+        }
+      }
+      return res;
+    };
+
+    // lss is greater then rss -> return TRUE
+    auto gte = [&comparator_,&subsetMap_,&subsetNotMap_](const StateSet* lss, const StateSet* rss) -> bool {
+      bool res;
+ 
+      if (subsetMap_.contains(lss,rss)) {
+        res = false;
+      }
+      else if (subsetNotMap_.contains(lss,rss)) {
+        res = true;
+      }
+      else {
+        res = comparator_.gte(*lss,*rss);
+        if (res) {
+          subsetMap_.add(rss,lss);
+          subsetNotMap_.add(lss,rss);
+        }
+        else {
+          subsetMap_.add(lss,rss); // rss is subset of lss
+          subsetNotMap_.add(rss,lss);
+        }
+      }
+      return res;
+    };
+    std::vector<StateType> tempStateSet = {state};
+    if (!next_.contains(tempStateSet,&set,lte)) {
+      next_.refine(tempStateSet,&set,gte);
+      next_.insert(state,&set);
+    }
+  }
+
+
+private: // Private inline functions
+  /*
+   * Copy one set to another 
+   */
+  inline void CopySet(StateSet& fullset, StateSet& emptyset) {
+    emptyset.insert(fullset.begin(),fullset.end());
+  }
+
+};
+
+#endif

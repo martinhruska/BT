@@ -23,6 +23,7 @@
 
 #include "explicit_finite_incl_fctor.hh"
 #include "explicit_finite_incl_fctor_opt.hh"
+#include "explicit_finite_incl_fctor_cache.hh"
 #include "util/comparators.hh"
 
 #include "explicit_finite_congr_fctor.hh"
@@ -246,9 +247,11 @@ namespace VATA {
     const ExplicitFiniteAut<SymbolType>& bigger,
 		const Rel& preorder) {
 
-#ifdef OPT 
     typedef ExplicitFAStateSetComparatorIdentity<SymbolType,Rel> Comparator;
+#ifdef OPT 
     typedef ExplicitFAInclusionFunctorOpt<SymbolType,Rel,Comparator> FunctorType;
+#elif CACHE
+    typedef ExplicitFAInclusionFunctorCache<SymbolType,Rel,Comparator> FunctorType;
 #else
     typedef ExplicitFAInclusionFunctor<SymbolType,Rel> FunctorType;
 #endif
@@ -262,9 +265,11 @@ namespace VATA {
     const ExplicitFiniteAut<SymbolType>& bigger,
 		const Rel& preorder) {
 
-#ifdef OPT 
     typedef ExplicitFAStateSetComparatorSimulation<SymbolType,Rel> Comparator;
+#ifdef OPT 
     typedef ExplicitFAInclusionFunctorOpt<SymbolType,Rel,Comparator> FunctorType;
+#elif CACHE
+    typedef ExplicitFAInclusionFunctorCache<SymbolType,Rel,Comparator> FunctorType;
 #else
     typedef ExplicitFAInclusionFunctor<SymbolType,Rel> FunctorType;
 #endif
