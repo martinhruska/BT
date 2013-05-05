@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  5 MAY 2013 15:22
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  5 MAY 2013 21:02
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1002,14 +1002,7 @@ File: hpdftex.def 2007/02/07 v6.75r Hyperref driver for pdfTeX
 Package: footnote 1997/01/28 1.13 Save footnotes around boxes
 \fn@notes=\box64
 \fn@width=\dimen168
-) (./projekt.aux
-
-LaTeX Warning: Label `pic_ex_nfa' multiply defined.
-
-
-LaTeX Warning: Label `figExplicitFADataStr' multiply defined.
-
-)
+) (./projekt.aux)
 \openout1 = `projekt.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 132.
@@ -1029,7 +1022,8 @@ LaTeX Font Info:    ... okay on input line 132.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 132.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 132.
 
- (/usr/share/texmf/tex/latex/base/ts1cmr.fd
+
+(/usr/share/texmf/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 132.
@@ -1072,14 +1066,14 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@vyskartext=\skip64
 \@vyskaobr=\skip65
 
-<fig/vut-zp2.pdf, id=260, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=272, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 138--138
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=261, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=273, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 138--138
@@ -1184,13 +1178,13 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
 ion <1.5>, but at most version <1.4> allowed
-<fig/congr1.pdf, id=466, 244.112pt x 274.626pt>
+<fig/congr1.pdf, id=482, 244.112pt x 274.626pt>
 File: fig/congr1.pdf Graphic file (type pdf)
  <use fig/congr1.pdf>
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: found PDF version
  <1.5>, but at most version <1.4> allowed
-<fig/ac1.pdf, id=467, 552.46402pt x 232.87pt>
+<fig/ac1.pdf, id=483, 552.46402pt x 232.87pt>
 File: fig/ac1.pdf Graphic file (type pdf)
  <use fig/ac1.pdf> [12]
 (./fig/aut_hkcA.tikz
@@ -1265,42 +1259,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 1229--1235
 Chapter 6.
 [30
 
-] [31] (./fig/macrostate_cache.tikz)
-
-LaTeX Warning: Reference `Conclusion' on page 32 undefined on input line 1354.
-
-[32] [33] [34] [35]
+] [31] (./fig/macrostate_cache.tikz) [32] [33] [34] [35]
 Chapter 7.
 
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1478--1480
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1512--1514
 []\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
 un with breadth-first search (which
  []
 
 [36
 
-] <fig/plot_hkc_zprava.png, id=803, 642.4pt x 481.8pt>
+] <fig/plot_hkc_zprava.png, id=821, 642.4pt x 481.8pt>
 File: fig/plot_hkc_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_zprava.png>
-<fig/plot_hkc_step_zprava.png, id=804, 642.4pt x 481.8pt>
+<fig/plot_hkc_step_zprava.png, id=822, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_step_zprava.png> [37 <./fig/plot_hkc_zprava.png (PNG copy)> <
 ./fig/plot_hkc_step_zprava.png (PNG copy)>]
-<fig/plot_ac_zprava.png, id=817, 642.4pt x 481.8pt>
+<fig/plot_ac_zprava.png, id=838, 642.4pt x 481.8pt>
 File: fig/plot_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_zprava.png>
-<fig/plot_ac_step_zprava.png, id=818, 642.4pt x 481.8pt>
+<fig/plot_ac_step_zprava.png, id=839, 642.4pt x 481.8pt>
 File: fig/plot_ac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_step_zprava.png>
-<fig/plot_ca_zprava.png, id=821, 642.4pt x 481.8pt>
+<fig/plot_ca_zprava.png, id=840, 642.4pt x 481.8pt>
 File: fig/plot_ca_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_zprava.png>
-<fig/plot_ca_step_zprava.png, id=822, 642.4pt x 481.8pt>
+<fig/plot_ca_step_zprava.png, id=841, 642.4pt x 481.8pt>
 File: fig/plot_ca_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_step_zprava.png> [38 <./fig/plot_ac_zprava.png (PNG copy)> <./
@@ -1320,21 +1310,15 @@ Appendix A.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
 
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
  ) 
 Here is how much of TeX's memory you used:
- 18811 strings out of 256216
- 336837 string characters out of 1917072
- 448401 words of memory out of 1500000
- 21400 multiletter control sequences out of 10000+200000
+ 18817 strings out of 256216
+ 336960 string characters out of 1917072
+ 450890 words of memory out of 1500000
+ 21403 multiletter control sequences out of 10000+200000
  29657 words of font info for 82 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 49i,24n,73p,823b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 49i,24n,73p,822b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
  </home/martin/.texlive2007/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.60
 0pk>{/usr/share/texmf/fonts/enc/dvips/base/8a.enc}</usr/share/texmf/fonts/type1
 /bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></us
@@ -1352,9 +1336,9 @@ cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/tex
 mf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cst
 t9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/f
 onts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (47 pages, 593547 bytes).
+Output written on projekt.pdf (47 pages, 584511 bytes).
 PDF statistics:
- 988 PDF objects out of 1000 (max. 8388607)
- 242 named destinations out of 1000 (max. 131072)
- 631 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1005 PDF objects out of 1200 (max. 8388607)
+ 245 named destinations out of 1000 (max. 131072)
+ 655 words of extra memory for PDF output out of 10000 (max. 10000000)
 
