@@ -1350,8 +1350,35 @@ The implementation of the algorithm for checking language inclusion of NFA using
 The improvement of the antichain algorithm by simulation is provided. This is done by parameterization of class for checking inclusion, where one of the given 
 parameters is a relation which is simulation or identity (default).
 
-No further optimization for antichain algorithm are used so it is not as efficient as the algorithm based on bisimulation up to congruence and not even as the 
-tree version of this algorithm which is highly optimized. The suggestions for some optimization are given in another section \ref{Conclusion}.
+Some optimization of this algorithm has been done during implementation and will be described in following subsections. For further subsections we suppose
+checking inclusion between a NFA \mathcal{A} and a NFA \mathcal{B}.
+
+\subsection{Separating Antichain Comparator}
+The antichain algorithms keeps only the minimal set of the visited product states with respect to ordering given by $(r,R)\sqsubseteq (p,P)$
+iff $p=r \wedge R \subseteq P$. The ordering $p\preceq r \wedge R\preceq^{\forall\exists}P$ is used for the optimization using simulation.
+Comparing $(r,R)$ and $(p,P)$ was implemented by one parametrized function for both orderings what is possible because $p=r$ is special case of $p\preceq r$ 
+and the same holds for $R \subseteq P$ and $R\preceq^{\forall\exists}P$. But this implementation has shown as unefficient and the special implementation
+of comparing function for each ordering alone is more efficient because $R\subseteq P$ could be decided 
+without comparing both sets element by element when size of the macrostate $R$ is greater then size of the macrostate $P$ while in case of
+$R\preceq^{\forall\exists}P$ one element of macrostate $P$ could simulate all elements of $R$ so the size comparison is impossible.
+The ordering using simulation also needs to iterate throught all visited product states to find all the elements such that $p\preceq r$ what 
+is not necessary in the case of basic version because where is checked just $p=r$.
+
+On the other side, the other optimization of simulation is based on the fact that if there is $p' \in P$ such that $p \preceq p'$ 
+it is not need to kept and futher processed the product state $(p,P)$. When one parametrized function is used for both versions of the algorithm, it 
+causes unnecessary slowing down because the condition is always false. Although this optimization has not been already implemented, we suppose
+that the separation of the functions of the both orderings will be also efficienty used in this case.
+
+\subsection{Using Macrostate Cache}
+
+\subsection{Ordered Antichain}
+For checking inclusion of tree automata has not been used standard antichain for storing product states $(p,P)$ which should be further processed
+but ordered antichain \cite{libvata} which preferres processing the elements with smaller size of macrostate $P$ first. This optimization lead to reduction
+of produced states. The optimization has been implemented (using ordered antichain class of the original VATA library) also for checking language inclsion of
+NFA and reduces the number of produced product states what brings the better performance to.
+
+%No further optimization for antichain algorithm are used so it is not as efficient as the algorithm based on bisimulation up to congruence and not even as the 
+%tree version of this algorithm which is highly optimized. The suggestions for some optimization are given in another section \ref{Conclusion}.
 
 \section{Translation of an NFA to LTS}
 Before computing simulation relation over an NFA it is necessary to convert the NFA to labeled transition system (LTS), sort the states of the NFA to
@@ -1387,7 +1414,7 @@ but has evolved during the implementation because the Antichain algorithm uses f
 the newly generated states is also list, not stack, what leads to the implementation of breadth-first search.
 
 
-\subsection{Caching Visited States}
+\subsection{Using Macrostate cache}
 When one checks inclusion (or equivalence) of languages of NFA $\mathcal{A}$ and $\mathcal{B}$ there are generated states states of product NFA $\mathcal{A}
 \times \mathcal{B}$ which are pair $(X,Y)$ where $X$ is macrostate of states of $\mathcal{A}$ and $Y$ is macrostate of states of $\mathcal{B}$. $X$ and $Y$
 are stored to macrostates cache and it is further worked only with pointers to this macrostates in cache.

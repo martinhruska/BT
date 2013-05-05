@@ -48,10 +48,11 @@ public : // data types
     }
   };
 
-  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType*> Antichain2;
-  typedef VATA::Util::OrderedAntichain2C<Antichain2,less> AntichainType;
+  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType*> AntichainType;
+  typedef VATA::Util::OrderedAntichain2C<AntichainType,less> AntichainNext;
 
   typedef AntichainType ProductStateSetType;
+  typedef AntichainNext ProductNextType;
 
   typedef typename AbstractFunctor::IndexType IndexType;
   typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
@@ -61,7 +62,7 @@ public : // data types
 
 private: // data memebers
   AntichainType& antichain_;
-  AntichainType& next_;
+  AntichainNext& next_;
   Antichain1Type& singleAntichain_;
 
   const ExplicitFA& smaller_;
@@ -78,7 +79,7 @@ private: // data memebers
   SubSetMap subsetNotMap_;
 
 public: // constructor
-  ExplicitFAInclusionFunctorCache(AntichainType& antichain, AntichainType& next,
+  ExplicitFAInclusionFunctorCache(AntichainType& antichain, AntichainNext& next,
       Antichain1Type& singleAntichain,
       const ExplicitFA& smaller, 
       const ExplicitFA& bigger,

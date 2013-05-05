@@ -49,6 +49,7 @@ public : // data types
       return true;
     }
   };
+  typedef ProductStateSetType ProductNextType;
   
   typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
   typedef typename VATA::MapToList<StateSet*,StateSet*> MacrostatePtrPair;

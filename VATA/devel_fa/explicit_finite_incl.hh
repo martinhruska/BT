@@ -28,12 +28,13 @@ bool VATA::CheckFiniteAutInclusion(
   typedef typename InclFunc::BiggerElementType BiggerElementType;
 
   typedef typename InclFunc::ProductStateSetType ProductStateSetType;
+  typedef typename InclFunc::ProductNextType ProductNextType;
   typedef typename InclFunc::Antichain1Type Antichain1Type; 
 
   typedef typename InclFunc::IndexType IndexType;
 
   ProductStateSetType antichain;
-  ProductStateSetType next;
+  ProductNextType next;
   Antichain1Type singleAntichain;
 
   IndexType index;
