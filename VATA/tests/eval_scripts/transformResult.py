@@ -19,7 +19,6 @@ for l in f:
     state = state+1
   elif state == 2:
     m =  re.search('.*(armcNFA_inclTest_[0-9]*): ([1-9][0-9.]*) states',l)
-    print l
     res = res + m.group(1)+";"+m.group(2)+";"
     state = state+1
   elif state == 3:

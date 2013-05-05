@@ -28,14 +28,13 @@
 \contentsline {subsubsection}{libfa}{16}{section*.7}
 \contentsline {subsubsection}{Fare}{17}{section*.8}
 \contentsline {subsection}{\numberline {4.1.2}The RWHT FSA toolkit}{17}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}Implementation of New Efficient Algorithms}{17}{subsection.4.1.3}
+\contentsline {subsection}{\numberline {4.1.3}Implementation of the State-of-the-art Algorithms}{17}{subsection.4.1.3}
 \contentsline {section}{\numberline {4.2}VATA library}{17}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}General}{17}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Design}{18}{subsection.4.2.2}
-\contentsline {subsubsection}{Explicit Encoding}{19}{section*.9}
+\contentsline {subsection}{\numberline {4.2.1}Design}{18}{subsection.4.2.1}
+\contentsline {subsubsection}{Explicit Encoding}{18}{section*.9}
 \contentsline {subsubsection}{Semi-symbolic Encoding}{19}{section*.10}
 \contentsline {subsubsection}{Operations}{20}{section*.11}
-\contentsline {subsection}{\numberline {4.2.3}Extension for Finite Automata}{20}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.2}Extension for Finite Automata}{20}{subsection.4.2.2}
 \contentsline {chapter}{\numberline {5}Design}{22}{chapter.5}
 \contentsline {section}{\numberline {5.1}Data Structures for Explicit Encoding of Finite Automata}{22}{section.5.1}
 \contentsline {subsection}{\numberline {5.1.1}Analysis}{22}{subsection.5.1.1}
