@@ -284,12 +284,12 @@ namespace VATA {
 		const ExplicitFiniteAut<SymbolType>& smaller, 
     const ExplicitFiniteAut<SymbolType>& bigger,
 		const Rel& preorder) {
-#ifdef OPT 
+#ifdef CACHE_OPT
+    typedef ExplicitFACongrFunctorCacheOpt<SymbolType,Rel> FunctorType;
+#elif OPT 
     typedef ExplicitFACongrFunctorOpt<SymbolType,Rel> FunctorType;
 #elif CACHE
     typedef ExplicitFACongrFunctorCache<SymbolType,Rel> FunctorType;
-#elif CACHE_OPT
-    typedef ExplicitFACongrFunctorCacheOpt<SymbolType,Rel> FunctorType;
 #else
     typedef ExplicitFACongrFunctor<SymbolType,Rel> FunctorType;
 #endif

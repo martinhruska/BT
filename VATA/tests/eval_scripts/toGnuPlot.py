@@ -26,5 +26,5 @@ for lh in fhk:
       if (sys.argv[1] == "-c"):
         print str((int(sh[1])+int(sh[3])))+" "+vh[2].strip()+" "+vh[4].strip()
       if (sys.argv[1] == "-o"):
-        print str((int(sh[1])+int(sh[3])))+" "+sh[4].strip()+" "+vh[4].strip()
+        print str((int(sh[1])+int(sh[3])))+" "+sh[4].strip()+" "+vh[2].strip()
   fv.close()

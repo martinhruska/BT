@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  5 MAY 2013 21:02
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  6 MAY 2013 00:38
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1224,15 +1224,10 @@ mata
 
 ] (./fig/explicit_fa.tikz) [23] (./fig/translator.tikz) [24]
 LaTeX Font Info:    Font shape `IL2/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1067.
+(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1069.
 
  [25]
-Underfull \hbox (badness 10000) in paragraph at lines 1114--1118
-
- []
-
-
-Overfull \hbox (22.21315pt too wide) in paragraph at lines 1151--1158
+Overfull \hbox (22.21315pt too wide) in paragraph at lines 1153--1160
 \IL2/cmr/m/n/10.95 The re-ver-sion of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/
 n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is an NFA $\OMS/cmsy/m
@@ -1241,17 +1236,12 @@ n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1151--1158
+Underfull \hbox (badness 10000) in paragraph at lines 1153--1160
 
  []
 
-[26]
-Underfull \hbox (badness 10000) in paragraph at lines 1179--1187
-
- []
-
-[27]
-Underfull \hbox (badness 10000) in paragraph at lines 1229--1235
+[26] [27]
+Underfull \hbox (badness 10000) in paragraph at lines 1230--1236
 
  []
 
@@ -1262,35 +1252,35 @@ Chapter 6.
 ] [31] (./fig/macrostate_cache.tikz) [32] [33] [34] [35]
 Chapter 7.
 
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1512--1514
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1513--1515
 []\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
 un with breadth-first search (which
  []
 
 [36
 
-] <fig/plot_hkc_zprava.png, id=821, 642.4pt x 481.8pt>
+] <fig/plot_hkc_zprava.png, id=822, 642.4pt x 481.8pt>
 File: fig/plot_hkc_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_zprava.png>
-<fig/plot_hkc_step_zprava.png, id=822, 642.4pt x 481.8pt>
+<fig/plot_hkc_step_zprava.png, id=823, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_step_zprava.png> [37 <./fig/plot_hkc_zprava.png (PNG copy)> <
 ./fig/plot_hkc_step_zprava.png (PNG copy)>]
-<fig/plot_ac_zprava.png, id=838, 642.4pt x 481.8pt>
+<fig/plot_ac_zprava.png, id=839, 642.4pt x 481.8pt>
 File: fig/plot_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_zprava.png>
-<fig/plot_ac_step_zprava.png, id=839, 642.4pt x 481.8pt>
+<fig/plot_ac_step_zprava.png, id=840, 642.4pt x 481.8pt>
 File: fig/plot_ac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_step_zprava.png>
-<fig/plot_ca_zprava.png, id=840, 642.4pt x 481.8pt>
+<fig/plot_ca_zprava.png, id=841, 642.4pt x 481.8pt>
 File: fig/plot_ca_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_zprava.png>
-<fig/plot_ca_step_zprava.png, id=841, 642.4pt x 481.8pt>
+<fig/plot_ca_step_zprava.png, id=842, 642.4pt x 481.8pt>
 File: fig/plot_ca_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_step_zprava.png> [38 <./fig/plot_ac_zprava.png (PNG copy)> <./
@@ -1312,10 +1302,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 18817 strings out of 256216
- 336960 string characters out of 1917072
- 450890 words of memory out of 1500000
- 21403 multiletter control sequences out of 10000+200000
+ 18819 strings out of 256216
+ 337002 string characters out of 1917072
+ 450888 words of memory out of 1500000
+ 21405 multiletter control sequences out of 10000+200000
  29657 words of font info for 82 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  49i,24n,73p,822b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
@@ -1336,9 +1326,9 @@ cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/tex
 mf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cst
 t9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/f
 onts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (47 pages, 584511 bytes).
+Output written on projekt.pdf (47 pages, 585105 bytes).
 PDF statistics:
- 1005 PDF objects out of 1200 (max. 8388607)
+ 1006 PDF objects out of 1200 (max. 8388607)
  245 named destinations out of 1000 (max. 131072)
  655 words of extra memory for PDF output out of 10000 (max. 10000000)
 

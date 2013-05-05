@@ -15,69 +15,6 @@ namespace VATA {
     const Rel& preorder);
 }
 
-#ifdef CACHE
-
-template<class SymbolType, class Rel, class Functor>
-bool VATA::CheckFiniteAutInclusion(
-  const VATA::ExplicitFiniteAut<SymbolType>& smaller, 
-  const VATA::ExplicitFiniteAut<SymbolType>& bigger, 
-  const Rel& preorder) {
- 
-  typedef Functor InclFunc;
-  typedef typename InclFunc::ExplicitFA ExplicitFA;
-
-  typedef typename InclFunc::SmallerElementType SmallerElementType;
-  typedef typename InclFunc::BiggerElementType BiggerElementType;
-
-  typedef typename InclFunc::ProductStateSetType ProductStateSetType;
-  typedef typename InclFunc::ProductNextType ProductNextType;
-  typedef typename InclFunc::Antichain1Type Antichain1Type; 
-
-  typedef typename InclFunc::IndexType IndexType;
-
-  ProductStateSetType antichain;
-  ProductNextType next;
-  Antichain1Type singleAntichain;
-
-  IndexType index;
-  IndexType inv;
-
-  preorder.buildIndex(index,inv);
-
-      //std::cout << "Zacinam" <<  std::endl;
-  InclFunc inclFunc(antichain,next,singleAntichain,
-      smaller,bigger,index,inv,preorder);
-
-  // Initialization of antichain sets from initial states of automata
-  inclFunc.Init();
-    //std::cout << "Ac size " << antichain.size() << std::endl;
-
-  if (!inclFunc.DoesInclusionHold()) {
-    return false;
-  }
-
-  // actually processed macro state
-  BiggerElementType* procMacroState; 
-  SmallerElementType procState;
-
-  //std::cout << "Antichainuju to" <<  std::endl;
-  while(inclFunc.DoesInclusionHold() && next.get(procState,procMacroState)) {
-    //static int i = 0;
-    //std::cerr << "Processed states: " << i++ << std::endl;
-    /*
-    //std::cout << "New state: " << procState << " Macro: "; for (StateType s : procMacroState) { std::cout << s << " ";}; std::cout << std::endl;
-    //std::cout << "Ac size " << antichain.size() << std::endl;
-    //std::cout << "Next size " << next.size() << std::endl;
-    */
-      //std::cout << "Antichainuju to" <<  std::endl;
-    inclFunc.MakePost(procState,*procMacroState);
-  }
-    //std::cout << "Ac size " << antichain.size() << std::endl;
-  return inclFunc.DoesInclusionHold();
-}
-
-#else
-
 template<class SymbolType, class Rel, class Functor>
 bool VATA::CheckFiniteAutInclusion(
   const VATA::ExplicitFiniteAut<SymbolType>& smaller, 
@@ -135,5 +72,7 @@ bool VATA::CheckFiniteAutInclusion(
     //std::cout << "Ac size " << antichain.size() << std::endl;
   return inclFunc.DoesInclusionHold();
 }
-#endif
+
+
+
 #endif

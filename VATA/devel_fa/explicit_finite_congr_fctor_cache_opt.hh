@@ -48,7 +48,6 @@ public : // data types
       return true;
     }
   };
-  typedef ProductStateSetType ProductNextType;
   
   typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
   typedef typename VATA::MapToList<StateSet*,StateSet*> MacroStatePtrPair;
@@ -94,10 +93,6 @@ public:
   {}
 
 public: // public functions
-
-  /*
-   * Creates first product state from initial states of both NFA
-   */
   void Init() {
     StateSet smallerInit;
     StateSet biggerInit;

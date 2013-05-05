@@ -8,7 +8,8 @@ project(vata)
 set(vata_compiler_add_flags_list
   -std=c++0x
   -pedantic-errors
-  -DCACHE_OPT
+#  -DCACHE_OPT
+  -DCACHE
   -Wextra
   -Wall
   -Wfloat-equal

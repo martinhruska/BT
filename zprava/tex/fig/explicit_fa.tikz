@@ -11,9 +11,9 @@
 
 \node at(10,2) {Automata};
 
-\node[expl,circle,draw] (aA) at(1.25,2) {\textit{$A$}};
-\node[expl,circle,draw] (aB) at(3.75,2) {\textit{$B$}};
-\node[expl,circle,draw] (aC) at(6.25,2) {\textit{$C$}};
+\node[expl,circle,draw] (aA) at(1.25,2) {\textit{$\mathcal{A}$}};
+\node[expl,circle,draw] (aB) at(3.75,2) {\textit{$\mathcal{B}$}};
+\node[expl,circle,draw] (aC) at(6.25,2) {\textit{$\mathcal{C}$}};
 
 
 \node at(10,0) {\shortstack{Top-level\\ Lookup Tables}};

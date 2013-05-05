@@ -937,14 +937,14 @@ The extension will use some already implemented features of the VATA library lik
 \chapter{Design}
 \label{design}
 This chapter is primarily about design of the newly created extension of VATA library for finite automata. 
-At first, the data structures used for storing a finite automaton will be described then a principle of translation of the states of and the symbols of a NFA 
-to internal representation. The choice of an input format and its modification are justified. At the end of the chapter are given 
-algorithms for basic operations over NFA like union, intersection or removing unreachable states, etc.
+At first, the data structures used for storing a finite automaton will be described then a principle of translation of the states and the symbols of a NFA 
+to internal representation. The choice of an input format and its modification are justified.  
+The algorithms for basic operations over NFA like union, intersection or removing unreachable states, etc., are given at the end of the chapter.
 
 \section{Data Structures for Explicit Encoding of Finite Automata}
 The encodings for tree automata used in VATA library differ mainly in a data structure used for storing transitions of tree automata. The explicit encoding
-for finite automata is also defined by a data structure used for storing the transitions and 
-the data structure is crucial performance of the algorithms so it is important to good analyse and design the data structure. 
+for finite automata is defined by a data structure used for storing the transitions too. 
+This data structure is also crucial performance of the algorithms so it is important to good analyse and design it. 
 
 \label{data structure explicit}
 \subsection{Analysis}
@@ -964,21 +964,20 @@ transitions of the tree automata.
 
 The data structure used for storing transitions of a tree automaton in the VATA library was described earlier in section \ref{sectionExplicitEnc} and can be seen
 on the figure \ref{figExplicitTreeDataStr}. The evaluation of the VATA library \cite{libvata} proves the efficiency of this data structure so it was
-decided to modify and implement the modification in the extension of the VATA library for finite automata.
+decided to modify it and implement the modification in the extension of the VATA library for finite automata.
 
 \subsection{Design of Data Structure for Transitions of NFA}
 A data structure for storing transitions of a NFA is based on hash tables. The first hash table (top-level hash table) maps a given state to the pointer to
-a transition cluster. The transition cluster is another hash table which maps a given symbol of the input alphabet of the NFA to a set of states accesible from
+a transition cluster. The transition cluster is another hash table which maps a given symbol of the input alphabet to a set of states accesible from
 the given state under the given symbol. 
 Described data structure is on the figure \ref{figExplicitFADataStr}.
 
 The data structure for storing of the finite automata transitions is simplification of the data structure for the tree automata. Since a tree automaton's
 transition has following form: $q \xrightarrow{a} (q_1,\ldots,q_n)$ where $q,q_1\ldots q_n$ are states of the tree automaton and $a$ is the symbol of 
-alphabet of the tree automaton and a finite automaton has transition in form: $q_1 \xrightarrow{a} q_2$ where $q_1,q_2$ are states of the finite automaton and
-$a$ is its symbol, the simplification of data structure is possible because the tree version has to store the whole tuples. These tuples can be very 
-large and it is more efficient to store them only once in some cache and in the data structure work with pointer to a tuple instead of the tuple alone. 
-A comparison of data structure for the finite automata and the tree automata can be seen by comparing figure 
-\ref{figExplicitFADataStr} and figure \ref{figExplicitTreeDataStr}.
+the input alphabet of the tree automaton and a finite automaton has transition in form: $q_1 \xrightarrow{a} q_2$ 
+where $q_1,q_2$ are states of the finite automaton and $a$ is its symbol, the simplification of data structure is possible because 
+the tree version has to store the whole tuples. These tuples can be very large and it is more efficient to store them only once in a cache and 
+in the data structure for transitions work only with pointer to a tuple instead of the tuple alone. 
 
 In case of finite automata this advantage disappears because there are no tuples of state but only states alone and keeping pointer to one state will not 
 bring any memory efficiency (a size of a pointer to a state and the state represented by integer alone is quite similar). This causes that for the data structure 
@@ -990,18 +989,20 @@ But there is possible another simplification. The set of states does not need to
 to the transition cluster. When this optimization is applied, transition cluster maps symbol directly to the set of states accessible under this symbol.
 
 The mentioned optimization enables simplification from the four levels of data structure for tree automata to the two levels data structure used for finite
-automata what brings simpler and more efficient manipulation with these data structure.
+automata what brings simpler and more efficient manipulation with these data structure. A comparison of data structure for the finite automata and 
+the tree automata can be seen on the figures \ref{figExplicitFADataStr} and figure \ref{figExplicitTreeDataStr}.
 
 This data structure apply also the copy-on-write principle for better memory efficiency so the look-up tables and 
 the transition clusters are shared among NFA when they are same and
-a new look-up table and a transition is created only when a new item is inserted to the one of the automata.
+a new look-up table and a transition is created only when a new item is inserted to the one of the automata. For example, NFA $\mathcal{A}$ and NFA $\mathcal{B}$
+from the figure \ref{figExplicitFADataStr} are sharing the same data structure.
 
 Let give the examples for searching and inserting a transition to this data structure for the NFA on the figure \ref{figExplicitFADataStr}. 
-If one wants to find all accessible states for state $q_1$ and symbol $a$ in a NFA $A$
-so in the top-level look-up is found pointer to transition cluster for state $q_1$. In this
+If one wants to find all accessible states for state $q_1$ and symbol $a$ in a NFA $\mathcal{A}$
+so in the top-level look-up is $q1$ mapped to the pointer to transition cluster. In this
 transition cluster is symbol $a$ mapped to the set of states (in this case ($\{q_1,q_2\}$)) which are accessible from $q_1$ under $a$.
-If one wants to insert a new transition $q_3\rightarrow{e}q_2$ to a NFA $C$, the look-up table pointed by automaton $C$ is duplicated 
-and a state $q_3$ is inserted to it. A NFA $C$ now points to that newly duplicated look-up table. State $q_3$ is in this look-up table 
+If one wants to insert a new transition $q_3 \xrightarrow{e} q_2$ to a NFA $\mathcal{C}$, the look-up table pointed by automaton $\mathcal{C}$ is duplicated 
+and a state $q_3$ is inserted to it. The NFA $\mathcal{C}$ now points to that newly duplicated look-up table. State $q_3$ is in this look-up table 
 mapped to pointer to the newly created transition cluster. 
 Symbol $e$ is inserted to this new transition cluster and mapped to the set of state which contains just state $q_2$.
 
@@ -1024,17 +1025,18 @@ over finite automata so there is no need to create special data structure and un
 \label{sectionTranslate}
 An automaton is always parsed and converted to the intern representation from its input format. 
 The conversion to the internal representation is based on mapping states from an input type (e.g. text description of the automaton) 
-to the integers. This principle is also applied for symbols of the input alphabet of the automaton
-Mechanism of mapping is illustrated by figure \ref{figExplicitFATransl}. 
+to the integers. This principle is also applied for symbols of the input alphabet. 
+Mechanism of translation is illustrated by figure \ref{figExplicitFATransl}. 
 The mechanism brings better efficiency for manipulation with states and symbols
 during the operations. It also provides unification of all input forms to the one internal representation. 
 
-During some operations (e.g. union) can be states reindexed what means that the integers which represents a state of an automaton is changed. When the integer
-is changed an old value is mapped to a new one by a hash table what keeps relation between a original input value and the new integer value.
+Processing of some operations (e.g., union) can causes reindexing of the states what means that the integers 
+which represents a state is changed. When the integer is changed an old value is mapped to a new one by a hash table what keeps 
+relation between a original input value and the new integer value.
 
 When the operations over a NFA are performed the NFA is often serialized back to the input format. The result 
-automaton's states are converted back to the input format using hash tables where is mapping to the internal representation stored. This
-principle bring the better readable output of serialization because the orignal notation is kept.
+automaton's states and symbols are mapped back to the input notation using hash tables where has been the mapping stored. This
+principle brings more readable output of serialization because the orignal notation is kept.
 
 \begin{figure}[bt]
 \begin{center}
@@ -1047,10 +1049,10 @@ principle bring the better readable output of serialization because the orignal 
 
 \section{Usage of the Timbuk Format}
 \label{usageTimbuk}
-VATA library provides a command-line interface so it is possible to load a finite automaton from a text specification. 
+VATA library provides possibility to load a finite automaton from a text specification. 
 The text specification of NFA has to have a standard format but there is no such format for the finite automata so it was chosen
 the Timbuk format \cite{timbuk}. The Timbuk format is primarily used for description of the tree automata but can be also used for the finite automata
-after some modifications. It was also used as the input format of tree automata in VATA library.
+after some modifications. This format was also used as the input format of tree automata in VATA library.
 
 Here is an example of an finite automaton defined by text description in the Timbuk format:\\
 \texttt {
@@ -1069,12 +1071,12 @@ On the first line of the specification in the Timbuk format
 is specified that the automaton has only one symbol of the input alphabet $a$ with arity one (arity of the symbols of finite automata will
 be always one). 
 The need of specification of the arity of an input symbol is a lack which comes from the original purpose of the Timbuk format because it is necessary 
-to give the arity of an symbol of the input alphabet of an tree automaton.
+to give the arity of an symbol of an input alphabet of an tree automaton.
 
 The second symbol $x$ with arity zero is not actually symbol of the input alphabet but is used for definition of the start states. The
-start states are defined in section \emph{Transitions} by the transitions which has on the left side some symbol symbol with zero arrity and on the
+start states are defined in section \emph{Transitions} by the transitions which has on the left side some symbol with zero arrity and on the
 right side of the transition is a start state. This is again disadvantage
-of the Timbuk format because in the case of tree automata there are defined no start states.
+of the Timbuk format because tree automata have no start states.
 
 On the second line of the given example is name of the automaton (in our example is the name \emph{foo}). 
 On the third line is a list of states of the automaton and on the fourth line is a list of final states of the automaton.
@@ -1087,34 +1089,34 @@ In this section are described algorithms used for implementation of the basic op
 
 \subsection{Union}
 The union of two NFA $\mathcal{A}$ and $\mathcal{B}$ is done by following algorithm. First, a brand new automaton is created (this automaton
-will be result of union). To this automaton are copied sets of start and final states from both original automata. Then the all transitions from $\mathcal{A}$ and
+will be result of union). Sets of start and final states are copied to this automaton from both original automata. Then the all transitions from $\mathcal{A}$ and
 $\mathcal{B}$ are added to the newly created automaton. What is the most important during these operations is reindexing of states (it is supposed
 that the both automata have the same input alphabet so the symbols of it are not reindexed). The reindexing means that there is created index which maps
-integer that represents a state in original automaton to a new integer which will represent the same state in the automaton created by this union.
+integer that represents a state in the input automaton to a new integer which will represent the same state in the automaton created by this union.
 
 The reindexing of states is done because the same integer can be used for representing one state of a NFA $\mathcal{A}$ 
 and also another state of a NFA $\mathcal{B}$ and it is important
-to be able to distinguish between these two states in the result NFA. This technique also makes text output of serialization of the result automaton of 
-the union more readable because its states have the same names as it has in the input automata, only indices $1$ and $2$ are added for 
-distinguishing between states of both automaton are added.
+to be able to distinguish between these two states in the result NFA. This technique also makes text output of serialization of the result automaton 
+more readable because its states have the same names as it has in the input automata, only indices $1$ and $2$ are added to be able to 
+distinguish between states of both automaton. E.g., a state $q$ of NFA $\mathcal{A}$ and a state $q$ of NFA $\mathcal{B}$ are in the result automaton denoted
+as $q_1$ and $q_2$.
 
 \subsubsection{Union of Disjunct States}
-The special case of union of two NFA is union of disjunct states of these NFA. This is done by copying the one of the NFA to the result automaton and
-copying of the states (and transitions which contain these states) of the second NFA which are not yet in the result NFA and also copying only of transitions.
-During this operation no reindexing of states is done.
+The special case of union of two NFA is union of disjunct states of these NFA. This is done by copying of the first NFA to the result automaton and then
+the states (and transitions which contain these states) of the second NFA which are not already in the result NFA are coppied to the result automaton.
+No reindexing of states is done during this operation.
 
 \subsection{Intersection}
 The intersection of two NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$
 and $\mathcal{B}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ is defined 
 in preliminaries \ref{defAInter}. 
-In this section we define post-image of the product state $(p,q)\in \mathcal{A}\cap\mathcal{B}$ for a given symbol $a\in \Sigma$ of a NFA $A\times B$ by:\\
+We define post-image of the product state $(p,q)\in \mathcal{A}\cap\mathcal{B}$ for a given symbol $a\in \Sigma$ by:\\
 $Post_a((p,q)):=\{(p',q')\ |\ \exists a \in \Sigma: (p,a,p')\in \delta_a, (q,a,q')\in \delta_b\}$.\\
 The algorithm for intersection is described by the algorithm \ref{algIntersection}.
 
 The principle of this algorithm is following. The both input NFA are explored parallel and to the result automata are added product states. 
 A product state consists two states each from different automaton which are accessible for the same string of input alphabet. 
-Also the transitions of the result automaton contain these product states.
-\\
+The transitions of the result automaton contain also these product states.
 
 \begin{algorithm}
 	\label{algIntersection}
@@ -1178,12 +1180,11 @@ chapter preliminaries \ref{defRun}). The algorithm for removing all unreachable 
 
 The intuition behind the algorithm is following. The NFA $\mathcal{A}$ is explored from its start states and to the result automaton 
 are added only states which are
-reachable from this start states for some word $w \in \Sigma^{*}$. So firstly, all reachable states are found and added to a special set. 
-Then all transitions within a reachable state on left side are added to a result NFA $\mathcal{B}$ .
+reachable from these start states for some word $w \in \Sigma^{*}$. At first, all reachable states are found and added to a special set. 
+Then all transitions with a reachable state on left side are added to a result NFA $\mathcal{B}$ .
 If a found reachable state is final state of 
-$\mathcal{A}$ it is also added to set of final states in $\mathcal{B}$. A set of start states is copied from
+$\mathcal{A}$ it is also added to set of final states of $\mathcal{B}$. A set of start states is copied from
 NFA $\mathcal{A}$ to NFA $\mathcal{B}$
-\\
 
 \begin{algorithm}[H]
 	\label{algRemove}
@@ -1223,13 +1224,13 @@ originally direction. The NFA $\mathcal{A}$ does not contain any useless states 
 
 \subsection{Get Candidate}
 Get a candidate (word), also called get a witness, is operation over a NFA $\mathcal{A}$ which creates a NFA $\mathcal{B}$ which language $L(\mathcal{B})$
-is subset of a language $L(\mathcal{A})$ of the NFA $\mathcal{A})$ and is also non-empty if $L(\mathcal{A})$ is non-empty too.
+is subset of a language $L(\mathcal{A})$ of the NFA $\mathcal{A}$ and is also non-empty if $L(\mathcal{A})$ is non-empty too.
 The NFA $\mathcal{B}$ should have as little states and transitions as possible.
 
 The operation for getting candidate is implemented by the algorithm \ref{algCandidate}. This algorithm copies a set of start states 
 of $\mathcal{A}$ to a set of start states of $\mathcal{B}$ and also add the start states to a set of reachable states. 
 Then all transitions from $\delta_\mathcal{A}$ containing on the left side a state from the set of reachable states are added to $\mathcal{B}$ and finally
-all successors from currently reachable states are added to this set too. This is repeated until the whole NFA $\mathcal{A}$ is copied to the NFA 
+all successors of the currently reachable states are added to this set too. This is repeated until the whole NFA $\mathcal{A}$ is copied to the NFA 
 $\mathcal{B}$ or a final state is not accessible from any reachable state. 
 \\
 
@@ -1288,13 +1289,13 @@ which is efficient to use also for finite automata module of library.
 \subsubsection{Parser and Serializer}
 For loading automaton from a text specification is used module of VATA library called \emph{parser} and for serializing back to the specification is used
 module called \emph{serializer}. Because the same input format has been used for finite and tree automata (format is described in the section \ref{usageTimbuk})
-it is possible to use the original parse and serializer for this format which have been already implemented. 
+it is possible to use the original parser and serializer which have been already implemented. 
 The parser returns a data structure which generally describes a finite automaton. The data structure is further processed and converted 
 to the data structure for explicit encoding of the finite automata. 
 
 When one wants to dump an automaton from the internal representation back to the text format, 
 the automaton is converted to a data structure which is identical with a data structure returned by parser. Description of the automaton in the
-data structure is given to the serializer which dumps it to the text format.
+data structure is given to the serializer which dumps it to the output format.
 
 \subsubsection{Simulation}
 One of the operations over finite automata, which VATA provides, is computing simulation of an automaton. For computation of the simulation relation
@@ -1303,7 +1304,7 @@ The difference is in the conversion of an finite automaton into the Labeled Tran
 needs to be implemented in part of library for finite automata.
 
 \subsubsection{Utilities}
-The original VATA library also provides lot of utilities which are also useful for implementation of extension for the finite automata. These utilities
+The original VATA library also provides a lot of utilities which are also useful for implementation of extension for the finite automata. These utilities
 provides classes for easier processing of finite automata. For example, the classes \emph{TwoWayDict} and \emph{TranslatorStrict} are uses for conversion
 of an finite automaton to the explicit encoding, the class \emph{Antichain2Cv2} for representing of antichain in algorithm \ref{sectionAntichain} 
 and the class \emph{AutDescription} for representing an automaton after the parsing.
@@ -1313,27 +1314,27 @@ redundant code is produced.
 
 \section{Macrostate Cache}
 \label{sectionCache}
-In both mentioned algorithms (described in sections \ref{sectionAntichain},\ref{sectionCongr}) for checking inclusion of NFA are 
-compared set of states (so-called macrostates), 
-respectively a relation is checked between these macrostates. It is possible that there will be needed to check some relation between
-two macrostate several times. In the case of antichains algorithm it is that there is checked $(p_1,P) \sqsubseteq (q_1,Q)$ and then $(p_1,P)\sqsubseteq
-(q_2,Q)$, where $p_1,q_1,q_2$ are states of some NFA and $P$ and $Q$ are sets of states of these NFA. 
+The sets of states (so-called macrostates) are compared in both mentioned algorithms (described in sections \ref{sectionAntichain},\ref{sectionCongr}) 
+for checking inclusion of languages of the two NFA, 
+respectively some relation between these macrostates is checked. It is possible that there will be needed to check the same relation between the same
+two macrostates several times. In the case of antichains algorithm is possible that there is checked $(p_1,P) \sqsubseteq (q_1,Q)$ and then $(p_1,P)\sqsubseteq
+(q_2,Q)$, where $p_1,q_1,q_2$ are states of the first NFA and $P$ and $Q$ are sets of states of the second NFA. 
 When the $(p_1,P)\sqsubseteq(q_2,Q)$ is being checked the relation between $p_1$ and $q_2$ is very easy to get because they are just two states, but checking
-relation between $P$ and $Q$, which are macrostates that could contain many of states, is very computationally demanding and it is also not necessary because
-the result has already been computer by checking $(p_1,P) \sqsubseteq (q_1,Q)$. So it seems to be efficient to save the result of once computed
-operations.
+relation between $P$ and $Q$ is very computationally demanding, because the macrostates could contain many of states, but it is also not necessary to
+check the relation again because the result has already been computed by checking $(p_1,P) \sqsubseteq (q_1,Q)$. 
 
 Similar situation could happen using the algorithm based on bisimulation up to congruence. There one wants to know all rewriting rules which are possible to use
-for creating $X{\downarrow_R}$ for some macrostate $X$ and relation of visited pairs of macrostates $R$. Searching for usable rules is also very computationally
-demanding and it seems to be efficient to save all usable rewriting rules from $R$ for given macrostate $X$.
+for computing $X{\downarrow_R}$ for some macrostate $X$ and relation of visited pairs of macrostates $R$. Searching for usable rules is also very computationally
+demanding and it could be efficient to save all usable rewriting rules from $R$ for given macrostate $X$.
 
-Because of the possibility of improving the performance by storing the results of once computed relations of macrostates was implemented so-called 
-\emph{Macrostate cache}. The cache stores all macrostates which have been generated during exploring of an NFA during inclusion checking. Each macrostate is 
-stored in cache only once and in the program alone are not used the whole macrostates but only pointers to this cache what brings the advantage that it is not
+According to these facts, so-called \emph{Macrostate cache} has been implements because of the possibility of improving the performance by storing the results of 
+once computed relations of macrostates. The cache stores all macrostates which have been generated during exploring of an product NFA. Each macrostate is 
+stored in cache only once and the whole macrostates are not manipulated alone  
+but it is worked only with pointers to the macrostates in the cache what brings the advantage that it is not 
 necessary to compare the whole macrostates but just pointers.
 
 The macrostate cache alone is implemented as the hash table, where a key is the sum of the integers representing the states of a macrostate and a value is a
-list of the macrostates which has the same state's sum. The macrostate can be seen on figure \ref{figMacroCache}
+list of the macrostates which has the same state's sum. The macrostate cache can be seen on figure \ref{figMacroCache}
 
 \begin{figure}[bt]
 \begin{center}
