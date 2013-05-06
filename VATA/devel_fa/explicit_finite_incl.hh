@@ -57,7 +57,7 @@ bool VATA::CheckFiniteAutInclusion(
   }
 
   // actually processed macro state
-  BiggerElementType* procMacroState; 
+  BiggerElementType procMacroState; 
   SmallerElementType procState;
 
   //std::cout << "Antichainuju to" <<  std::endl;
@@ -70,7 +70,7 @@ bool VATA::CheckFiniteAutInclusion(
     //std::cout << "Next size " << next.size() << std::endl;
     */
       //std::cout << "Antichainuju to" <<  std::endl;
-    inclFunc.MakePost(procState,*procMacroState);
+    inclFunc.MakePost(procState,procMacroState);
   }
     //std::cout << "Ac size " << antichain.size() << std::endl;
   return inclFunc.DoesInclusionHold();

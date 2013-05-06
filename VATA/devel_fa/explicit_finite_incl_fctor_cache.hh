@@ -34,9 +34,9 @@ public : // data types
   typedef typename AbstractFunctor::Antichain1Type Antichain1Type;
 
   typedef StateType SmallerElementType;
-  typedef StateSet BiggerElementType;
+  typedef StateSet* BiggerElementType;
 
-  typedef std::pair<SmallerElementType,BiggerElementType*> ProductPair;
+  typedef std::pair<SmallerElementType,BiggerElementType> ProductPair;
 
   struct less {
     bool operator()(const ProductPair& p1, const ProductPair& p2) const {
@@ -48,7 +48,7 @@ public : // data types
     }
   };
 
-  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType*> AntichainType;
+  typedef VATA::Util::Antichain2Cv2<SmallerElementType,BiggerElementType> AntichainType;
   typedef VATA::Util::OrderedAntichain2C<AntichainType,less> AntichainNext;
 
   typedef AntichainType ProductStateSetType;
@@ -129,14 +129,12 @@ public: // public functions
    * for given product state (r,R) and
    * add states to the antichain
    */
-  void MakePost(StateType procState, StateSet& procMacroState) {
+  void MakePost(StateType procState, BiggerElementType& procMacroState) {
       //std::cout << "Antichainuju to" <<  std::endl;
      
 
     auto sum = [](StateSet& set, size_t& sum) {for (auto& state : set) sum+=state;};
 
-    size_t s = 0;
-    sum(procMacroState,s);
     auto iteratorSmallerSymbolToState = smaller_.transitions_->find(procState);
     if (iteratorSmallerSymbolToState == smaller_.transitions_->end()) {
       return;
@@ -147,7 +145,7 @@ public: // public functions
         StateSet newMacroState;
 
         bool IsMacroAccepting = this->CreatePostOfMacroState(
-            newMacroState,procMacroState,smallerSymbolToState.first,
+            newMacroState,*procMacroState,smallerSymbolToState.first,
             bigger_);
     
         size_t macroSum = 0;
