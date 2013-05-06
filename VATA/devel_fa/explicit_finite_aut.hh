@@ -333,8 +333,6 @@ public:
 
       // TODO dodelat do cli kontrolu syntaxe pro FA
 
-			// traverse the transitions
-			const State& leftState = t.first[0];
 
 			const std::string& symbol = t.second;
 			const State& rightState = t.third;
@@ -348,6 +346,13 @@ public:
 
         continue;
       }
+
+      if (t.first.size() != 1) {
+		    throw std::runtime_error("Not a finite automaton");
+      }
+
+      // load here because t could be empty
+			const State& leftState = t.first[0];
 
       /*
       std::cerr << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;

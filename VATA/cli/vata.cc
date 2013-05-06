@@ -241,12 +241,10 @@ int performOperation(const Arguments& args, AbstrParser& parser,
 	{
 		relResult = ComputeSimulation(autInput1, args);
 	}
-  /*
 	else if (args.command == COMMAND_RED)
 	{
 		autResult = ComputeReduction(autInput1, args);
 	}
-  */
 	else
 	{
 		throw std::runtime_error("Internal error: invalid command");

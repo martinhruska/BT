@@ -157,6 +157,7 @@ namespace VATA {
     const ExplicitFiniteAut<SymbolType> &aut,
     AutBase::ProductTranslMap* pTranslMap = nullptr);
 
+
    template <class SymbolType, class Dict>
    ExplicitFiniteAut<SymbolType> Complement(
       const ExplicitFiniteAut<SymbolType> &aut,

@@ -81,6 +81,7 @@ public : // data types
     AntichainType;
 
   typedef AntichainType ProductStateSetType;
+  typedef ProductStateSetType ProductNextType;
 
   typedef typename AbstractFunctor::IndexType IndexType;
 
