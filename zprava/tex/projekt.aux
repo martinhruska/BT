@@ -214,13 +214,13 @@
 \@writefile{toc}{\contentsline {section}{\numberline {6.4}Implementation of Antichain Algorithm}{32}{section.6.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Separating Antichain Comparator}{32}{subsection.6.4.1}}
 \citation{libvata}
-\citation{taocp}
-\citation{taocp}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Using Macrostate Cache}{33}{subsection.6.4.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Ordered Antichain}{33}{subsection.6.4.3}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.5}Translation of an NFA to LTS}{33}{section.6.5}}
 \@writefile{toc}{\contentsline {section}{\numberline {6.6}Implementation of Bisimulation up to Congruence Algorithm}{33}{section.6.6}}
 \newlabel{sectionCongrImpl}{{6.6}{33}{Implementation of Bisimulation up to Congruence Algorithm\relax }{section.6.6}{}}
+\citation{taocp}
+\citation{taocp}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.6.1}Exploring Product NFA}{34}{subsection.6.6.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.6.2}Using Macrostate cache}{34}{subsection.6.6.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.6.3}Computing Congruence Closure for Equivalence Checking}{34}{subsection.6.6.3}}
@@ -230,26 +230,38 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{eval}{{7}{36}{Experimental Evaluation\relax }{chapter.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Bisimulation up to Congruence}{36}{section.7.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.1}Comparison with OCaml Implementation}{36}{subsection.7.1.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces  Comparison of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithm.}}{37}{figure.7.1}}
-\newlabel{fig:figGraphOCaml}{{7.1}{37}{ Comparison of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithm}{figure.7.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7.1}{\ignorespaces Table gives summarizing of the evaluation of comparing of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithn and gives the two information.}}{37}{table.7.1}}
-\newlabel{tabOcaml}{{7.1}{37}{Table gives summarizing of the evaluation of comparing of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithn and gives the two information}{table.7.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.2}Comparison with Tree Automata Implementation of VATA Library}{37}{subsection.7.1.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.2}{\ignorespaces The comparison of VATA library implementation of an antichain algorithm for tree automata in upward direction with VATA library implementation of the congruence algorithm for NFA.}}{38}{figure.7.2}}
-\newlabel{fig:figPlotAc}{{7.2}{38}{The comparison of VATA library implementation of an antichain algorithm for tree automata in upward direction with VATA library implementation of the congruence algorithm for NFA}{figure.7.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7.2}{\ignorespaces The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the algorithm based on bisimulation up to congruence and the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by using cache for macrostates.}}{38}{table.7.2}}
-\newlabel{tabAc}{{7.2}{38}{The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the algorithm based on bisimulation up to congruence and the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by using cache for macrostates}{table.7.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Antichains}{36}{section.7.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces The comparison of VATA library implementation of antichain algorithm for tree automata in upward direction with VATA library implementation of the antichain algorithm for NFA.}}{37}{figure.7.1}}
+\newlabel{fig:figPlotAac}{{7.1}{37}{The comparison of VATA library implementation of antichain algorithm for tree automata in upward direction with VATA library implementation of the antichain algorithm for NFA}{figure.7.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.1}{\ignorespaces The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the antichain algorithm for NFA and the right table shows the same comparison but with for the downward version of the antichain tree automata's algorithm optimized by cache.}}{37}{table.7.1}}
+\newlabel{tabAac}{{7.1}{37}{The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the antichain algorithm for NFA and the right table shows the same comparison but with for the downward version of the antichain tree automata's algorithm optimized by cache}{table.7.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Evaluation of Algorithm Based on Bisimulation up to Congruence}{37}{section.7.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.1}Comparison with OCaml Implementation}{37}{subsection.7.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.2}{\ignorespaces The figure shows comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization with VATA library implementation of the antichain algorithm for NFA.}}{38}{figure.7.2}}
+\newlabel{fig:figPlotAca}{{7.2}{38}{The figure shows comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization with VATA library implementation of the antichain algorithm for NFA}{figure.7.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.3}{\ignorespaces  Comparison of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithm.}}{38}{figure.7.3}}
+\newlabel{fig:figGraphOCaml}{{7.3}{38}{ Comparison of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithm}{figure.7.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.2}{\ignorespaces Table gives summarizing of the evaluation of comparing of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithm.}}{39}{table.7.2}}
+\newlabel{tabOcaml}{{7.2}{39}{Table gives summarizing of the evaluation of comparing of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithm}{table.7.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.4}{\ignorespaces The comparison of VATA library implementation of the antichain algorithm for tree automata in upward direction with VATA library implementation of the congruence algorithm for NFA.}}{39}{figure.7.4}}
+\newlabel{fig:figPlotAc}{{7.4}{39}{The comparison of VATA library implementation of the antichain algorithm for tree automata in upward direction with VATA library implementation of the congruence algorithm for NFA}{figure.7.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.2}Comparison with Tree Automata Implementation of VATA Library}{39}{subsection.7.2.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.3}{\ignorespaces The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the algorithm based on bisimulation up to congruence and the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by cache.}}{40}{table.7.3}}
+\newlabel{tabAc}{{7.3}{40}{The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with implementation of the algorithm based on bisimulation up to congruence and the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by cache}{table.7.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.5}{\ignorespaces The figure shows comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization with VATA library implementation of the congruence algorithm for NFA.}}{40}{figure.7.5}}
+\newlabel{fig:figPlotCa}{{7.5}{40}{The figure shows comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization with VATA library implementation of the congruence algorithm for NFA}{figure.7.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.3}Comparison of the algorithm for NFA}{40}{section.7.3}}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{lof}{\contentsline {figure}{\numberline {7.3}{\ignorespaces The figure shows comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization with VATA library implementation of the congruence algorithm for NFA.}}{39}{figure.7.3}}
-\newlabel{fig:figPlotCa}{{7.3}{39}{The figure shows comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization with VATA library implementation of the congruence algorithm for NFA}{figure.7.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.4}{\ignorespaces Table shows result of comparison of the congruence algorithm and the antichain algorithm for NFA.}}{40}{table.7.4}}
+\newlabel{tabNFA}{{7.4}{40}{Table shows result of comparison of the congruence algorithm and the antichain algorithm for NFA}{table.7.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7.6}{\ignorespaces The comparison of VATA library implementation of the antichain algorithm for NFA (the left plot) with VATA library implementation of the congruence algorithm for NFA (the right plot).}}{41}{figure.7.6}}
+\newlabel{fig:figPlotNFA}{{7.6}{41}{The comparison of VATA library implementation of the antichain algorithm for NFA (the left plot) with VATA library implementation of the congruence algorithm for NFA (the right plot)}{figure.7.6}{}}
 \bibstyle{plain}
 \bibdata{literatura}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{40}{chapter.8}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{42}{chapter.8}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{concl}{{8}{40}{Conclusion\relax }{chapter.8}{}}
+\newlabel{concl}{{8}{42}{Conclusion\relax }{chapter.8}{}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \bibcite{tacas10}{1}
 \bibcite{principles}{2}
@@ -270,6 +282,6 @@
 \bibcite{timbuk}{17}
 \bibcite{cav06}{18}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{43}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Storage Medium}{45}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}

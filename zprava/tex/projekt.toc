@@ -68,8 +68,10 @@
 \contentsline {subsection}{\numberline {6.6.3}Computing Congruence Closure for Equivalence Checking}{34}{subsection.6.6.3}
 \contentsline {subsection}{\numberline {6.6.4}Computing Congruence Closure for Inclusion Checking}{35}{subsection.6.6.4}
 \contentsline {chapter}{\numberline {7}Experimental Evaluation}{36}{chapter.7}
-\contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Bisimulation up to Congruence}{36}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Comparison with OCaml Implementation}{36}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}Comparison with Tree Automata Implementation of VATA Library}{37}{subsection.7.1.2}
-\contentsline {chapter}{\numberline {8}Conclusion}{40}{chapter.8}
-\contentsline {chapter}{\numberline {A}Storage Medium}{43}{appendix.A}
+\contentsline {section}{\numberline {7.1}Evaluation of Algorithm Based on Antichains}{36}{section.7.1}
+\contentsline {section}{\numberline {7.2}Evaluation of Algorithm Based on Bisimulation up to Congruence}{37}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Comparison with OCaml Implementation}{37}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Comparison with Tree Automata Implementation of VATA Library}{39}{subsection.7.2.2}
+\contentsline {section}{\numberline {7.3}Comparison of the algorithm for NFA}{40}{section.7.3}
+\contentsline {chapter}{\numberline {8}Conclusion}{42}{chapter.8}
+\contentsline {chapter}{\numberline {A}Storage Medium}{45}{appendix.A}
