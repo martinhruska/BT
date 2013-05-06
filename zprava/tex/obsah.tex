@@ -1268,8 +1268,9 @@ $\mathcal{B}$ or a final state is not accessible from any reachable state.
 
 \chapter{Implementation}
 \label{implementation}
-This chapter provides description of the module of VATA library for the finite automata. The description of the loading of an finite
-automata will be given at first. Then a list of the used modules from the original VATA implementation is given and finally implementation of algorithms
+This chapter provides description of the module of VATA library for the finite automata. Loading of an finite
+automaton to explicit encoding will be described first. 
+Then a list of the used modules from the original VATA implementation is given and finally implementation of algorithms 
 for checking language inclusion are covered.
 
 \section{Loading and Manipulation with Finite Automata in the Explicit Encoding}
@@ -1278,13 +1279,13 @@ This class has the data members that implements the data structure for explicit 
 implements also copy-on-write principle. 
 It is possible to load the finite automaton from a data structure returned by parser or directly from a text format. The class also provides dumping
 the finite automaton back to the text format.
-It also provides operations for manipulation with an automaton like setting specific state as start or final one.
+It implements the operations for manipulation with an automaton like setting specific state as start or final one.
 The class \emph{ExplicitFiniteAut} also ensures translation (mentioned in section \ref{sectionTranslate}) of the states 
 and symbols to the internal representation of integers. 
 
 \section{Used Modules of the VATA Library}
 There are some parts of VATA library which can be used also for development of the new extension for finite automata. In this section is given a list of modules
-which is efficient to use also for finite automata module of library.
+which are efficient to use also for finite automata module of library.
 
 \subsubsection{Parser and Serializer}
 For loading automaton from a text specification is used module of VATA library called \emph{parser} and for serializing back to the specification is used
@@ -1294,12 +1295,12 @@ The parser returns a data structure which generally describes a finite automaton
 to the data structure for explicit encoding of the finite automata. 
 
 When one wants to dump an automaton from the internal representation back to the text format, 
-the automaton is converted to a data structure which is identical with a data structure returned by parser. Description of the automaton in the
+the automaton is converted to a data structure which is identical with the data structure returned by parser. Description of the automaton in this
 data structure is given to the serializer which dumps it to the output format.
 
 \subsubsection{Simulation}
-One of the operations over finite automata, which VATA provides, is computing simulation of an automaton. For computation of the simulation relation
-is possible to use the existing implementation of this operation. 
+One of the operations over tree automata provided by the VATA library is computing simulation of an automaton. For computation of the simulation relation
+of an finite automaton is possible to use the existing implementation of this operation. 
 The difference is in the conversion of an finite automaton into the Labeled Transition System (LTS) which
 needs to be implemented in part of library for finite automata.
 
@@ -1314,9 +1315,9 @@ redundant code is produced.
 
 \section{Macrostate Cache}
 \label{sectionCache}
-The sets of states (so-called macrostates) are compared in both mentioned algorithms (described in sections \ref{sectionAntichain},\ref{sectionCongr}) 
+The sets of states (so-called macrostates) are compared in both mentioned algorithms (described in sections \ref{sectionAntichain} and \ref{sectionCongr}) 
 for checking inclusion of languages of the two NFA, 
-respectively some relation between these macrostates is checked. It is possible that there will be needed to check the same relation between the same
+respectively some relation between the macrostates is checked. It is possible that there will be needed to check the same relation between the same
 two macrostates several times. In the case of antichains algorithm is possible that there is checked $(p_1,P) \sqsubseteq (q_1,Q)$ and then $(p_1,P)\sqsubseteq
 (q_2,Q)$, where $p_1,q_1,q_2$ are states of the first NFA and $P$ and $Q$ are sets of states of the second NFA. 
 When the $(p_1,P)\sqsubseteq(q_2,Q)$ is being checked the relation between $p_1$ and $q_2$ is very easy to get because they are just two states, but checking
@@ -1327,13 +1328,13 @@ Similar situation could happen using the algorithm based on bisimulation up to c
 for computing $X{\downarrow_R}$ for some macrostate $X$ and relation of visited pairs of macrostates $R$. Searching for usable rules is also very computationally
 demanding and it could be efficient to save all usable rewriting rules from $R$ for given macrostate $X$.
 
-According to these facts, so-called \emph{Macrostate cache} has been implements because of the possibility of improving the performance by storing the results of 
-once computed relations of macrostates. The cache stores all macrostates which have been generated during exploring of an product NFA. Each macrostate is 
-stored in cache only once and the whole macrostates are not manipulated alone  
+According to these facts, so-called \emph{Macrostate cache} has been implemented for improving the performance by storing the results of 
+once computed relations of macrostates. The cache stores all macrostates which have been generated during exploring of a product NFA. Each macrostate is 
+stored in cache only once so the macrostates are not manipulated alone  
 but it is worked only with pointers to the macrostates in the cache what brings the advantage that it is not 
 necessary to compare the whole macrostates but just pointers.
 
-The macrostate cache alone is implemented as the hash table, where a key is the sum of the integers representing the states of a macrostate and a value is a
+The macrostate cache is implemented as a hash table, where a key is the sum of the integers which represents the states of a macrostate and a value is a
 list of the macrostates which has the same state's sum. The macrostate cache can be seen on figure \ref{figMacroCache}
 
 \begin{figure}[bt]
@@ -1349,13 +1350,13 @@ The implementation of the algorithm for checking language inclusion of NFA using
 \ref{sectionAntichain}.  There were used data structures for representing antichains (classes \emph{Antichain2Cv2} and \emph{Antichain1c}) which
 were implemented for the modules for the tree automata. 
 
-The improvement of the antichain algorithm by simulation is provided. This is done by parameterization of class for checking inclusion, where one of the given 
-parameters is a relation which is simulation or identity (default).
+The improvement of the antichain algorithm by using simulation is implemented too. 
+This is done by parameterization of class for checking inclusion, where one of the given parameters is a relation which is simulation or identity (default).
 
 Some optimization of this algorithm has been done during implementation and will be described in following subsections. For further subsections we suppose
 checking inclusion between a NFA $\mathcal{A}$ and a NFA $\mathcal{B}$.
 
-\subsection{Separating Antichain Comparator}
+\subsection{Ordering of Antichain}
 The antichain algorithms keeps only the minimal set of the visited product states with respect to ordering given by $(r,R)\sqsubseteq (p,P)$
 iff $p=r \wedge R \subseteq P$. The ordering $p\preceq r \wedge R\preceq^{\forall\exists}P$ is used for the optimization by simulation.
 Comparing $(r,R)$ and $(p,P)$ was implemented by one parameterized function for both orderings what is possible because $p=r$ is special case of $p\preceq r$ 
@@ -1375,8 +1376,7 @@ efficiently used in this case.
 \subsection{Using Macrostate Cache}
 The antichain algorithm often checks whether $R \subseteq P$ or $R\preceq^{\forall\exists}P$ which can be both quite expansive operations and it can be
 efficient to store the results of these operations. Macrostate cache has been applied for this purpose so all used macrostates (such as $R$ or $P$) 
-are stored in this cache. Then it is possible to work just with pointers to the cache and it is also possible to store relation between $R$ and $P$ 
-using just pointers to these macrostates. For example, 
+are stored in this cache. Then it is possible to work just with pointers to the cache and what helps efficiently store relation between $R$ and $P$. For example, 
 the pointer to $R$ is mapped to the pointer to $P$ by a hash table when there is relation between $R$ and $P$. There is also a hash table that maps
 the pointer to macrostate $R$ to pointers to all macrostates which are not in relation with $R$.
 
@@ -1395,7 +1395,7 @@ two or three partitions (final, non-final and class representing start state) an
 all transitions of NFA are converted to the LTS and at the same time each of the processed states is sorted to the partitions in according if
 the state is final or not. If all states are final, there will be created only one partition in this part of the algorithm otherwise two partitions will
 be created. After all transitions are processed, there is added another one partition which represents start states. Then the simulation relation is initialized
-by the rule that each final state simulates other final state and each non-final simulates other non-final. The non-final one does not simulate final one, but 
+by the rules that each final state simulates other final state and each non-final simulates other non-final. The non-final one does not simulate final one, but 
 final one simulates non-final one.
 
 The created partitions, LTS and initialized simulation is given to the algorithm for computing the whole simulation. 
@@ -1431,8 +1431,8 @@ are stored to macrostates cache and it is further worked only with pointers to t
 The original algorithm does not control if the newly generated state $(X,Y)$ has not already been visited and always checks if $(X,Y)$ is in
 congruence closure of relation of the visited states $R$  what is
 computationally demanding operation. Thanks to the working just with pointers to macrostates is easy to check whether the new state is already in a set of 
-visited states without computing the congruence closure. It is done by hash table which maps pointer to a macrostate $Y$ to list of all
-pointers to macrostates $Y$ such that $(X,Y)\in R$. Then it is easy to check whether a newly generated state has not already been processed. 
+visited states without computing the congruence closure. It is done by hash table which maps pointer of a macrostate $Y$ to list of all
+pointers to macrostates $X$ such that $(X,Y)\in R$. Then it is easy to check whether a newly generated state has not already been processed. 
 
 This technique reduces the number of the states of $\mathcal{A}\times\mathcal{B}$ for which is necessary to compute congruence closure what helps improvement in
 the performance of the whole algorithm.
@@ -1471,14 +1471,14 @@ $Y{\downarrow_R}$ is computed it could be efficient to store all rewriting rules
 generated another product state with $Y$ in, e.g. $(Z,Y)$ and the whole computation of $Y{\downarrow_R}$ has to be done again. 
 
 At the same time a rewriting rules can be used only in one direction ($Y\rightarrow X\cup Y$) for a $(X,Y)\in R$. So when there is checked
-if a newly generated product state $(P,Q)$ is in a congruence closure of $R$ it is needed just to check if $Y \subseteq Q$ 
+if a newly generated product state $(P,Q)$ is in a congruence closure of $R$ it is needed just to check if $Y \subseteq Q$ to apply 
 the rewriting rule $Y\rightarrow X\cup Y$. If the rewriting rule is applied, macrostate $X$ is added to $Q{\downarrow_R}$. 
 Once the rewriting rule is possible to apply we know that it is possible to apply all elements of $R$ containing $Y$ 
 so it is efficient to store that $Y\subseteq Q$.
 
 This principle of storing applicable rules is implemented by a hash table where a pointer to a macrostate $Q$ is mapped to
 a list of pointers to the macrostates where each of this macrostates $Y$ enables to use all of the elements of relation $R$ containing $Y$ 
-to computing of $Q{\downarrow_R}$.
+for computation of $Q{\downarrow_R}$.
 Notice that is not able to store elements of $R$ which rewriting rule is not applicable because there are added gradually
 new elements to $R$ and after applying of a new rewriting rule can be usable also rule which has not been usable last time.%Preformulovat
 
@@ -1494,18 +1494,19 @@ This chapter is about the experimental evaluation of the algorithms for checking
 
 For both of the evaluations were used NFA for model checking provided by Dr. Lukáš Holík\footnote{
 Automata can be found on the web page: \url{http://www.fit.vutbr.cz/~holik/pub/ARMCautomata.tar.gz}}.  
-The evaluation was done on the set of about 40 000 of pairs of NFA where language inclusion was tested. 
+The evaluation was done on the set of about 40 000 of pairs of NFA. 
 
 The tests were performed on the server \emph{merlin.fit.vutbr.cz} with CentOS 64bit Linux, 2$\times$ AMD Opteron (2,5 GHz, 4 cores, 12 MB cache) and 8 GB Ram.
 
 \section{Evaluation of Algorithm Based on Antichains}
 The implementation of the antichain algorithm is compared to the VATA library implementation of the antichain algorithm for tree automata. The tree automata's
-algorithm was tested in upward direction and also in downward direction. Timeout of computation was set to five seconds.
+algorithms for checking language inclusion was tested in explicit encoding using upward direction and also downward direction. 
+Timeout of computation was set to five seconds.
 
-The comparison with the inclusion checking algorithm for tree automata in upward direction is given on figure \ref{fig:figPlotAc} where the whole data
-set is on the left plot and the right plot is focused. As it is written down in table \ref{tabAc} the new implementation for NFA was faster in 98\% of the
+The comparison with the inclusion checking algorithm for tree automata in upward direction is given on the figure \ref{fig:figPlotAc} where the whole data
+set is on the left plot and the right plot is focused. As it is written down in the table \ref{tabAc} the new implementation for NFA was faster in 98\% of the
 test cases and in these cases was averagely two times faster. The tree automata's algorithm is faster only in two cases but in these cases is faster sixteen times.
-This acceleration of the tree automata's algorithm is some cases is not yet analyzed and could be object for further development.
+This acceleration of the tree automata's algorithm is some cases is not yet analyzed and could be object of further development.
 
 \begin{figure}[bt]
 \begin{center}
@@ -1540,9 +1541,9 @@ The algorithm for NFA beats the tree automata's algorithm in the most cases (abo
     faster & $10.78\times$ & $211.42\times$ \\ \hline
    \end{tabular}
    }
-   \caption{The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with
+   \caption{The left table shows comparison of VATA library for tree automata with checking inclusion in upward direction using the antichain algorithm with
        implementation of the antichain algorithm for NFA and
-   the right table shows the same comparison but with for the downward version of the antichain tree automata's algorithm optimized
+   the right table shows the same comparison but with for the downward direction version of the antichain tree automata's algorithm optimized
    by cache.}
    \label{tabAac}
 \end{center}
@@ -1578,7 +1579,7 @@ For evaluation purposes was OCaml implementation run with breadth-first search (
 simulation (which is not currently not provided by VATA library) and in the version for inclusion checking.
 
 The comparison of the VATA library implementation and OCaml implementation can be seen on the figure \ref{fig:figGraphOCaml}. 
-The plot shows the relation between time needed to check language inclusion and number of the states of NFA for theirs languages is inclusion checked.
+The plot shows the relation between time needed to check language inclusion and number of the states of the input NFA.
 The left plot shows the measurements on the whole data set and it is possible to see that the VATA library is especially faster for input automata with a lot
 of states. The right plot on the figure \ref{fig:figGraphOCaml} is focused to the time interval where are the most of the measurements belong and 
 shows that in some cases is OCaml implementation faster. In these cases only a few states were explored to 
@@ -1586,7 +1587,7 @@ check the language inclusion and the VATA library was slower due the overhead ca
 how time needed to check inclusion grows exponentially with number of states of NFA but 
 the growth of amount of time is much faster in case of OCaml implementation.
 
-The VATA library was faster in $92.5\%$ of tested cases and in these cases were faster about 65 times according to numbers in table \ref{tabOcaml}.
+The VATA library was faster in $92.5\%$ of tested cases and in these cases were faster about 65 times, particular data are in the table \ref{tabOcaml}.
 
 \begin{figure}[bt]
 \begin{center}
@@ -1615,15 +1616,16 @@ Comparison of OCaml implementation of a congruence algorithm and VATA library im
 \end{center}
 
 \subsection{Comparison with Tree Automata Implementation of VATA Library}
-It was also made evaluation which compares the VATA library for checking language inclusion of tree automata based on antichain algorithm. For evaluation was 
-VATA library for tree automata used with explicit encoding and inclusion was checked in upward and also downward direction. For downward direction was used
+It was also made evaluation which compares the VATA library for checking language inclusion of tree automata based on antichain algorithm. The 
+VATA library for tree automata was used with explicit encoding and inclusion was checked in upward and also downward direction. For downward direction was used
 optimization based on a cache. The timeout for checking inclusion was set to 5 seconds.
 
 The result of comparison of the checking language inclusion using bisimulation up to congruence for NFA and antichains for tree automata 
 is given on the figures \ref{fig:figPlotAc} and \ref{fig:figPlotCa}, particular on the left plot in these figures. The plot shows number of states of the input
-automaton and time needed to check the inclusion. The results are balanced for upward direction but the new implementation for finite automata is faster in the
-most (about $95\%$) cases but is only about two times faster. Checking inclusion using downward direction is much slower then 
-the congruence algorithm which is faster in $94\%$ of cases for one hundred and sixty times. The particular data about speed up 
+automaton and time needed to check the inclusion. The new implementation for finite automata is faster in the
+most (about $95\%$) cases but is only about two times faster then the algorithm for upward direction. 
+Checking language inclusion using downward direction is much slower than 
+the congruence algorithm which is faster in $94\%$ of cases  and is faster for one hundred and sixty times. The particular data about speed up 
 which brings implementation for NFA is given in table \ref{tabAc}.
 
 The figures \ref{fig:figPlotAc} and \ref{fig:figPlotCa} also show
@@ -1679,13 +1681,14 @@ of set of states that is necessary to check to verify if language inclusion hold
 
 \section{Comparison of the algorithm for NFA}
 Finally, the both newly implemented algorithms for NFA, the one based on the antichains and the one based on bisimulation up to congruence, will be compared.
-The both algorithms were used in optimized version.
+The both algorithms were used in their optimized versions.
 The comparison is shown on the figure \ref{fig:figPlotNFA}.
 As you can see, the results of the evaluations of both algorithms are very similar and the differences in the performance of
 them are very small. 
-The data results are summarized in the table \ref{tabNFA}. The congruence algorithm beats the antichain algorithm in 75\% of
-tested cases. On the other side, the antichain algorithm is nearly four times faster in the cases when it is faster then the congruence algorithm which is
-only 1.5 times in its winning cases. It is important notice that this results are dependent on the chosen test set because the both uses different attributes
+The results are summarized in the table \ref{tabNFA}. The antichain algorithm beats the congruence algorithm in 75\% of
+tested cases. On the other side, the congruence algorithm is nearly four times faster in its winning cases than the antichain algorithm which is
+only 1.5 times faster in its winning cases. 
+It is important notice that the results are dependent on the chosen test set because the both uses different attributes
 of the set of explored states of NFA during language inclusion checking.
 
 \begin{figure}[bt]
@@ -1703,9 +1706,9 @@ of the set of explored states of NFA during language inclusion checking.
 \parbox{.45\linewidth}{
   \begin{tabular}[scale=0.3]{ | l | r | r |}
    \hline
-    & \textbf{AC UP} & \textbf{CONGR} \\ \hline \hline
-    winner & $24\%$ & $76\%$ \\ \hline
-    faster & $3.74\times$ & $1.58\times$ \\ \hline
+    & \textbf{AC} & \textbf{CONGR} \\ \hline \hline
+    winner & $76\%$ & $24\%$ \\ \hline
+    faster & $1.58\times$ & $3.74\times$ \\ \hline
    \end{tabular}
 }
    \caption{Table shows result of comparison of the congruence algorithm and the antichain algorithm for NFA.}
@@ -1719,7 +1722,7 @@ The main goal of this thesis is to create an extension of the VATA library for t
 which are often used in the formal verification (e.g., model checking of safety temporal properties or 
 abstract regular model checking) what is the branch of computer science which is the library focused on. The extension of the library is supporting
 basic operations like union, intersection, removing useless or unreachable states and etc., but the main aim of this work is to provide
-efficient implementation of the algorithms for checking language inclusion of nondeterministic finite automata.
+efficient implementation of the state-of-the-art algorithms for checking language inclusion of nondeterministic finite automata.
 
 The new extension of VATA library uses the explicit encoding for representation of the finite automata. 
 The data structures for the explicit encoding has been designed
@@ -1737,7 +1740,7 @@ Our implementation beats the other tested implementation in over 90\% of the tes
 algorithm for congruence closure and 2 times then the tree automata's algorithm.
 
 The analysis of the cases where the tree automata's algorithm for language inclusion checking significantly 
-beats the implementation specialized on NFA could be done for further optimization of this implementation. 
+beats the implementation specialized on NFA could be done for further optimization of the implementation. 
 For the bisimulation up to congruence algorithm is possible to implement version of the algorithm 
 which uses simulation for pruning out some other states which are not necessary to explore. The simulation is yet implemented for antichain algorithm for NFA but
 it has not been evaluated and optimized what can bring another improvement of performance. The full integration of the new extension of the

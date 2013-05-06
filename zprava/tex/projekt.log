@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  6 MAY 2013 12:19
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  6 MAY 2013 15:09
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1269,17 +1269,17 @@ File: fig/plot_aca_step_zprava.png Graphic file (type png)
 <use fig/plot_aca_step_zprava.png> [36
 
 ]
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1577--1579
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1578--1580
 []\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
 un with breadth-first search (which
  []
 
 [37 <./fig/plot_aac_zprava.png (PNG copy)> <./fig/plot_aac_step_zprava.png (PNG
- copy)>] <fig/plot_hkc_zprava.png, id=850, 642.4pt x 481.8pt>
+ copy)>] <fig/plot_hkc_zprava.png, id=851, 642.4pt x 481.8pt>
 File: fig/plot_hkc_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_zprava.png>
-<fig/plot_hkc_step_zprava.png, id=851, 642.4pt x 481.8pt>
+<fig/plot_hkc_step_zprava.png, id=852, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_step_zprava.png> [38 <./fig/plot_aca_zprava.png (PNG copy)> <
@@ -1310,8 +1310,8 @@ File: fig/plot_nfa_ac_zprava.png Graphic file (type png)
 File: fig/plot_nfa_congr_zprava.png Graphic file (type png)
 
 <use fig/plot_nfa_congr_zprava.png> [40 <./fig/plot_ca_zprava.png (PNG copy)> <
-./fig/plot_ca_step_zprava.png (PNG copy)>] [41 <./fig/plot_nfa_ac_zprava.png (P
-NG copy)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>]
+./fig/plot_ca_step_zprava.png (PNG copy)> <./fig/plot_nfa_ac_zprava.png (PNG co
+py)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>] [41]
 Chapter 8.
 ) (./projekt.bbl [42
 
@@ -1330,7 +1330,7 @@ LaTeX Font Warning: Size substitutions with differences
 Here is how much of TeX's memory you used:
  18865 strings out of 256216
  338051 string characters out of 1917072
- 451062 words of memory out of 1500000
+ 451091 words of memory out of 1500000
  21436 multiletter control sequences out of 10000+200000
  29657 words of font info for 82 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
@@ -1352,7 +1352,7 @@ cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/tex
 mf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cst
 t9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/f
 onts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (49 pages, 659710 bytes).
+Output written on projekt.pdf (49 pages, 659603 bytes).
 PDF statistics:
  1051 PDF objects out of 1200 (max. 8388607)
  254 named destinations out of 1000 (max. 131072)
