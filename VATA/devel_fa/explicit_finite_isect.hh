@@ -83,7 +83,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     auto rcluster = ExplicitFA::genericLookup
       (*rhs.transitions_,actState->first.second);
 
-    if (!rcluster) {
+    if (!rcluster) { // no such transition in right nfa
       continue;
     }
 

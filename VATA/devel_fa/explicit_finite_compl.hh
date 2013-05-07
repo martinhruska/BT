@@ -24,6 +24,10 @@ namespace VATA {
       const Dict &alphabet);
 }
 
+  /*
+   * Creates complements of NFA
+   * Now works only for DFA.
+   */
  template <class SymbolType, class Dict>
  VATA::ExplicitFiniteAut<SymbolType> VATA::Complement(
       const VATA::ExplicitFiniteAut<SymbolType> &aut,

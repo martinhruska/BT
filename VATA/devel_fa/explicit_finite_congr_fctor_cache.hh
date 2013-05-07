@@ -40,11 +40,17 @@ public : // data types
 
   typedef std::unordered_set<SymbolType> SymbolSet;
 
+  /*
+   * In the both automata are explored macrostates
+   */
   typedef StateSet SmallerElementType;
   typedef StateSet BiggerElementType;
 
   typedef std::unordered_map<size_t,StateSet> CongrMap;
 
+  /*
+   * Product state of built automaton is pair of macrostates
+   */
   class ProductStateSetType : public std::vector<std::pair<SmallerElementType*,BiggerElementType*>> {
     public:
     bool get(SmallerElementType& smaller, BiggerElementType& bigger) {
@@ -60,6 +66,7 @@ public : // data types
       return true;
     }
   };
+  // todo set is the same as the processed set of product states
   typedef ProductStateSetType ProductNextType;
   
   typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
@@ -104,37 +111,50 @@ public:
   {}
 
 public: // public functions
+
+  /*
+   * The first product state of built automaton is 
+   * pair of macrostates containing the initial states
+   * of both input NFA.
+   */
   void Init() {
     StateSet smallerInit;
     StateSet biggerInit;
 
+    // Check whether the new macrostates are final
     bool smallerInitFinal = false;
     bool biggerInitFinal = false;
 
+    // Created macrostate of smaller automaton
     size_t smallerHashNum = 0;
     for (auto state : smaller_.startStates_) {
-      if (!smallerInit.count(state)) smallerHashNum += state; // TODO: OPT special cycle?
+      if (!smallerInit.count(state)) smallerHashNum += state;
       smallerInit.insert(state);
       smallerInitFinal |= smaller_.IsStateFinal(state);
     }
 
     size_t biggerHashNum = 0;
     for (auto state : bigger_.startStates_) {
-      if (!biggerInit.count(state)) biggerHashNum += state; // TODO: OPT special cycle?
+      if (!biggerInit.count(state)) biggerHashNum += state;
       biggerInit.insert(state);
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
     StateSet& insertSmaller = cache.insert(smallerHashNum,smallerInit);
     StateSet& insertBigger = cache.insert(biggerHashNum,biggerInit);
+    // Add to todo set
     next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
     visitedPairs.add(&insertSmaller,&insertBigger);
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
+  /*
+   * Make post of given macrostates of the both NFA
+   */
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
 
+    // Function checks whether macrostates are equal
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
         return false;
@@ -258,18 +278,20 @@ private:
 
 
   /*
-   * Create post of macro state for given automaton
+   * Create post macrostates for given macrostate (actStateSet)
+   * for all possible symbols.
    */
   void MakePostForAut(const ExplicitFA& aut, SymbolSet& usedSymbols,
       const SmallerElementType& smaller, const BiggerElementType& bigger,
       const StateSet& actStateSet) {
 
-    for (auto& state : actStateSet) {
+    for (auto& state : actStateSet) { // for each state in processed macrostate
       auto transIter = aut.transitions_->find(state);
       if (transIter == aut.transitions_->end()) {
         continue;
       }
       
+      // For all symbols accesible by the state
       for (auto& symbolToSet : *transIter->second) {
         if (usedSymbols.count(symbolToSet.first)) { // symbol already explored
           continue;
@@ -278,9 +300,13 @@ private:
         usedSymbols.insert(symbolToSet.first);
         SmallerElementType newSmaller;
         BiggerElementType newBigger;
+
+        // all states accesible under given symbol for in smaller nfa
         bool newSmallerAccept =  
           this->CreatePostOfMacroState(
               newSmaller,smaller,symbolToSet.first,smaller_);
+
+        // all states accesible under given symbol for in bigger nfa
         bool newBiggerAccpet =
           this->CreatePostOfMacroState(
               newBigger,bigger,symbolToSet.first,bigger_);
@@ -290,6 +316,10 @@ private:
           return;
         }
 
+        /*
+         * New macrostates of product state are added to cache nad then
+         * the produc state to todo set if it has not been already explored
+         */
         if (newSmaller.size() || newBigger.size()) {
           size_t smallerHashNum = 0;
           size_t biggerHashNum = 0;
@@ -298,6 +328,7 @@ private:
           sum(newBigger,biggerHashNum);
           StateSet& insertSmaller = cache.insert(smallerHashNum,newSmaller);
           StateSet& insertBigger = cache.insert(biggerHashNum,newBigger);
+
           if (!visitedPairs.contains(&insertSmaller,&insertBigger)){ 
             visitedPairs.add(&insertSmaller,&insertBigger);
             next_.push_back(std::make_pair(&insertSmaller,&insertBigger));

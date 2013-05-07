@@ -11,7 +11,7 @@ set(vata_compiler_add_flags_list
 #  -DCACHE_OPT
 #  -DCACHE
   -DCACHE_AC
-  -DCACHE_OPT_CONGR
+  -DCACHE_CAHE_OPT_CONGR
   -Wextra
   -Wall
   -Wfloat-equal

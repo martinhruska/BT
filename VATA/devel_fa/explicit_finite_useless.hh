@@ -31,6 +31,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::RemoveUselessStates(
 
   typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
 
+  // remove useless states by applying following operations
   return Reverse(
      RemoveUnreachableStates(
       Reverse(

@@ -120,6 +120,7 @@ public: // public functions
       for (const StateType& newSmallerState : smallerSymbolToState.second) {
         StateSet newMacroState;
 
+        // Create post macrostate for given symbol
         bool IsMacroAccepting = this->CreatePostOfMacroState(
             newMacroState,procMacroState,smallerSymbolToState.first,
             bigger_);
@@ -131,7 +132,6 @@ public: // public functions
           return;
         }
 
-        //TODO dodelat podminku p <= p', p \in  P,
         this->AddNewPairToAntichain(newSmallerState,newMacroState);
       }
     }

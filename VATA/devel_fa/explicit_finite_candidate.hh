@@ -25,6 +25,10 @@ namespace VATA {
       const ExplicitFiniteAut<SymbolType> &aut);
 }
 
+/*
+ * Get candidate nfa. It is the smallest nfa which
+ * has language which is subset of the input nfa
+ */
 template <class SymbolType>
 VATA::ExplicitFiniteAut<SymbolType> VATA::GetCandidateTree(
     const VATA::ExplicitFiniteAut<SymbolType> &aut) {
@@ -67,9 +71,10 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::GetCandidateTree(
           newStates.push_back(stateInSet);
         }
 
+        // add to transitions
         res.transitions_->insert(std::make_pair(actState,transitionsCluster->second));
 
-        if (aut.IsStateFinal(stateInSet)) { // Set final state
+        if (aut.IsStateFinal(stateInSet)) { // Set final state and return
           res.SetStateFinal(stateInSet);
           return RemoveUselessStates(res);
         }
@@ -77,7 +82,7 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::GetCandidateTree(
     }
   }
 
-  //TODO optimalizace res.trasitions_=aut.transitions pokud byly napumpovany veschny stavy
+  // res.trasitions_=aut.transitions pokud byly napumpovany veschny stavy
 
   return RemoveUselessStates(res);
 }

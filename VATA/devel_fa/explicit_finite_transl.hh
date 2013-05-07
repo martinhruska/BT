@@ -27,6 +27,10 @@ namespace VATA {
 		const Index& stateIndex = Index());
 }
 
+/*
+ * Function translates given nfa to lts and
+ * creates partition and set relation
+ */
 template <class SymbolType, class Index>
 VATA::ExplicitLTS VATA::Translate(
   const VATA::ExplicitFiniteAut<SymbolType>& aut,
@@ -43,11 +47,13 @@ VATA::ExplicitLTS VATA::Translate(
 	std::unordered_map<SymbolType, size_t> symbolMap;
 
 	size_t symbolCnt = 0;
+  // translator for new representation in lts
 	Util::TranslatorWeak2<std::unordered_map<SymbolType, size_t>>
 		symbolTranslator(symbolMap, [&symbolCnt](const SymbolType&){ return symbolCnt++; });
 
 
-  auto areAllStatesFinal = [&aut]() -> bool {
+  // checks whether are all states final
+  auto areAllStatesFinal = [&aut]() -> bool { 
     for (auto fs : aut.finalStates_) {
       if (!aut.IsStateStart(fs)) {
         return false;
@@ -57,6 +63,7 @@ VATA::ExplicitLTS VATA::Translate(
   };
 
   size_t base;
+  // When all states are final just two partitions will be created, otherwise three
   if (aut.finalStates_.size()>0 && aut.finalStates_.size() <= aut.transitions_->size() && !areAllStatesFinal()) {
     base = 3;
   }
@@ -67,7 +74,8 @@ VATA::ExplicitLTS VATA::Translate(
   partition.clear();
   partition.resize(base);
   
-  for (auto& finalState : aut.finalStates_) {
+  // Add all final states to the first parition
+  for (auto& finalState : aut.finalStates_) { 
     partition[0].push_back(stateIndex[finalState]);
   }
 
@@ -76,6 +84,7 @@ VATA::ExplicitLTS VATA::Translate(
     assert(stateToCluster.second);
     size_t leftStateTranslated = stateIndex[stateToCluster.first];
 
+    // non final states to second parition
     if (!aut.IsStateFinal(stateToCluster.first)) {
       partition[base-2].push_back(leftStateTranslated);
     }
@@ -91,14 +100,16 @@ VATA::ExplicitLTS VATA::Translate(
   }
 
 
-  for (auto& startState : aut.GetStartStates()) {
+  for (auto& startState : aut.GetStartStates()) { // add start transitions
     for (auto& startSymbol : aut.GetStartSymbols(startState)) {
       res.addTransition(aut.transitions_->size()+aut.GetStartStates().size(),
         symbolTranslator[startSymbol],startState);
     }
   }
 
-    partition[base-1].push_back(stateIndex[aut.transitions_->size()+aut.GetStartStates().size()]);
+
+  // parition represents start state
+  partition[base-1].push_back(stateIndex[aut.transitions_->size()+aut.GetStartStates().size()]);
 
 	relation.resize(partition.size());
 	relation.reset(false);

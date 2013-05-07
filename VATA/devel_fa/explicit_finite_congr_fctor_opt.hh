@@ -39,11 +39,17 @@ public : // data types
 
   typedef std::unordered_set<SymbolType> SymbolSet;
 
+  /*
+   * In the both automata are explored macrostates
+   */
   typedef StateSet SmallerElementType;
   typedef StateSet BiggerElementType;
 
   typedef std::unordered_map<size_t,StateSet> CongrMap;
 
+  /*
+   * Product state of built automaton is pair of macrostates
+   */
   class ProductStateSetType : public std::vector<std::pair<SmallerElementType,BiggerElementType>> {
     public:
     bool get(SmallerElementType& smaller, BiggerElementType& bigger) {
@@ -60,6 +66,7 @@ public : // data types
     }
   };
 
+  // todo set is the same as the processed set of product states
   typedef ProductStateSetType ProductNextType;
 
   typedef typename AbstractFunctor::IndexType IndexType;
@@ -96,18 +103,27 @@ public:
   {}
 
 public: // public functions
+
+  /*
+   * The first product state of built automaton is 
+   * pair of macrostates containing the initial states
+   * of both input NFA.
+   */
   void Init() {
     StateSet smallerInit;
     StateSet biggerInit;
 
+    // Check whether the new macrostates are final
     bool smallerInitFinal = false;
     bool biggerInitFinal = false;
 
+    // Created macrostate of smaller automaton
     for (auto state : smaller_.startStates_) {
       smallerInit.insert(state);
       smallerInitFinal |= smaller_.IsStateFinal(state);
     }
 
+    // Created macrostate of bigger automaton
     for (auto state : bigger_.startStates_) {
       biggerInit.insert(state);
       biggerInitFinal |= bigger_.IsStateFinal(state);
@@ -117,9 +133,13 @@ public: // public functions
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
+  /*
+   * Make post of given macrostates of the both NFA
+   */
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
 
+    // Function checks whether macrostates are equal
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
         return false;
@@ -136,12 +156,13 @@ public: // public functions
       return true;
     };
 
-    CongrMap congrMap;
+    CongrMap congrMap; // Map applied rule to the state of congruence closure
     auto insertNewPair = [&congrMap](size_t i, StateSet& set) -> bool {
       congrMap.insert(std::make_pair(i,StateSet(set)));
       return true;
     };
     StateSet congrSmaller(smaller);
+    // Compute the whole congruence closure of smaller macrostate
     GetCongrClosure(congrSmaller,insertNewPair);
 
     // Comapring given set with the sets 
@@ -151,12 +172,16 @@ public: // public functions
         return !areEqual(congrMap[i],set);
     };
 
+    // Compute congruence closure and on the fly checks
+    // if the sets are not equal under or two steps
     StateSet congrBigger(bigger);
     if (GetCongrClosure(congrBigger,isCongrClosureSetNew)) {
       smaller.clear();
       bigger.clear();
       return;
     }
+
+    // Create post macrstates
     MakePostForAut(smaller_,usedSymbols,smaller,bigger,smaller);
     if (this->inclNotHold_) {
       return;
@@ -169,6 +194,9 @@ public: // public functions
   };
 
 private:
+  /*
+   * Match two sets to be able to apply rewriting rule
+   */
   bool MatchPair(const StateSet& closure, const StateSet& rule) {
     if (rule.size() > closure.size()) {
         return false;
@@ -181,17 +209,24 @@ private:
     return true;
   }
 
+
   void AddSubSet(StateSet& mainset, StateSet& subset) {
     mainset.insert(subset.begin(),subset.end());
   }
 
+  /*
+   * Compute congruence closure. It is parameterized function
+   * where parameter manipulate with currently computed congruence closure.
+   * So it mapped the rule to actual state of congruence closure or
+   * check whether congruence closures are not same
+   */
   template<class CongrMapManipulator>
   bool GetCongrClosure(StateSet& set, CongrMapManipulator& congrMap) {
     std::unordered_set<int> usedRulesN;
     std::unordered_set<int> usedRulesR;
 
     bool appliedRule = true;
-    while (appliedRule) {
+    while (appliedRule) { // apply all rules
       appliedRule = false;
       for (unsigned int i=0; i < next_.size(); i++) {
 
@@ -228,17 +263,21 @@ private:
     return false;
   }
 
-
+  /*
+   * Create post macrostates for given macrostate (actStateSet)
+   * for all possible symbols.
+   */
   void MakePostForAut(const ExplicitFA& aut, SymbolSet& usedSymbols,
       const SmallerElementType& smaller, const BiggerElementType& bigger,
       const StateSet& actStateSet) {
 
-    for (auto& state : actStateSet) {
+    for (auto& state : actStateSet) {// for each state in processed macrostate
       auto transIter = aut.transitions_->find(state);
       if (transIter == aut.transitions_->end()) {
         continue;
       }
       
+      // For all symbols accesible by the state
       for (auto& symbolToSet : *transIter->second) {
         if (usedSymbols.count(symbolToSet.first)) { // symbol already explored
           continue;
@@ -247,9 +286,12 @@ private:
         usedSymbols.insert(symbolToSet.first);
         SmallerElementType newSmaller;
         BiggerElementType newBigger;
+        // all states accesible under given symbol for in smaller nfa
         bool newSmallerAccept =  
           this->CreatePostOfMacroState(
               newSmaller,smaller,symbolToSet.first,smaller_);
+
+        // all states accesible under given symbol for in bigger nfa
         bool newBiggerAccpet =
           this->CreatePostOfMacroState(
               newBigger,bigger,symbolToSet.first,bigger_);

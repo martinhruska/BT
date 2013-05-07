@@ -50,7 +50,7 @@ public : // data types
 
   typedef std::pair<SmallerElementType,BiggerElementType> ProductPair;
 
-  struct less {
+  struct less { // ordering for ordered antichain
     bool operator()(const ProductPair& p1, const ProductPair& p2) const {
       if (p1.second->size() < p2.second->size()) return true;
       if (p1.second->size() > p2.second->size()) return false;
@@ -64,7 +64,7 @@ public : // data types
   typedef VATA::Util::OrderedAntichain2C<AntichainType,less> AntichainNext;
 
   typedef AntichainType ProductStateSetType;
-  typedef AntichainNext ProductNextType;
+  typedef AntichainNext ProductNextType; // todo set is ordered antichain
 
   typedef typename AbstractFunctor::IndexType IndexType;
   typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
@@ -161,6 +161,7 @@ public: // public functions
     
         size_t macroSum = 0;
         sum(newMacroState,macroSum);
+        // insert macrostate to cache
         StateSet& newCachedMacro = cache_.insert(macroSum,newMacroState);
 
         this->inclNotHold_ |= smaller_.IsStateFinal(newSmallerState) && 
@@ -170,11 +171,9 @@ public: // public functions
           return;
         }
 
-        //TODO dodelat podminku p <= p', p \in  P,
         this->AddNewPairToAntichain(newSmallerState,newCachedMacro);
       }
     }
-    //procMacroState.clear(); OPT CACHE
   }
 
 private: // private functions
@@ -187,13 +186,14 @@ private: // private functions
         const StateSet* rss) -> bool {
       bool res;
 
+      // Check whether product state has not been already processed
       if (subsetMap_.contains(lss,rss)) {
         res = true;
       }
       else if (subsetNotMap_.contains(lss,rss)) {
         res = false;
       }
-      else {
+      else { // product state has not been already processed
         res = comparator_.lte(*lss,*rss);
         if (res) {
           subsetMap_.add(lss,rss);
@@ -263,6 +263,7 @@ private: // private functions
         const StateSet* rss) -> bool {
       bool res;
 
+      // Check whether product state has not been already processed
       if (subsetMap_.contains(lss,rss)) {
         res = true;
       }

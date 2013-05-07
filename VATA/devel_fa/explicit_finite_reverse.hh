@@ -33,10 +33,9 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Reverse(
 
   ExplicitFA res;
 
-  res.finalStates_ = aut.startStates_;
-  res.startStates_ = aut.finalStates_;
-  // TODO: Do this better
-  res.startStateToSymbols_ = aut.startStateToSymbols_;
+  res.finalStates_ = aut.startStates_; // set final states
+  res.startStates_ = aut.finalStates_; // set start states
+  res.startStateToSymbols_ = aut.startStateToSymbols_; // start symbols
 
   // Changing the order of left and right in each transition
   for (auto stateToCluster : *transitions_) {
