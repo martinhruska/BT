@@ -102,7 +102,7 @@ namespace VATA {
         ExplicitFiniteAut<SymbolType> res(lhs);
 
         // Use uniqueCluster function, not explicitly transitions_,
-        // because of the possibility of the need of the creating of the
+        // because of the possibility of the need of creating the
         // new clusterMap
         res.uniqueClusterMap()->insert(rhs.transitions_->begin(),
           rhs.transitions_->end());
@@ -110,7 +110,7 @@ namespace VATA {
         
         res.startStates_.insert(rhs.startStates_.begin(),
           rhs.startStates_.end());
-          //TODO zamylset se nad tim, jestli kopirovani takhle bude stacit
+
         res.startStateToSymbols_.insert(rhs.startStateToSymbols_.begin(),
           rhs.startStateToSymbols_.end());
 
@@ -146,6 +146,9 @@ namespace VATA {
 		  return res;
   }
 
+  /******************************************************
+   * Functions prototypes
+   */
  template <class SymbolType>
  ExplicitFiniteAut<SymbolType> Intersection(
       const ExplicitFiniteAut<SymbolType> &lhs,
@@ -260,6 +263,7 @@ namespace VATA {
 		const Rel& preorder) {
 
     typedef ExplicitFAStateSetComparatorIdentity<SymbolType,Rel> Comparator;
+    // There is possible to set macro to use one of the optimization
 #ifdef OPT_AC 
     typedef ExplicitFAInclusionFunctorOpt<SymbolType,Rel,Comparator> FunctorType;
 #elif CACHE_AC
