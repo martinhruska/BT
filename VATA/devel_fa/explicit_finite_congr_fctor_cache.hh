@@ -36,14 +36,14 @@ public : // data types
 
   class ProductStateSetType : public std::vector<std::pair<SmallerElementType*,BiggerElementType*>> {
     public:
-    bool get(SmallerElementType& smaller, BiggerElementType*& bigger) {
+    bool get(SmallerElementType& smaller, BiggerElementType& bigger) {
       if (this->size() == 0) {
         return false;
       }
 
       auto& nextPair = this->back();
       smaller = *nextPair.first;
-      bigger = nextPair.second;
+      bigger = *nextPair.second;
       this->pop_back();
 
       return true;

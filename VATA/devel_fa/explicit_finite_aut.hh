@@ -1,3 +1,13 @@
+/*****************************************************************************
+ *  VATA Tree Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Header file for explicit representation of finite automata.
+ *
+ *****************************************************************************/
+
 #ifndef _VATA_EXPLICIT_FINITE_AUT_HH_
 #define _VATA_EXPLICIT_FINITE_AUT_HH_
 
@@ -263,9 +273,6 @@ public:
 		const std::string& str, StringToStateDict& stateDict)
 	{
 		LoadFromString(parser,str, stateDict);
-    /* DEBUG
-		std::cerr << "Vata finite automata development begins" << std::endl;
-    */
 	}
 
 	/*
@@ -318,23 +325,17 @@ public:
 		// Load symbols
 		for (auto symbolRankPair : desc.symbols){ // Symbols translater
 			symbolTranslator(symbolRankPair.first);
-			//std::cerr << "Symbol processed " <<  symbolTranslator(symbolRankPair.first) << std::endl;
 		}
 
 		// Load final states
 		for (auto s : desc.finalStates) // Finale states extraction
 		{
-			//std::cerr << "Final state processed " << s   << " " << stateTranslator(s) << std::endl;
 			this->finalStates_.insert(stateTranslator(s));
 		}
 
 		// Load transitions
 		for (auto t : desc.transitions) {
 
-      // TODO dodelat do cli kontrolu syntaxe pro FA
-
-
-			const std::string& symbol = t.second;
 			const State& rightState = t.third;
 
 			// Check whether there are no start states
@@ -354,11 +355,6 @@ public:
       // load here because t could be empty
 			const State& leftState = t.first[0];
 
-      /*
-      std::cerr << "Transition left state " << leftState  <<  " "  <<  stateTranslator(leftState) << std::endl;
-			std::cerr << "Transition right state " << rightState << " "  <<  stateTranslator(rightState) <<  std::endl;
-      */
-			//std::cerr << "Transition symbol " << symbol << std::endl;
 			this->AddTransition(stateTranslator(leftState),symbolTranslator(symbol),
 															stateTranslator(rightState));
 		}
@@ -383,9 +379,6 @@ public:
 				desc.finalStates.insert(statePrinter(s));
 			}
 
-      /* DEBUG
-      std::cerr  <<  "Dmuping"  <<  std::endl;
-      */
       // Dump start states
       std::string x("x"); // initial input symbol
 		  std::vector<std::string> leftStateAsTuple;
@@ -421,11 +414,6 @@ public:
 						std::vector<std::string> leftStateAsTuple;
 						leftStateAsTuple.push_back(statePrinter(ls.first));
            
-            /* DEBUG
-            std::cerr  <<  "Printing left state: "  << ls.first  <<  " " << statePrinter(ls.first)  <<  std::endl;
-            std::cerr  <<  "Printing right state: "  <<  rs   <<  " "  <<   statePrinter(rs)  <<  std::endl;
-            std::cerr  <<  "Printing symbol: "  << symbolPrinter(s.first)  <<  std::endl;
-            */
 						AutDescription::Transition trans(
 							leftStateAsTuple,
 							symbolPrinter(s.first),
@@ -464,10 +452,7 @@ public:
 
 			//assert(stateClusterPair.second);
 
-      //DEBUG
-      //std::cerr  << "Original left state: "  <<   stateClusterPair.first  <<  std::endl;
 			auto cluster = clusterMap->uniqueCluster(index[stateClusterPair.first]);
-      //std::cerr  << "Reindex left state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 
 			for (auto& symbolRStateSetPair : *stateClusterPair.second) {
 
@@ -476,9 +461,7 @@ public:
 				RStateSet& rstatesSet = cluster->uniqueRStateSet(symbolRStateSetPair.first);
 
 				for (auto& rState : symbolRStateSetPair.second) {
-          //std::cerr  << "Original right state: "  <<   stateClusterPair.first  <<  std::endl; DEBUG
 					rstatesSet.insert(index[rState]);
-          //std::cerr  << "Reindex right state: "  <<  index[stateClusterPair.first]  <<  std::endl;
 				}
 			}
 		}
@@ -515,7 +498,7 @@ public: // Public static functions
     return this->startStates_;
   }
 
-  // TODO compability with tree automata part - used by complement function
+  // compability with tree automata part - used by function for complementation
 	static AlphabetType GetAlphabet()
 	{
 		AlphabetType alphabet;
@@ -551,14 +534,11 @@ public: // Public setter
     
     // Add start transition
     if (!this->startStateToSymbols_.count(state)) {
-      //std::cerr << "Adding a new start states "  <<  state << std::endl; DEBUG
       this->startStateToSymbols_.insert(
          std::make_pair(state,std::unordered_set<SymbolType>())).
          first->second.insert(symbol);
-      //std::cerr << "Start symbol size: "  <<  this->startStateToSymbols_.size() << std::endl;
     }
     else { // Just add new symbol
-      //std::cerr << "Symbol already added" << std::endl;
       this->startStateToSymbols_.find(state)->second.insert(symbol);
     }
 	}

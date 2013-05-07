@@ -48,6 +48,8 @@ public : // data types
     }
   };
 
+  typedef ProductStateSetType ProductNextType;
+
   typedef typename AbstractFunctor::IndexType IndexType;
 
 private: // Private data members

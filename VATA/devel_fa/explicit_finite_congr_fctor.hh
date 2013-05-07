@@ -45,6 +45,7 @@ public : // data types
       return true;
     }
   };
+  typedef ProductStateSetType ProductNextType;
 
   typedef typename AbstractFunctor::IndexType IndexType;
 

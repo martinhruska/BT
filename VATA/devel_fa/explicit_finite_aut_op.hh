@@ -1,3 +1,14 @@
+/*****************************************************************************
+ *  VATA Tree Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Header file for operations on finite automata.
+ *
+ *****************************************************************************/
+
+
 #ifndef _VATA_EXPLICIT_FINITE_AUT_OP_HH_
 #define _VATA_EXPLICIT_FINITE_AUT_OP_HH_
 
@@ -249,9 +260,9 @@ namespace VATA {
 		const Rel& preorder) {
 
     typedef ExplicitFAStateSetComparatorIdentity<SymbolType,Rel> Comparator;
-#ifdef OPT 
+#ifdef OPT_AC 
     typedef ExplicitFAInclusionFunctorOpt<SymbolType,Rel,Comparator> FunctorType;
-#elif CACHE
+#elif CACHE_AC
     typedef ExplicitFAInclusionFunctorCache<SymbolType,Rel,Comparator> FunctorType;
 #else
     typedef ExplicitFAInclusionFunctor<SymbolType,Rel> FunctorType;
@@ -267,9 +278,9 @@ namespace VATA {
 		const Rel& preorder) {
 
     typedef ExplicitFAStateSetComparatorSimulation<SymbolType,Rel> Comparator;
-#ifdef OPT 
+#ifdef OPT_AC 
     typedef ExplicitFAInclusionFunctorOpt<SymbolType,Rel,Comparator> FunctorType;
-#elif CACHE
+#elif CACHE_AC
     typedef ExplicitFAInclusionFunctorCache<SymbolType,Rel,Comparator> FunctorType;
 #else
     typedef ExplicitFAInclusionFunctor<SymbolType,Rel> FunctorType;
@@ -285,11 +296,11 @@ namespace VATA {
 		const ExplicitFiniteAut<SymbolType>& smaller, 
     const ExplicitFiniteAut<SymbolType>& bigger,
 		const Rel& preorder) {
-#ifdef CACHE_OPT
+#ifdef CACHE_OPT_CONGR
     typedef ExplicitFACongrFunctorCacheOpt<SymbolType,Rel> FunctorType;
-#elif OPT 
+#elif OPT_CONGR 
     typedef ExplicitFACongrFunctorOpt<SymbolType,Rel> FunctorType;
-#elif CACHE
+#elif CACHE_CONGR
     typedef ExplicitFACongrFunctorCache<SymbolType,Rel> FunctorType;
 #else
     typedef ExplicitFACongrFunctor<SymbolType,Rel> FunctorType;
