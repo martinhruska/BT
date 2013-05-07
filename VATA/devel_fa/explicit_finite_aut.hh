@@ -33,7 +33,10 @@ namespace VATA {
 template <class Symbol>
 class VATA::ExplicitFiniteAut : public AutBase {
 
-  // Need access to class members, so the functions is made friend
+  /*
+   * Friend functions
+   */
+  
   template <class SymbolType>
   friend ExplicitFiniteAut<SymbolType> Union(
 		const ExplicitFiniteAut<SymbolType>&, const ExplicitFiniteAut<SymbolType>&,
@@ -100,6 +103,9 @@ class VATA::ExplicitFiniteAut : public AutBase {
     const ExplicitFiniteAut<SymbolType>& bigger, 
     const Rel& preorder); 
 
+  /*
+   * Functors for inclusion checking functions
+   */
   template<class SymbolType, class Rel>
   friend class ExplicitFAAbstractFunctor;
 
@@ -141,7 +147,7 @@ private: // private type definitions
 
 	typedef std::string string;
 
-  // Added subset operation to unordered_set
+  // Stateset is unordered_set with operation for checking subset
 	class StateSet : public std::unordered_set<StateType>  {
   public:
     bool IsSubsetOf(const StateSet& rhs) const {
@@ -153,41 +159,22 @@ private: // private type definitions
       return true;
     }
   };
+
+  // Structure given by parser or given to serializer
 	typedef VATA::Util::AutDescription AutDescription;
+
 	typedef AutDescription::State State;
 
   typedef std::unordered_set<SymbolType> SymbolSet;
   typedef std::unordered_map<StateType,SymbolSet> StateToSymbols;
 
-	//typedef std::shared_ptr<const StateType> RStatePtr;
-  /*
-  typedef StateType RStatePtr;
-
-	typedef std::set<RStatePtr> RStatePtrSet;
-	typedef std::shared_ptr<RStatePtrSet> RStatePtrSetPtr;
-
-	class TransitionCluster : public std::unordered_map<SymbolType,RStatePtrSetPtr>{
-	public:
-		const RStatePtrSetPtr uniqueRStatePtrSet(const SymbolType &symbol){
-			auto &rStateSet =  this->insert(
-			std::make_pair(symbol,RStatePtrSetPtr(nullptr))
-				).first->second;
-
-			if (!rStateSet){
-				rStateSet = RStatePtrSetPtr(new RStatePtrSet);
-			}
-      else if (!rStateSet.unique()){
-				rStateSet = RStatePtrSetPtr(new RStatePtrSet(*rStateSet));
-      }
-			return rStateSet;
-		}
-	}; 
-*/
-
   // The states on the right side of transitions
   typedef StateSet RStateSet;
-	typedef std::shared_ptr<RStateSet> RStateSetPtr;
 
+  /*
+   * Transition cluster maps symbol to set of states when
+   * there exists transition for a given symbol to the states.
+   */
 	class TransitionCluster : public std::unordered_map<SymbolType,RStateSet>{
 	public:
 		 RStateSet& uniqueRStateSet(const SymbolType &symbol){
@@ -198,25 +185,16 @@ private: // private type definitions
       else {
        return iter->second;
       }
-      /*
-			RStateSetPtr &rstateSetPtr =  this->insert(
-			std::make_pair(symbol,RStateSetPtr(nullptr))
-				).first->second;
-
-			if (!rstateSetPtr){
-				rstateSetPtr = RStateSetPtr(new RStateSet);
-			}
-      else if (!rstateSetPtr.unique()){
-				rstateSetPtr = RStateSetPtr(new RStateSet(*rstateSetPtr));
-      }
-			return rstateSetPtr;
-      */
 		}
 	};
+	typedef std::shared_ptr<TransitionCluster> TransitionClusterPtr; 
 
-	typedef std::shared_ptr<TransitionCluster> TransitionClusterPtr; // TODO dodelat pointer na cluster
-
-	class StateToTransitionClusterMap : public std::unordered_map<StateType,TransitionClusterPtr>{
+  /*
+   * Maps a state to transition cluster, so all transitions
+   * for given state are stored in the transition cluster.
+   */
+	class StateToTransitionClusterMap : 
+    public std::unordered_map<StateType,TransitionClusterPtr>{
 	public:
 		const TransitionClusterPtr &uniqueCluster(const StateType &state){
 			auto& clusterPtr = this->insert(
@@ -246,7 +224,7 @@ protected: // private data memebers
   StateToSymbols startStateToSymbols_;
 
 private: // private static data memebers
-	static StringToSymbolDict* pSymbolDict_;
+	static StringToSymbolDict* pSymbolDict_; // Translate symbols to integers
 	static SymbolType* pNextSymbol_;
 	StateToTransitionClusterMapPtr transitions_;
 	
@@ -269,14 +247,8 @@ public:
 
 	~ExplicitFiniteAut() {}
 
-	void devel(VATA::Parsing::AbstrParser& parser, 
-		const std::string& str, StringToStateDict& stateDict)
-	{
-		LoadFromString(parser,str, stateDict);
-	}
-
 	/*
-	 ** Function load automaton to the intern representation 
+	 ** Function loads automaton to the intern representation 
 	 ** from the string.
 	 ** It translates from string to the automaton descrtiption
 	 ** data structure and the calls another function.
@@ -288,10 +260,12 @@ public:
 		LoadFromAutDesc(parser.ParseString(str), stateDict);
 	}
 
+  /*
+   * Loads to internal (explicit) representation from the structure given by
+   * parser
+   */
 	void LoadFromAutDesc(const AutDescription& desc, StringToStateDict& stateDict)
 	{
-	
-		
 		typedef VATA::Util::TranslatorWeak<AutBase::StringToStateDict>
 			StateTranslator; // Translatoror for states
 		typedef VATA::Util::TranslatorWeak<StringToSymbolDict>
@@ -348,7 +322,7 @@ public:
         continue;
       }
 
-      if (t.first.size() != 1) {
+      if (t.first.size() != 1) { // symbols only with arity one
 		    throw std::runtime_error("Not a finite automaton");
       }
 
@@ -386,7 +360,7 @@ public:
 
         SymbolSet symset = this->GetStartSymbols(s);
 
-        if (!symset.size()) { // No start symbols are defined, 'x' will be used
+        if (!symset.size()) { // No start symbols are defined,
           AutDescription::Transition trans(
 			  			leftStateAsTuple,
               x,
@@ -406,7 +380,7 @@ public:
       }
 
 			/*
-			 * Converts transitions to a string
+			 * Converts transitions to data structure for serializer
 			 */
 			for (auto& ls : *(this->transitions_)) {
 				for (auto& s : *ls.second){
@@ -487,6 +461,7 @@ public: // Public static functions
 	}
 
 
+  // Directory for symbols
 	inline static StringToSymbolDict& GetSymbolDict()
 	{
 		assert(pSymbolDict_ != nullptr);
@@ -494,6 +469,7 @@ public: // Public static functions
 		return *pSymbolDict_;
 	}
 
+  // Set of start states
   inline const StateSet& GetStartStates() const {
     return this->startStates_;
   }
@@ -562,6 +538,7 @@ public: // Getters
 
 protected:
 
+  // Returns pointer to map where state is mapped to transition cluster
 	const StateToTransitionClusterMapPtr& uniqueClusterMap(){
 		if (!this->transitions_.unique()){
 			this->transitions_ = StateToTransitionClusterMapPtr(

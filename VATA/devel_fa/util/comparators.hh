@@ -1,3 +1,14 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Header file for comparators of macrostates using simulation
+ *  or identity on finite automata.
+ *
+ *****************************************************************************/
+
 #ifndef EXPLICIT_FINITE_AUT_INCL_COMPARATOR_HH__
 #define EXPLICIT_FINITE_AUT_INCL_COMPARATOR_HH__
 

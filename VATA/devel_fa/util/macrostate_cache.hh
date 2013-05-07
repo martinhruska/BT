@@ -1,3 +1,14 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Header file for cache of macrostates.
+ *
+ *****************************************************************************/
+
+
 #ifndef UTIL_MACROSTATE_CACHE_
 #define UTIL_MACROSTATE_CACHE_
 

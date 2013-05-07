@@ -108,6 +108,7 @@ VATA::ExplicitLTS VATA::Translate(
 	if (base == 3) {
 		relation.set(1, 0, true);
 		relation.set(1, 1, true);
+  }
 
 	relation.set(base - 1, base - 1, true); // reflexivity of start state
 

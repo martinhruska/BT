@@ -1,3 +1,14 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Header file for mapping key to list of values.
+ *
+ *****************************************************************************/
+
+
 #ifndef UTIL_MAP_TO_LIST_
 #define UTIL_MAP_TO_LIST_
 
