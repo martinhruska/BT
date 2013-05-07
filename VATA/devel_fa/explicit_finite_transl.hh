@@ -1,3 +1,13 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Translate to LTS for explicitly represented finite automata.
+ *
+ *****************************************************************************/
+
 #ifndef _VATA_EXPLICIT_FINITE_AUT_TRANSL_
 #define _VATA_EXPLICIT_FINITE_AUT_TRANSL_
 
@@ -32,7 +42,6 @@ VATA::ExplicitLTS VATA::Translate(
 
 	std::unordered_map<SymbolType, size_t> symbolMap;
 
-//  std::cerr << "transitions size: " << aut.transitions_->size() << std::endl;
 	size_t symbolCnt = 0;
 	Util::TranslatorWeak2<std::unordered_map<SymbolType, size_t>>
 		symbolTranslator(symbolMap, [&symbolCnt](const SymbolType&){ return symbolCnt++; });
@@ -76,7 +85,6 @@ VATA::ExplicitLTS VATA::Translate(
       for (auto setState : symbolToSet.second) { // right state of transition
         assert(setState);
 
-//        std::cerr << "Adding transition " <<  leftStateTranslated << " " << symbolTranslator[symbolToSet.first] << " " << setState << std::endl;
         res.addTransition(leftStateTranslated, symbolTranslator[symbolToSet.first],setState);
       }
     }
@@ -85,7 +93,6 @@ VATA::ExplicitLTS VATA::Translate(
 
   for (auto& startState : aut.GetStartStates()) {
     for (auto& startSymbol : aut.GetStartSymbols(startState)) {
- //       std::cerr << "Adding transition " <<  aut.transitions_->size() +aut.GetStartStates().size()<< " " << symbolTranslator[startSymbol] << " " << startState << std::endl;
       res.addTransition(aut.transitions_->size()+aut.GetStartStates().size(),
         symbolTranslator[startSymbol],startState);
     }
@@ -93,18 +100,6 @@ VATA::ExplicitLTS VATA::Translate(
 
     partition[base-1].push_back(stateIndex[aut.transitions_->size()+aut.GetStartStates().size()]);
 
-//  std::cerr << "tady padam " << base << " " << res.states() << std::endl;
-  /*
-  partition.clear();
-  partition.resize(2);
-  partition[0].push_back(0);
-  partition[1].push_back(1);
-  partition[1].push_back(2);
-  //partition[1].push_back(2);
-  partition[1].push_back(4);
-  //std::cerr << "tady taky " << std::endl;
-*/
-//  int i=0; for (auto& a : partition) {std::cerr << i++ << ": "; for (auto &b : a) std::cerr << b;std::cerr << std::endl;}
 	relation.resize(partition.size());
 	relation.reset(false);
 
@@ -113,7 +108,6 @@ VATA::ExplicitLTS VATA::Translate(
 	if (base == 3) {
 		relation.set(1, 0, true);
 		relation.set(1, 1, true);
-	}
 
 	relation.set(base - 1, base - 1, true); // reflexivity of start state
 

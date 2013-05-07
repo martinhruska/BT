@@ -1,3 +1,13 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Removing unreachable states for explicitly represented finite automata.
+ *
+ *****************************************************************************/
+
 #ifndef _VATA_EXPLICIT_FINITE_UNREACH_HH_
 #define _VATA_EXPLICIT_FINITE_UNREACH_HH_
 
@@ -49,16 +59,6 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::RemoveUnreachableStates(
    }
   }
 
-  /* DEBUG
-    std::cerr << "reachable " << reachableStates.size() << " " << aut.transitions_->size() << std::endl;
-    */
-    /* Commented because of useless state  makes it not hold
-  if (reachableStates.size() == aut.transitions_->size()) {
-    return aut;
-  }
-  */
-   // std::cerr << "reachable " << std::endl;
-
     ExplicitFA res;
     res.startStates_ = aut.startStates_;
     res.startStateToSymbols_ = aut.startStateToSymbols_;
@@ -81,8 +81,6 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::RemoveUnreachableStates(
 
       res.transitions_->insert(std::make_pair(state,stateToClusterIterator->second));
     }
-
-  //  std::cerr << "final states size " << res.finalStates_.size() << std::endl; DEBUG
 
     return res;
   }

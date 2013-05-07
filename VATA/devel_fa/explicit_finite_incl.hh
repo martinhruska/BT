@@ -1,3 +1,14 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Checking language inclusion for explicitly represented finite automata.
+ *
+ *****************************************************************************/
+
+
 #ifndef EXPLICIT_FINITE_AUT_INCL_HH_
 #define EXPLICIT_FINITE_AUT_INCL_HH_
 
@@ -42,13 +53,11 @@ bool VATA::CheckFiniteAutInclusion(
 
   preorder.buildIndex(index,inv);
 
-      //std::cout << "Zacinam" <<  std::endl;
   InclFunc inclFunc(antichain,next,singleAntichain,
       smaller,bigger,index,inv,preorder);
 
   // Initialization of antichain sets from initial states of automata
   inclFunc.Init();
-    //std::cout << "Ac size " << antichain.size() << std::endl;
 
   if (!inclFunc.DoesInclusionHold()) {
     return false;
@@ -58,19 +67,9 @@ bool VATA::CheckFiniteAutInclusion(
   BiggerElementType procMacroState; 
   SmallerElementType procState;
 
-  //std::cout << "Antichainuju to" <<  std::endl;
   while(inclFunc.DoesInclusionHold() && next.get(procState,procMacroState)) {
-    //static int i = 0;
-    //std::cerr << "Processed states: " << i++ << std::endl;
-    /*
-    //std::cout << "New state: " << procState << " Macro: "; for (StateType s : procMacroState) { std::cout << s << " ";}; std::cout << std::endl;
-    //std::cout << "Ac size " << antichain.size() << std::endl;
-    //std::cout << "Next size " << next.size() << std::endl;
-    */
-      //std::cout << "Antichainuju to" <<  std::endl;
     inclFunc.MakePost(procState,procMacroState);
   }
-    //std::cout << "Ac size " << antichain.size() << std::endl;
   return inclFunc.DoesInclusionHold();
 }
 #endif

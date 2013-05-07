@@ -1,3 +1,13 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Intersection for explicitly represented finite automata.
+ *
+ *****************************************************************************/
+
 #ifndef _VATA_EXPLICIT_FINITE_ISECT_HH_
 #define _VATA_EXPLICIT_FINITE_ISECT_HH_
 
@@ -59,17 +69,12 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     if (lhs.IsStateFinal(actState->first.first)
       && rhs.IsStateFinal(actState->first.second)) {
       res.SetStateFinal(actState->second);
-
-      //TODO otestovat zdali tyhle dva cykly funguji
-      //PRIDAT pridani pocatecnich stavu
-      
     }
 
     // Get transition clusters for given state
     auto lcluster = ExplicitFA::genericLookup 
       (*lhs.transitions_,actState->first.first);
 
-    //std::cerr << "Leftstate " << actState->first.first << " " << actState->first.second << " indexes " << actState->second <<  std::endl; //DEBUG
    if (!lcluster) {
       continue;
     }
@@ -88,23 +93,12 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
     // Go through transitions of the given state
     for (auto lsymbolToPtrPointer : *lcluster) {
       auto lsymbol = lsymbolToPtrPointer.first;
-      //std::cerr << "New state " << lsymbol << std::endl;
-/*
-      // Check if there is a transition for the given symbol
-      auto rstateSet =  
-        ExplicitFA::genericLookup(*rcluster,lsymbol);
-
-      if (!rstateSet) {
-        continue;
-      }
-*/
       
       auto tempIter = rcluster->find(lsymbol);
 
       if (tempIter == rcluster->end()) {
         continue;
       }
-      //std::cerr << "Continue " << std::endl;
       auto rstateSet = tempIter->second;
      // Adding only usefull new state - for change move these two cycles before main cycle
      if (lhs.IsStateStart(actState->first.first)) {
@@ -125,7 +119,6 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
       }
 
       // Insert a new symbol
-          //std::cerr << "lsymbol: " << lsymbol << std::endl; //DEBUG
       auto& stateSet = clusterptr->uniqueRStateSet(lsymbol); 
       st = stateSet;
 
@@ -135,35 +128,18 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::Intersection(
           auto istate = pTranslMap->insert
             (std::make_pair(std::make_pair(lstate,rstate), 
                             pTranslMap->size())); 
-          //std::cerr << "Righstates " << lstate << " " << rstate << " indexes " << istate.first->second << std::endl; //DEBUG
-          
-          //std::cerr << "set before" << stateSet.size() << " " << istate.first->second << std::endl; //DEBUG
+
           // Insert state from right side of transition
           stateSet.insert(istate.first->second);
-          //std::cerr << "set after" << stateSet.size() << std::endl; //DEBUG
       
           if (istate.second) { // New states added to stack
-          //std::cerr << "Pushes" << std::endl; //DEBUG
            stack.push_back(&*istate.first);
           }
         }
-          //std::cerr << "set after all " << stateSet.size() << std::endl; //DEBUG
       }
-      //std::cout << st.size() << std::endl;
     }
   }
 
-  //std::cout << "result" << std::endl;
-  for (auto a : *res.transitions_) {
-  //std::cout << "now" << a.first << std::endl;
-    for (auto b : *a.second) {
-  //std::cout << "then " << b.first << " " << b.second.size() << std::endl;
-      for (auto c : b.second){
-        //std::cout << a.first << " " << b.first << " " << c  << std::endl;
-      }
-    }
-  }
-  // TODO: Nepujde to efektivneji
   return RemoveUselessStates(res);
 }
 #endif

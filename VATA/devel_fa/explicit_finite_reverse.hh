@@ -1,3 +1,13 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Reversion for explicitly represented finite automata.
+ *
+ *****************************************************************************/
+
 #ifndef _VATA_EXPLICIT_FINITE_AUT_REVERSE_HH_
 #define _VATA_EXPLICIT_FINITE_AUT_REVERSE_HH_
 
