@@ -1,3 +1,15 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Functor for checking inclusion using congruence algorithm for explicitly 
+ *  represented finite automata.
+ *
+ *****************************************************************************/
+
+
 #ifndef EXPLICIT_FINITE_AUT_CONGR_FCTOR_
 #define EXPLICIT_FINITE_AUT_CONGR_FCTOR_
 
@@ -98,10 +110,6 @@ public: // public functions
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
-    //std::cerr << "Smallerinit state: ";
-    //macroPrint(smallerInit);
-    //std::cerr << "Biggerinit state: ";
-    //macroPrint(biggerInit);
     next_.push_back(std::make_pair(StateSet(smallerInit),biggerInit));
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
@@ -109,12 +117,7 @@ public: // public functions
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
 
-    /*
-    std::cerr << "Kongruencuji to" <<  std::endl;
-    std::cerr << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
-    std::cerr << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
-*/
-    auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
+      auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
         return false;
       }
@@ -122,7 +125,6 @@ public: // public functions
         return false;
       }
       for (auto& ls : lss) {
-        //std:: cout << ls << std::endl;
         if (!rss.count(ls)) {
           return false;
         }
@@ -131,25 +133,13 @@ public: // public functions
       return true;
     };
 
-    //TODO tady bude provereni kongruencniho uzaveru
-    //std::cerr << "Smaler: " ;
-    //macroPrint(smaller);
     StateSet congrSmaller(smaller);
     GetCongrClosure(congrSmaller);
-/*
-    std::cerr << "Smaler congr: " ;
-    macroPrint(congrSmaller);
 
-    std::cerr << "Bigger: ";
-    macroPrint(bigger);
-    */
     StateSet congrBigger(bigger);
     GetCongrClosure(congrBigger);
-    //std::cerr << "Bigger congr: ";
-    //macroPrint(congrBigger);
     
     if (areEqual(congrSmaller,congrBigger)) {
-      //std::cerr << "equal" << std::endl;
       smaller.clear();
       bigger.clear();
       return;
@@ -170,15 +160,12 @@ private:
 
   void GetCongrClosure(StateSet& set) {
     auto matchPair = [](const StateSet& closure, const StateSet& rule) -> bool {
-     // //std::cerr << "matchin rule: ";
       if (rule.size() > closure.size()) {
         return false;
       }
       for (auto& s : rule) {
-        ////std::cerr << s << " " << std::endl;
         if (!closure.count(s)) {
           return false;
-     // //std::cerr << std::endl;
         }
       }
       return true;
@@ -190,7 +177,6 @@ private:
 
     std::unordered_set<int> usedRulesN;
     std::unordered_set<int> usedRulesR;
-    //macroPrint(set);
 
     bool appliedRule = true;
     while (appliedRule) {
@@ -201,18 +187,13 @@ private:
          continue;
        }
 
-    ////std::cerr << "PRAVIDLO: " << rel[i].first.size() << std::endl;
        if (matchPair(set, next_[i].first) || 
              matchPair(set, next_[i].second)) { // Rule matches
-     // //std::cerr << "PRAVIDLO pridano, kongruenci uzaver: ";
-    //   macroPrint(set);
          addSubSet(set,next_[i].first);
          addSubSet(set,next_[i].second);
          usedRulesN.insert(i);
          appliedRule = true;
-  //  macroPrint(set);
        }
-      // //std::cerr << "PRAVIDLO preskoceno:" << std::endl;
       }
       for (unsigned int i=0; i < relation_.size(); i++) {
 
@@ -220,18 +201,13 @@ private:
          continue;
        }
 
-    ////std::cerr << "PRAVIDLO: " << rel[i].first.size() << std::endl;
        if (matchPair(set, relation_[i].first) || 
              matchPair(set, relation_[i].second)) { // Rule matches
-     // //std::cerr << "PRAVIDLO pridano, kongruenci uzaver: ";
-    //   macroPrint(set);
          addSubSet(set,relation_[i].first);
          addSubSet(set,relation_[i].second);
          usedRulesR.insert(i);
          appliedRule = true;
-  //  macroPrint(set);
        }
-      // //std::cerr << "PRAVIDLO preskoceno:" << std::endl;
       }
 
     }
@@ -263,9 +239,6 @@ private:
               newBigger,bigger,symbolToSet.first,bigger_);
 
         if (newSmallerAccept != newBiggerAccpet) {
-          //macroPrint(newSmaller);
-          //macroPrint(newBigger);
-          //std::cerr << "NEPLATI" << std::endl;
           this->inclNotHold_ = true;
           return;
         }

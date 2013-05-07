@@ -1,3 +1,15 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Header file for abstract functor for inlcusion checking 
+ *  which contains functions shared by functors for antichains and
+ *  congruence algorithm.
+ *
+ *****************************************************************************/
+
 #ifndef EXPLICIT_FINITE_AUT_ABSTRACT_FCTOR_HH_
 #define EXPLICIT_FINITE_AUT_ABSTRACT_FCTOR_HH_
 

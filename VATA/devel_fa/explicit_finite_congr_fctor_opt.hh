@@ -1,3 +1,15 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Functor for checking inclusion using congruence algorithm for explicitly 
+ *  represented finite automata. Functor works with some optimization.
+ *
+ *****************************************************************************/
+
+
 #ifndef EXPLICIT_FINITE_AUT_CONGR_FCTOR_OPT_
 #define EXPLICIT_FINITE_AUT_CONGR_FCTOR_OPT_
 
@@ -101,20 +113,12 @@ public: // public functions
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
-    //std::cout << "Smallerinit state: ";
-    //macroPrint(smallerInit);
-    //std::cout << "Biggerinit state: ";
-    //macroPrint(biggerInit);
     next_.push_back(std::make_pair(StateSet(smallerInit),biggerInit));
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
   void MakePost(SmallerElementType& smaller, BiggerElementType& bigger) {
     SymbolSet usedSymbols;
-
-    //std::cout << "Kongruencuji to" <<  std::endl;
-    //std::cout << "Novy pruchod, velikost R: " << relation_.size() << std::endl;
-    //std::cout << "Novy pruchod, velikost Next: " << next_.size() << std::endl;
 
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
       if (lss.size() != rss.size()) {
@@ -124,7 +128,6 @@ public: // public functions
         return false;
       }
       for (auto& ls : lss) {
-        //std:: cout << ls << std::endl;
         if (!rss.count(ls)) {
           return false;
         }
@@ -252,9 +255,6 @@ private:
               newBigger,bigger,symbolToSet.first,bigger_);
 
         if (newSmallerAccept != newBiggerAccpet) {
-          //macroPrint(newSmaller);
-          //macroPrint(newBigger);
-          //std::cout << "NEPLATI" << std::endl;
           this->inclNotHold_ = true;
           return;
         }

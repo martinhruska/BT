@@ -1,5 +1,5 @@
 /*****************************************************************************
- *  VATA Tree Automata Library
+ *  VATA Finite Automata Library
  *
  *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
  *

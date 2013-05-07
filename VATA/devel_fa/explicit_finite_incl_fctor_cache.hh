@@ -1,3 +1,15 @@
+/*****************************************************************************
+ *  VATA Finite Automata Library
+ *
+ *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
+ *
+ *  Description:
+ *  Functor for checking inclusion using antichain algorithm for explicitly
+ *  represented finite automata and uses cache and some optimization.
+ *
+ *****************************************************************************/
+
+
 #ifndef EXPLICIT_FINITE_AUT_INCL_FCTOR_CACHE_HH_
 #define EXPLICIT_FINITE_AUT_INCL_FCTOR_CACHE_HH_
 
@@ -130,7 +142,6 @@ public: // public functions
    * add states to the antichain
    */
   void MakePost(StateType procState, BiggerElementType& procMacroState) {
-      //std::cout << "Antichainuju to" <<  std::endl;
      
 
     auto sum = [](StateSet& set, size_t& sum) {for (auto& state : set) sum+=state;};
@@ -225,18 +236,12 @@ private: // private functions
     std::vector<StateType> candidates;
     // Get candidates for given state
     comparator_.getCandidate(candidates,state,singleAntichain_);
-    //  std::cout << "state " << state << std::endl;
     if (!antichain_.contains(candidates,&set,lte)) {
       antichain_.refine(candidates,&set,gte);
       antichain_.insert(state,&set);
       AddToSingleAC(state);
       AddToNext(state,set);
     }
-    /*
-    else {
-      std::cout << "antichains works" << std::endl;
-    }
-    */
   }
 
   /*

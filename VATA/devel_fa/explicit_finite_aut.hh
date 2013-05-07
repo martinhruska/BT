@@ -1,5 +1,5 @@
 /*****************************************************************************
- *  VATA Tree Automata Library
+ *  VATA Finite Automata Library
  *
  *  Copyright (c) 2013  Martin Hruska <xhrusk16@stud.fit.vutbr.cz>
  *
@@ -335,7 +335,7 @@ public:
 
 		// Load transitions
 		for (auto t : desc.transitions) {
-
+      const std::string& symbol = t.second; 
 			const State& rightState = t.third;
 
 			// Check whether there are no start states
