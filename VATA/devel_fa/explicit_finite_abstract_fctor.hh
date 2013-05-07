@@ -29,7 +29,8 @@ public: // data types
   typedef typename ExplicitFA::StateType StateType;
   typedef typename ExplicitFA::StateSet StateSet;
 
-  typedef VATA::Util::Antichain1C<StateType> Antichain1Type;
+  // Define single antichain
+  typedef VATA::Util::Antichain1C<StateType> Antichain1Type; 
 
   typedef typename Rel::IndexType IndexType;
 
@@ -40,10 +41,11 @@ public:
   ExplicitFAAbstractFunctor() : inclNotHold_(false) {}
 
 protected:
+
   /*
-   * Create a new post macro state of the given 
-   * macrostate for given symbol. 
-   * New macrostate is stored to the given StateSet.
+   * Create a new post macrostate of the given 
+   * macrostate (procMacroState) for given symbol (symbol) in FA in parameter macroFA. 
+   * New macrostate is stored to the given StateSet newMacroState.
    * @Return True if created macrostates is final in bigger NFA
    */
   bool CreatePostOfMacroState(StateSet& newMacroState,
@@ -67,6 +69,8 @@ protected:
         continue;
       }
 
+      // The states are added to created macostate and at the
+      // same time is checked  whether they are final or not
       for (auto& s : symbolToStateSet->second) {
         newMacroState.insert(s);
         res |= macroFA.IsStateFinal(s);
@@ -75,6 +79,10 @@ protected:
     return res;
   }
 
+  /*
+   * Create macrostate as the previous function but also
+   * count the sum of all states of the new macrostate
+   */
   bool CreatePostOfMacroStateWithSum(StateSet& newMacroState,
       const StateSet& procMacroState, const SymbolType& symbol, 
       const ExplicitFA& macroFA, size_t& sum) {
@@ -105,6 +113,9 @@ protected:
     return res;
   }
 
+  /*
+   * Just print a macrostate
+   */
   void macroPrint(StateSet& set) {
       for (auto& s : set) {
         std::cerr << s << " ";
@@ -113,6 +124,9 @@ protected:
   }
 
 public: // Public inline functions
+  /*
+   * Return true if inclusion hold
+   */
   inline bool DoesInclusionHold() {
     return !inclNotHold_;
   }
