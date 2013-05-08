@@ -390,9 +390,10 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 
   \subsection{Complete DFA}
   \label{defCompleteDFA}
-  \emph{Complete} DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I_C,F_C)$ is DFA where $\forall p\in Q_C:\forall a\in \Sigma\,.\, (p,a,q)\in\delta_C$ 
-  for some $q\in Q_C$.
-  For all DFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ exists complete DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I_C,F_C)$ such that $Q_C=Q\cup\{q\}$,
+  \emph{Complete} DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I_C,F_C)$ is DFA where $\forall p\in Q_C\,\forall a\in \Sigma\ \exists\, q\in Q_C :
+  p\xrightarrow{a}q\in\delta_C$. 
+  It is possible to create complete DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I_C,F_C)$ from DFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ such that $Q_C=Q\cup\{q\}$, 
+  $I_C=I$, $F_C=F$, 
   $\delta_C = \delta \cup \{p\xrightarrow{a}q\,|\,a\in\Sigma,p\in Q_C,p\xrightarrow{a}r\not\in\delta,r\in Q\}$.
 
 	\subsection{Minimal DFA}
@@ -432,8 +433,8 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
       \item Difference: $L_1-L_2$\\%=\{x\ |\ x\in L \wedge x\not\in K\}$
       Difference of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
       and NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ is done by creating
-      complete DFA $\mathcal{A_C}$ and DFA $\mathcal{B_C}$ (by methods \ref{subset} and \ref{defCompleteDFA}) 
-      and creating product NFA (created as is described in section 
+      complete DFA $\mathcal{A_C}$ and $\mathcal{B_C}$ (by methods \ref{subset} and \ref{defCompleteDFA}) 
+      and creating product DFA (created as is described in section 
       \ref{defAutProd})
       $\mathcal{A_C} \times \mathcal{B_C}=
           (Q_{\mathcal{A}_C}\times Q_{\mathcal{B}_C},\Sigma,\delta_{{\mathcal{A}_C}\times{\mathcal{B}_C}},I_{\mathcal{A}_C}\times I_{\mathcal{B}_C},F)$

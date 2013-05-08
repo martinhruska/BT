@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  8 MAY 2013 20:47
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  8 MAY 2013 21:16
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1173,7 +1173,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 266--271
  []
 
 [7] [8]
-Overfull \hbox (11.99316pt too wide) in paragraph at lines 442--448
+Overfull \hbox (11.99316pt too wide) in paragraph at lines 443--449
 \IL2/cmr/m/n/10.95 Reversion of a NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/n/10.95
  = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ; ^^N[];
  I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is NFA $\OMS/cmsy/m/n/10.95 A
@@ -1186,15 +1186,15 @@ Chapter 3.
 [11
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 547.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 548.
 
  (/usr/share/texmf/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 547.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 548.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 549.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 550.
  [12]
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
@@ -1227,7 +1227,7 @@ Chapter 4.
 [17
 
 ]
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 852
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 853
 .
  (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
@@ -1236,7 +1236,7 @@ File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
 [21] [22]
 Chapter 5.
 
-Overfull \hbox (4.84106pt too wide) in paragraph at lines 983--983
+Overfull \hbox (4.84106pt too wide) in paragraph at lines 984--984
 []\IL2/cmr/bx/n/14.4 Data Struc-tures for Ex-plicit En-cod-ing of Fi-nite Au-to
 mata 
  []
@@ -1245,10 +1245,10 @@ mata
 
 ] (./fig/explicit_fa.tikz) [24] (./fig/translator.tikz) [25]
 LaTeX Font Info:    Font shape `IL2/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1108.
+(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1109.
 
  [26]
-Overfull \hbox (22.21315pt too wide) in paragraph at lines 1193--1200
+Overfull \hbox (22.21315pt too wide) in paragraph at lines 1194--1201
 \IL2/cmr/m/n/10.95 The re-ver-sion of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/
 n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is an NFA $\OMS/cmsy/m
@@ -1257,12 +1257,12 @@ n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1193--1200
+Underfull \hbox (badness 10000) in paragraph at lines 1194--1201
 
  []
 
 [27] [28]
-Underfull \hbox (badness 10000) in paragraph at lines 1270--1276
+Underfull \hbox (badness 10000) in paragraph at lines 1271--1277
 
  []
 
@@ -1290,7 +1290,7 @@ File: fig/plot_aca_step_zprava.png Graphic file (type png)
 <use fig/plot_aca_step_zprava.png> [37
 
 ]
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1618--1620
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1619--1621
 []\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
 un with breadth-first search (which
  []
@@ -1374,7 +1374,7 @@ exmf/fonts/type1/public/cs/csti9.pfb></usr/share/texmf/fonts/type1/public/cs/cs
 tt10.pfb></usr/share/texmf/fonts/type1/public/cs/cstt9.pfb></usr/share/texmf/fo
 nts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhv
 r8a.pfb>
-Output written on projekt.pdf (50 pages, 668293 bytes).
+Output written on projekt.pdf (50 pages, 668364 bytes).
 PDF statistics:
  1077 PDF objects out of 1200 (max. 8388607)
  257 named destinations out of 1000 (max. 131072)
