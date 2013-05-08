@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  6 MAY 2013 15:09
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  8 MAY 2013 20:47
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1066,14 +1066,14 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@vyskartext=\skip64
 \@vyskaobr=\skip65
 
-<fig/vut-zp2.pdf, id=280, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=288, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 138--138
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=281, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=289, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 138--138
@@ -1111,7 +1111,7 @@ File: umsb.fd 2002/01/19 v2.2g AMS font definitions
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.48 ...{5.5.2}Intersection}{26}{subsection.5.5.2}
+l.47 ...hms for Basic Operations}{26}{section.5.5}
                                                    [1
 
 
@@ -1143,12 +1143,24 @@ Chapter 2.
 [5
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 136--140
+Underfull \hbox (badness 10000) in paragraph at lines 134--138
 
  []
 
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 202.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `\epsilon' on input line 202.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `math shift' on input line 202.
+
 [6]
-Overfull \hbox (2.34967pt too wide) in paragraph at lines 263--268
+Overfull \hbox (2.34967pt too wide) in paragraph at lines 266--271
 \IL2/cmr/m/n/10.95 Now we will de-fine how to con-struct equiv-a-lent DFA $\OMS
 /cmsy/m/n/10.95 A[]$ \IL2/cmr/m/n/10.95 for a given NFA $\OMS/cmsy/m/n/10.95 A 
 \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/i
@@ -1156,44 +1168,53 @@ t/10.95 ; ^^N; S; F\OT1/cmr/m/n/10.95 )$\IL2/cmr/m/n/10.95 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 263--268
+Underfull \hbox (badness 10000) in paragraph at lines 266--271
 
  []
 
-[7] [8] [9]
+[7] [8]
+Overfull \hbox (11.99316pt too wide) in paragraph at lines 442--448
+\IL2/cmr/m/n/10.95 Reversion of a NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/n/10.95
+ = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ; ^^N[];
+ I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is NFA $\OMS/cmsy/m/n/10.95 A
+[] \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cm
+m/m/it/10.95 ; ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$
+ []
+
+[9] [10]
 Chapter 3.
-[10
+[11
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 508.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 547.
 
  (/usr/share/texmf/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 508.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 547.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 510.
- [11]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 549.
+ [12]
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
 ion <1.5>, but at most version <1.4> allowed
-<fig/congr1.pdf, id=492, 244.112pt x 274.626pt>
+<fig/congr1.pdf, id=514, 244.112pt x 274.626pt>
 File: fig/congr1.pdf Graphic file (type pdf)
  <use fig/congr1.pdf>
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: found PDF version
  <1.5>, but at most version <1.4> allowed
-<fig/ac1.pdf, id=493, 552.46402pt x 232.87pt>
+<fig/ac1.pdf, id=515, 552.46402pt x 232.87pt>
 File: fig/ac1.pdf Graphic file (type pdf)
- <use fig/ac1.pdf> [12]
+ <use fig/ac1.pdf> [13]
 (./fig/aut_hkcA.tikz
 LaTeX Font Info:    Try loading font information for IL2+cmss on input line 31.
 
  (/usr/share/texmf/tex/latex/cslatex/il2cmss.fd
 File: il2cmss.fd 1997/02/13 CsLaTeX font definitions
 ))
-(./fig/aut_hkcB.tikz) (./fig/congr_closure.tikz) [13 <./fig/congr1.pdf
+(./fig/aut_hkcB.tikz) (./fig/congr_closure.tikz) [14 <./fig/congr1.pdf
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: Page Group det
 ected which pdfTeX can't handle. Ignoring it.
@@ -1201,33 +1222,33 @@ ected which pdfTeX can't handle. Ignoring it.
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: Page Group detect
 ed which pdfTeX can't handle. Ignoring it.
->] [14] (./fig/congr_closure_opt.tikz) [15]
+>] [15] (./fig/congr_closure_opt.tikz) [16]
 Chapter 4.
-[16
+[17
 
 ]
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 813
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 852
 .
  (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
-) [17]
-(./fig/tacas12/lib_design.tikz) [18] (./fig/tacas12/explicit.tikz) [19]
-[20] [21]
+) [18]
+(./fig/tacas12/lib_design.tikz) [19] (./fig/tacas12/explicit.tikz) [20]
+[21] [22]
 Chapter 5.
 
-Overfull \hbox (4.84106pt too wide) in paragraph at lines 944--944
+Overfull \hbox (4.84106pt too wide) in paragraph at lines 983--983
 []\IL2/cmr/bx/n/14.4 Data Struc-tures for Ex-plicit En-cod-ing of Fi-nite Au-to
 mata 
  []
 
-[22
+[23
 
-] (./fig/explicit_fa.tikz) [23] (./fig/translator.tikz) [24]
+] (./fig/explicit_fa.tikz) [24] (./fig/translator.tikz) [25]
 LaTeX Font Info:    Font shape `IL2/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1069.
+(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1108.
 
- [25]
-Overfull \hbox (22.21315pt too wide) in paragraph at lines 1153--1160
+ [26]
+Overfull \hbox (22.21315pt too wide) in paragraph at lines 1193--1200
 \IL2/cmr/m/n/10.95 The re-ver-sion of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/
 n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is an NFA $\OMS/cmsy/m
@@ -1236,90 +1257,90 @@ n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1153--1160
+Underfull \hbox (badness 10000) in paragraph at lines 1193--1200
 
  []
 
-[26] [27]
-Underfull \hbox (badness 10000) in paragraph at lines 1230--1236
+[27] [28]
+Underfull \hbox (badness 10000) in paragraph at lines 1270--1276
 
  []
 
-[28] [29]
+[29] [30]
 Chapter 6.
-[30
+[31
 
-] [31] (./fig/macrostate_cache.tikz) [32] [33] [34] [35]
+] [32] (./fig/macrostate_cache.tikz) [33] [34] [35] [36]
 Chapter 7.
-<fig/plot_aac_zprava.png, id=821, 642.4pt x 481.8pt>
+<fig/plot_aac_zprava.png, id=844, 642.4pt x 481.8pt>
 File: fig/plot_aac_zprava.png Graphic file (type png)
 
 <use fig/plot_aac_zprava.png>
-<fig/plot_aac_step_zprava.png, id=822, 642.4pt x 481.8pt>
+<fig/plot_aac_step_zprava.png, id=845, 642.4pt x 481.8pt>
 File: fig/plot_aac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_aac_step_zprava.png>
-<fig/plot_aca_zprava.png, id=825, 642.4pt x 481.8pt>
+<fig/plot_aca_zprava.png, id=848, 642.4pt x 481.8pt>
 File: fig/plot_aca_zprava.png Graphic file (type png)
 
 <use fig/plot_aca_zprava.png>
-<fig/plot_aca_step_zprava.png, id=826, 642.4pt x 481.8pt>
+<fig/plot_aca_step_zprava.png, id=849, 642.4pt x 481.8pt>
 File: fig/plot_aca_step_zprava.png Graphic file (type png)
 
-<use fig/plot_aca_step_zprava.png> [36
+<use fig/plot_aca_step_zprava.png> [37
 
 ]
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1578--1580
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1618--1620
 []\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
 un with breadth-first search (which
  []
 
-[37 <./fig/plot_aac_zprava.png (PNG copy)> <./fig/plot_aac_step_zprava.png (PNG
- copy)>] <fig/plot_hkc_zprava.png, id=851, 642.4pt x 481.8pt>
+[38 <./fig/plot_aac_zprava.png (PNG copy)> <./fig/plot_aac_step_zprava.png (PNG
+ copy)>] <fig/plot_hkc_zprava.png, id=874, 642.4pt x 481.8pt>
 File: fig/plot_hkc_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_zprava.png>
-<fig/plot_hkc_step_zprava.png, id=852, 642.4pt x 481.8pt>
+<fig/plot_hkc_step_zprava.png, id=875, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
 
-<use fig/plot_hkc_step_zprava.png> [38 <./fig/plot_aca_zprava.png (PNG copy)> <
+<use fig/plot_hkc_step_zprava.png> [39 <./fig/plot_aca_zprava.png (PNG copy)> <
 ./fig/plot_aca_step_zprava.png (PNG copy)> <./fig/plot_hkc_zprava.png (PNG copy
 )> <./fig/plot_hkc_step_zprava.png (PNG copy)>]
-<fig/plot_ac_zprava.png, id=868, 642.4pt x 481.8pt>
+<fig/plot_ac_zprava.png, id=892, 642.4pt x 481.8pt>
 File: fig/plot_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_zprava.png>
-<fig/plot_ac_step_zprava.png, id=869, 642.4pt x 481.8pt>
+<fig/plot_ac_step_zprava.png, id=893, 642.4pt x 481.8pt>
 File: fig/plot_ac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_step_zprava.png>
-<fig/plot_ca_zprava.png, id=870, 642.4pt x 481.8pt>
+<fig/plot_ca_zprava.png, id=894, 642.4pt x 481.8pt>
 File: fig/plot_ca_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_zprava.png>
-<fig/plot_ca_step_zprava.png, id=871, 642.4pt x 481.8pt>
+<fig/plot_ca_step_zprava.png, id=895, 642.4pt x 481.8pt>
 File: fig/plot_ca_step_zprava.png Graphic file (type png)
 
-<use fig/plot_ca_step_zprava.png> [39 <./fig/plot_ac_zprava.png (PNG copy)> <./
+<use fig/plot_ca_step_zprava.png> [40 <./fig/plot_ac_zprava.png (PNG copy)> <./
 fig/plot_ac_step_zprava.png (PNG copy)>]
-<fig/plot_nfa_ac_zprava.png, id=882, 642.4pt x 481.8pt>
+<fig/plot_nfa_ac_zprava.png, id=905, 642.4pt x 481.8pt>
 File: fig/plot_nfa_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_nfa_ac_zprava.png>
-<fig/plot_nfa_congr_zprava.png, id=883, 642.4pt x 481.8pt>
+<fig/plot_nfa_congr_zprava.png, id=906, 642.4pt x 481.8pt>
 File: fig/plot_nfa_congr_zprava.png Graphic file (type png)
 
-<use fig/plot_nfa_congr_zprava.png> [40 <./fig/plot_ca_zprava.png (PNG copy)> <
+<use fig/plot_nfa_congr_zprava.png> [41 <./fig/plot_ca_zprava.png (PNG copy)> <
 ./fig/plot_ca_step_zprava.png (PNG copy)> <./fig/plot_nfa_ac_zprava.png (PNG co
-py)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>] [41]
+py)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>] [42]
 Chapter 8.
-) (./projekt.bbl [42
+) (./projekt.bbl [43
 
-] [43
+] [44
 
-]) (./prilohy.tex [44]
+]) (./prilohy.tex [45]
 Appendix A.
-) [45
+) [46
 
 ] (./projekt.aux)
 
@@ -1328,33 +1349,34 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 18865 strings out of 256216
- 338051 string characters out of 1917072
- 451091 words of memory out of 1500000
- 21436 multiletter control sequences out of 10000+200000
- 29657 words of font info for 82 fonts, out of 1200000 for 2000
+ 18880 strings out of 256216
+ 338249 string characters out of 1917072
+ 450187 words of memory out of 1500000
+ 21446 multiletter control sequences out of 10000+200000
+ 31202 words of font info for 88 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  49i,24n,73p,822b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
  </home/martin/.texlive2007/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.60
 0pk>{/usr/share/texmf/fonts/enc/dvips/base/8a.enc}</usr/share/texmf/fonts/type1
 /bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></us
-r/share/texmf/fonts/type1/bluesky/cm/cmmi6.pfb></usr/share/texmf/fonts/type1/bl
-uesky/cm/cmmi8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi9.pfb></usr/sha
-re/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky
-/cm/cmr8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/te
-xmf/fonts/type1/bluesky/cm/cmsy6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/c
-msy8.pfb></usr/share/texmf/fonts/type1/public/cs/csbx10.pfb></usr/share/texmf/f
-onts/type1/public/cs/csbx12.pfb></usr/share/texmf/fonts/type1/public/cs/csbx8.p
-fb></usr/share/texmf/fonts/type1/public/cs/csr10.pfb></usr/share/texmf/fonts/ty
-pe1/public/cs/csr6.pfb></usr/share/texmf/fonts/type1/public/cs/csr8.pfb></usr/s
-hare/texmf/fonts/type1/public/cs/csr9.pfb></usr/share/texmf/fonts/type1/public/
-cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/tex
-mf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cst
-t9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/f
-onts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (49 pages, 659603 bytes).
+r/share/texmf/fonts/type1/bluesky/cm/cmmi12.pfb></usr/share/texmf/fonts/type1/b
+luesky/cm/cmmi6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi8.pfb></usr/sh
+are/texmf/fonts/type1/bluesky/cm/cmmi9.pfb></usr/share/texmf/fonts/type1/bluesk
+y/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/te
+xmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/
+cmsy6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy8.pfb></usr/share/texmf/
+fonts/type1/public/cs/csbx10.pfb></usr/share/texmf/fonts/type1/public/cs/csbx12
+.pfb></usr/share/texmf/fonts/type1/public/cs/csbx8.pfb></usr/share/texmf/fonts/
+type1/public/cs/csr10.pfb></usr/share/texmf/fonts/type1/public/cs/csr6.pfb></us
+r/share/texmf/fonts/type1/public/cs/csr8.pfb></usr/share/texmf/fonts/type1/publ
+ic/cs/csr9.pfb></usr/share/texmf/fonts/type1/public/cs/csti10.pfb></usr/share/t
+exmf/fonts/type1/public/cs/csti9.pfb></usr/share/texmf/fonts/type1/public/cs/cs
+tt10.pfb></usr/share/texmf/fonts/type1/public/cs/cstt9.pfb></usr/share/texmf/fo
+nts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhv
+r8a.pfb>
+Output written on projekt.pdf (50 pages, 668293 bytes).
 PDF statistics:
- 1051 PDF objects out of 1200 (max. 8388607)
- 254 named destinations out of 1000 (max. 131072)
- 701 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1077 PDF objects out of 1200 (max. 8388607)
+ 257 named destinations out of 1000 (max. 131072)
+ 717 words of extra memory for PDF output out of 10000 (max. 10000000)
 
