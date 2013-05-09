@@ -90,22 +90,25 @@
   keywords.cs={konečné automaty, formální verifikace, jazyková inkluze, bisimulace ke kongruenci, antichain, knihovna VATA}, %klicova slova v anglickem jazyce
   keywords.en={finite automata, formal verification, language inclusion, bisimulation up to congruence, antichains, VATA library},
   %Abstract
-  abstract.cs={Nedeterministické konečné automaty (NKA) jsou používány v mnoha oblastech informatiky, mimo jiné také ve formalní verifikaci nebo pro návrh
-  číslicových obvodů. Jejich výhodou oproti deterministickým konečným automatům (DKA) je schopnost stručnějšího popisu problému. Nicméně, tato výhoda
-  může být pozbyta, jestliže je zvolen naivní přístup k některým operacím, např. k testu jazykové inkluze, jenž vyžaduje explicitní determinizaci
-  NKA. V součastnosti bylo ale představeno několik nových přístupů, které právě explicitní determinizace předcházejí. 
+  abstract.cs={Nedeterministické konečné automaty jsou používány v mnoha oblastech informatiky, mimo jiné také ve formalní verifikaci nebo při návrhu
+  číslicových obvodů, pro reprezentaci regulárních jazyků. 
+  Jejich výhodou oproti deterministickým konečným automatům je schopnost až exponenciálně stručnější reprezentace jazyka. Nicméně, tato výhoda
+  může být pozbyta, jestliže je zvolen naivní přístup k implementaci některých operací, jako je například test jazykové inkluze dvojice automatů, jehož
+  naivní implementace provádí explicitní determinizaci jednoho z automatů.
+  V poslední době bylo ale představeno několik nových přístupů, které právě explicitní determinizaci při testu jazykové inkluze předcházejí. 
   Tyto přístupy využívají technik tzv. antichainů
-  nebo tzv. bisimulace ke kongruenci. Cílém této práce je vytvoření efektivní implementace 
-  zmíněných přístupů v podobě nového rozšíření knihovny VATA. Tato implementace byla otestována a je rychlejší v 90\% testovaných případů
-  nežli jiné implementace, oproti nimž je dvakrát až stokrát rychlejší.},
+  nebo tzv. bisimulace vzhůru ke kongruenci. Cílém této práce je vytvoření efektivní implementace 
+  zmíněných přístupů v podobě nového rozšíření knihovny VATA. Vytvořená implementace byla otestována a je rychlejší v 90\,\% testovaných případů
+  nežli jiné implementace, oproti nimž je až řádově rychlejší.},
   abstract.en={
-    Nondeterministic finite automata (NFA) are used in many areas of computer science, including, but not limited to, formal verification, or the design of digital
-    circuits. Their advantages over deterministic finite automata (DFA) is that they may be exponentially conciser. 
-    However, this advantage may be lost if a na\"{\i}ve
-    approach to some operations, in particular checking language inclusion, which performs explicit determinization of the NFA, is taken. Recently, several new
+    Nondeterministic finite automata are used in many areas of computer science, including, but not limited to, formal verification or the design of digital
+    circuits, for the representation of a regular language. Their advantages over deterministic finite automata is that they may represent a language 
+    in evan exponentially conciser way. 
+    However, this advantage may be lost if a na\"{\i}ve approach to some operations is taken, in particular for checking language 
+    inclusion of a pair of automata, the na\"{\i}ve implementation of which performs an explicit determinization of one of the automata. Recently, several new
     techniques for this problem that avoid explicit determinization (using the so-called antichains or bisimulation up to congruence) have been proposed. 
-    The main goal of this thesis is to efficiently implement these techniques as the new extension of the VATA library. The implementation has been evaluated
-    and beats the other implementations in over 90\% of tested cases and it is from two times to hundred times faster then the other implementations.},
+    The main goal of the presented work is to efficiently implement these techniques as a new extension of the VATA library. The implementation has been evaluated
+    and is superior to the other implementations in over 90\,\% of tested cases by the factor of 2 to 100.},
   %Prohlaseni
   declaration={Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně pod vedením\\ pana Ing. Ondřeje Lengála},
   %Podekovani (nepovinne)

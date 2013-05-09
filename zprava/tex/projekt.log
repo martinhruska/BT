@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  8 MAY 2013 21:16
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  9 MAY 2013 15:31
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1005,35 +1005,35 @@ Package: footnote 1997/01/28 1.13 Save footnotes around boxes
 ) (./projekt.aux)
 \openout1 = `projekt.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for IL2/cmr/m/n on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 132.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 132.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for IL2/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 135.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 135.
 
 
 (/usr/share/texmf/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 132.
-LaTeX Font Info:    ... okay on input line 132.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
 
 ABD: EveryShipout initializing macros
-Package hyperref Info: Link coloring OFF on input line 132.
+Package hyperref Info: Link coloring OFF on input line 135.
 
 (/usr/share/texmf/tex/latex/hyperref/nameref.sty
 Package: nameref 2006/12/27 v2.28 Cross-referencing by name of section
@@ -1043,14 +1043,14 @@ Package: refcount 2006/02/20 v3.0 Data extraction from references (HO)
 )
 \c@section@level=\count133
 )
-LaTeX Info: Redefining \ref on input line 132.
-LaTeX Info: Redefining \pageref on input line 132.
+LaTeX Info: Redefining \ref on input line 135.
+LaTeX Info: Redefining \pageref on input line 135.
  (./projekt.out)
 (./projekt.out)
 \@outlinefile=\write4
 \openout4 = `projekt.out'.
 
-LaTeX Font Info:    Try loading font information for IL2+phv on input line 138.
+LaTeX Font Info:    Try loading font information for IL2+phv on input line 141.
 
  (/usr/share/texmf/tex/cslatex/base/il2phv.fd
 File: il2phv.fd 1998/12/27 CS Helvetica
@@ -1066,37 +1066,37 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@vyskartext=\skip64
 \@vyskaobr=\skip65
 
-<fig/vut-zp2.pdf, id=288, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=284, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
-Overfull \hbox (109.58464pt too wide) in paragraph at lines 138--138
+Overfull \hbox (109.58464pt too wide) in paragraph at lines 141--141
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=289, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=285, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
-Overfull \hbox (109.58464pt too wide) in paragraph at lines 138--138
+Overfull \hbox (109.58464pt too wide) in paragraph at lines 141--141
 [][] 
  []
 
 [2 <./fig/vut-zp2.pdf> <./fig/fit-zp2.pdf>]
 
 LaTeX Font Warning: Font shape `IL2/cmr/m/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 138.
+(Font)              size <17.28> substituted on input line 141.
 
 
 LaTeX Font Warning: Font shape `IL2/cmr/bx/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 138.
+(Font)              size <17.28> substituted on input line 141.
 
 [3]
 
 LaTeX Font Warning: Font shape `IL2/cmr/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 138.
+(Font)              size <17.28> substituted on input line 141.
 
 
 LaTeX Font Warning: Font shape `IL2/cmr/bx/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 138.
+(Font)              size <17.28> substituted on input line 141.
 
 [4] (./projekt.toc
 LaTeX Font Info:    Try loading font information for U+msa on input line 4.
@@ -1111,7 +1111,7 @@ File: umsb.fd 2002/01/19 v2.2g AMS font definitions
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.47 ...hms for Basic Operations}{26}{section.5.5}
+l.46 ...erline {5.5.1}Union}{25}{subsection.5.5.1}
                                                    [1
 
 
@@ -1130,7 +1130,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.39 
+l.40 
       [3
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
@@ -1143,24 +1143,12 @@ Chapter 2.
 [5
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 134--138
+Underfull \hbox (badness 10000) in paragraph at lines 136--140
 
  []
 
-
-Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-(hyperref)                removing `math shift' on input line 202.
-
-
-Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-(hyperref)                removing `\epsilon' on input line 202.
-
-
-Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-(hyperref)                removing `math shift' on input line 202.
-
 [6]
-Overfull \hbox (2.34967pt too wide) in paragraph at lines 266--271
+Overfull \hbox (2.34967pt too wide) in paragraph at lines 231--236
 \IL2/cmr/m/n/10.95 Now we will de-fine how to con-struct equiv-a-lent DFA $\OMS
 /cmsy/m/n/10.95 A[]$ \IL2/cmr/m/n/10.95 for a given NFA $\OMS/cmsy/m/n/10.95 A 
 \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/i
@@ -1168,12 +1156,16 @@ t/10.95 ; ^^N; S; F\OT1/cmr/m/n/10.95 )$\IL2/cmr/m/n/10.95 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--271
+Underfull \hbox (badness 10000) in paragraph at lines 231--236
 
  []
 
 [7] [8]
-Overfull \hbox (11.99316pt too wide) in paragraph at lines 443--449
+
+LaTeX Warning: Reference `defAutProd' on page 9 undefined on input line 403.
+
+
+Overfull \hbox (11.99316pt too wide) in paragraph at lines 408--414
 \IL2/cmr/m/n/10.95 Reversion of a NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/n/10.95
  = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ; ^^N[];
  I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is NFA $\OMS/cmsy/m/n/10.95 A
@@ -1181,40 +1173,40 @@ Overfull \hbox (11.99316pt too wide) in paragraph at lines 443--449
 m/m/it/10.95 ; ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$
  []
 
-[9] [10]
+[9]
 Chapter 3.
-[11
+[10
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 548.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 513.
 
  (/usr/share/texmf/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 548.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 513.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 550.
- [12]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 515.
+ [11]
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
 ion <1.5>, but at most version <1.4> allowed
-<fig/congr1.pdf, id=514, 244.112pt x 274.626pt>
+<fig/congr1.pdf, id=502, 244.112pt x 274.626pt>
 File: fig/congr1.pdf Graphic file (type pdf)
  <use fig/congr1.pdf>
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: found PDF version
  <1.5>, but at most version <1.4> allowed
-<fig/ac1.pdf, id=515, 552.46402pt x 232.87pt>
+<fig/ac1.pdf, id=503, 552.46402pt x 232.87pt>
 File: fig/ac1.pdf Graphic file (type pdf)
- <use fig/ac1.pdf> [13]
+ <use fig/ac1.pdf> [12]
 (./fig/aut_hkcA.tikz
 LaTeX Font Info:    Try loading font information for IL2+cmss on input line 31.
 
  (/usr/share/texmf/tex/latex/cslatex/il2cmss.fd
 File: il2cmss.fd 1997/02/13 CsLaTeX font definitions
 ))
-(./fig/aut_hkcB.tikz) (./fig/congr_closure.tikz) [14 <./fig/congr1.pdf
+(./fig/aut_hkcB.tikz) (./fig/congr_closure.tikz) [13 <./fig/congr1.pdf
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: Page Group det
 ected which pdfTeX can't handle. Ignoring it.
@@ -1222,33 +1214,33 @@ ected which pdfTeX can't handle. Ignoring it.
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: Page Group detect
 ed which pdfTeX can't handle. Ignoring it.
->] [15] (./fig/congr_closure_opt.tikz) [16]
+>] [14] (./fig/congr_closure_opt.tikz) [15]
 Chapter 4.
-[17
+[16
 
 ]
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 853
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 818
 .
  (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
-) [18]
-(./fig/tacas12/lib_design.tikz) [19] (./fig/tacas12/explicit.tikz) [20]
-[21] [22]
+) [17]
+(./fig/tacas12/lib_design.tikz) [18] (./fig/tacas12/explicit.tikz) [19]
+[20] [21]
 Chapter 5.
 
-Overfull \hbox (4.84106pt too wide) in paragraph at lines 984--984
+Overfull \hbox (4.84106pt too wide) in paragraph at lines 949--949
 []\IL2/cmr/bx/n/14.4 Data Struc-tures for Ex-plicit En-cod-ing of Fi-nite Au-to
 mata 
  []
 
-[23
+[22
 
-] (./fig/explicit_fa.tikz) [24] (./fig/translator.tikz) [25]
+] (./fig/explicit_fa.tikz) [23] (./fig/translator.tikz) [24]
 LaTeX Font Info:    Font shape `IL2/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1109.
+(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1074.
 
- [26]
-Overfull \hbox (22.21315pt too wide) in paragraph at lines 1194--1201
+ [25]
+Overfull \hbox (22.21315pt too wide) in paragraph at lines 1159--1166
 \IL2/cmr/m/n/10.95 The re-ver-sion of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/
 n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is an NFA $\OMS/cmsy/m
@@ -1257,126 +1249,128 @@ n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1194--1201
+Underfull \hbox (badness 10000) in paragraph at lines 1159--1166
 
  []
 
-[27] [28]
-Underfull \hbox (badness 10000) in paragraph at lines 1271--1277
+[26] [27]
+Underfull \hbox (badness 10000) in paragraph at lines 1236--1242
 
  []
 
-[29] [30]
+[28] [29]
 Chapter 6.
-[31
+[30
 
-] [32] (./fig/macrostate_cache.tikz) [33] [34] [35] [36]
+] [31] (./fig/macrostate_cache.tikz) [32] [33] [34] [35]
 Chapter 7.
-<fig/plot_aac_zprava.png, id=844, 642.4pt x 481.8pt>
+<fig/plot_aac_zprava.png, id=832, 642.4pt x 481.8pt>
 File: fig/plot_aac_zprava.png Graphic file (type png)
 
 <use fig/plot_aac_zprava.png>
-<fig/plot_aac_step_zprava.png, id=845, 642.4pt x 481.8pt>
+<fig/plot_aac_step_zprava.png, id=833, 642.4pt x 481.8pt>
 File: fig/plot_aac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_aac_step_zprava.png>
-<fig/plot_aca_zprava.png, id=848, 642.4pt x 481.8pt>
+<fig/plot_aca_zprava.png, id=836, 642.4pt x 481.8pt>
 File: fig/plot_aca_zprava.png Graphic file (type png)
 
 <use fig/plot_aca_zprava.png>
-<fig/plot_aca_step_zprava.png, id=849, 642.4pt x 481.8pt>
+<fig/plot_aca_step_zprava.png, id=837, 642.4pt x 481.8pt>
 File: fig/plot_aca_step_zprava.png Graphic file (type png)
 
-<use fig/plot_aca_step_zprava.png> [37
+<use fig/plot_aca_step_zprava.png> [36
 
 ]
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1619--1621
+Overfull \hbox (0.95328pt too wide) in paragraph at lines 1584--1586
 []\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
 un with breadth-first search (which
  []
 
-[38 <./fig/plot_aac_zprava.png (PNG copy)> <./fig/plot_aac_step_zprava.png (PNG
- copy)>] <fig/plot_hkc_zprava.png, id=874, 642.4pt x 481.8pt>
+[37 <./fig/plot_aac_zprava.png (PNG copy)> <./fig/plot_aac_step_zprava.png (PNG
+ copy)>] <fig/plot_hkc_zprava.png, id=862, 642.4pt x 481.8pt>
 File: fig/plot_hkc_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_zprava.png>
-<fig/plot_hkc_step_zprava.png, id=875, 642.4pt x 481.8pt>
+<fig/plot_hkc_step_zprava.png, id=863, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
 
-<use fig/plot_hkc_step_zprava.png> [39 <./fig/plot_aca_zprava.png (PNG copy)> <
+<use fig/plot_hkc_step_zprava.png> [38 <./fig/plot_aca_zprava.png (PNG copy)> <
 ./fig/plot_aca_step_zprava.png (PNG copy)> <./fig/plot_hkc_zprava.png (PNG copy
 )> <./fig/plot_hkc_step_zprava.png (PNG copy)>]
-<fig/plot_ac_zprava.png, id=892, 642.4pt x 481.8pt>
+<fig/plot_ac_zprava.png, id=879, 642.4pt x 481.8pt>
 File: fig/plot_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_zprava.png>
-<fig/plot_ac_step_zprava.png, id=893, 642.4pt x 481.8pt>
+<fig/plot_ac_step_zprava.png, id=880, 642.4pt x 481.8pt>
 File: fig/plot_ac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_step_zprava.png>
-<fig/plot_ca_zprava.png, id=894, 642.4pt x 481.8pt>
+<fig/plot_ca_zprava.png, id=881, 642.4pt x 481.8pt>
 File: fig/plot_ca_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_zprava.png>
-<fig/plot_ca_step_zprava.png, id=895, 642.4pt x 481.8pt>
+<fig/plot_ca_step_zprava.png, id=882, 642.4pt x 481.8pt>
 File: fig/plot_ca_step_zprava.png Graphic file (type png)
 
-<use fig/plot_ca_step_zprava.png> [40 <./fig/plot_ac_zprava.png (PNG copy)> <./
+<use fig/plot_ca_step_zprava.png> [39 <./fig/plot_ac_zprava.png (PNG copy)> <./
 fig/plot_ac_step_zprava.png (PNG copy)>]
-<fig/plot_nfa_ac_zprava.png, id=905, 642.4pt x 481.8pt>
+<fig/plot_nfa_ac_zprava.png, id=893, 642.4pt x 481.8pt>
 File: fig/plot_nfa_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_nfa_ac_zprava.png>
-<fig/plot_nfa_congr_zprava.png, id=906, 642.4pt x 481.8pt>
+<fig/plot_nfa_congr_zprava.png, id=894, 642.4pt x 481.8pt>
 File: fig/plot_nfa_congr_zprava.png Graphic file (type png)
 
-<use fig/plot_nfa_congr_zprava.png> [41 <./fig/plot_ca_zprava.png (PNG copy)> <
+<use fig/plot_nfa_congr_zprava.png> [40 <./fig/plot_ca_zprava.png (PNG copy)> <
 ./fig/plot_ca_step_zprava.png (PNG copy)> <./fig/plot_nfa_ac_zprava.png (PNG co
-py)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>] [42]
+py)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>] [41]
 Chapter 8.
-) (./projekt.bbl [43
+) (./projekt.bbl [42
 
-] [44
+] [43
 
-]) (./prilohy.tex [45]
+]) (./prilohy.tex [44]
 Appendix A.
-) [46
+) [45
 
 ] (./projekt.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.28pt have occurred.
 
+
+LaTeX Warning: There were undefined references.
+
  ) 
 Here is how much of TeX's memory you used:
- 18880 strings out of 256216
- 338249 string characters out of 1917072
- 450187 words of memory out of 1500000
- 21446 multiletter control sequences out of 10000+200000
- 31202 words of font info for 88 fonts, out of 1200000 for 2000
+ 18867 strings out of 256216
+ 338090 string characters out of 1917072
+ 450393 words of memory out of 1500000
+ 21438 multiletter control sequences out of 10000+200000
+ 29657 words of font info for 82 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  49i,24n,73p,822b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
  </home/martin/.texlive2007/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.60
 0pk>{/usr/share/texmf/fonts/enc/dvips/base/8a.enc}</usr/share/texmf/fonts/type1
 /bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></us
-r/share/texmf/fonts/type1/bluesky/cm/cmmi12.pfb></usr/share/texmf/fonts/type1/b
-luesky/cm/cmmi6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi8.pfb></usr/sh
-are/texmf/fonts/type1/bluesky/cm/cmmi9.pfb></usr/share/texmf/fonts/type1/bluesk
-y/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/te
-xmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/
-cmsy6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy8.pfb></usr/share/texmf/
-fonts/type1/public/cs/csbx10.pfb></usr/share/texmf/fonts/type1/public/cs/csbx12
-.pfb></usr/share/texmf/fonts/type1/public/cs/csbx8.pfb></usr/share/texmf/fonts/
-type1/public/cs/csr10.pfb></usr/share/texmf/fonts/type1/public/cs/csr6.pfb></us
-r/share/texmf/fonts/type1/public/cs/csr8.pfb></usr/share/texmf/fonts/type1/publ
-ic/cs/csr9.pfb></usr/share/texmf/fonts/type1/public/cs/csti10.pfb></usr/share/t
-exmf/fonts/type1/public/cs/csti9.pfb></usr/share/texmf/fonts/type1/public/cs/cs
-tt10.pfb></usr/share/texmf/fonts/type1/public/cs/cstt9.pfb></usr/share/texmf/fo
-nts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhv
-r8a.pfb>
-Output written on projekt.pdf (50 pages, 668364 bytes).
+r/share/texmf/fonts/type1/bluesky/cm/cmmi6.pfb></usr/share/texmf/fonts/type1/bl
+uesky/cm/cmmi8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi9.pfb></usr/sha
+re/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky
+/cm/cmr8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/te
+xmf/fonts/type1/bluesky/cm/cmsy6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/c
+msy8.pfb></usr/share/texmf/fonts/type1/public/cs/csbx10.pfb></usr/share/texmf/f
+onts/type1/public/cs/csbx12.pfb></usr/share/texmf/fonts/type1/public/cs/csbx8.p
+fb></usr/share/texmf/fonts/type1/public/cs/csr10.pfb></usr/share/texmf/fonts/ty
+pe1/public/cs/csr6.pfb></usr/share/texmf/fonts/type1/public/cs/csr8.pfb></usr/s
+hare/texmf/fonts/type1/public/cs/csr9.pfb></usr/share/texmf/fonts/type1/public/
+cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/csti9.pfb></usr/share/tex
+mf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/public/cs/cst
+t9.pfb></usr/share/texmf/fonts/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/f
+onts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on projekt.pdf (49 pages, 665423 bytes).
 PDF statistics:
- 1077 PDF objects out of 1200 (max. 8388607)
- 257 named destinations out of 1000 (max. 131072)
- 717 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1062 PDF objects out of 1200 (max. 8388607)
+ 254 named destinations out of 1000 (max. 131072)
+ 709 words of extra memory for PDF output out of 10000 (max. 10000000)
 

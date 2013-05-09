@@ -1,19 +1,20 @@
 \chapter{Introduction}
 \label{introduction}
 A finite automaton (FA) is a model of computation with applications in different branches of computer science, e.g., compiler design, formal verification, 
-designing of digital circuits or natural language processing. In formal verification alone are its uses abundant, 
+the design of digital circuits or natural language processing. In formal verification alone are its uses abundant, 
 for example in model checking of safety temporal properties \cite{principles}, abstract regular model checking \cite{armc}, static analysis \cite{metal}, 
 or decision procedures of some logics, such as Presburger arithmetic or weak 
 monadic second-order theory of one successor (WS1S) \cite{mona}.
 
 Many of the mentioned applications need to perform certain expensive operations on FA, such as checking universality of an FA (i.e., checking whether it
 accepts any word over a given alphabet), or checking language inclusion of a pair of FA (i.e., testing whether the language of one FA is a subset of the language
-of the second FA). The classical (so called \emph{textbook}) approach is based on \emph{complementation} of the language of an FA. Complementation is easy for 
-\emph{deterministic} FA (DFA)--just swapping accepting and non-accepting states--but a hard problem for \emph{nondeterministic} FA (NFA), which need 
+of the other FA). The classical (so called \emph{textbook}) approach is based on \emph{complementation} of the language of one of the FA. 
+Complementation is easy for 
+\emph{deterministic} FA (DFA)---just swapping accepting and non-accepting states---but a hard problem for \emph{nondeterministic} FA (NFA), which need 
 to be determinised first (this may lead to an exponential explosion in the number of the states of the automaton). 
 Both operations of checking of universality and language inclusion over NFA are PSPACE-complete problems \cite{cav06}.
 
-Recently, there has been a considerable advance in techniques for dealing with these problems. The new techniques are either based on the so-called 
+Recently, there has been a considerable advance in techniques for dealing with these two problems. The new techniques are either based on the so-called 
 \emph{antichains} \cite{cav06,tacas10} or the so-called \emph{bisimulation up to congruence} \cite{popl13}. 
 In general, those techniques do not need an explicit construction of the complement
 automaton. They only construct a sub-automaton which is sufficient for either proving that the universality or inclusion hold, or finding a counterexample.
@@ -24,41 +25,41 @@ closest implementation is VATA \cite{libvata}, a general library for nondetermin
 as unary tree automata) but not with the optimal performance given by its overhead that comes with the ability to handle much richer structures. 
  
 The goal of this work is two-fold: (i) extending VATA with an NFA module implementing basic operations on NFA, such as union, intersection, or 
-checking language inclusion, and (ii) an efficient design and implementation of checking language inclusion of NFA using 
+checking language inclusion, and (ii) an efficient design and implementation of operations for checking language inclusion of NFA using 
 bisimulation up to congruence (which is missing in VATA for tree automata).
 
-After this introduction, in the \ref{teorie}nd chapter of this document, 
-will be defined theoretical background. The \ref{chapInclusion}rd chapter provides description of the 
+After this introduction, Chapter \ref{teorie} of this text describes the theoretical background. 
+Chapter\ref{chapInclusion} provides a description of recently proposed 
 efficient approaches to language inclusion testing and their optimization.
-The list of the existing libraries for finite automata manipulation is given in the chapter \ref{libraries}. It the same chapter
-can be found description of the VATA library. 
-The design of the new module of the VATA library and algorithms used in it are described in the chapter \ref{design}. 
-The implementation optimization of the algorithms for language inclusion checking and the others implementation's issues will take a place
-in chapter \ref{implementation}. The evaluation of the optimized algorithms for the inclusion checking is in chapter \ref{eval}. The summarizing of the whole
-thesis is given in the last chapter \ref{concl}.
-
+A list of the existing libraries for finite automata manipulation is given in Chapter \ref{libraries}. The same chapter
+provides description of the VATA library. 
+The design of the new module of the VATA library and algorithms used therein are described in Chapter \ref{design}. 
+The implementation optimization of the algorithms for language inclusion checking and issues of other implementation is discussed in chapter \ref{implementation}.
+The evaluation of the optimized algorithms for the inclusion checking is in Chapter \ref{eval}. Chapter \ref{concl} summaries the thesis and gives directions for
+future work.
 
 \chapter{Preliminaries}
-This chapter contains theoretical foundations of the thesis. No proofs are given because they can be found in literature \cite{kozen,ullman}. 
-First, the languages will be defined then finite automata and their context, the regular languages and their closure properties. 
+This chapter contains theoretical foundations of the thesis. No proofs are given but they can be found in referenced literature \cite{kozen,ullman}. 
+First, languages will be defined, then finite automata and their context and regular languages and their closure properties will follow. 
 \label{teorie}
 
 \section{Languages}
 We call a finite set of symbols $\Sigma$ an \emph{alphabet}. A~\emph{word} $w$ over $\Sigma$ of \emph{length} $n$ is a finite sequence of symbols 
-$w=a_1\ldots a_n$, where $\forall 1 \leq i \leq n\ . \ a_i \in \Sigma$. An \emph{empty word} is denoted as $\epsilon \not\in\Sigma$ and its length is $0$. 
-We define \emph{concatenation} as an associative binary operation on words over $\Sigma$ represented by the symbol $\cdot$ such that for two words $u=a_1\ldots a_2$
-and $v=b_1\ldots b_n$ over $\Sigma$ it holds that $\epsilon\cdot u=u\cdot\epsilon=u$ and $u\cdot v=a_1 \ldots a_nb_1 \ldots b_m$.
-We define a symbol $\Sigma^{*}$ as a set of all words over $\Sigma$ including the empty word and a symbol $\Sigma^{+}$ as a set of 
+$w=a_1\cdots a_n$, where $\forall 1 \leq i \leq n\ . \ a_i \in \Sigma$. An \emph{empty word} is denoted as $\epsilon \not\in\Sigma$ and its length is $0$. 
+We define \emph{concatenation} as an associative binary operation on words over $\Sigma$ represented by the symbol $\cdot$ such that for two words 
+$u=a_1\cdots a_n$
+and $v=b_1\cdots b_m$ over $\Sigma$ it holds that $\epsilon\cdot u=u\cdot\epsilon=u$ and $u\cdot v=a_1 \cdots a_nb_1 \cdots b_m$.
+We define $\Sigma^{*}$ as a set of all words over $\Sigma$ including the empty word and $\Sigma^{+}$ as set of 
 all words over $\Sigma$ without the empty word, 
 so it holds that $\Sigma^{*}=\Sigma^{+}\cup\epsilon$. A~\emph{language} $L$ over $\Sigma$ is a subset of $\Sigma^{*}$.
-Given a pair of languages $L_1$ over an alphabet $\Sigma_{1}$ and $L_{2}$ over an alphabet $\Sigma_{2}$. Their concatenation is defined by 
+Given a pair of languages $L_1$ over an alphabet $\Sigma_{1}$ and $L_{2}$ over an alphabet $\Sigma_{2}$, their concatenation is defined as 
 $L_1\cdot L_2=\{x\cdot y\ |\ x\in L_1, y\in L_2 \}$.
 We define \emph{iteration} $L^{*}$ and \emph{positive} iteration $L^{+}$ of a language $L$ over an alphabet $\Sigma$ as:
 	\begin{itemize}
-		\item $L^0=\{\epsilon\}$
-		\item $L^{n+1}=L\cdot L^n$, for $n \leq 1$
-    \item $L^{*}=\bigcup_{n\leq 0} L^{n}$
-    \item $L^{+}=\bigcup_{n\leq 1} L^{n}$
+		\item $L^0=\{\epsilon\}$,
+		\item $L^{n+1}=L\cdot L^n$, for $n \geq 1$,
+    \item $L^{*}=\bigcup_{n\geq 0} L^{n}$,
+    \item $L^{+}=\bigcup_{n\geq 1} L^{n}$.
 	\end{itemize}
 
 \section{Finite Automata}
@@ -66,16 +67,17 @@ We define \emph{iteration} $L^{*}$ and \emph{positive} iteration $L^{+}$ of a la
 
 	\subsection{Nondeterministic Finite Automaton}
 	\label{defNFA}
-		\emph{A Nondeterministic Finite Automaton} (NFA) is a quintuple $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, where
+		\emph{A nondeterministic finite automaton} (NFA) is a quintuple $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, where
 		\begin{itemize}
-			\item $Q$ is a finite set of states,
+			\item $Q$ is a finite set of \emph{states},
 			\item $\Sigma$ is an alphabet,
 			\item $\delta \subseteq Q \times \Sigma \times Q$ is a transition relation. We use $p \xrightarrow{a} q$ to denote that $(p,a,q)\in\delta$,
-			\item $I$ is finite set of states, that $I \subseteq Q$. Elements of $I$ are called initial states.
-			\item $F$ is finite set of states, that $F \subseteq Q$. Elements of $F$ are called final states.
+			\item $I\subseteq Q$ is finite set of states, elements of $I$ are called \emph{initial states}.
+			\item $F\subseteq Q$ is finite set of states, elements of $F$ are called \emph{final states}.
 		\end{itemize}
 
-    An example of an NFA is shown on the figure \ref{pic_ex_nfa}.
+    An example of a NFA over $\Sigma=\{a,b,c,d\}$ is shown in the figure \ref{pic_ex_nfa}. 
+    Notice the nondeterministism of transitions, e.g., for state $P$ over $a$.
 %%%%example of NFA
 		\begin{figure}[t]
 		\begin{center}
@@ -138,11 +140,11 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 		\begin{itemize}
 			\item $Q$ is a finite set of states,
 			\item $\Sigma$ is  an alphabet,
-			\item $\delta$:  $Q \times \Sigma \to Q$ is a partial transition function. We use $p \xrightarrow{a} q$ to denote that $\delta(p,a)=q$
-			\item $I\subseteq Q$ is finite set of initial states, that $|I| \leq 1$.
+			\item $\delta$:  $Q \times \Sigma \to Q$ is a partial transition function, we use $p \xrightarrow{a} q$ to denote that $\delta(p,a)=q$,
+			\item $I\subseteq Q$ is finite set of initial states, such that $|I| \leq 1$,
 			\item $F\subseteq Q$ is finite set of final states.
 		\end{itemize}
-    An example of a DFA is given on the figure \ref{pic_ex_dfa}.
+    An example of a DFA over $\Sigma=\{a,b,c\}$ is given in the figure \ref{pic_ex_dfa}.
 
 
 %%%example of DFA
@@ -199,31 +201,6 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 \end{figure}
 %%%%end of DFA example
 
-  \subsection{$\epsilon$ transition}
-  \label{defEpsTrans}
-  $\epsilon$ transition of NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ is a transition $(p,\epsilon,q)\in\delta$ where $p,q\in Q$ and 
-  $\epsilon$ is an empty word. $\epsilon$ transition is possible only in NFA.
-
-%%%comment
-\begin{comment}
-	\subsection{Function $\hat{\delta}$}
-	\label{defFunct}
-		\begin{definition}
-		A function $\hat{\delta}$ is define as
-		\begin{description}
-			$\hat{\delta}: Q\times\Sigma^{*}\rightarrow Q$
-		\end{description}
-
-		from $\delta$ by induction on the length of $x$:
-			\begin{itemize}
-				\item $\hat{\delta}(q,\epsilon)=q$, where $\epsilon$ is empty string
-				\item $\hat{\delta}(q,xa)=\delta(\hat{\delta}(q,x),a)$
-			\end{itemize}
-		\end{definition}
-\end{comment}
-%%%%		
-
-
   \subsection{Operations over Finite Automata}
     \subsubsection{Automata Union}
     \label{defAUnion}
@@ -233,6 +210,7 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
         \item $\mathcal{A} \cup \mathcal{B}=(Q_\mathcal{A}\cup Q_\mathcal{B},\Sigma,
             \delta_\mathcal{A}\cup\delta_\mathcal{B},I_\mathcal{A}\cup I_\mathcal{B},F_\mathcal{A}\cup F_\mathcal{B})$
       \end{description}
+      Note that $L_{\mathcal{A}\cup\mathcal{B}}=L_\mathcal{A}\cup L_\mathcal{B}$
     
     \subsubsection{Automata Intersection}
     \label{defAInter}
@@ -246,20 +224,7 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
         \item $\delta = 
         \{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_\mathcal{A} \wedge q_1 \xrightarrow{a} q_2 \in \delta_\mathcal{B})\}$\
       \end{description}
-
-      \subsubsection{Automata Product}
-      \label{defAutProd}
-      Given a pair of NFA, $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
-      and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$. Their product is defined by
-      \begin{description}
-        \item $\mathcal{A} \times \mathcal{B}=
-          (Q_\mathcal{A}\times Q_\mathcal{B},\Sigma,\delta,I_\mathcal{A}\times I_\mathcal{B},F_\mathcal{A}\times F_\mathcal{B})$\
-      \end{description}
-      where $\delta$ is defined by
-      \begin{description}
-        \item $\delta = 
-        \{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_\mathcal{A} \wedge q_1 \xrightarrow{a} q_2 \in \delta_\mathcal{B})\}$\
-      \end{description}
+      Note that $L_{\mathcal{A}\cap\mathcal{B}}=L_\mathcal{A}\cap L_\mathcal{B}$
 
   \subsubsection{Subset construction}
 	\label{subset}
