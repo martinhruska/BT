@@ -5,19 +5,19 @@
 \contentsline {section}{\numberline {2.2}Finite Automata}{5}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Nondeterministic Finite Automaton}{5}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}Deterministic Finite Automaton}{6}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Operations over Finite Automata}{6}{subsection.2.2.3}
-\contentsline {subsubsection}{Automata Union}{6}{section*.2}
-\contentsline {subsubsection}{Automata Intersection}{7}{section*.3}
-\contentsline {subsubsection}{Subset construction}{7}{section*.4}
-\contentsline {subsection}{\numberline {2.2.4}Run of Finite Automaton}{7}{subsection.2.2.4}
-\contentsline {subsection}{\numberline {2.2.5}Complete DFA}{8}{subsection.2.2.5}
-\contentsline {subsection}{\numberline {2.2.6}Minimal DFA}{8}{subsection.2.2.6}
-\contentsline {subsection}{\numberline {2.2.7}Language of Finite Automaton}{9}{subsection.2.2.7}
-\contentsline {section}{\numberline {2.3}Regular Languages}{9}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Closure Properties}{9}{subsection.2.3.1}
-\contentsline {chapter}{\numberline {3}Inclusion Checking over NFA}{10}{chapter.3}
+\contentsline {subsection}{\numberline {2.2.3}Run of a Finite Automaton}{6}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Language of Finite Automaton}{7}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}Complete DFA}{7}{subsection.2.2.5}
+\contentsline {subsection}{\numberline {2.2.6}Minimal DFA}{7}{subsection.2.2.6}
+\contentsline {subsection}{\numberline {2.2.7}Operations over Finite Automata}{7}{subsection.2.2.7}
+\contentsline {subsubsection}{Automata Union}{7}{section*.2}
+\contentsline {subsubsection}{Automata Intersection}{8}{section*.3}
+\contentsline {subsubsection}{Subset construction}{8}{section*.4}
+\contentsline {section}{\numberline {2.3}Regular Languages}{8}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Closure Properties}{8}{subsection.2.3.1}
+\contentsline {chapter}{\numberline {3}Checking Inclusion over NFA}{10}{chapter.3}
 \contentsline {section}{\numberline {3.1}Checking Inclusion with Antichains and Simulation}{10}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Antichain Algorithm Description}{10}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.1}Antichains Algorithm Description}{10}{subsection.3.1.1}
 \contentsline {section}{\numberline {3.2}Checking Inclusion with Bisimulation up to Congruence}{11}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Congruence Algorithm Description}{12}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}Computation of Congruence Closure}{13}{subsection.3.2.2}
@@ -39,16 +39,16 @@
 \contentsline {section}{\numberline {5.1}Data Structures for Explicit Encoding of Finite Automata}{22}{section.5.1}
 \contentsline {subsection}{\numberline {5.1.1}Analysis}{22}{subsection.5.1.1}
 \contentsline {subsection}{\numberline {5.1.2}Design of Data Structure for Transitions of NFA}{23}{subsection.5.1.2}
-\contentsline {section}{\numberline {5.2}Data Structure for Start and Final States}{24}{section.5.2}
+\contentsline {section}{\numberline {5.2}Data Structure for Initial and Final States}{24}{section.5.2}
 \contentsline {section}{\numberline {5.3}Translation of the States and Symbols}{24}{section.5.3}
-\contentsline {section}{\numberline {5.4}Usage of the Timbuk Format}{24}{section.5.4}
-\contentsline {section}{\numberline {5.5}Algorithms for Basic Operations}{25}{section.5.5}
-\contentsline {subsection}{\numberline {5.5.1}Union}{25}{subsection.5.5.1}
-\contentsline {subsubsection}{Union of Disjunct States}{26}{section*.11}
+\contentsline {section}{\numberline {5.4}Use of the Timbuk Format}{25}{section.5.4}
+\contentsline {section}{\numberline {5.5}Algorithms for Basic Operations}{26}{section.5.5}
+\contentsline {subsection}{\numberline {5.5.1}Union}{26}{subsection.5.5.1}
+\contentsline {subsubsection}{Union of NFAs with Disjoint Sets of States}{26}{section*.11}
 \contentsline {subsection}{\numberline {5.5.2}Intersection}{26}{subsection.5.5.2}
-\contentsline {subsection}{\numberline {5.5.3}Reverse}{26}{subsection.5.5.3}
+\contentsline {subsection}{\numberline {5.5.3}Reversal}{26}{subsection.5.5.3}
 \contentsline {subsection}{\numberline {5.5.4}Removing Unreachable States}{27}{subsection.5.5.4}
-\contentsline {subsection}{\numberline {5.5.5}Removing Useless States}{28}{subsection.5.5.5}
+\contentsline {subsection}{\numberline {5.5.5}Removing Useless States}{27}{subsection.5.5.5}
 \contentsline {subsection}{\numberline {5.5.6}Get Candidate}{28}{subsection.5.5.6}
 \contentsline {chapter}{\numberline {6}Implementation}{30}{chapter.6}
 \contentsline {section}{\numberline {6.1}Loading and Manipulation with Finite Automata in the Explicit Encoding}{30}{section.6.1}

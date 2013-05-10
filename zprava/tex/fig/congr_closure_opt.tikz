@@ -1,15 +1,15 @@
 \begin{tikzpicture}[scale=0.1]
   \tikzstyle{every node}+=[inner sep=0pt]
-  \draw (-30,0) node {\textit{\textcolor{Green}{$x+y+u$}}};
+  \draw (-30,0) node {\textit{\textcolor{Green}{$\{x,y,u\}$}}};
   \node (xy) at (-10,0) {};  
   \draw (-17.5,0) node {\textcolor{red}{$\subseteq$}};
-  \draw (-2,0) node {\textit{\textcolor{blue}{$x+y+z+u$}}};
-  \node (xmax) at (10,0) {};  
-  \node (x+uP) at (19,0) {};  
-  \draw (25,0) node {\textit{\textcolor{blue}{$x+u$}}};
-  \node (x+u) at (32,0) {};  
-  \draw (44,0) node {\textit{\textcolor{blue}{$u$}}};
-  \node (u) at (41,0) {};  
+  \draw (-2,0) node {\textit{\textcolor{blue}{$\{x,y,z,u\}$}}};
+  \node (xmax) at (9,0) {};  
+  \node (x+uP) at (18,0) {};  
+  \draw (25,0) node {\textit{\textcolor{blue}{$\{x,u\}$}}};
+  \node (x+u) at (32,0) {}; 
+  \draw (44,0) node {\textit{\textcolor{blue}{$\{u\}$}}};
+  \node (u) at (40,0) {};  
   
   \draw[->,thick,dashed] (u) -- (x+u) ;
   \draw[->,thick,dashed] (x+uP) -- (xmax) ;
