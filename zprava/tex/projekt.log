@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  10 MAY 2013 14:12
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  10 MAY 2013 22:52
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1255,67 +1255,62 @@ Chapter 6.
 
 ] [31] (./fig/macrostate_cache.tikz) [32] [33] [34] [35]
 Chapter 7.
-<fig/plot_aac_zprava.png, id=836, 642.4pt x 481.8pt>
+<fig/plot_aac_zprava.png, id=834, 642.4pt x 481.8pt>
 File: fig/plot_aac_zprava.png Graphic file (type png)
 
 <use fig/plot_aac_zprava.png>
-<fig/plot_aac_step_zprava.png, id=837, 642.4pt x 481.8pt>
+<fig/plot_aac_step_zprava.png, id=835, 642.4pt x 481.8pt>
 File: fig/plot_aac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_aac_step_zprava.png>
-<fig/plot_aca_zprava.png, id=840, 642.4pt x 481.8pt>
+<fig/plot_aca_zprava.png, id=838, 642.4pt x 481.8pt>
 File: fig/plot_aca_zprava.png Graphic file (type png)
 
 <use fig/plot_aca_zprava.png>
-<fig/plot_aca_step_zprava.png, id=841, 642.4pt x 481.8pt>
+<fig/plot_aca_step_zprava.png, id=839, 642.4pt x 481.8pt>
 File: fig/plot_aca_step_zprava.png Graphic file (type png)
 
 <use fig/plot_aca_step_zprava.png> [36
 
-]
-Overfull \hbox (0.95328pt too wide) in paragraph at lines 1604--1606
-[]\IL2/cmr/m/n/10.95 For eval-u-a-tion pur-poses was OCaml im-ple-men-ta-tion r
-un with breadth-first search (which
- []
-
-[37 <./fig/plot_aac_zprava.png (PNG copy)> <./fig/plot_aac_step_zprava.png (PNG
- copy)>] <fig/plot_hkc_zprava.png, id=866, 642.4pt x 481.8pt>
+] [37 <./fig/plot_aac_zprava.png (PNG copy)> <./fig/plot_aac_step_zprava.png (P
+NG copy)>]
+<fig/plot_hkc_zprava.png, id=864, 642.4pt x 481.8pt>
 File: fig/plot_hkc_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_zprava.png>
-<fig/plot_hkc_step_zprava.png, id=867, 642.4pt x 481.8pt>
+<fig/plot_hkc_step_zprava.png, id=865, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_step_zprava.png> [38 <./fig/plot_aca_zprava.png (PNG copy)> <
 ./fig/plot_aca_step_zprava.png (PNG copy)> <./fig/plot_hkc_zprava.png (PNG copy
 )> <./fig/plot_hkc_step_zprava.png (PNG copy)>]
-<fig/plot_ac_zprava.png, id=883, 642.4pt x 481.8pt>
+<fig/plot_ac_zprava.png, id=881, 642.4pt x 481.8pt>
 File: fig/plot_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_zprava.png>
-<fig/plot_ac_step_zprava.png, id=884, 642.4pt x 481.8pt>
+<fig/plot_ac_step_zprava.png, id=882, 642.4pt x 481.8pt>
 File: fig/plot_ac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_step_zprava.png>
-<fig/plot_ca_zprava.png, id=885, 642.4pt x 481.8pt>
+<fig/plot_ca_zprava.png, id=883, 642.4pt x 481.8pt>
 File: fig/plot_ca_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_zprava.png>
-<fig/plot_ca_step_zprava.png, id=886, 642.4pt x 481.8pt>
+<fig/plot_ca_step_zprava.png, id=884, 642.4pt x 481.8pt>
 File: fig/plot_ca_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_step_zprava.png> [39 <./fig/plot_ac_zprava.png (PNG copy)> <./
 fig/plot_ac_step_zprava.png (PNG copy)>]
-<fig/plot_nfa_ac_zprava.png, id=896, 642.4pt x 481.8pt>
+<fig/plot_nfa_ac_zprava.png, id=895, 642.4pt x 481.8pt>
 File: fig/plot_nfa_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_nfa_ac_zprava.png>
-<fig/plot_nfa_congr_zprava.png, id=897, 642.4pt x 481.8pt>
+<fig/plot_nfa_congr_zprava.png, id=896, 642.4pt x 481.8pt>
 File: fig/plot_nfa_congr_zprava.png Graphic file (type png)
 
 <use fig/plot_nfa_congr_zprava.png> [40 <./fig/plot_ca_zprava.png (PNG copy)> <
-./fig/plot_ca_step_zprava.png (PNG copy)> <./fig/plot_nfa_ac_zprava.png (PNG co
-py)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>] [41]
+./fig/plot_ca_step_zprava.png (PNG copy)>] [41 <./fig/plot_nfa_ac_zprava.png (P
+NG copy)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>]
 Chapter 8.
 ) (./projekt.bbl [42
 
@@ -1340,7 +1335,7 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 Here is how much of TeX's memory you used:
  18872 strings out of 256216
  338109 string characters out of 1917072
- 450523 words of memory out of 1500000
+ 451673 words of memory out of 1500000
  21437 multiletter control sequences out of 10000+200000
  28853 words of font info for 80 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
@@ -1363,9 +1358,9 @@ mf/fonts/type1/public/cs/csti9.pfb></usr/share/texmf/fonts/type1/public/cs/cstt
 10.pfb></usr/share/texmf/fonts/type1/public/cs/cstt9.pfb></usr/share/texmf/font
 s/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvr8
 a.pfb>
-Output written on projekt.pdf (48 pages, 668783 bytes).
+Output written on projekt.pdf (48 pages, 672349 bytes).
 PDF statistics:
- 1069 PDF objects out of 1200 (max. 8388607)
+ 1068 PDF objects out of 1200 (max. 8388607)
  261 named destinations out of 1000 (max. 131072)
  709 words of extra memory for PDF output out of 10000 (max. 10000000)
 
