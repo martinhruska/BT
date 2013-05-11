@@ -77,7 +77,7 @@ We define \emph{iteration} $L^{*}$ and \emph{positive} iteration $L^{+}$ of a la
 		\end{itemize}
 
     An example of a NFA over $\Sigma=\{a,b,c,d\}$ is shown in Figure \ref{pic_ex_nfa}. 
-    Notice the nondeterministism of transitions, e.g., for state $P$ over $a$.
+    Notice the nondeterminism of transitions, e.g., for state $P$ over $a$.
 %%%%example of NFA
 		\begin{figure}[t]
 		\begin{center}
@@ -387,7 +387,7 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 			\item Intersection:  $L=L_1 \cap L_2$. Intersection of two NFA is described in section \ref{defAInter}.
 			\item Complement: $L=\overline{L_1}$.
       Complement of NFA $\mathcal{A}$ is done by its determinizing (via subset construction described in section \ref{subset}), completion of this DFA (via
-      method described in \ref{defCompleteDFA}) and swaping its final and non-final states set.
+      method described in \ref{defCompleteDFA}) and swapping its final and non-final states set.
 
       \item Difference: $L=L_1-L_2$. Difference of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
       and NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ is done by creating
@@ -569,7 +569,7 @@ $L_\mathcal{A}\subseteq L_\mathcal{B}$.
  \subsection{Congruence Algorithm Description}
 \label{subsectCongr}
 The congruence algorithm works on a similar principle as the antichains algorithm but  
-it tries to build bisimulation that relates $\mathcal{A}$ and $\mathcal{B}$. The algortihm starts building not only $\mathcal{B}_{det}$ 
+it tries to build bisimulation that relates $\mathcal{A}$ and $\mathcal{B}$. The algorithm starts building not only $\mathcal{B}_{det}$ 
 but also $\mathcal{A}_{det}$ because the original purpose of this algorithm is checking of 
 language equivalence. States of the product automaton $\mathcal{A}_{det} \times \mathcal{B}_{det}$  (so-called product states) are the pairs 
 $(P_\mathcal{A},P_\mathcal{B})$ of a macrostate $P_\mathcal{A} \subseteq Q_\mathcal{A}$ and a macrostate
@@ -987,8 +987,8 @@ the tree version has to store the whole tuples. These tuples can be very large a
 in the data structure for transitions work only with a pointer to a tuple instead of the tuple itself. 
 
 In the case of finite automata this advantage disappears because there are no tuples of state but only states alone and keeping a pointer to one state
-would bring only unncessary overhead 
-(a size of a pointer to a state is usualy equal or bigger than the state represented by an integer). This causes that it is not needed 
+would bring only unnecessary overhead 
+(a size of a pointer to a state is usually equal or bigger than the state represented by an integer). This causes that it is not needed 
 for the data structure for finite automata to use 
 anything such as a set of pointers to tuples, but a set of states could be directly used instead of
 a set of pointers. The set of states would be pointed from transition clusters and would contain all states accessible from a given state under a 
@@ -1009,10 +1009,10 @@ in Figure \ref{figExplicitFADataStr} are sharing the same data structure.
 
 Let us give examples for searching and inserting a transition into this data structure for the NFA in Figure \ref{figExplicitFADataStr}. 
 If one wants to find all accessible states from the state $q_1$ over the symbol $a$ in an NFA $\mathcal{A}$.
-First, the transition cluster that corresponds to $q_1$ is found in the top-level lookup table and then the set of states mapped by $a$ is retrieved if there
+First, the transition cluster that corresponds to $q_1$ is found in the top-level look-up table and then the set of states mapped by $a$ is retrieved if there
 is such.
 If one wants to insert a new transition $q_3 \xrightarrow{e} q_2$ to an NFA $\mathcal{C}$, the look-up table for automaton $\mathcal{C}$ is duplicated
-because $\mathcal{C}$ now shares the look-up talbe with automaton $\mathcal{B}$,
+because $\mathcal{C}$ now shares the look-up table with automaton $\mathcal{B}$,
 and a state $q_3$ is inserted into it. The NFA $\mathcal{C}$ now points to that newly duplicated look-up table. State $q_3$ is in this look-up table 
 mapped to a pointer to the newly created transition cluster. 
 The symbol $e$ is inserted to this new transition cluster and mapped to the set of states which contains only the state $q_2$.
@@ -1368,7 +1368,7 @@ The macrostate cache can be seen in Figure \ref{figMacroCache}.
 
 \section{Implementation of the Antichains Algorithm}
 The implementation of the algorithm for checking language inclusion of NFA using antichains has been done by the algorithm described in Section 
-\ref{sectionAntichain}.  There were used data structures for the representation of tha antichains (classes \emph{Antichain2Cv2} and \emph{Antichain1c}) which
+\ref{sectionAntichain}.  There were used data structures for the representation of the antichains (classes \emph{Antichain2Cv2} and \emph{Antichain1c}) which
 were implemented for the modules for tree automata. 
 
 The improvement of the antichains algorithm by using simulation is implemented too. 
@@ -1645,7 +1645,7 @@ Comparison of the OCaml implementation of a congruence algorithm and the VATA li
 \end{center}
 
 \subsection{Comparison with Tree Automata Implementation of VATA Library}
-We have also evaluated the performance fo the inclusion checking algorithm based on bisimulation up to congruence with the VATA implementation of the antichains
+We have also evaluated the performance of the inclusion checking algorithm based on bisimulation up to congruence with the VATA implementation of the antichains
 algorithm.
 The VATA library for tree automata was used with explicit encoding and inclusion was checked in the upward and also in the downward direction. 
 For downward direction an optimization based on a cache was used. The timeout for checking inclusion was set to 5 seconds.
@@ -1755,26 +1755,25 @@ abstract regular model checking) which is the target area of the library. The ex
 basic operations like union, intersection, removing useless or unreachable states etc., but the main aim of this work was to provide
 an efficient implementation of state-of-the-art algorithms for checking language inclusion of nondeterministic finite automata.
 
-The new extension of the VATA library uses the explicit encoding for representation of finite automata. 
-The data structures for the explicit encoding has been designed
+The data structures for the explicit encoding for representation of finite automata has been designed
 and implemented by modification and optimization of the data structures for tree automata already presented in the VATA library. 
 The original VATA library has been analyzed to determine
 which modules can be reused for the new extension and also to efficiently integrate the new extension.
 
 To achieve the best performance for language inclusion checking we use state-of-the-art algorithms, based on so-called antichains and so-called bisimulation
 up to congruence. The antichains algorithm was implemented in its default version and also an optimized version which uses simulation over a finite automaton. 
-The bisimulation up to congruence algorithm is implemented in its general version (for checking equivalence of finite automata) and also in
-the version specialized to checking inclusion, which brings better performance. 
+The bisimulation up to congruence algorithm is implemented in its general version (for checking language equivalence of NFA) and also in
+the version specialized to checking inclusion.%, which brings better performance. 
 The other improvement of this algorithm is achieved by optimization of implementation.
 
 An evaluation comparing the performance of an out implementations and other implementations of checking language inclusion over NFA has been performed.
 Our implementation beats the other tested implementations in over 90\,\% of the tested cases. It is faster about 100 times than the OCaml implementation of the
 algorithm for congruence closure and twice as fast as the algorithm over tree automata.
 
-A more detalied analysis of the cases where the algorithm checks language inclusion over tree automata significantly 
-beats the implementation specialized on NFA could be done for further optimization of the implementation. 
+A more detailed analysis of the cases where the algorithm checks language inclusion over tree automata significantly 
+beats the implementation specialized on NFA could be done for further optimization. 
 For the bisimulation up to congruence algorithm it is possible to implement a version of the algorithm 
 which uses simulation for pruning out some other states which are not necessary to explore. The simulation has already been implemented for antichains 
-algorithm over NFA but it has not been evaluated and optimized which could bring another improvement in performance. 
-Yet another interesting direction is to find suitable use of cases of DFA for various task and evaluate whether they can improved by the use of NFA, in
+algorithm but it has not been evaluated and optimized which could bring another improvement in performance. 
+Yet another interesting direction is to find suitable use cases of DFA for various task and evaluate whether they can improved by the use of NFA, in
 particular using the extension of the VATA library developed in this work.

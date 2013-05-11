@@ -1,19 +1,20 @@
 \chapter{Introduction}
 \label{introduction}
 A finite automaton (FA) is a model of computation with applications in different branches of computer science, e.g., compiler design, formal verification, 
-designing of digital circuits or natural language processing. In formal verification alone are its uses abundant, 
+the design of digital circuits or natural language processing. In formal verification alone are its uses abundant, 
 for example in model checking of safety temporal properties \cite{principles}, abstract regular model checking \cite{armc}, static analysis \cite{metal}, 
 or decision procedures of some logics, such as Presburger arithmetic or weak 
 monadic second-order theory of one successor (WS1S) \cite{mona}.
 
 Many of the mentioned applications need to perform certain expensive operations on FA, such as checking universality of an FA (i.e., checking whether it
 accepts any word over a given alphabet), or checking language inclusion of a pair of FA (i.e., testing whether the language of one FA is a subset of the language
-of the second FA). The classical (so called \emph{textbook}) approach is based on \emph{complementation} of the language of an FA. Complementation is easy for 
-\emph{deterministic} FA (DFA)--just swapping accepting and non-accepting states--but a hard problem for \emph{nondeterministic} FA (NFA), which need 
+of the other FA). The classical (so called \emph{textbook}) approach is based on \emph{complementation} of the language of one of the FA. 
+Complementation is easy for 
+\emph{deterministic} FA (DFA)---just swapping accepting and non-accepting states---but a hard problem for \emph{nondeterministic} FA (NFA), which need 
 to be determinised first (this may lead to an exponential explosion in the number of the states of the automaton). 
 Both operations of checking of universality and language inclusion over NFA are PSPACE-complete problems \cite{cav06}.
 
-Recently, there has been a considerable advance in techniques for dealing with these problems. The new techniques are either based on the so-called 
+Recently, there has been a considerable advance in techniques for dealing with these two problems. The new techniques are either based on the so-called 
 \emph{antichains} \cite{cav06,tacas10} or the so-called \emph{bisimulation up to congruence} \cite{popl13}. 
 In general, those techniques do not need an explicit construction of the complement
 automaton. They only construct a sub-automaton which is sufficient for either proving that the universality or inclusion hold, or finding a counterexample.
@@ -24,41 +25,41 @@ closest implementation is VATA \cite{libvata}, a general library for nondetermin
 as unary tree automata) but not with the optimal performance given by its overhead that comes with the ability to handle much richer structures. 
  
 The goal of this work is two-fold: (i) extending VATA with an NFA module implementing basic operations on NFA, such as union, intersection, or 
-checking language inclusion, and (ii) an efficient design and implementation of checking language inclusion of NFA using 
+checking language inclusion, and (ii) an efficient design and implementation of operations for checking language inclusion of NFA using 
 bisimulation up to congruence (which is missing in VATA for tree automata).
 
-After this introduction, in the \ref{teorie}nd chapter of this document, 
-will be defined theoretical background. The \ref{chapInclusion}rd chapter provides description of the 
+After this introduction, Chapter \ref{teorie} of this text describes the theoretical background. 
+Chapter\ref{chapInclusion} provides a description of recently proposed 
 efficient approaches to language inclusion testing and their optimization.
-The list of the existing libraries for finite automata manipulation is given in the chapter \ref{libraries}. It the same chapter
-can be found description of the VATA library. 
-The design of the new module of the VATA library and algorithms used in it are described in the chapter \ref{design}. 
-The implementation optimization of the algorithms for language inclusion checking and the others implementation's issues will take a place
-in chapter \ref{implementation}. The evaluation of the optimized algorithms for the inclusion checking is in chapter \ref{eval}. The summarizing of the whole
-thesis is given in the last chapter \ref{concl}.
-
+A list of the existing libraries for finite automata manipulation is given in Chapter \ref{libraries}. The same chapter
+provides description of the VATA library. 
+The design of the new module of the VATA library and algorithms used therein are described in Chapter \ref{design}. 
+The implementation optimization of the algorithms for language inclusion checking and issues of other implementation is discussed in chapter \ref{implementation}.
+The evaluation of the optimized algorithms for the inclusion checking is in Chapter \ref{eval}. Chapter \ref{concl} summaries the thesis and gives directions for
+future work.
 
 \chapter{Preliminaries}
-This chapter contains theoretical foundations of the thesis. No proofs are given because they can be found in literature \cite{kozen,ullman}. 
-First, the languages will be defined then finite automata and their context, the regular languages and their closure properties. 
+This chapter contains theoretical foundations of the thesis. No proofs are given but they can be found in referenced literature \cite{kozen,ullman}. 
+First, languages will be defined, then finite automata and their context and regular languages and their closure properties will follow. 
 \label{teorie}
 
 \section{Languages}
 We call a finite set of symbols $\Sigma$ an \emph{alphabet}. A~\emph{word} $w$ over $\Sigma$ of \emph{length} $n$ is a finite sequence of symbols 
-$w=a_1\ldots a_n$, where $\forall 1 \leq i \leq n\ . \ a_i \in \Sigma$. An \emph{empty word} is denoted as $\epsilon \not\in\Sigma$ and its length is $0$. 
-We define \emph{concatenation} as an associative binary operation on words over $\Sigma$ represented by the symbol $\cdot$ such that for two words $u=a_1\ldots a_2$
-and $v=b_1\ldots b_n$ over $\Sigma$ it holds that $\epsilon\cdot u=u\cdot\epsilon=u$ and $u\cdot v=a_1 \ldots a_nb_1 \ldots b_m$.
-We define a symbol $\Sigma^{*}$ as a set of all words over $\Sigma$ including the empty word and a symbol $\Sigma^{+}$ as a set of 
+$w=a_1\cdots a_n$, where $\forall 1 \leq i \leq n\ . \ a_i \in \Sigma$. An \emph{empty word} is denoted as $\epsilon \not\in\Sigma$ and its length is $0$. 
+We define \emph{concatenation} as an associative binary operation on words over $\Sigma$ represented by the symbol $\cdot$ such that for two words 
+$u=a_1\cdots a_n$
+and $v=b_1\cdots b_m$ over $\Sigma$ it holds that $\epsilon\cdot u=u\cdot\epsilon=u$ and $u\cdot v=a_1 \cdots a_nb_1 \cdots b_m$.
+We define $\Sigma^{*}$ as a set of all words over $\Sigma$ including the empty word and $\Sigma^{+}$ as set of 
 all words over $\Sigma$ without the empty word, 
 so it holds that $\Sigma^{*}=\Sigma^{+}\cup\epsilon$. A~\emph{language} $L$ over $\Sigma$ is a subset of $\Sigma^{*}$.
-Given a pair of languages $L_1$ over an alphabet $\Sigma_{1}$ and $L_{2}$ over an alphabet $\Sigma_{2}$. Their concatenation is defined by 
+Given a pair of languages $L_1$ over an alphabet $\Sigma_{1}$ and $L_{2}$ over an alphabet $\Sigma_{2}$, their concatenation is defined as 
 $L_1\cdot L_2=\{x\cdot y\ |\ x\in L_1, y\in L_2 \}$.
 We define \emph{iteration} $L^{*}$ and \emph{positive} iteration $L^{+}$ of a language $L$ over an alphabet $\Sigma$ as:
 	\begin{itemize}
-		\item $L^0=\{\epsilon\}$
-		\item $L^{n+1}=L\cdot L^n$, for $n \leq 1$
-    \item $L^{*}=\bigcup_{n\leq 0} L^{n}$
-    \item $L^{+}=\bigcup_{n\leq 1} L^{n}$
+		\item $L^0=\{\epsilon\}$,
+		\item $L^{n+1}=L\cdot L^n$, for $n \geq 1$,
+    \item $L^{*}=\bigcup_{n\geq 0} L^{n}$,
+    \item $L^{+}=\bigcup_{n\geq 1} L^{n}$.
 	\end{itemize}
 
 \section{Finite Automata}
@@ -66,16 +67,17 @@ We define \emph{iteration} $L^{*}$ and \emph{positive} iteration $L^{+}$ of a la
 
 	\subsection{Nondeterministic Finite Automaton}
 	\label{defNFA}
-		\emph{A Nondeterministic Finite Automaton} (NFA) is a quintuple $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, where
+		\emph{A nondeterministic finite automaton} (NFA) is a quintuple $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, where
 		\begin{itemize}
-			\item $Q$ is a finite set of states,
+			\item $Q$ is a finite set of \emph{states},
 			\item $\Sigma$ is an alphabet,
 			\item $\delta \subseteq Q \times \Sigma \times Q$ is a transition relation. We use $p \xrightarrow{a} q$ to denote that $(p,a,q)\in\delta$,
-			\item $I$ is finite set of states, that $I \subseteq Q$. Elements of $I$ are called initial states.
-			\item $F$ is finite set of states, that $F \subseteq Q$. Elements of $F$ are called final states.
+			\item $I\subseteq Q$ is finite set of states, elements of $I$ are called \emph{initial states}.
+			\item $F\subseteq Q$ is finite set of states, elements of $F$ are called \emph{final states}.
 		\end{itemize}
 
-    An example of an NFA is shown on the figure \ref{pic_ex_nfa}.
+    An example of a NFA over $\Sigma=\{a,b,c,d\}$ is shown in Figure \ref{pic_ex_nfa}. 
+    Notice the nondeterministism of transitions, e.g., for state $P$ over $a$.
 %%%%example of NFA
 		\begin{figure}[t]
 		\begin{center}
@@ -129,8 +131,6 @@ We define \emph{iteration} $L^{*}$ and \emph{positive} iteration $L^{+}$ of a la
 			\end{figure}
 %%%end of nfa picture
 
-
-
 	\subsection{Deterministic Finite Automaton}
 	\label{defDFA}
   A~\emph{deterministic finite automaton} (DFA) is a special case of an NFA, where $\delta$ is a partial function 
@@ -140,11 +140,11 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 		\begin{itemize}
 			\item $Q$ is a finite set of states,
 			\item $\Sigma$ is  an alphabet,
-			\item $\delta$:  $Q \times \Sigma \to Q$ is a partial transition function. We use $p \xrightarrow{a} q$ to denote that $\delta(p,a)=q$
-			\item $I\subseteq Q$ is finite set of initial states, that $|I| \leq 1$.
+			\item $\delta$:  $Q \times \Sigma \to Q$ is a partial transition function, we use $p \xrightarrow{a} q$ to denote that $\delta(p,a)=q$,
+			\item $I\subseteq Q$ is finite set of initial states, such that $|I| \leq 1$,
 			\item $F\subseteq Q$ is finite set of final states.
 		\end{itemize}
-    An example of a DFA is given on the figure \ref{pic_ex_dfa}.
+    An example of a DFA over $\Sigma=\{a,b,c\}$ is given in Figure \ref{pic_ex_dfa}.
 
 
 %%%example of DFA
@@ -201,25 +201,47 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 \end{figure}
 %%%%end of DFA example
 
-%%%comment
-\begin{comment}
-	\subsection{Function $\hat{\delta}$}
-	\label{defFunct}
-		\begin{definition}
-		A function $\hat{\delta}$ is define as
-		\begin{description}
-			$\hat{\delta}: Q\times\Sigma^{*}\rightarrow Q$
-		\end{description}
+	\subsection{Run of a Finite Automaton}
+	\label{defRun}
+  A~\emph{run} of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ from a state $q$
+  over a word $w=a_1\cdots a_n$ is a sequence $r = q_0 \cdots q_n$, where $\forall\,0\leq i \leq n\ .\ q_i\in Q$ 
+  such that $q_0=q$ and $q_i\xrightarrow{a_{i+1}}q_{i+1})\in \delta$. 
+  The run $r$ is called \emph{accepting} iff $q_n \in F$. 
+	A word $w \in \Sigma^{*}$ is called \emph{accepting} if there exists an \emph{accepting} run.
+  An \emph{unreachable} state $q$ of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ is a state for which there is no run $r=q_0\cdots q$ of 
+  $\mathcal{A}$ over a word $w \in \Sigma^{*}$ such that $q_0\in I$.
+  An \emph{useless} (also called nonterminating) state $q$ of an NFA $\emph{A}=(Q,\Sigma,\delta,I,F)$ is a state that there is no accepting run $r=q\cdots q_n$ 
+  of $\emph{A}$ over a word $w \in \Sigma^{*}$.
+  Given a pair of states $p,q\in Q$ of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, these states are language equivalent if 
+  $\forall w \in \Sigma^{*}: \emph{A run from } p \emph{ over } w \emph{ is accepting} \Leftrightarrow 
+			\emph{A run from } q \emph{ over } w \emph{ is accepting}$.
 
-		from $\delta$ by induction on the length of $x$:
-			\begin{itemize}
-				\item $\hat{\delta}(q,\epsilon)=q$, where $\epsilon$ is empty string
-				\item $\hat{\delta}(q,xa)=\delta(\hat{\delta}(q,x),a)$
-			\end{itemize}
-		\end{definition}
-\end{comment}
-%%%%		
 
+  \subsection{Language of Finite Automaton}
+  Consider a NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$.
+  The~\emph{language} of a state $q \in Q$ is defined as 
+  $L_\mathcal{A}(q) = \{w\in \Sigma^{*}\ |\ $\emph{there exists an accepting run of }$
+  \mathcal{A}$$ 
+  \emph{ from }q\emph{ over }w\}$, while the language of a set of states $R\subseteq Q$ is defined as $L_{\mathcal{A}}(R)=\bigcup_{q\in R}L_{\mathcal{A}}(q)$.
+  The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
+  The language of NFA from figure \ref{pic_ex_nfa} is $L=\{a,cc,ccd\}$.
+
+  \subsection{Complete DFA}
+  \label{defCompleteDFA}
+  \emph{Complete} DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I_C,F_C)$ is the DFA where 
+  for any $p\in Q_C$, $a\in \Sigma$ exists $q\in Q_C$ such that  $p\xrightarrow{a}q\in\delta_C$. 
+  It is possible to transform a DFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ to the complete DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I,F)$ such that $Q_C=Q\cup\{q\}$, 
+  $I_C=I$, $F_C=F$, 
+  $\delta_C = \delta \cup \{p\xrightarrow{a}q\,|\,\not\exists\, r \in Q\,.\,p\xrightarrow{a}r\not\in\delta_C\}$.
+
+	\subsection{Minimal DFA}
+	\label{defMinDFA}
+		A minimal DFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ is complete DFA which satisfies these conditions:
+		\begin{itemize}
+			\item There are no unreachable states,
+			\item there is at most one nonterminating state,
+			\item there are no two language equivalent states.
+		\end{itemize}
 
   \subsection{Operations over Finite Automata}
     \subsubsection{Automata Union}
@@ -230,6 +252,7 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
         \item $\mathcal{A} \cup \mathcal{B}=(Q_\mathcal{A}\cup Q_\mathcal{B},\Sigma,
             \delta_\mathcal{A}\cup\delta_\mathcal{B},I_\mathcal{A}\cup I_\mathcal{B},F_\mathcal{A}\cup F_\mathcal{B})$
       \end{description}
+      Note that $L_{\mathcal{A}\cup\mathcal{B}}=L_\mathcal{A}\cup L_\mathcal{B}$
     
     \subsubsection{Automata Intersection}
     \label{defAInter}
@@ -243,36 +266,23 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
         \item $\delta = 
         \{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_\mathcal{A} \wedge q_1 \xrightarrow{a} q_2 \in \delta_\mathcal{B})\}$\
       \end{description}
-
-      \subsubsection{Automata Product}
-      \label{defAutProd}
-      Given a pair of NFA, $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
-      and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$. Their product is defined by
-      \begin{description}
-        \item $\mathcal{A} \times \mathcal{B}=
-          (Q_\mathcal{A}\times Q_\mathcal{B},\Sigma,\delta,I_\mathcal{A}\times I_\mathcal{B},F_\mathcal{A}\times F_\mathcal{B})$\
-      \end{description}
-      where $\delta$ is defined by
-      \begin{description}
-        \item $\delta = 
-        \{(p_1,q_1) \xrightarrow{a} (p_2,q_2)\ |\ p_1 \xrightarrow{a} p_2 \in \delta_\mathcal{A} \wedge q_1 \xrightarrow{a} q_2 \in \delta_\mathcal{B})\}$\
-      \end{description}
+      Note that $L_{\mathcal{A}\cap\mathcal{B}}=L_\mathcal{A}\cap L_\mathcal{B}$
 
   \subsubsection{Subset construction}
 	\label{subset}
-	Now we will define how to construct equivalent DFA $\mathcal{A}_{det}$ for a given NFA $\mathcal{A}=(Q,\Sigma,\delta,S,F)$. 
+	Now we will define how to construct an equivalent DFA $\mathcal{A}_{det}$ for a given NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$. 
   \newline
   \newline
 	\label{defSubset}
-	$\mathcal{A}_{det}=(2^Q,\Sigma,\delta_{det},S,F_{det})$, where
+	$\mathcal{A}_{det}=(2^Q,\Sigma,\delta_{det},I,F_{det})$, where
 	\begin{itemize}
-		\item $2^Q$ is power set of $Q$
-		\item $F_{det}=\{Q'\subseteq Q\ |\ Q'\cap F \not = \varnothing\}$
-		\item $\delta_{det}(Q',a)=\bigcup\limits_{q\in Q'}\delta(q,a)$, where $a\in\Sigma$
+		\item $2^Q$ is power set of $Q$, elements of $2^Q$ are called macrostates,
+		\item $F_{det}=\{Q'\subseteq Q\ |\ Q'\cap F \not = \emptyset\}$
+		\item $\delta_{det}(Q',a)=\bigcup\limits_{q\in Q'}\{r\in Q\,|\,q\xrightarrow{a}r \in \delta\}$.
 	\end{itemize}
 
-  This classical (so-called \emph{textbook}) approach is called \emph{subset construction}.
-    An example of this approach is shown on the figure \ref{pic_sub}.
+  This classical (so-called \emph{textbook}) approach is called the \emph{subset construction}.
+    An example of this approach is shown in Figure \ref{pic_sub}.
 	
 	%%%%example of NFA to DFA	
 	\begin{figure}[t]
@@ -298,18 +308,18 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 \draw (55.1,-19.9) node {$V$};
 \draw [black] (55.1,-19.9) circle (2.4);
 \draw [black] (12.4,-46.2) circle (3);
-\draw (12.4,-46.2) node {$S$};
+\draw (12.4,-46.2) node {$\{S\}$};
 \draw [black] (27.4,-38.1) circle (3);
 \draw (27.4,-38.1) node {$\{O,P\}$};
 \draw [black] (27.4,-56.3) circle (3);
-\draw (27.4,-56.3) node {$Q$};
+\draw (27.4,-56.3) node {$\{Q\}$};
 \draw [black] (48.2,-38.1) circle (3);
 \draw (48.2,-38.1) node {$\{R,T\}$};
 \draw [black] (48.2,-38.1) circle (2.7);
 \draw [black] (46.3,-56.3) circle (3);
-\draw (46.3,-56.3) node {$U$};
+\draw (46.3,-56.3) node {$\{U\}$};
 \draw [black] (60,-48) circle (3);
-\draw (60,-48) node {$V$};
+\draw (60,-48) node {$\{V\}$};
 \draw [black] (60,-48) circle (2.4);
 \draw [black] (3.5,-10.2) -- (5.83,-12.63);
 \fill [black] (5.83,-12.63) -- (5.63,-11.71) -- (4.91,-12.4);
@@ -359,67 +369,49 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 \draw (53.04,-43.54) node [below] {$b$};
 \end{tikzpicture}
 \end{center}
-	\caption{A simple example of NFA to DFA conversion via the subset construction. 
-    Here is shown small NFA with small $\Sigma$, but for larger NFA could state explosion occur.}
+	\caption{A simple example of NFA to DFA conversion via the subset construction with the reduction of inaccessible state. 
+   A small NFA with a small $\Sigma$ is shown, but for larger NFA could state explosion occur.}
     \label{pic_sub}
 	\end{figure}
 	%%%end of NFA to DFA
 
-
-
-	\subsection{Run of Finite Automaton}
-	\label{defRun}
-  A~\emph{run} of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ from a state $q$
-  over a word $w=a_1\ldots a_n$ is a sequence $r = q_0 \ldots q_n$, where $\forall\,0\leq i \leq n\ .\ q_i\in Q$ 
-  such that $q_0=q$ and $(q_i,a_{i+1},q_{i+1})\in \delta$. 
-  The run $r$ is called \emph{accepting} iff $q_n \in F$. 
-	An word $w \in \Sigma^{*}$ is called \emph{accepting}, if there exists an \emph{accepting} run for $w$.
-  An \emph{unreachable} state $q$ of an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ is a state for which there is no run $r=q_0\ldots q$ of 
-  $\mathcal{A}$ over a word $w \in \Sigma^{*}$ 
-  such that $q_0\in I$.
-  An \emph{useless} (also called nonterminating) state $q$ of an NFA $\emph{A}=(Q,\Sigma,\delta,I,F)$ is state that there is no run $r=q\ldots q_n$ 
-  of $\emph{A}$ over a word
-  $w \in \Sigma^{*}$ such that $q_n \in F$.
-  Given a pair of states $p,q$ of an NFA $\emph{A}=(Q,\Sigma,\delta,I,F)$, these states are equivalent if 
-  $\forall w \in \Sigma^{*}: \emph{ Run from } p \emph{ over } w \emph{ is accepting} \Leftrightarrow 
-			\emph{ Run from } q \emph{ over } w \emph{ is accepting}$.
-
-	\subsection{Minimal DFA}
-	\label{defMinDFA}
-  %TODO nejak inteligentne to zaradit
-		Minimum DFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ satisfies this conditions:
-		\begin{itemize}
-			\item There are no unreachable states
-			\item There is maximal one nonterminating state $q\in Q$ such that 
-        $\forall a\in \Sigma\,.\,\forall p\in Q-\{q\}: (q,a,p) \not \in \delta$
-			\item Equivalent states are collapsed.
-		\end{itemize}
-
-
-  \subsection{Language of Finite Automaton}
-  Let have a NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$.
-  The~\emph{language} of a state $q \in Q$ is defined as 
-  $L_\mathcal{A}(q) = \{w\in \Sigma^{*}\ |\ $\emph{there exists an accepting run of }$
-  \mathcal{A}$$ 
-  \emph{ from }q\emph{ over }w\}$, while the language of a set of states $R\subseteq Q$ is defined as $L_{\mathcal{A}}(R)=\bigcup_{q\in R}L_{\mathcal{A}}(q)$.
-  The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
-
-\section{Regular Languages}
-		A language $L$ is \emph{regular}, if there exists an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, such that $L=L_\mathcal{A}$.
+  \section{Regular Languages}
+		A language $L$ is \emph{regular} if there exists an NFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$, such that $L=L_\mathcal{A}$.
 
     \subsection{Closure Properties}
-    Regular languages are closed under certain operation if result of this operation over some regular language is always regular language too.
+    The class of regular languages is closed under certain operation if the result of this operation on some regular language is always a regular language too.
 
-		Let introduce the closure properties of regular languages on an alphabet $\Sigma$:
+		Let us introduce the closure properties of regular languages on an alphabet $\Sigma$:
 		\begin{itemize}
-			\item Union:  $L_1 \cup L_2$%=\{x\ |\ x \in L_1 \vee x\in L_2\}$
-			\item Intersection:  $L_1 \cap L_2$%=\{x\ |\ x \in L_1 \wedge x\in L_2\}$
-			\item Complement: $\overline{L}$%=\{x\ |\ x\not\in L\}$
-			\item Difference: $L_1-L_2$%=\{x\ |\ x\in L \wedge x\not\in K\}$
-			\item Reversal: $\{a_1\dots a_n \in L \ |\ y=a_n\dots a_1 \in L\}$
-			\item Iteration: $L^{*}$ %: $L^{*}$
-			\item Concatenation: $L\cdot K=\{x \cdot y\ |\ x\in L \wedge y\in K\}$
-		\end{itemize}
+			\item Union:  $L=L_1 \cup L_2$. Union of two NFA is described in section \ref{defAUnion}.
+			\item Intersection:  $L=L_1 \cap L_2$. Intersection of two NFA is described in section \ref{defAInter}.
+			\item Complement: $L=\overline{L_1}$.
+      Complement of NFA $\mathcal{A}$ is done by its determinizing (via subset construction described in section \ref{subset}), completion of this DFA (via
+      method described in \ref{defCompleteDFA}) and swaping its final and non-final states set.
+
+      \item Difference: $L=L_1-L_2$. Difference of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+      and NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ is done by creating
+      complete DFA $\mathcal{B_C}$ (by methods \ref{subset} and \ref{defCompleteDFA}) then complementing $\mathcal{B_C}$ and
+      finally creating intersection $\mathcal{A}\cap\overline{\mathcal{B_C}}$.
+
+			\item Reversal: $L=\{a_1\dots a_n \in \Sigma^{*} \ |\ y=a_n\dots a_1 \in L\}$.
+      Reversion of a NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ is
+      NFA $\mathcal{A}_{rev}=(Q_{\mathcal{A}},\Sigma,\delta_{\mathcal{A}_{rev}},F_{\mathcal{A}},I_{\mathcal{A}})$ 
+      where $\delta_{\mathcal{A}_{rev}}=\{(q,a,p)\,|\,p,q \in Q_\mathcal{A}, a \in \Sigma,p\xrightarrow{a}q\in\delta_{\mathcal{A}}\}$ .
+
+      \item Iteration: $L^{*}$.
+      Iteration of a NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+      is NFA $\mathcal{A}^{*}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A}^{*},I_\mathcal{A},F_\mathcal{A}\cup I_\mathcal{A})$ 
+      where $\delta_\mathcal{A}^{*}=\delta_\mathcal{A}\cup
+      \{q\xrightarrow{a}i\,|\,f\in F_\mathcal{A},i\in I_\mathcal{A}\,.\,q\xrightarrow{a}f \in \delta_\mathcal{A}\}$
+
+			\item Concatenation: $L\cdot K=\{x \cdot y\ |\ x\in L \wedge y\in K\}$\\
+      Concatenation of a NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ and a NFA 
+      $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ is 
+      NFA $\mathcal{A}\cdot\mathcal{B}=(Q_\mathcal{A}\cup Q_\mathcal{B},\Sigma,\delta,I_\mathcal{A},F_\mathcal{B})$ where $\delta=\delta_\mathcal{A} \cup
+      \{q\xrightarrow{a}i\,|\,f\in F_\mathcal{A},i\in I_\mathcal{B}\,.\,q\xrightarrow{a}f \in \delta_\mathcal{A}\}$
+
+  \end{itemize}
 
 \begin{comment}
 		\subsection{Union, intersection, inclusion}
@@ -435,83 +427,84 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 		
 \end{comment}
 
-\chapter{Inclusion Checking over NFA}
+\chapter{Checking Inclusion over NFA}
 \label{chapInclusion}
 Given a pair of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
 and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$, 
-the \emph{language inclusion problem} is decision whether $L_\mathcal{A} \subseteq L_\mathcal{B}$ what is defined by standard set operations as
-$L_\mathcal{A}\cap \overline{L_\mathcal{B}} = \varnothing$.
+the \emph{language inclusion problem} is deciding whether $L_\mathcal{A} \subseteq L_\mathcal{B}$ is based on the observation that this holds iff 
+$L_{\mathcal{A}}\cap\L_\mathcal{B}=\emptyset$.
 This problem is PSPACE-complete \cite{cav06}. The \emph{textbook} algorithm for checking inclusion $L_\mathcal{A}\subseteq L_\mathcal{B}$ works by first 
 determinizing $\mathcal{B}$ (yielding the DFA 
-$\mathcal{B}_{det}$ using subset construction algorithm \ref{subset}), 
-complementing it ($\overline{\mathcal{B}_{det}}$) and constructing the NFA $\mathcal{A} \times \overline{\mathcal{B}_{det}}$ 
+$\mathcal{B}_{det}$ using the subset construction algorithm presented in section \ref{subset}), 
+complementing it (yielding $\overline{\mathcal{B}_{det}}$) and constructing the NFA $\mathcal{A} \cap \overline{\mathcal{B}_{det}}$ 
 accepting the intersection of $L_{\mathcal{A}}$ and ${L_{\overline{\mathcal{B}_{det}}}}$ and
 checking whether its language is nonempty. Any accepting run in this automaton may serve as a witness that the inclusion between $\mathcal{A}$ 
 and $\mathcal{B}$ does not hold.
-Some recently introduced approaches (so-called antichains \cite{cav06}, its optimization using simulation \cite{tacas10} and so-called bisimulation up to
+Some recently introduced approaches (the so-called antichains \cite{cav06}, its optimization using simulation \cite{tacas10}, and the so-called bisimulation up to
 congruence \cite{popl13}) avoid the explicit construction of $\overline{\mathcal{B}_{det}}$ and the related state explosion in many cases.
 
-We have to define following terms for the further description of the new techniques for the inclusion checking.
-We denote product state of an NFA $\mathcal{A} \times \mathcal{B}$ as a pair $(p,P)$ of a state $p\in Q_\mathcal{A}$ and a macrostate $P \subseteq Q_\mathcal{B}$.
-We define post-image of the product state $(p,P)$ of a NFA $\mathcal{A}\times \mathcal{B}$ by:\
-$Post((p,P)):=\{(p',P')\ |\ \exists a \in \Sigma: (p,a,p')\in \delta_\mathcal{A}, P'=\{p''\ |\ \exists p \in P:(p,a,p'')\in \delta_\mathcal{B}\}\}$
+We have to define the following terms for the further description of the new techniques for the inclusion checking.
+We denote a product state of a NFA $\mathcal{A} \cap \mathcal{B}_{det}$ as a pair $(p,P)$ of a state $p\in Q_\mathcal{A}$ and a 
+macrostate $P \subseteq Q_{\mathcal{B}_det}$.
+We define the post-image of a product state $(p,P)$ of a NFA $\mathcal{A}\cap \mathcal{B}$ by
+$Post(p,P):=\{(p',P')\ |\ \exists a \in \Sigma: p\xrightarrow{a} p' \in \delta_\mathcal{A}, P'=
+\{p''\in Q_\mathcal{B}\ |\ \exists p''' \in P:p'''\xrightarrow{a} p''\in \delta_\mathcal{B}\}\}$
 
 \section{Checking Inclusion with Antichains and Simulation}
 \label{sectionAntichain}
 We define an antichain, simulation and some others terms before describing the algorithm itself.
-
 Given a partially ordered set $Y$, an \emph {antichain} is a set $X \subseteq Y$ such that all elements of $X$ are incomparable.
-
-A~forward \emph{simulation} on the NFA $\mathcal{A}$ is a relation $\preceq\  \subseteq Q_1 \times Q_1$ 
-such that if $p \preceq r$ then (i) $p \in F_1 
-\Rightarrow r \in F_1$ and (ii) for every transition $p\xrightarrow{a}p'$, there exists a transition 
-$r\xrightarrow{a}r'$ such that $p' \preceq r'$. Note that simulation implies language inclusion, i.e., $p\preceq q \Rightarrow L_\mathcal{A}(p)
-\subseteq L_\mathcal{A}(q)$ \cite{focs95}. %TODO citovate?
-
-
+A~forward \emph{simulation} on a NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+is a relation $\preceq\  \subseteq Q_\mathcal{A} \times Q_\mathcal{A}$ 
+such that if $p \preceq r$ then (i) $p \in F_\mathcal{A} 
+\Rightarrow r \in F_\mathcal{A}$ and (ii) for every transition $p\xrightarrow{a}p' \in \delta_\mathcal{A}$, there exists a transition 
+$r\xrightarrow{a}r' \in \delta_\mathcal{A}$ such that $p' \preceq r'$  \cite{focs95}. 
+Note that simulation implies language inclusion, i.e., $p\preceq q \Rightarrow L_\mathcal{A}(p)
+\subseteq L_\mathcal{A}(q)$. %TODO citovate?
 %Let denote $A^{\subseteq}$ as the set of relations over automaton $A$ that imply inclusion,\\ so if $\preceq \in A^{\subseteq}$, 
 %then $p\preceq r \Rightarrow L(A)(p) \subseteq L(A)(r)$.
 %
 For two macro-states $P$ and $R$ of a NFA is $R\preceq^{\forall\exists}P$ shorthand for $\forall r\in R.\exists p \in P: r \preceq p$.
+Product state $(p,P)$ of a NFA $\mathcal{A} \cap \mathcal{B}_{det}$ is accepting, if $p$ is accepting in automaton $A$ and $P$ is rejecting in automaton $B$.
 
-Product state $(p,P)$ is accepting, if $p$ is accepting in automaton $A$ and $P$ is rejecting in automaton $B$.
-
-\subsection{Antichain Algorithm Description}
-The antichains algorithm \cite{cav06} starts searching for a final state of the automaton $\mathcal{A}\times \overline{\mathcal{B}_{det}}$ while
+\subsection{Antichains Algorithm Description}
+The Antichains algorithm \cite{cav06} described in pseudocode in Algorithm \ref{algAntichain} 
+starts searching for a final state of the automaton $\mathcal{A}\times \overline{\mathcal{B}_{det}}$ while
 pruning out the states which are not necessary to explore. $\mathcal{A}$ is explored nondeterministically and $\mathcal{B}$ 
 is gradually determinized, so the algorithm explores pairs $(p,P)$ where $p\in Q_\mathcal{A}$ and $P \subseteq Q_\mathcal{B}$. 
-The antichains algorithm derives new states along the product automaton transitions and inserts them to the set of visited pairs $X$.
-$X$ keeps only minimal elements with respect to the ordering given by $(r,R)\sqsubseteq (p,P)$ iff $r=p \wedge R \subseteq P$. 
-If there is generated a pair $(p,P)$ and there is 
-$(r,R)\in X$ such that $(r,R) \sqsubseteq (p,P)$, we can skip $(p,P)$ and not insert it to $X$ for further search.
+The antichains algorithm derives new states along the product automaton transitions and inserts them to the set of visited pairs $Next$.
+$Next$ keeps only minimal elements with respect to the ordering given by $(r,R)\sqsubseteq (p,P)$ iff $r=p \wedge R \subseteq P$. 
+If there is a pair $(p,P)$ generated and there is 
+$(r,R)\in Next$ such that $(r,R) \sqsubseteq (p,P)$, we can skip $(p,P)$ and not insert it to $Next$ for further search.
  
 An improvement of the antichains algorithm using simulation \cite{tacas10} is based on the following optimization. 
-We can stop the search from a pair $(p,P)$ if either (a) there exists some already visited pair $(r,R) \in X$ 
+We can stop the search from a pair $(p,P)$ if either (a) there exists some already visited pair $(r,R) \in Next$ 
 such that $p\preceq r \wedge R\preceq^{\forall\exists}P$, 
 or (b) there is $p' \in P$ such that $p \preceq p'$. This first
 optimization is in algorithm \ref{algAntichain} at lines 11--14.
 
 Another optimization \cite{tacas10} of the antichain algorithm is based on the fact 
-that $L_\mathcal{A}(P)=L_\mathcal{A}(P-\{p_1\})$ if there exists $p_2 \in P$, such as $p_1 \preceq p_2$. We can remove the state $p_1$ 
-from macrostate $P$, because if $L_\mathcal{A}(P)$ rejects the word 
-then $L_\mathcal{A}(P-\{p_1\})$ rejects this word too. This optimization is applied by the function $Minimize$ at
-the lines 4 and 7 in the algorithm \ref{algAntichain}.
+that $L_\mathcal{A}(P)=L_\mathcal{A}(P-\{p_1\})$ if there exists $p_2 \in P-\{p_1\}$, such that $p_1 \preceq p_2$. We can remove the state $p_1$ 
+from macrostate $P$, because if $L_\mathcal{A}(P)$ does not contains the word 
+then $L_\mathcal{A}(P-\{p_1\})$ does not contains this word too. This optimization is applied by the function $Minimize$ at
+the lines 4 and 7 in the pseudocode.
 
-The whole pseudocode of the antichain algorithm is given as algorithm \ref{algAntichain}.
-
+\begin{figure}[bt]
 \begin{algorithm}[H]
 	\label{algAntichain}
-	\KwIn{NFA's $\mathcal{A}=(Q_A,\Sigma,\delta_A,I_A,F_A),\ \mathcal{B}=(Q_B,\Sigma,\delta_B,I_B,F_B)$.\\ 
-	 A relation $\preceq \in (\mathcal{A} \cup \mathcal{B})^{\subseteq}$.}
-	\KwOut{TRUE if $\mathcal{L(A)}\subseteq\mathcal{L(B)}$. Otherwise, FALSE.}
-		\If{there is an accepting product-state in \{$(i,I_{\mathcal{B}})|i\in I_{\mathcal{A}}$\}}
+	\KwIn{NFAs $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A}),\ 
+    \mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$.\\ 
+	 A relation $\preceq$ over $\mathcal{A} \cup \mathcal{B}$ that imply language inclusion.}
+	\KwOut{TRUE if $\mathcal{L_\mathcal{A}}\subseteq\mathcal{L_\mathcal{B}}$. Otherwise FALSE.}
+		\If{there is an accepting product-state in \{$(i,I_{\mathcal{B}})\,|\,i\in I_{\mathcal{A}}$\}}
 			{return FALSE\;}
 		$Processed$:=$\varnothing$\;
-		$Next$:= Initialize(\{$(s,Minimize(I_B))\mid s\in I_A$\})\;
-		\While{($Next\neq \varnothing$)}
+    %$Next$:= Initialize(\{$(s,Minimize(I_B))\mid s\in I_A$\})\;
+		$Next$:= \{$(s,Minimize(I_B))\mid s\in I_A$\}\;
+		\While{$Next\neq \emptyset$}
 		{
-			Pick and remove a product-state $(r,R)$ from Next and move it to Processed\;
-			\ForAll{$(p,P)\in \{(r',Minimize(R'))\mid (r',R')\in Post((r,R))\}$}
+			Pick and remove a product-state $(r,R)$ from $Next$ and move it to $Processed$\;
+			\ForEach{$(p,P)\in \{(r',Minimize(R'))\mid (r',R')\in Post((r,R))\}$}
 			{
 				\eIf{$(p,P)$ is an accepting product-state}
 				{
@@ -530,7 +523,9 @@ The whole pseudocode of the antichain algorithm is given as algorithm \ref{algAn
 		}
 		\Return TRUE;
 	\caption{Language inclusion checking with antichains and simulations}
-\end{algorithm}\
+\end{algorithm}
+\end{figure}
+
 \begin{comment}
 Let describe two optimization use in algorithm \ref{algAntichain} based on \cite{tacas10}. First optimization comes from the observation that
 we can stop search from product-state $(p,P)$, if there exists some visited product state $(r,R)$, 
@@ -547,21 +542,18 @@ lines 4 and 7 in algorithm \ref{algAntichain}. Proof for this optimization is ag
 
 \section{Checking Inclusion with Bisimulation up to Congruence}
 \label{sectionCongr}
-Another approach to checking language inclusion of NFA is based on bisimulation up to congruence \cite{popl13}. The definition of congruence relation is
-following:
-
-	Let $X$ be a set with a n-ary operation $O$ over $X$. Congruence is an equivalence relation $R$, 
-	which follows this condition $\forall a_1,\ldots,a_n,b_1,\ldots,b_n\in X$:
+Another approach to checking language inclusion of NFA is based on bisimulation up to congruence \cite{popl13}.
+Given a set $X$ and an n-ary operation $O$ over $X$, an equivalence relation $\sim_R$ is a congruence if $\forall a_1,\ldots,a_n,b_1,\ldots,b_n\in X$:
 		\begin{description}
-			\item $a_1 \sim_{R} b_1,\ldots,a_n \sim_{R} b_n \Rightarrow O_n(a_1,\ldots,a_n) \sim_{R} O_n(b_1,\ldots,b_n)$, where $a_i \in X, b_i \in X$
+			\item $a_1 \sim_{R} b_1,\ldots,a_n \sim_{R} b_n \Rightarrow O(a_1,\ldots,a_n) \sim_{R} O(b_1,\ldots,b_n)$
 		\end{description}
 
-This technique was originally developed for checking equivalence of languages of automata but it can
-also be used for checking language inclusion, based on the observation that $L_\mathcal{A}\cup L_\mathcal{B}= L_\mathcal{B} 
-\Leftrightarrow L_\mathcal{A}\subseteq L_\mathcal{B}$.
+The presented technique was originally developed for checking equivalence of languages of automata but it can
+also be used for checking language inclusion, based on the observation that $L_\mathcal{A}\cup L_\mathcal{B}= L_\mathcal{B}$ iff 
+$L_\mathcal{A}\subseteq L_\mathcal{B}$.
 
   This approach is based on the computation of a~\emph{congruence closure} $c(R)$ 
-  for some binary relation on states of the determinized automaton $R \subseteq 2^Q\times 2^Q$ defined 
+  for some binary relation $R$ on the states of the determinized automaton $R \subseteq 2^Q\times 2^Q$ defined 
   %associative, commutative, idempotent binary operation $+: Q\times Q \to Q$ 
   as a relation $c(R)=(r\cup s\cup t \cup u\cup id)^{\omega}(R)$, where
   \begin{description}
@@ -576,45 +568,54 @@ also be used for checking language inclusion, based on the observation that $L_\
 
  \subsection{Congruence Algorithm Description}
 \label{subsectCongr}
-The congruence algorithm works on a similar principle as the antichains algorithm but 
-it starts building not only $\mathcal{B}_{det}$ but also $\mathcal{A}_{det}$ because the original purpose of this algorithm is checking of 
-language equivalence. States of a product automaton $\mathcal{A}_{det} \times \mathcal{B}_{det}$  (so-called product states) are the pairs 
-$(P_\mathcal{A},P_\mathcal{B})$ of macrostate $P_\mathcal{A} \subseteq Q_\mathcal{A}$ and macrostate
+The congruence algorithm works on a similar principle as the antichains algorithm but  
+it tries to build bisimulation that relates $\mathcal{A}$ and $\mathcal{B}$. The algortihm starts building not only $\mathcal{B}_{det}$ 
+but also $\mathcal{A}_{det}$ because the original purpose of this algorithm is checking of 
+language equivalence. States of the product automaton $\mathcal{A}_{det} \times \mathcal{B}_{det}$  (so-called product states) are the pairs 
+$(P_\mathcal{A},P_\mathcal{B})$ of a macrostate $P_\mathcal{A} \subseteq Q_\mathcal{A}$ and a macrostate
 $P_\mathcal{B} \subseteq Q_\mathcal{B}$. 
 The algorithm searches for a victim that proves $L_\mathcal{A} \neq L_\mathcal{B}$. The victim is a product state $(P_\mathcal{A},P_\mathcal{B})$ 
 which breaks a condition that
 the $P_\mathcal{A}$ contains a final state of $A$ if and only if $P_\mathcal{B}$ contains a final state of $B$. 
 
-The optimization brought by this algorithm is based on computing of a congruence closure of the set of already visited pairs of macrostates. 
+The optimization brought by this algorithm is based on computing a congruence closure of the set of already visited pairs of macrostates. 
 If the generated pair is in the congruence closure, it can be skipped and further not processed.
-	The whole pseudocode of the congruence algorithm is given as algorithm \ref{algCongr}.
+The whole pseudocode of the congruence algorithm is given in Algorithm \ref{algCongr}. The operation post on a product state $(P,Q)$ of a 
+NFA $\mathcal{A}\cap \mathcal{B}$ used in the pseudocode we define by:\
+$Post((P,Q)):=\{(P',Q')\ |\ \exists a \in \Sigma: P'=
+\{p''\in Q_\mathcal{B}\ |\ \exists p \in P:p\xrightarrow{a} p''\in \delta_\mathcal{B}\}, Q'=
+\{q''\in Q_\mathcal{B}\ |\ \exists q \in Q:q\xrightarrow{a} q''\in \delta_\mathcal{B}\}\}$
 
-	\begin{algorithm}[h]
+
+\begin{figure}[bt]
+	\begin{algorithm}[H]
 		\label{algCongr}
-		\KwIn{NFA's $A=(Q_A,\Sigma,\delta_A,I_A,F_A),\ B=(Q_B,\Sigma,\delta_B,I_B,F_B)$.} 
-		\KwOut{TRUE, if $L(A)$ and $L(B)$ are in equivalence relation. Otherwise, FALSE.}
-			$Processed$ := $\varnothing$\;
-			$Next$ := $(I_A,I_B)$\;
-			\While{$Next \neq \varnothing$}
+		\KwIn{NFA's $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A}),\
+      B=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$.} 
+		\KwOut{TRUE, if $L_\mathcal{A}=L_\mathcal{B}$. Otherwise FALSE.}
+			$Processed$ := $\emptyset$\;
+			$Next$ := $(I_\mathcal{A},I_\mathcal{B})$\;
+			\While{$Next \neq \emptyset$}
 			{
 				Pick and remove a product state $(X,Y)$ from $Next$\;
 				\If {($X$,$Y) \in c(Processed \cup Next)$}
-				{skip\;}
-				\If {$\neg(\{x\in X| x\in F_\mathcal{A}\} \neq \varnothing \Leftrightarrow \{y\in Y| y\in F_\mathcal{B}\}\neq \varnothing)$}
+				{continue\;}
+				\If {$(X\cap F_\mathcal{A}\ \neq \emptyset) \Leftrightarrow (Y\cap F_\mathcal{B} \neq \varnothing)$}
 				{
 					\Return FALSE\;
 				}
 				%\ForAll {$a\in \Sigma$}
 				%{
-					Add ($post(X,Y)$) to $Next$\;
+					Add elements from ($Post(X,Y)$) to $Next$\;
 				%}
 				Add($X$,$Y$) to $Processed$\;
 			}
 			\Return TRUE;
 		\caption{Language equivalence checking with congruence}
 \end{algorithm}
+\end{figure}
 
-Comparing the mentioned approaches to the checking language inclusion can be seen in Figure \ref{automata}.
+Comparing the mentioned approaches to checking language inclusion can be seen in Figure \ref{automata}.
 \begin{figure}[bt]
 \begin{center}
 	\scalebox{1}
@@ -628,12 +629,12 @@ Comparing the mentioned approaches to the checking language inclusion can be see
       \hspace{0.1cm} The figure is based on an example from \cite{tacas10}.
       It shows the procedure of checking language inclusion between two NFA using the mentioned approaches (which correspond to the labeled areas).
       %The labeled areas correspond to mentioned approaches.
-      The antichain algorithm reduces number of the generated states compared with the classical,
+      The antichains algorithm reduces number of the generated states compared with the classical,
       e.g., $(p_2,\{q_1,q_2\})$ is not further explored because $(p_2,\{q_2\}) \sqsubseteq (p_2,\{q_1,q_2\})$. 
-      The optimization a and b are improvements of the antichain algorithm using simulation. 
-      The congruence algorithm also reduces number of the generated states, so $(\{p_1,p_2\},\{q_1,q_2\})$ 
-      is not further explored because it is in congruence closure 
-      of the set of visited states.}}
+      The optimization a) and b) are improvements of the antichains algorithm using simulation. 
+      The congruence algorithm also reduces the number of the generated states, so $(\{p_1,p_2\},\{q_1,q_2\})$ 
+      is not further explored because it is in the congruence closure 
+      of the set of visited pairs of states.}}
       %It shows macrostates 
 			%that are generated when checking language inclusion between two NFA using different approaches. Optimization a and b
 			%correspond to the parts of the improvement of antichain algorithm using simulation.}}
@@ -643,38 +644,39 @@ Comparing the mentioned approaches to the checking language inclusion can be see
 
 \subsection{Computation of Congruence Closure}
 \label{subsectionCongr}
-The computation of the congruence closure is crucial for performance and efficiency of the whole method. This thesis implements
-an algorithm described by \cite{popl13} which is based on using of the so-called rewriting rules. For each pair of macrostates $(X,Y)$ in 
-a relation $R$ of the visited macrostates exists two rewriting rules which has following form:
+The computation of the congruence closure is crucial for performance and efficiency of the whole method. The work described in this thesis implements
+an algorithm introduced in \cite{popl13} which is based on the use of the so-called rewriting rules. For each pair of macrostates $(X,Y)$ in 
+a relation $R$ of the visited macrostates there exist two rewriting rules which have following form:
 \begin{center}
 $X\rightarrow X\cup Y$ \hspace{5cm} $Y\rightarrow X\cup Y$
 \end{center}
 
-These rules can be used for computation of a \emph{normal form} of a set of states \cite{popl13}. The normal form of a macrostate $X$ created with
-the usage of rewriting rules of the relation $R$ is denoted as $X{\downarrow_R}$.
+These rules can be used for computation of a \emph{normal form} of a set of states \cite{popl13}. The normal form of a set is the
+largest set of its equivalence classes \cite{popl13}. The normal form of a macrostate $X$ created with
+the rewriting rules of the relation $R$ is denoted as $X{\downarrow_R}$.
 Checking if $(X,Y)\in c(R)$ using derivation of the normal form is based on the observation that $X{\downarrow_R}=Y{\downarrow_R}$ 
 iff $(X,Y)\in c(R)$ \cite{popl13}.
 
 An example (taken from \cite{popl13}) is given to illustrate an application of this approach for checking equivalency of 
 NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
-and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ (both NFA are on figure \ref{figHKCex}). 
-Let have a relation $R=\{(\{x\},\{u\}),(\{y,z\},\{u\})\}$ of the visited product states and a newly generated product state 
+and $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ (both NFA are in Figure \ref{figHKCex}). 
+Consider a relation $R=\{(\{x\},\{u\}),(\{y,z\},\{u\})\}$ of the visited product states and a newly generated product state 
 $(\{x,y\},\{u\})$ (where $\{x,y\}\subseteq Q_\mathcal{A}$ and 
-$\{u\} \subseteq Q_\mathcal{B}$). For checking of $(\{x,y\},\{u\})\in c(R)$ it is needed to compute the normal forms of the macrostates $\{x,y\}$ and $\{u\}$ 
-A derivation of both normal forms is shown on \ref{figHKCRew}. 
+$\{u\} \subseteq Q_\mathcal{B}$). For checking whether $(\{x,y\},\{u\})\in c(R)$ it is needed to compute the normal forms of the macrostates $\{x,y\}$ and $\{u\}$ 
+A derivation of both normal forms is shown in Figure \ref{figHKCRew}. 
 The normal form of the set $\{x,y\}$ is derived in two steps.
-At the first step is applied rule $\{x\}\rightarrow\{x,u\}$ (base on $(\{x\},\{u\})\in R$) so we get a set $\{x,y,u\}$. As the second one, rule 
-$\{u\}\rightarrow\{y,z,u\}$ (based on product state $(\{y,z\},\{u\})\in R$) is applied, so the result is $\{x,y,z,u\}$. The normal form of the set $\{u\}$
-is derived in two steps too. At the first step, a rule $\{u\}\rightarrow\{x,u\}$ is applied so we get a set $\{x,u\}$ and then rule 
-$\{u\}\rightarrow\{y,z,u\}$  is used and the result set is $\{x,y,z,u\}$. The derived normal sets are equal so it holds that $(\{x,y\},u)\in c(R)$ and
-it is not necessary to further explore product automaton $\mathcal{A}\times \mathcal{B}$ from this state.
+At the first step the rule $\{x\}\rightarrow\{x,u\}$ is applied (based on the pair $(\{x\},\{u\})\in R$) so we get a set $\{x,y,u\}$. As the second one, the rule 
+$\{u\}\rightarrow\{y,z,u\}$ (based on the product state $(\{y,z\},\{u\})\in R$) is applied, so the result is $\{x,y,z,u\}$. The normal form of the set $\{u\}$
+is derived in two steps too. At the first step, the rule $\{u\}\rightarrow\{x,u\}$ is applied so we get a set $\{x,u\}$ and then the rule 
+$\{u\}\rightarrow\{y,z,u\}$ is used and the result set is $\{x,y,z,u\}$. The derived normal sets are equal so it holds that $(\{x,y\},\{u\})\in c(R)$ and
+it is not necessary to further explore the product automaton $\mathcal{A}\times \mathcal{B}$ from this state.
 
 \begin{figure}[bt]
 \begin{center}
   \input{fig/aut_hkcA.tikz}
   \input{fig/aut_hkcB.tikz}
     \caption{The figure shows two NFA $\mathcal{A}$, $\mathcal{B}$ 
-      which are used in example describing computation of a congruence closure in figure \ref{figHKCRew}}
+      which are used in the example describing computation of a congruence closure in Figure \ref{figHKCRew}}
 		\label{figHKCex}
 \end{center}
 \end{figure}
@@ -682,36 +684,38 @@ it is not necessary to further explore product automaton $\mathcal{A}\times \mat
 \begin{figure}[bt]
   \begin{center}
     \input{fig/congr_closure.tikz}
-    \caption{The figure (taken from \cite{popl13}) shows the deriving of the normal forms of the sets $\{x,y\}$ and $\{u\}$ using rewriting
+    \caption{Derivation of the normal forms of the sets $\{x,y\}$ and $\{u\}$ using rewriting
       rules of the macrostates of a relation $R=\{(\{x\},\{u\}),(\{y,z\},\{u\})\}$.}
     \label{figHKCRew}
   \end{center}
 \end{figure}
 
-Problem of this approach is that we do not know which rules of relation $R$ to use, in which order to use the 
-and each rule can be used only once for computing a normal form. 
-Due this conditions the time complexity for finding one rule is in the worst case $rn$, where $r=|R|$ and $n=|Q|$ where $Q$ is a set of states of a NFA.
-The whole derivation of the normal set is bounded by complexity $r^2 n$ because we apply maximally $r$ rules \cite{popl13}.
+A problem of this approach is that we do not know which rules of the relation $R$ to use, in which order to use the 
+and each rule can be used only once for computing the normal form. 
+Due to this conditions the time complexity for finding an applicable rule is in the worst case $|R|\cdot|Q|$ where $Q$ is a set of states of a NFA.
+The whole derivation of the normal set is bounded by complexity $|R|^2 \cdot |Q|$ because we can apply at most $r$ rules \cite{popl13}.
 
 \subsubsection{Optimization for Inclusion Checking}
 \label{congrOpt}
 Since the algorithm based on bisimulation up to congruence is primarily used for checking equivalence of NFA it is possible to make some simplifications for
-checking inclusion. An optimization is possible in checking whether macrostate $(X,Y)$ is in congruence closure of a relation $R$ of the visited
+checking inclusion. An optimization is possible in checking whether a macrostate $(X,Y)$ is in the congruence closure of a relation $R$ of the visited
 product states. The optimization
-is based on the fact that when one checks inclusion between NFA $\mathcal{A}$ and $\mathcal{B}$ it is done by checking if $\mathcal{A}\cup\mathcal{B}=
-\mathcal{B}$ so in all product states $(X,Y)$ is $X$ set of states of NFA $\mathcal{A}\cup\mathcal{B}$ and $Y$ set of states of NFA $\mathcal{B}$. Since the
-states of $\mathcal{B}$ are already in macrostate $X$ it is useful to use the rewriting rules only in following form \cite{popl13}:
+is based on the fact that when one checks if the inclusion between NFA $\mathcal{A}$ and $\mathcal{B}$ holds it is done by checking if $\mathcal{A}\cup\mathcal{B}=
+\mathcal{B}$ so in all product states $(X,Y)$, $X$ is a set of the states of NFA $\mathcal{A}\cup\mathcal{B}$ and $Y$ set of states of NFA $\mathcal{B}$. Since the
+states of $\mathcal{B}$ are already in macrostate $X$ it is useful to use the rewriting rules only in the following form \cite{popl13}:
 \begin{center}
 $Y\rightarrow X\cup Y$
 \end{center}
-During checking inclusion of two NFA is not also necessary to achieve $X{\downarrow_R}=Y{\downarrow_R}$ to prove that $(X,Y)\in c(R)$ 
+While checking inclusion of two NFA it is also not necessary to achieve $X{\downarrow_R}=Y{\downarrow_R}$ to prove that $(X,Y)\in c(R)$ 
 but just $X \subseteq Y{\downarrow_R}$ to prove that $(X\cup Y,Y)\in c(R)$ \cite{popl13}.
 
-As an example is given computation of congruence closure during checking inclusion between NFA $\mathcal{A}$ and $\mathcal{B}$ (both are on the figure 
-\ref{figHKCex}). Let have a relation of visited product states $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$ and newly generated product state $(\{x,y,u\},\{u\})$. The
-derivation of the normal form of the set $\{u\}$ is shown on the figure \ref{figHKCRewO}. 
-The normal form of the set $\{u\}$ is derived in two steps, first is applied rule $\{u\}\rightarrow\{x,u\}$ (based on $(\{x,u\},\{u\})\in R$) 
-so we get a set $\{x,u\}$. Then rule $\{u\}\rightarrow\{y,z,u\}$ (based on $(\{y,z,u\},u)$) is used and the finally derived normal form is set $(\{x,y,z,u\})$ 
+As an example we give a computation of the congruence closure while checking inclusion between NFA $\mathcal{A}$ and $\mathcal{B}$ (both are in Figure 
+\ref{figHKCex}). Let us have a relation of visited product states $R=\{(\{x,u\},\{u\}),(\{y,z,u\},\{u\})\}$ and a 
+newly generated product state $(\{x,y,u\},\{u\})$. The
+derivation of the normal form of the set $\{u\}$ is shown in Figure \ref{figHKCRewO}. 
+The normal form of the set $\{u\}$ is derived in two steps, first the rule $\{u\}\rightarrow\{x,u\}$ is applied (based on the pair $(\{x,u\},\{u\})\in R$) 
+so then we get the set $\{x,u\}$. 
+Then the rule $\{u\}\rightarrow\{y,z,u\}$ (based on $(\{y,z,u\},u)$) is used and the finally derived normal form is the set $(\{x,y,z,u\})$ 
 and because the set $\{x,y,u\}$ is subset of the derived set it holds that $(\{x,y,u\},\{u\})\in c(R)$.
 
 \begin{figure}[bt]
@@ -727,69 +731,70 @@ and because the set $\{x,y,u\}$ is subset of the derived set it holds that $(\{x
 \label{libraries}
 There are many different libraries for finite automata. These libraries have been created for various purposes and 
 are implemented in different languages. 
-At this chapter, some libraries will be described. Described libraries are just examples which represents typical disadvantages of existing libraries like
-classical approach for language inclusion testing which needs the determinisation of finite automaton. 
+In this chapter, we will describe a few of the most prominent libraries. 
+The described libraries are just examples which represent typical disadvantages of existing libraries like
+classical approach for language inclusion testing which needs the determinisation of a finite automaton. 
 
-At the second part of this chapter, VATA library for \emph{tree} automata will be introduced. 
-Library design will be briefly described and also the operations for tree
-automata and the plans for an extension of VATA library.
+In the second part of this chapter, the VATA library for \emph{tree} automata will be introduced. 
+The design of the library will be briefly described and also the operations for tree
+automata and the plans for an extension of the VATA library.
 
 \section{Existing Finite Automata Libraries}
 \label{existinglibraries}
 \subsection{dk.brics.automaton}
 \label{brics}
 \emph{dk.brics.automaton} is an established Java package available under the BSD license. The latest version of this library (1.11-8) 
-was released on September 7th, 2011.
-Library can be downloaded and more information are on its webpage \cite{brics}. 
+was released on September 7, 2011.
+The library can be downloaded and more information can be obtained from its webpage \cite{brics}. 
 
-Library can use as input regular expression created by the Java \emph{RegEx} class.
-It supports manipulation with NFA and DFA. Basic operation like union,
-intersection, complementation or run of automaton on the given word etc., are available.
+The library can use as the input a regular expression created by the Java \emph{RegEx} class.
+It supports manipulation with NFA and DFA. Basic operations like union,
+intersection, complementation or membership test for a given word etc., are available.
 
-Test of language inclusion is also supported but if the input automaton is NFA, it needs to be converted to DFA. 
-This is made by \emph{subset construction} approach which causes state explosion.
+Testing language inclusion is also supported but if the input automaton is an NFA, it needs to be converted into a DFA. 
+This is made by the \emph{subset construction} approach which may causes a state explosion.
 
-\emph{dk.brics.automaton} was ported to another two languages in two different libraries, which will be described next.
+\emph{dk.brics.automaton} has been ported to another two languages in two different libraries, which will be described next.
 
 \subsubsection{libfa}
-\emph{libfa} is a C library being part of \emph{Augeas} tool. 
-Library is licensed under the LGPL, version 2 or later. It also support both versions of finite automata, NFA and DFA. 
-Regular expressions could serve like input again.
+\emph{libfa} is a C library being part of the \emph{Augeas} tool. 
+The library is licensed under the LGPL, version 2 or later. It also support both versions of finite automata, NFA and DFA. 
+Regular expressions may be used as an input again.
 libfa can be found and downloaded on it webpage \cite{libfa}.
 libfa has no explicit operation for inclusion checking, but has the operations for intersection and complement of automata
-which can serve for the inclusion checking.
+which can serve for this purpose.
 Main disadvantage of libfa is again the need of the explicit determinisation during inclusion checking.
 
 \subsubsection{Fare}
-\emph{Fare} is a library, which brings dk.brics.automaton from Java to .NET. 
-This library has the same characteristics as dk.brics.automaton or libfa and disadvantage in need of determinisation is still here. 
+\emph{Fare} is a library which brings dk.brics.automaton from Java to the .NET framework. 
+The library has the same characteristics as dk.brics.automaton or libfa and disadvantage in need of determinisation is still here. 
 Fare can be found on its webpage \cite{fare}.
 
 \subsection{The RWHT FSA toolkit}
-The \emph{RWHT FSA} is a toolkit for manipulating finite automata described in \cite{kanthakN04}. 
-The latest version is 0.9.4 from year 2005. The toolkit is written in C++
-and available under its special license, derived from Q Public License v1.0 and the Qt Non-Commercial License v1.0. Library can be downloaded from \cite{rwth}. 
+\emph{RWHT FSA} is a toolkit for manipulating finite automata described in \cite{kanthakN04}. 
+The latest version is 0.9.4 from the year 2005. The toolkit is written in C++
+and available under its special license, derived from Q Public License v1.0 and the Qt Non-Commercial License v1.0. The library can be downloaded from \cite{rwth}. 
 
 The RWHT FSA does not support only the classical finite automata, but also automata with weighted transitions so the toolkit has wider range of application.
 The toolkit implements some techniques for better computation efficiency. E.g., it supports on-demand computation technique for operations over finite automata 
 so not all computations are evaluated immediately but some are not computed until their results are really
-needed. Usage of this technique leads to better memory efficiency. 
+needed. The use of this technique leads to better memory efficiency. 
 
-The RWHT FSA toolkit does not support language inclusion checking explicitly, but contains operations for intersection, complement and
+RWHT FSA toolkit does not support language inclusion checking explicitly, but contains operations for intersection, complement and
 determinisation which can be exploited for testing inclusion. This brings again the disadvantage of a state explosion during 
 the explicit determinization. 
 
 \subsection{Implementation of the State-of-the-art Algorithms}
 There have been recently introduced some new efficient algorithms for inclusion checking 
-which are dealing with problem of a state explosion because they avoid the explicit determinization of a finite automaton. These 
-algorithms have been described in section \ref{chapInclusion}.
-All of the mentioned state-of-the-art algorithms were implemented in OCaml language for testing and evaluation purposes.
+which are dealing with the problem of a state explosion because they avoid the explicit determinization of a finite automaton. These 
+algorithms have been described in Section \ref{chapInclusion}.
+All of the mentioned state-of-the-art algorithms were implemented in the OCaml language for testing and evaluation purposes.
 
-The algorithms using the antichains are possible to use not only for finite automata but also for tree automata(\cite{cav06,tacas10}). 
-The algorithms for tree automata are provided by the VATA library which is implemented in C++ what brings the greater efficiency compared to OCaml implementation. 
-A description of this library will be placed in next section.
-Despite the fact that a C++ implementation could be more efficient then OCaml  implementation, there is currently 
-no library or toolkit similar to VATA library providing efficient implementation of these algorithms for language inclusion checking over NFA.
+The algorithms using antichains are possible to use not only for finite automata but also for tree automata \cite{cav06,tacas10}. 
+The algorithms for tree automata are provided by the VATA library which is implemented in C++ bringing greater efficiency compared to an OCaml implementation. 
+A description of this library will be placed in the next section.
+Despite the fact that a C++ implementation could be more efficient than an OCaml implementation, there is currently 
+no library or a toolkit similar to the VATA library providing an efficient implementation of these algorithms for language inclusion checking over NFA.
 
 
 \begin{comment}
@@ -808,28 +813,29 @@ Because of these reasons, algorithms for finite automata manipulation will be im
 \section{VATA library}
 \label{VATA}
 VATA is a highly efficient open source library for \emph{nondeterministic tree} automata licensed under GPL, version 3. 
-Main application of VATA is formal verification \cite{libvata}.
-VATA library is implemented in C++ and uses the Boost C++ library. The library can be downloaded from its website 
-\footnote{\url{http://www.fit.vutbr.cz/research/groups/verifit/tools/libvata/}}.  
+The main application of VATA is formal verification \cite{libvata}.
+The VATA library is implemented in C++ and uses the Boost C++ library. 
+The library can be downloaded from its website\footnote{\url{http://www.fit.vutbr.cz/research/groups/verifit/tools/libvata/}}.  
 
 \subsection{Design}
 \label{sectionDesignVata}
-VATA provides two kind of encoding for tree automata -- Explicit Encoding (top-down) and Semi-symbolic encoding (top-down and bottom-up). The main difference
-between encoding is
-in data structure for storing transition of tree automata. Semi-symbolic encoding is primary for automata with large alphabets. 
+VATA provides two kind of encoding for tree automata: Explicit Encoding (top-down) and Semi-symbolic encoding (top-down and bottom-up). The main difference
+between encodings are
+in the data structures for storing transition of tree automata. The semi-symbolic encoding is primarily for automata with large alphabets. 
 
-The main idea of the design of VATA library is show on the image \ref{picVataDesign} and here is also brief description of it. 
+The main concept of the design of VATA library is shown in Figure \ref{picVataDesign} and we also give a brief description. 
 An input automaton is processed by one of the parsers (currently
-is implemented only Timbuk format parser). A result of parsing is a data structure with the general information about automaton (the data structure stores a list
-of transitions of a given automaton, its final states etc.). The main program choose one of the internal encodings of the automaton. The encodings
+only Timbuk format parser is implemented). The result of parsing is a data structure with the general information about an automaton 
+(the data structure stores a list
+of transitions of a given automaton, its final states, etc.). The main program chooses one of the internal encodings of the automaton. The encodings
 differs by a data structure they use for a representation of the automaton. Each encoding also provides the functions for transformation of the automaton 
-from the data structure given by parser to the data structure used by chosen encoding. The encodings also implements
-the operations over automata. When the automaton is processed it is often dumped to output format. 
+from the data structure given by the parser to the data structure used by the chosen encoding. The encodings also implement
+the operations over automata. When the automaton is processed it is possible to serialize it to an output format. 
 This is done by one of the serializers (currently there is implemented only the Timbuk format serializer too) 
-which takes as input the same data structure which uses parser.
+which takes as the input the same data structure which uses the parser.
 
-As you can see on the figure \ref{picVataDesign}, the VATA library is written in a modular way, so it is easy to make an extension for finite automata. 
-Thanks to the modularity, any new encoding can share other parts of library such as parser or serializer \cite{libvata}. 
+As you can see in Figure \ref{picVataDesign}, the VATA library is written in a modular way, so it is easy to make an extension for finite automata. 
+Thanks to the modularity, any new encoding can share other parts of the library such as parsers or serializers \cite{libvata}. 
 The VATA library also provides a command line interface which is shared by different encodings.
 
 \begin{figure}[bt]
@@ -843,13 +849,13 @@ The VATA library also provides a command line interface which is shared by diffe
 %%TODO: Vic se rozkecat o kodovanich
 \subsubsection{Explicit Encoding}
 \label{sectionExplicitEnc}
-The explicit encoding supports storing the transitions in top-down direction (transitions are in form $q \xrightarrow{a} (q_1,...,q_n)$). The transitions
-are stored in a \emph{hierarchical data structure based on hash tables}. First level of the data structure is hash table
-that maps the states to \emph{transition cluster}. This clusters are also look-up tables and maps symbols of an input alphabet
-to a set of pointers (stored as \emph{red-black tree}) to tuples of states. Storing tuples of states can be very memory demanding, so each tuple is stored
-only once and is pointed by different transitions. 
-Inserting new transition to this structure requires a constant number of steps (exception is the worst case scenario)
-\cite{libvata}. This data structure can be seen on figure \ref{figExplicitTreeDataStr}.
+The explicit encoding supports storing the transitions in the top-down direction (transitions are in the form $q \xrightarrow{a} (q_1,...,q_n)$). The transitions
+are stored in a \emph{hierarchical data structure based on hash tables}. The first level of the data structure is a hash table
+that maps states to \emph{transition clusters}. These clusters are also look-up tables and map symbols of an input alphabet
+to sets of pointers (stored as \emph{red-black trees}) to tuples of states. Storing tuples of states can be very memory demanding, so each tuple is stored
+only once and is referenced by different transitions. 
+Inserting a new transition to this structure requires a constant number of steps (exception is the worst case scenario) %TODO: dodelat
+\cite{libvata}. This data structure can be seen in Figure \ref{figExplicitTreeDataStr}.
 
 \begin{figure}[bt]
 \begin{center}
@@ -862,43 +868,43 @@ Inserting new transition to this structure requires a constant number of steps (
 \end{figure}
 
 
-For better performance is used \emph{copy-on-write} technique \cite{libvata}. The principle of this technique is 
-that on copy of automaton is created just new pointer to transition table of original automaton and after adding a new state to one of the automaton 
-is modified only part of the whole shared transition table. 
+For better performance the \emph{copy-on-write} technique \cite{libvata} is used. The principle of this technique is 
+that copying an automaton creates just a new pointer to the transition table of original automaton and after adding a new state to one of the automata 
+only a part of the whole shared transition table is modified. 
 
 \subsubsection{Semi-symbolic Encoding}
-Transition functions in semi-symbolic encoding are stored in \emph{multi-terminal binary decision diagrams} (MTBDD), which are extension of \emph{binary decision 
-diagrams}. There are provided top-down (transitions are in form $q \xrightarrow{a} (q_1,...,q_n)$, for $a$ with arity $n$) 
-and bottom-up (transitions are in form $(q_1,...,q_n)\xrightarrow{a}q$) representation of tree automata in semi-symbolic encoding. 
-The specific part is the saving of symbols in MTBDD. In top-down encoding, the input
-symbols are stored in MTBDD with their arity, because we need to be able to distinguish between two instances of same symbols with different arity.
-In opposite case, bottom-up encoding does not need to store arity, because it is possible to get it from arity of tuple on left side of transition \cite{libvata}.
+Transition functions in the semi-symbolic encoding are stored in \emph{multi-terminal binary decision diagrams} (MTBDD), 
+which are extension of \emph{binary decision 
+diagrams}. Two representations of tree automata are provided in the semi-symbolic encoding: 
+top-down (transitions are in form $q \xrightarrow{a} (q_1,...,q_n)$, for $a$ with arity $n$) 
+and bottom-up (transitions are in form $(q_1,...,q_n)\xrightarrow{a}q$). 
+The specific part is the saving of symbols in to a MTBDD. In the top-down representation, the input
+symbols are stored in the MTBDD with their arity, because we need to be able to distinguish between two instances of the same symbols with a different arity.
+In the opposite case, the bottom-up representation does not need to store the arity, because it is possible to get it from the arity of tuples 
+on the left-hand side of transition \cite{libvata}.
 
-For purposes of VATA library was implemented new MTBDD package which improved the performance of library.
-
-%TODO povypravaet o MTBDD package
+For the purposes of the VATA library a new MTBDD package was implemented which improves the performance of library.
 
 \subsubsection{Operations}
-There are supported basic operations over tree automata 
-like union, intersection, elimination of unreachable states, but also some advance a algorithms for inclusion checking, 
+There are several supported basic operations over tree automata 
+such as union, intersection, elimination of unreachable states, but also some advanced algorithms for inclusion checking, 
 computation of simulation relation, language preserving size reduction based on simulation equivalence. 
 
-Optimized algorithms for inclusion testing \cite{cav06,tacas10} are implemented. The inclusion operation is implemented in more versions, so it is possible
-to use only some heuristic and compare different results.
+Optimized algorithms for inclusion testing based on the algorithms from \cite{cav06,tacas10} are implemented. 
+The inclusion test is implemented in more versions, so it is possible
+to use only some heuristics and compare different results.
 
-The efficiency of advanced operations does not come only from the usage of the state-of-the-art algorithms, 
-but there are also some implementation optimization like \emph{copy-on-write}
-principle for automata copying (briefly described in section \ref{sectionExplicitEnc}), buffering once computed clusters of transitions, etc. 
+The efficiency of the advanced operations does not come only from the usage of the state-of-the-art algorithms, 
+but there are also some implementation optimizations like the \emph{copy-on-write}
+principle for automata copying (briefly described in Section \ref{sectionExplicitEnc}), buffering already computed clusters of transitions, etc. 
 Other optimization could be found in exploitation of polymorphism using C++ function templates, instead of
-virtual method because a call of virtual function leads to indirect function call using look-up in virtual-method table (because compiler does not know, which 
-function will be called in runtime) what brings an overhead compared to classical direct 
-function call and it also precludes compiler's optimizer to perform some operations \cite{libvata}. 
-%TODO Moznost citatce 
-
+virtual methods because a call of a virtual function leads to an indirect function call using look-up in a virtual method table 
+(because the compiler does not know in advance which function will be called in runtime), which brings an overhead compared to the classical direct 
+function call and it also precludes compiler's optimizer to perform some optimization \cite{libvata}. 
 More details about implementation optimization can be found in \cite{libvata}.
 
-Especially advanced operations are able only for specific encoding. Some of operations implemented in VATA library and their supported encodings are in 
-the table \ref{tabOp}.
+Especially advanced operations are implemented only for a specific encoding. Some of the operations implemented in the VATA library and their 
+supported encodings are in Table \ref{tabOp}.
 \begin{savenotes}
 \begin{table}[h]
 	\begin{center}
@@ -908,12 +914,12 @@ the table \ref{tabOp}.
 		\textbf{Operation} & \textbf{top-down} & \textbf{bottom-up} & \textbf{top-down} \\ \hline
 		Union & $+$ & $+$ & $+$ \\
 		Intersection & $+$ & $+$ & $+$ \\
-		Complement & $+$ & $+$ & $+$ \\
+		Complement & $+$ & $-$ & $-$ \\
 		Removing useless states & $+$ & $+$ & $+$ \\
 		Removing unreachable states & $+$ & $+$ & $+$ \\
-		Downward and Upward Simulation & $+$ & $-$ & $+$ \\
+		Downward Simulation & $+$ & $+$ & $+$ \\
+		Upward Simulation & $+$ & $-$ & $+$ \\
 		Bottom-Up Inclusion  & $+$ & $+$ & $-$ \\ 
-		Simulation over LTS\footnote{LTS -- Labeled Transitions System} & $+$ & $-$ & $-$ \\ \hline
 		\end{tabular}
 	\caption{Table shows which operations are supported for the tree automata in the encodings implemented in VATA library.}
 	\label{tabOp}
@@ -923,120 +929,125 @@ the table \ref{tabOp}.
 
 
 \subsection{Extension for Finite Automata}
-The purposes of the VATA library are similar as purposes of this work and because the VATA library is written in modular way, it is easy 
-to extend it by another module, so it was decided not to create a brand new library but implement a new extension of VATA for finite automata.
+The purposes of the VATA library are similar as purposes of this work and because the VATA library is written in a modular way, it is easy 
+to extend it by another module. It was therefore decided not to create a brand new library but implement new extension of VATA for finite automata.
 
-The main goal is to provide efficient implementation of the operation for checking of the language inclusion using state-of-the-art algorithms. 
-To be precise, VATA library could be already used for finite automata which can be represented by one dimensional
+The main goal is to provide an efficient implementation of the operation of checking language inclusion using state-of-the-art algorithms. 
+To be precise the VATA library can be already used for finite automata which can be represented by unary
 tree automata. But the VATA library data structures for manipulating tree automata are designated for more complex data structures
 and new special implementation for finite automata will be definitely more efficient. 
-Not only the inclusion checking algorithms will be implemented but also the algorithms for basic operations like union, intersection, removing unreachable or 
+Not only inclusion checking algorithms will be implemented, but also algorithms for basic operations like union, intersection and removing unreachable or 
 useless states. The new extension will implement only the explicit encoding of finite automata. 
-The extension will use some already implemented features of the VATA library like parser and serializer or computation of simulation over states of an automaton.
+The extension will use some already implemented features of the VATA library like the parser and the serializer 
+or computation of simulation over states of an automaton.
 
 \chapter{Design}
 \label{design}
-This chapter is primarily about design of the newly created extension of VATA library for finite automata. 
-At first, the data structures used for storing a finite automaton will be described then a principle of translation of the states and the symbols of a NFA 
-to internal representation. The choice of an input format and its modification are justified.  
-The algorithms for basic operations over NFA like union, intersection or removing unreachable states, etc., are given at the end of the chapter.
+This chapter is primarily about the design of the newly created extension of the VATA library for finite automata. 
+At first, the data structures used for storing a finite automaton will be described, then a principle of the translation of the states and the symbols of a NFA 
+to the internal representation. The choice of the input format and its modification are justified.  
+The algorithms for basic operations over NFA such as union, intersection or removing unreachable states, etc., are given at the end of the chapter.
 
 \section{Data Structures for Explicit Encoding of Finite Automata}
-The encodings for tree automata used in VATA library differ mainly in a data structure used for storing transitions of tree automata. The explicit encoding
+The encodings for tree automata used in the VATA library differ mainly in the data structure used for storing transitions of tree automata. The explicit encoding
 for finite automata is defined by a data structure used for storing the transitions too. 
-This data structure is also crucial performance of the algorithms so it is important to good analyze and design it. 
+This data structure is also crucial for the performance of the algorithms so it is important to take care when analyzing and designing it. 
 
 \label{data structure explicit}
 \subsection{Analysis}
 \label{analysis}
-A NFA is defined by set of its states, its start and final states (which are subset of all states of the NFA) and also its
-transitions and the input alphabet (a formal definition is given in section \ref{defNFA}). 
-One needs to keep information about sets of start and final states to be able to distinguish
-between them and the other states. But it is not necessary to store the whole set of states alone because states are used only within transitions. 
-This also holds for an input alphabet of the NFA. 
+A NFA is defined by the set of its states, its initial and final states (which are subsets of the set of all states of the NFA) and also its
+transitions and the input alphabet (a formal definition is given in Section \ref{defNFA}). 
+One needs to keep information about sets of initial and final states to be able to distinguish
+between them and the other states. However it is not necessary to store the whole set of states itself because it is given implicitly by the states used 
+inside transitions. This also holds for the input alphabet of the NFA. 
 
-The transitions keep the most information about a NFA and are also often used
-during the operations over NFA, so the the performance of these operations strongly depend on the efficiency of data structure for a set of transitions. 
-For example, in many operations over NFA one wants to get all transitions for a given state and a given alphabet symbol and it is important for 
+The transitions keep the most information about an NFA and are also often used
+during the operations over the NFA, so the performance of these operations strongly depend on the efficiency of the data structure used to store transitions. 
+For an example, in many operations over the NFA one wants to get all transitions for a given state and a given alphabet symbol and it is important for 
 the efficiency of the algorithms to get those transitions in as few steps as possible. The similar needs are in the case
 of tree automata when it is not necessary to hold the whole set of the states but it is important to have an efficient data structure for representing 
-transitions of the tree automata.
+transitions of the tree automaton.
 
-The data structure used for storing transitions of a tree automaton in the VATA library was described earlier in section \ref{sectionExplicitEnc} and can be seen
-on the figure \ref{figExplicitTreeDataStr}. The evaluation of the VATA library \cite{libvata} proves the efficiency of this data structure so it was
-decided to modify it and implement the modification in the extension of the VATA library for finite automata.
+The data structure used for storing transitions of a tree automaton in the VATA library was described earlier in Section \ref{sectionExplicitEnc} and can be seen
+in Figure \ref{figExplicitTreeDataStr}. The evaluation of the VATA library \cite{libvata} proves the efficiency of this data structure so it was
+decided to modify it and implement its modification also in the extension of the VATA library for finite automata.
 
 \subsection{Design of Data Structure for Transitions of NFA}
-A data structure for storing transitions of a NFA is based on hash tables. The first hash table (top-level hash table) maps a given state to the pointer to
+The data structure for storing transitions of an NFA is based on hash tables. The first hash table (top-level hash table) maps a given state to the pointer to
 a transition cluster. The transition cluster is another hash table which maps a given symbol of the input alphabet to a set of states accessible from
 the given state under the given symbol. 
-Described data structure is on the figure \ref{figExplicitFADataStr}.
+The described data structure is in figure \ref{figExplicitFADataStr}.
 
-The data structure for storing of the finite automata transitions is simplification of the data structure for the tree automata. Since a tree automaton's
-transition has following form: $q \xrightarrow{a} (q_1,\ldots,q_n)$ where $q,q_1\ldots q_n$ are states of the tree automaton and $a$ is the symbol of 
-the input alphabet of the tree automaton and a finite automaton has transition in form: $q_1 \xrightarrow{a} q_2$ 
-where $q_1,q_2$ are states of the finite automaton and $a$ is its symbol, the simplification of data structure is possible because 
+The data structure for storing transitions of an NFA is a simplification of the data structure for tree automata. Since transitions of a tree automaton
+has the following form: $q \xrightarrow{a} (q_1,\ldots,q_n)$ where $q,q_1\ldots q_n$ are states of the tree automaton and $a$ is a symbol of 
+the input alphabet of the tree automaton, and a finite automaton has transitions of the form: $q_1 \xrightarrow{a} q_2$ 
+where $q_1,q_2$ are states of the finite automaton and $a$ is a symbol of its alphabet, the simplification of the data structure is possible because 
 the tree version has to store the whole tuples. These tuples can be very large and it is more efficient to store them only once in a cache and 
-in the data structure for transitions work only with pointer to a tuple instead of the tuple alone. 
+in the data structure for transitions work only with a pointer to a tuple instead of the tuple itself. 
 
-In case of finite automata this advantage disappears because there are no tuples of state but only states alone and keeping pointer to one state will not 
-bring any memory efficiency (a size of a pointer to a state and the state represented by integer alone is quite similar). This causes that for the data structure 
-for finite automata is not needed to use anything such as a set of pointers to tuples, but could be directly used a set of states instead of
-a set of pointers. The set of states would be pointed from transition cluster and would contain all states accessible from a given state under a 
+In the case of finite automata this advantage disappears because there are no tuples of state but only states alone and keeping a pointer to one state
+would bring only unncessary overhead 
+(a size of a pointer to a state is usualy equal or bigger than the state represented by an integer). This causes that it is not needed 
+for the data structure for finite automata to use 
+anything such as a set of pointers to tuples, but a set of states could be directly used instead of
+a set of pointers. The set of states would be pointed from transition clusters and would contain all states accessible from a given state under a 
 certain symbol of the input alphabet.
 
-But there is possible another simplification. The set of states does not need to be in a special set pointed by transition cluster but can be integrated
-to the transition cluster. When this optimization is applied, transition cluster maps symbol directly to the set of states accessible under this symbol.
+But there is another possible simplification. The set of states does not need to be in a special set referenced by transition clusters but can be integrated
+into the transition cluster. When this optimization is applied, the transition cluster maps a symbol directly to the set of states accessible under this symbol.
 
-The mentioned optimization enables simplification from the four levels of data structure for tree automata to the two levels data structure used for finite
-automata what brings simpler and more efficient manipulation with these data structure. A comparison of data structure for the finite automata and 
-the tree automata can be seen on the figures \ref{figExplicitFADataStr} and figure \ref{figExplicitTreeDataStr}.
+The mentioned optimization enables simplification from the four levels of the data structure for tree automata to the two levels of the
+data structure used for finite automata which 
+brings simpler and more efficient manipulation with these data structure. A comparison of the data structure for finite automata and 
+tree automata can be seen in Figure \ref{figExplicitFADataStr} and Figure \ref{figExplicitTreeDataStr}.
 
-This data structure apply also the copy-on-write principle for better memory efficiency so the look-up tables and 
-the transition clusters are shared among NFA when they are same and
-a new look-up table and a transition is created only when a new item is inserted to the one of the automata. For example, NFA $\mathcal{A}$ and NFA $\mathcal{B}$
-from the figure \ref{figExplicitFADataStr} are sharing the same data structure.
+This data structure also applies the copy-on-write principle for better memory efficiency so the look-up tables and 
+the transition clusters are shared among NFA when they are the same and
+a new look-up table and a transition is created only when a new item is inserted to one of the automata. For example, NFA $\mathcal{B}$ and NFA $\mathcal{C}$
+in Figure \ref{figExplicitFADataStr} are sharing the same data structure.
 
-Let give the examples for searching and inserting a transition to this data structure for the NFA on the figure \ref{figExplicitFADataStr}. 
-If one wants to find all accessible states for state $q_1$ and symbol $a$ in a NFA $\mathcal{A}$
-so in the top-level look-up is $q1$ mapped to the pointer to transition cluster. In this
-transition cluster is symbol $a$ mapped to the set of states (in this case ($\{q_1,q_2\}$)) which are accessible from $q_1$ under $a$.
-If one wants to insert a new transition $q_3 \xrightarrow{e} q_2$ to a NFA $\mathcal{C}$, the look-up table pointed by automaton $\mathcal{C}$ is duplicated 
-and a state $q_3$ is inserted to it. The NFA $\mathcal{C}$ now points to that newly duplicated look-up table. State $q_3$ is in this look-up table 
-mapped to pointer to the newly created transition cluster. 
-Symbol $e$ is inserted to this new transition cluster and mapped to the set of state which contains just state $q_2$.
+Let us give examples for searching and inserting a transition into this data structure for the NFA in Figure \ref{figExplicitFADataStr}. 
+If one wants to find all accessible states from the state $q_1$ over the symbol $a$ in an NFA $\mathcal{A}$.
+First, the transition cluster that corresponds to $q_1$ is found in the top-level lookup table and then the set of states mapped by $a$ is retrieved if there
+is such.
+If one wants to insert a new transition $q_3 \xrightarrow{e} q_2$ to an NFA $\mathcal{C}$, the look-up table for automaton $\mathcal{C}$ is duplicated
+because $\mathcal{C}$ now shares the look-up talbe with automaton $\mathcal{B}$,
+and a state $q_3$ is inserted into it. The NFA $\mathcal{C}$ now points to that newly duplicated look-up table. State $q_3$ is in this look-up table 
+mapped to a pointer to the newly created transition cluster. 
+The symbol $e$ is inserted to this new transition cluster and mapped to the set of states which contains only the state $q_2$.
 
 \begin{figure}[bt]
 \begin{center}
 \input{fig/explicit_fa.tikz}
-    \caption{The data structure for storing transition of an finite automaton. There is a hash table (top-level look-up table) 
-      which map a state of a FA to the pointer to another hash table (transition cluster). Transition cluster maps a symbol of the input alphabet
-      to a set of states.}
+    \caption{The data structure for storing transitions of an NFA. There is a hash table (top-level look-up table) 
+      which maps a state of an NFA to the pointer to another hash table (transition cluster). The transition cluster maps symbols of the input alphabet
+      to sets of states.}
 		\label{figExplicitFADataStr}
 \end{center}
 \end{figure}
 
-\section{Data Structure for Start and Final States}
-As it was mentioned in previous section \ref{analysis} it is necessary to keep start and final states in the special sets to 
-be able distinguish between them and the others states of an automaton. This is also main usage of these sets during operations 
-over finite automata so there is no need to create special data structure and unordered set is efficient enough for this purposes.
+\section{Data Structure for Initial and Final States}
+As it was mentioned in the previous section it is necessary to keep initial and final states in special sets to 
+be able distinguish between them and the other states of an automaton. This is also the main use of these sets during operations 
+over finite automata so there is no need to create a special data structure and a hash table is efficient enough for this purposes. %TODO: popsat detailneji
 
 \section{Translation of the States and Symbols}
 \label{sectionTranslate}
-An automaton is always parsed and converted to the intern representation from its input format. 
+An automaton is always parsed and converted to the internal representation from its input format. 
 The conversion to the internal representation is based on mapping states from an input type (e.g. text description of the automaton) 
-to the integers. This principle is also applied for symbols of the input alphabet. 
-Mechanism of translation is illustrated by figure \ref{figExplicitFATransl}. 
+to integers. This principle is also applied for symbols of the input alphabet. 
+The mechanism of translation is illustrated in figure~\ref{figExplicitFATransl}. 
 The mechanism brings better efficiency for manipulation with states and symbols
 during the operations. It also provides unification of all input forms to the one internal representation. 
 
-Processing of some operations (e.g., union) can causes reindexing of the states what means that the integers 
-which represents a state is changed. When the integer is changed an old value is mapped to a new one by a hash table what keeps 
-relation between a original input value and the new integer value.
+Execution of some operations (e.g., union) can causes reindexing of the states, which means that the integers 
+which represent states are changed. When the integer is changed an old value is mapped to a new one by a hash table that keeps 
+relation between the original input value and the new integer value.
 
-When the operations over a NFA are performed the NFA is often serialized back to the input format. The result 
-automaton's states and symbols are mapped back to the input notation using hash tables where has been the mapping stored. This
-principle brings more readable output of serialization because the original notation is kept.
+When the operations over an NFA are performed it may be desirable to serialize the output NFA. The states and symbols of the resulting
+automaton are mapped back to the input notation using hash tables where the mapping has been stored. This
+principle brings more readable output of serialization because the original notation is kept (if it is possible).
 
 \begin{figure}[bt]
 \begin{center}
@@ -1047,89 +1058,105 @@ principle brings more readable output of serialization because the original nota
 \end{center}
 \end{figure}
 
-\section{Usage of the Timbuk Format}
+\section{Use of the Timbuk Format}
 \label{usageTimbuk}
-VATA library provides possibility to load a finite automaton from a text specification. 
-The text specification of NFA has to have a standard format but there is no such format for the finite automata so it was chosen
-the Timbuk format \cite{timbuk}. The Timbuk format is primarily used for description of the tree automata but can be also used for the finite automata
-after some modifications. This format was also used as the input format of tree automata in VATA library.
+The VATA library provides the possibility to load a finite automaton from a text specification. 
+The text specification of NFA has to have a standard format but there is no such format for the finite automata so
+a modification of the Timbuk format \cite{timbuk} was chosen. 
+The Timbuk format is primarily used for the description of tree automata but can be also used for finite automata
+after some modifications. This format is also used as the input format of tree automata in the VATA library.
 
-Here is an example of an finite automaton defined by text description in the Timbuk format:\\
+An example of a finite automaton defined by text description in the Timbuk format is given in Figure \ref{figTimbukFormat}.
+\begin{figure}[bt]
+\begin{center}
 \texttt {
-  \textbf{Ops} $a:1$ $x:0$\\
-  \textbf{Automaton} foo\\
-  \textbf{States} $s$ $p$ $q$ $f$\\
-  \textbf{Final States} $f$\\
-  \textbf{Transitions}\\
-  \indent $x \rightarrow s$\\
-  \indent $a(s) \rightarrow p$\\
-  \indent $a(s) \rightarrow q$\\
-  \indent $a(p) \rightarrow f$\\
-  \indent $a(q) \rightarrow f$\\
+  \begin{packed_enum}
+  \item \textbf{Ops} $a:1$ $x:0$\\
+  \item \textbf{Automaton} foo\\
+  \item \textbf{States} $s$ $p$ $q$ $f$\\
+  \item \textbf{Final States} $f$\\
+  \item \textbf{Transitions}\\
+  \item \indent $x \rightarrow s$\\
+  \item \indent $a(s) \rightarrow p$\\
+  \item \indent $a(s) \rightarrow q$\\
+  \item \indent $a(p) \rightarrow f$\\
+  \item \indent $a(q) \rightarrow f$\\
+  \end{packed_enum}
 }
-On the first line of the specification in the Timbuk format
+\caption{An NFA defined by text description in the Timbuk format}
+\label{figTimbukFormat}
+\end{center}
+\end{figure}
+On the first line in Figure \ref{figTimbukFormat} of the specification in the Timbuk format
 is specified that the automaton has only one symbol of the input alphabet $a$ with arity one (arity of the symbols of finite automata will
 be always one). 
-The need of specification of the arity of an input symbol is a lack which comes from the original purpose of the Timbuk format because it is necessary 
-to give the arity of an symbol of an input alphabet of an tree automaton.
+The need to specify of the arity of an input symbol is a necessity which comes from the original purpose of the Timbuk format because it is necessary 
+to give the arity of a symbol of the input alphabet of the tree automaton.
 
-The second symbol $x$ with arity zero is not actually symbol of the input alphabet but is used for definition of the start states. The
-start states are defined in section \emph{Transitions} by the transitions which has on the left side some symbol with zero arity and on the
-right side of the transition is a start state. This is again disadvantage
-of the Timbuk format because tree automata have no start states.
+The second symbol $x$ with arity zero is not actually a symbol of the input alphabet but is used for definition of the initial states. The
+initial states are defined in the part \emph{Transitions} by the transitions which has on the left side a symbol with zero arity; the
+right side of the transition defines a initial state. This is again a disadvantage
+of the Timbuk format because tree automata have no initial states.
 
-On the second line of the given example is name of the automaton (in our example is the name \emph{foo}). 
+On the second line in Figure \ref{figTimbukFormat} is the name of the automaton (our example the name is \emph{foo}). 
 On the third line is a list of states of the automaton and on the fourth line is a list of final states of the automaton.
-
-Then there is list of the transitions of the automaton. 
-For example, the transition $s \xrightarrow{a} q$ is in the Timbuk format described like $a(s)\rightarrow q$.
+Then there is a list of transitions of the automaton. 
+For example, the transition $s \xrightarrow{a} q$ is in the Timbuk format described as $a(s)\rightarrow q$.
 
 \section{Algorithms for Basic Operations}
-In this section are described algorithms used for implementation of the basic operations like union, intersection or removing useless states and others. 
+In this section we describe algorithms used for implementation of basic operations, such as union, intersection or removing useless states. 
 
 \subsection{Union}
-The union of two NFA $\mathcal{A}$ and $\mathcal{B}$ is done by following algorithm. First, a brand new automaton is created (this automaton
-will be result of union). Sets of start and final states are copied to this automaton from both original automata. Then the all transitions from $\mathcal{A}$ and
-$\mathcal{B}$ are added to the newly created automaton. What is the most important during these operations is reindexing of states (it is supposed
-that the both automata have the same input alphabet so the symbols of it are not reindexed). The reindexing means that there is created index which maps
-integer that represents a state in the input automaton to a new integer which will represent the same state in the automaton created by this union.
+The union of two NFA $\mathcal{A}$ and $\mathcal{B}$ is described in section \ref{defAUnion} and
+is done by the following algorithm. First, a brand new automaton is created (this automaton
+will be the result of the operation). 
+Sets of initial and final states are copied to this automaton from both original automata. Then all transitions from $\mathcal{A}$ and
+$\mathcal{B}$ are added to the newly created automaton. What is the most important part during the previous operations is reindexing of states. 
+The reindexing means that we create an index which maps
+integers that represent states in the input automaton to new integers representing the same state in the automaton created by this union.
 
 The reindexing of states is done because the same integer can be used for representing one state of a NFA $\mathcal{A}$ 
 and also another state of a NFA $\mathcal{B}$ and it is important
 to be able to distinguish between these two states in the result NFA. This technique also makes text output of serialization of the result automaton 
-more readable because its states have the same names as it has in the input automata, only indices $1$ and $2$ are added to be able to 
-distinguish between states of both automaton. E.g., a state $q$ of NFA $\mathcal{A}$ and a state $q$ of NFA $\mathcal{B}$ are in the result automaton denoted
-as $q_1$ and $q_2$.
+more readable because its states have the same names as they have in the input automata, only indices $1$ and $2$ are added in order to be able to 
+distinguish between states of both automata. E.g., a state $q$ of the NFA $\mathcal{A}$ and a state $q$ of the 
+NFA $\mathcal{B}$ are in the result automaton denoted as $q_1$ and $q_2$.
 
-\subsubsection{Union of Disjunct States}
-The special case of union of two NFA is union of disjunct states of these NFA. This is done by copying of the first NFA to the result automaton and then
+\subsubsection{Union of NFAs with Disjoint Sets of States}
+The special case of a union of two NFA is a union when states of these NFA have disjunct sets of states. 
+This is done by copying the first NFA to the result automaton and then
 the states (and transitions which contain these states) of the second NFA which are not already in the result NFA are copied to the result automaton.
 No reindexing of states is done during this operation.
 
 \subsection{Intersection}
-The intersection of two NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$
-and $\mathcal{B}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ is defined 
-in preliminaries \ref{defAInter}. 
-We define post-image of the product state $(p,q)\in \mathcal{A}\cap\mathcal{B}$ for a given symbol $a\in \Sigma$ by:\\
-$Post_a((p,q)):=\{(p',q')\ |\ \exists a \in \Sigma: (p,a,p')\in \delta_a, (q,a,q')\in \delta_b\}$.\\
-The algorithm for intersection is described by the algorithm \ref{algIntersection}.
+The algorithm for computing the intersection automaton for two NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$
+and $\mathcal{B}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ was defined 
+in Section \ref{defAInter}. 
+We define the post-image of the product state $(p,q)\in \mathcal{A}\cap\mathcal{B}$ for a given symbol $a\in \Sigma$ as: 
+$Post_a((p,q)):=\{(p',q')\ |\ \exists a \in \Sigma: (p,a,p')\in \delta_a, (q,a,q')\in \delta_b\}$.
+The algorithm for intersection is given in Algorithm \ref{algIntersection}.
 
-The principle of this algorithm is following. The both input NFA are explored parallel and to the result automata are added product states. 
-A product state consists two states each from different automaton which are accessible for the same string of input alphabet. 
-The transitions of the result automaton contain also these product states.
+The principle of this algorithm is the following. Both input NFA are explored parallel and the product states are added into the result automaton. 
+A product state consists of two states each from a different automaton which are accessible through the same word over the input alphabet. 
+The transitions of the result automaton also contains these product states.
 
-\begin{algorithm}
+\begin{figure}[bt]
+\begin{algorithm}[H]
 	\label{algIntersection}
-	\KwIn{NFA's $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A}),\ \mathcal{B}=(Q_\mathcal{A},\Sigma,
+	\KwIn{NFAs $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A}),\ \mathcal{B}=(Q_\mathcal{B},\Sigma,
       \delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$} 
 
   \KwOut{NFA $\mathcal{A}\cap\mathcal{B}$=($Q_{\mathcal{A}\cap\mathcal{B}},\Sigma,\delta_{\mathcal{A}\cap\mathcal{B}},
       I_{\mathcal{A}\cap\mathcal{B}},F_{\mathcal{A}\cap\mathcal{B}}$)}
-  $Stack = \varnothing$\;
+  $Stack := \emptyset$\;
+  $Reachable := \emptyset$\;
 
-  \ForAll{$(p_\mathcal{A},p_\mathcal{B})\in I_\mathcal{A}\times I_\mathcal{B}$} {
+  \ForEach{$(p_\mathcal{A},p_\mathcal{B})\in I_\mathcal{A}\times I_\mathcal{B}$} {
     Add $(p_\mathcal{A},p_\mathcal{B})$ to $I_{\mathcal{A} \cap \mathcal{B}}$\;
-    Push $(p_\mathcal{A},p_\mathcal{B})$ on $Stack$\; 
+    \If{$(p_\mathcal{A},p_\mathcal{B})\not\in\ Reachable$} {
+      Add $(p_\mathcal{A},p_\mathcal{B})$ to $Reachable$\;
+      Push $(p_\mathcal{A},p_\mathcal{B})$ on $Stack$\; 
+    }
     \If{$(p_\mathcal{A} \in F_\mathcal{A} \wedge p_\mathcal{B} \in F_\mathcal{B})$} {
       Add $(p_\mathcal{A},p_\mathcal{B})$ to $F_{\mathcal{A}\cap\mathcal{B}}$
     }
@@ -1137,67 +1164,64 @@ The transitions of the result automaton contain also these product states.
 	
   \While{($Stack\neq \varnothing$)} {
 			Pick and remove a product-state $(p_\mathcal{A},p_\mathcal{B})$ from $Stack$\;
-			\ForAll{$(q_\mathcal{A},q_\mathcal{B})\in Post_a(p_\mathcal{A},p_\mathcal{B})$}{
+			\ForEach{$(q_\mathcal{A},q_\mathcal{B})\in Post_a(p_\mathcal{A},p_\mathcal{B})$}{ %TODO foreach a in sigma
         \If{$(q_\mathcal{A} \in F_\mathcal{A} \wedge q_\mathcal{B} \in F_\mathcal{B})$} {
           Add $(q_\mathcal{A},q_\mathcal{B})$ to $F_{\mathcal{A}\cap\mathcal{B}}$
         }
         Add $(p_\mathcal{A},p_\mathcal{B}) \xrightarrow{a} (q_\mathcal{A},q_\mathcal{B})$ to $\delta_{\mathcal{A}\cap\mathcal{B}}$\;
-        Push $(q_\mathcal{A},q_\mathcal{B})$ on $Stack$\; 
+        \If{$(q_\mathcal{A},q_\mathcal{B})\not\in\ Reachable$} {
+           Add $(q_\mathcal{A},q_\mathcal{B})$ to $Reachable$\;
+           Push $(q_\mathcal{A},q_\mathcal{B})$ on $Stack$\; 
+        }
       }
 	 }
-		\Return NFA $\mathcal{A}\cap\mathcal{B}$;
-	\caption{Algorithm for intersection of NFA}
+		\Return NFA $\mathcal{A}\cap\mathcal{B}$=($Q_{\mathcal{A}\cap\mathcal{B}},\Sigma,\delta_{\mathcal{A}\cap\mathcal{B}},
+      I_{\mathcal{A}\cap\mathcal{B}},F_{\mathcal{A}\cap\mathcal{B}}$);
+	\caption{Algorithm for computing intersection of pair of NFA}
 \end{algorithm}
+\end{figure}
 
-\subsection{Reverse}
-The reversion of an NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ is an NFA 
-$\mathcal{A}_{rev}=(Q_{\mathcal{A}_{rev}},\Sigma,\delta_{\mathcal{A}_{rev}},I_{\mathcal{A}_{rev}},F_{\mathcal{A}_{rev}})$ 
-which is created just by changing start state's set by final state's set what is done by
-assigning $I_\mathcal{A}$ to $F_{\mathcal{A}_{rev}}$ and $F_\mathcal{A}$ to $I_{\mathcal{A}_{rev}}$ and reverting all transitions  so e.g., transition
-$p\xrightarrow{x}q \in \delta_\mathcal{A}$ is added to $\delta_{\mathcal{A}_{rev}}$ in form $q\xrightarrow{a}p$. This principle is described by the algorithm
-\ref{algRev}
-\\
-
-\begin{algorithm}[H]
-	\label{algRev}
-	\KwIn{NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$} 
-
-  \KwOut{NFA $\mathcal{A}_{rev}=(Q_{\mathcal{A}_{rev}},\Sigma,\delta_{\mathcal{A}_{rev}},I_{\mathcal{A}_{rev}},F_{\mathcal{A}_{rev}})$} 
-  
-  $F_{\mathcal{A}_{rev}}=I_\mathcal{A}$\; 
-  $I_{\mathcal{A}_{rev}}=F_\mathcal{A}$\;
-
-  \ForAll{$(p,a,q) \in \delta_{\mathcal{A}}$} {
-    Add $(q,a,p)$ to $\delta_{\mathcal{A}_{rev}}$\;
-  }
-	\Return NFA $\mathcal{A}_{rev}$;
-	\caption{Algorithm for reverting of an NFA}
-\end{algorithm}
+\subsection{Reversal}
+The reversion of an NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ is the NFA 
+$\mathcal{A}_{rev}=(Q_{\mathcal{A}},\Sigma,\delta_{\mathcal{A}_{rev}},F_{\mathcal{A}},I_{\mathcal{A}})$ 
+which is created just by swapping the sets of initial and final states and reverting all transitions  so e.g., transition
+$p\xrightarrow{x}q \in \delta_\mathcal{A}$ is added to $\delta_{\mathcal{A}_{rev}}$ in the form $q\xrightarrow{a}p$.
 
 \subsection{Removing Unreachable States}
 Let the NFA $\mathcal{B}$ be created by removing all unreachable states from an NFA $\mathcal{A}$ (an unreachable state of an NFA was defined in
-chapter preliminaries \ref{defRun}). The algorithm for removing all unreachable states implemented in VATA library is described by algorithm \ref{algRemove}.
+section \ref{defRun}). The algorithm for removing all unreachable states implemented in the VATA library is described in Algorithm \ref{algRemove}.
 
-The intuition behind the algorithm is following. The NFA $\mathcal{A}$ is explored from its start states and to the result automaton 
-are added only states which are
-reachable from these start states for some word $w \in \Sigma^{*}$. At first, all reachable states are found and added to a special set. 
-Then all transitions with a reachable state on left side are added to a result NFA $\mathcal{B}$ .
-If a found reachable state is final state of 
-$\mathcal{A}$ it is also added to set of final states of $\mathcal{B}$. A set of start states is copied from
+The intuition behind the algorithm is the following. The NFA $\mathcal{A}$ is explored from its start states and to the result automaton 
+there are added only those states which are
+reachable from these initial states for some word $w \in \Sigma^{*}$. At first, all reachable states are found and added to a special set. 
+Then all transitions with a reachable state on left-hand side are added to the result NFA $\mathcal{B}$ .
+If a found reachable state is a final state of 
+$\mathcal{A}$ it is also added to the set of final states of $\mathcal{B}$. A set of initial states is copied from
 NFA $\mathcal{A}$ to NFA $\mathcal{B}$
 
+\subsection{Removing Useless States}
+Useless state of an NFA were defined in Section \ref{defRun}. Removing useless states from an NFA $\mathcal{A}$ is done simply by
+removing all unreachable states of the NFA $\mathcal{A}$, 
+then we revert NFA $\mathcal{A}$ and remove unreachable states in this reverted automaton and finally $\mathcal{A}$ is reverted back to the
+originally direction. The NFA $\mathcal{A}$ does not contain any useless states after this sequence of operations.
+
+\begin{figure}[h!]
 \begin{algorithm}[H]
 	\label{algRemove}
 	\KwIn{NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$} 
 
   \KwOut{NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,
       \delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$}
-  $Reachable = I_\mathcal{A}$\;
-  $Stack = Reachable$\;
+  $Reachable := I_\mathcal{A}$\;
+  $Stack := Reachable$\;
 	
-  \While{($Stack\neq \varnothing$)} {
-			Pick and remove a $p$ from $Stack$\;
-			\ForAll{$q\in\{q'\ |\ \exists a\in \Sigma:(p,a,q')\in\delta_\mathcal{A})\}$}{
+  \While{($Stack\neq \emptyset$)} {
+			Pick and remove a state $p$ from $Stack$\;
+			\ForEach{$q\in Post_a(p)$}{ %TODO forall a in simga
+        \If{$p\in\ F_\mathcal{A}$}{
+              Add $p$ to $F_\mathcal{B}$\;
+        }
+        Add $\{(p,a,q)\ |\ \exists a \in \Sigma \wedge q\in Q_\mathcal{A}: (p,a,q)\in \delta_\mathcal{A}\}$ to $\delta_\mathcal{B}$\;
         \If{$(q \not\in\ Reachable)$} {
           Push $q$ on $Stack$\;
           Add $q$ to $Reachable$\;
@@ -1206,321 +1230,326 @@ NFA $\mathcal{A}$ to NFA $\mathcal{B}$
 	 }
 
   $I_{\mathcal{B}} = I_{\mathcal{A}}$\;
-  \ForAll{$p \in\ Reachable$}{
-    \If{$p\in\ F_\mathcal{A}$}{
-      Add $p$ to $F_\mathcal{B}$\;
-    }
-    Add $\{(p,a,q)\ |\ \exists a \in \Sigma \wedge q\in Q_\mathcal{A}: (p,a,q)\in \delta_\mathcal{A}\}$ to $\delta_\mathcal{B}$\;
-  }
-		\Return NFA $\mathcal{B}$;
-	\caption{Algorithm for removing the unreachable states of NFA}
+	\Return NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$;
+	\caption{Algorithm for removing the unreachable states of an NFA}
 \end{algorithm}
-
-\subsection{Removing Useless States}
-The useless state of an NFA was defined in preliminaries section \ref{defRun}. Removing of the useless states from an NFA $\mathcal{A}$ is done simply by
-removing all unreachable states of the NFA $\mathcal{A}$, 
-then is the NFA $\mathcal{A}$ reverted and the unreachable states are removed also in this reverted automaton and finally is $\mathcal{A}$ reverted back to the
-originally direction. The NFA $\mathcal{A}$ does not contain any useless states after these operations.
-
-\subsection{Get Candidate}
-Get a candidate (word), also called get a witness, is operation over a NFA $\mathcal{A}$ which creates a NFA $\mathcal{B}$ which language $L(\mathcal{B})$
-is subset of a language $L(\mathcal{A})$ of the NFA $\mathcal{A}$ and is also non-empty if $L(\mathcal{A})$ is non-empty too.
-The NFA $\mathcal{B}$ should have as little states and transitions as possible.
-
-The operation for getting candidate is implemented by the algorithm \ref{algCandidate}. This algorithm copies a set of start states 
-of $\mathcal{A}$ to a set of start states of $\mathcal{B}$ and also add the start states to a set of reachable states. 
-Then all transitions from $\delta_\mathcal{A}$ containing on the left side a state from the set of reachable states are added to $\mathcal{B}$ and finally
-all successors of the currently reachable states are added to this set too. This is repeated until the whole NFA $\mathcal{A}$ is copied to the NFA 
-$\mathcal{B}$ or a final state is not accessible from any reachable state. 
-\\
-
 \begin{algorithm}[H]
 	\label{algCandidate}
 	\KwIn{NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$} 
 
   \KwOut{NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$}
 
-
-  $I_\mathcal{B} = I_\mathcal{A}$\;
-  $Reachable = I_\mathcal{A}$\;
-  $Stack = Reachable$\;
+  $I_\mathcal{B} := I_\mathcal{A}$\;
+  $Reachable := I_\mathcal{A}$\;
+  $Stack := Reachable$\;
 	
   \While{($Stack\neq \varnothing$)} {
-			Pick and remove a $p$ from $Stack$\;
-			\ForAll{$\{(p,a,q)\ |\ \exists a\in \Sigma:(p,a,q)\in\delta_\mathcal{A}\}$}{
+			Pick and remove a state $p$ from $Stack$\;
+			\ForEach{$p\xrightarrow{a}q\in\{p'\xrightarrow{a}q'\ |\ \exists a\in \Sigma:p'\xrightarrow{a}q'\in\delta_\mathcal{A}\}$}{
         \If{$(q \not\in\ Reachable)$} {
           Push $q$ on $Stack$\;
           Add $q$ to $Reachable$\;
         }
-        Insert $(p,a,q)$ to $\delta_{\mathcal{B}}$\;
+        Insert $p\xrightarrow{a}q$ to $\delta_{\mathcal{B}}$\;
         \If{$q\in\ F_\mathcal{A}$}{
           Add $q$ to $F_\mathcal{B}$\;
+          Remove useless states from NFA $\mathcal{B}$
 	        \Return NFA $\mathcal{B}$;
         }
       }
 	}
 
-	\Return NFA $\mathcal{B}$;
-	\caption{Algorithm for getting witness in NFA}
+  Remove useless states from NFA $\mathcal{B}$
+	\Return NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$;
+	\caption{Algorithm for getting a witness in an NFA}
 \end{algorithm}
 
 
+\end{figure}
+
+\subsection{Get Candidate}
+The operation of a getting a word (also called get a witness) of an NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+creates an NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ such that language $L(\mathcal{B})$
+is a subset of a language $L(\mathcal{A})$ and is non-empty iff $L(\mathcal{A})$ is non-empty too.
+The NFA $\mathcal{B}$ should accept at most one word such that its length is the smallest from all words accepted by $\mathcal{A}$.
+
+The operation for getting candidate is implemented in Algorithm \ref{algCandidate}. This algorithm copies the set of initial states 
+of $\mathcal{A}$ to a set of initial states of $\mathcal{B}$ and also adds the initial states to a set of reachable states. 
+Then all transitions from $\delta_\mathcal{A}$ containing on the left-hand side a state from the set of reachable states are added to $\delta_\mathcal{B}$ 
+and finally
+all successors of the currently reachable states are added to the set of reachable states too. 
+This is repeated until final state is not accessible from any reachable state. 
+%TODO udelat podle ondry
+%TODO je to tady hnusne vysazene
 
 \chapter{Implementation}
 \label{implementation}
-This chapter provides description of the module of VATA library for the finite automata. Loading of an finite
+This chapter provides the description of the VATA library module for finite automata. Loading of a finite
 automaton to explicit encoding will be described first. 
-Then a list of the used modules from the original VATA implementation is given and finally implementation of algorithms 
-for checking language inclusion are covered.
+Then a list of the used modules from the original VATA implementation is given and finally the implementation of algorithms 
+for checking language inclusion is covered.
 
 \section{Loading and Manipulation with Finite Automata in the Explicit Encoding}
-Loading of an finite automaton to the explicit is done by  the class \emph{ExplicitFiniteAut} what is the main class for representation of an finite automaton. 
-This class has the data members that implements the data structure for explicit encoding of an finite automaton described in previous chapter \ref{design} and
-implements also copy-on-write principle. 
-It is possible to load the finite automaton from a data structure returned by parser or directly from a text format. The class also provides dumping
-the finite automaton back to the text format.
-It implements the operations for manipulation with an automaton like setting specific state as start or final one.
-The class \emph{ExplicitFiniteAut} also ensures translation (mentioned in section \ref{sectionTranslate}) of the states 
-and symbols to the internal representation of integers. 
+Loading of an finite automaton to the explicit representation 
+is done by  the class \emph{ExplicitFiniteAut} which is the main class for representation of a finite automaton. 
+This class has the data members that implement the data structure for explicit encoding of a finite automaton described in Chapter \ref{design} and
+implements also the copy-on-write principle. 
+It is possible to load the finite automaton from a data structure returned by a parser or directly from a text specification. 
+The class also provides functions for serialization of the finite automaton back to the text specification.
+It implements the operations for manipulation with an automaton such as setting specific state as initial or final.
+The class \emph{ExplicitFiniteAut} also ensures translation (mentioned in Section \ref{sectionTranslate}) of the states 
+and symbols to the internal representation that uses integers. 
 
 \section{Used Modules of the VATA Library}
-There are some parts of VATA library which can be used also for development of the new extension for finite automata. In this section is given a list of modules
-which are efficient to use also for finite automata module of library.
+There are some parts of the VATA library which can be used also for the development of the new extension for the finite automata. 
+In this section we give a list of modules which can be effectively used also for the finite automata module of the library.
 
 \subsubsection{Parser and Serializer}
-For loading automaton from a text specification is used module of VATA library called \emph{parser} and for serializing back to the specification is used
-module called \emph{serializer}. Because the same input format has been used for finite and tree automata (format is described in the section \ref{usageTimbuk})
-it is possible to use the original parser and serializer which have been already implemented. 
+For loading an automaton from a text specification is VATA library uses a module called the \emph{parser} and for serializing back to the specification the 
+module called \emph{serializer} is used. 
+Because the same input format has been used for finite and tree automata (format is described in Section \ref{usageTimbuk}),
+it is possible to use the original parser and serializer which have already been implemented. 
 The parser returns a data structure which generally describes a finite automaton. The data structure is further processed and converted 
-to the data structure for explicit encoding of the finite automata. 
+to the data structure for the explicit encoding of the finite automaton. 
 
-When one wants to dump an automaton from the internal representation back to the text format, 
-the automaton is converted to a data structure which is identical with the data structure returned by parser. Description of the automaton in this
-data structure is given to the serializer which dumps it to the output format.
+When one wants to serialize an automaton from the internal representation back to the text format, 
+the automaton is converted to a data structure which is identical to the data structure used by the parser. The description of the automaton in this
+data structure is given to the serializer which transforms it in the output format.
 
 \subsubsection{Simulation}
-One of the operations over tre automata provided by the VATA library is computing simulation of an automaton. For computation of the simulation relation
-of an finite automaton is possible to use the existing implementation of this operation. 
-The difference is in the conversion of an finite automaton into the Labeled Transition System (LTS) which
-needs to be implemented in part of library for finite automata.
+One of the operations over tree automata provided by the VATA library is computation of the maximum simulation relation over an NFA. 
+For computation of the simulation relation of an finite automaton is possible to use the existing implementation of this operation. 
+The difference is in the conversion of a finite automaton into the Labeled Transition System (LTS) which
+needs to be implemented in the part of library for finite automata.
 
 \subsubsection{Utilities}
-The original VATA library also provides a lot of utilities which are also useful for implementation of extension for the finite automata. These utilities
-provides classes for easier processing of finite automata. For example, the classes \emph{TwoWayDict} and \emph{TranslatorStrict} are uses for conversion
-of an finite automaton to the explicit encoding, the class \emph{Antichain2Cv2} for representing of antichain in algorithm \ref{sectionAntichain} 
+The original VATA library also provides a lot of utilities which are also useful for implementation of the extension for finite automata. These utilities
+provide classes for easier processing of finite automata. For example, the classes \emph{TwoWayDict} and \emph{TranslatorStrict} are uses for conversion
+of a finite automaton to the explicit encoding, the class \emph{Antichain2Cv2} for representing an antichain in Algorithm \ref{sectionAntichain} 
 and the class \emph{AutDescription} for representing an automaton after the parsing.
 
-The usage of the of this utilities speeds up the development of the new module for finite automata and also keeps the library more compact because no
-redundant code is produced.
+The use of these utilities sped up the development of the new module for finite automata and also kept the library more compact because no
+redundant code has been produced.
 
 \section{Macrostate Cache}
 \label{sectionCache}
-The sets of states (so-called macrostates) are compared in both mentioned algorithms (described in sections \ref{sectionAntichain} and \ref{sectionCongr}) 
-for checking inclusion of languages of the two NFA, 
-respectively some relation between the macrostates is checked. It is possible that there will be needed to check the same relation between the same
-two macrostates several times. In the case of antichains algorithm is possible that there is checked $(p_1,P) \sqsubseteq (q_1,Q)$ and then $(p_1,P)\sqsubseteq
-(q_2,Q)$, where $p_1,q_1,q_2$ are states of the first NFA and $P$ and $Q$ are sets of states of the second NFA. 
-When the $(p_1,P)\sqsubseteq(q_2,Q)$ is being checked the relation between $p_1$ and $q_2$ is very easy to get because they are just two states, but checking
-relation between $P$ and $Q$ is very computationally demanding, because the macrostates could contain many of states, but it is also not necessary to
-check the relation again because the result has already been computed by checking $(p_1,P) \sqsubseteq (q_1,Q)$. 
+The sets of states (so-called macrostates) are compared in both mentioned algorithms (described in Sections \ref{sectionAntichain} and \ref{sectionCongr}) 
+for checking inclusion of languages of two NFA, 
+in particular some relation between the macrostates is checked. It is possible that it will be needed to check the same relation between the same
+two macrostates several times. In the case of the antichains algorithm it is possible that 
+there is checked $(p_1,P) \sqsubseteq (q_1,Q)$ and then $(p_1,P)\sqsubseteq
+(q_2,Q)$, where $p_1,q_1,q_2$ are states of the first NFA and $P$ and $Q$ are sets of states of the other NFA. 
+When the relation $(p_1,P)\sqsubseteq(q_2,Q)$ is being checked the relation between $p_1$ and $q_2$ is very easy to get because they are just two states, 
+but checking the relation between $P$ and $Q$ is very computationally demanding, because the macrostates might contain many of states, 
+but it is also not necessary to check the relation again because the result has already been computed while checking $(p_1,P) \sqsubseteq (q_1,Q)$. 
 
-Similar situation could happen using the algorithm based on bisimulation up to congruence. There one wants to know all rewriting rules which are possible to use
-for computing $X{\downarrow_R}$ for some macrostate $X$ and relation of visited pairs of macrostates $R$. Searching for usable rules is also very computationally
-demanding and it could be efficient to save all usable rewriting rules from $R$ for given macrostate $X$.
+A similar situation could happen using the algorithm based on bisimulation up to congruence. There one wants to find all rewriting rules which are possible to be
+used for computing $X{\downarrow_R}$ for a macrostate $X$ and the relation of visited pairs of macrostates $R$. Searching 
+for usable rules is also very computationally demanding and it could be efficient to save all usable rewriting rules from $R$ for a given macrostate $X$.
 
-According to these facts, so-called \emph{Macrostate cache} has been implemented for improving the performance by storing the results of 
+According to these facts, the so-called \emph{Macrostate cache} has been implemented for improving the performance by storing the results of 
 once computed relations of macrostates. The cache stores all macrostates which have been generated during exploring of a product NFA. Each macrostate is 
-stored in cache only once so the macrostates are not manipulated alone  
-but it is worked only with pointers to the macrostates in the cache what brings the advantage that it is not 
+stored in the cache only once so the macrostates are not manipulated alone  
+but it is worked only with pointers to the macrostates in the cache which brings the advantage that it is not 
 necessary to compare the whole macrostates but just pointers.
 
 The macrostate cache is implemented as a hash table, where a key is the sum of the integers which represents the states of a macrostate and a value is a
-list of the macrostates which has the same state's sum. The macrostate cache can be seen on figure \ref{figMacroCache}
+list of the macrostates which has the same sum of states. A hash function of states has also tried to used as the key of the hash table
+but it does not bring any improvements so the original implementation is kept. %TODO vylepsit formualci
+The macrostate cache can be seen in Figure \ref{figMacroCache}.
 
 \begin{figure}[bt]
 \begin{center}
   \input{fig/macrostate_cache.tikz}
-  \caption{This figure shows the macrostate cache based on a hash table where key is the sum of a macrostate and a value is a list of the macrostates.}
+  \caption{This figure shows the macrostate cache based on a hash table where the key is the sum of a macrostate and a value is a list of the macrostates.}
   \label{figMacroCache}
 \end{center}
 \end{figure}
 
-\section{Implementation of Antichain Algorithm}
-The implementation of the algorithm for checking language inclusion of NFA using antichains has been done by algorithm described in section 
-\ref{sectionAntichain}.  There were used data structures for representing antichains (classes \emph{Antichain2Cv2} and \emph{Antichain1c}) which
-were implemented for the modules for the tree automata. 
+\section{Implementation of the Antichains Algorithm}
+The implementation of the algorithm for checking language inclusion of NFA using antichains has been done by the algorithm described in Section 
+\ref{sectionAntichain}.  There were used data structures for the representation of tha antichains (classes \emph{Antichain2Cv2} and \emph{Antichain1c}) which
+were implemented for the modules for tree automata. 
 
-The improvement of the antichain algorithm by using simulation is implemented too. 
-This is done by parameterization of class for checking inclusion, where one of the given parameters is a relation which is simulation or identity (default).
+The improvement of the antichains algorithm by using simulation is implemented too. 
+This is done by parameterization of the class for checking inclusion, where one of the given parameters is a relation which is a simulation or identity.
 
-Some optimization of this algorithm has been done during implementation and will be described in following subsections. For further subsections we suppose
-checking inclusion between a NFA $\mathcal{A}$ and a NFA $\mathcal{B}$.
+Some optimization of this algorithm has been done during implementation and will be described in the following subsections. For further subsections we fix
+NFAs $\mathcal{A}$ and $\mathcal{B}$ and consider the problem $L_{\mathcal{A}}\subseteq L_{\mathcal{B}}$.
 
-\subsection{Ordering of Antichain}
-The antichain algorithms keeps only the minimal set of the visited product states with respect to ordering given by $(r,R)\sqsubseteq (p,P)$
+\subsection{Ordering of an Antichain}
+The antichains algorithm keeps only the minimal set of the visited product states with respect to the ordering given by $(r,R)\sqsubseteq (p,P)$
 iff $p=r \wedge R \subseteq P$. The ordering $p\preceq r \wedge R\preceq^{\forall\exists}P$ is used for the optimization by simulation.
-Comparing $(r,R)$ and $(p,P)$ was implemented by one parameterized function for both orderings what is possible because $p=r$ is special case of $p\preceq r$ 
+Comparing $(r,R)$ and $(p,P)$ was implemented by one parameterized function for both orderings which is possible because $p=r$ is a special case of $p\preceq r$ 
 and the same holds for $R \subseteq P$ and $R\preceq^{\forall\exists}P$. But this implementation has shown as inefficient and the special implementation of
 this function for each ordering alone should be more efficient because $R\subseteq P$ could be decided 
-without comparing both sets element by element when size of the macrostate $R$ is greater then size of the macrostate $P$ while in case of
-$R\preceq^{\forall\exists}P$ one element of macrostate $P$ could simulate all elements of $R$ so the size comparison is impossible.
-The ordering using simulation also needs to iterate through all visited product states to find all the elements $p$ such that $p\preceq r$ what 
-is not necessary in the case of basic version where is checked just $p=r$.
+without comparing both sets element by element when the size of the macrostate $R$ is greater then size of the macrostate $P$ while in the case of
+$R\preceq^{\forall\exists}P$ one element of the macrostate $P$ could simulate all elements of $R$ so the optimization cannot be used.
+The ordering using simulation also needs to iterate through all visited product states to find all the elements $p$ such that $p\preceq r$ which 
+is not necessary in the case of the basic version where just $p=r$ is checked.
 
-On the other side, the other optimization of simulation is based on the fact that if there is $p' \in P$ such that $p \preceq p'$ 
-it is not needed to kept and further processed the product state $(p,P)$. When one parameterized function is used for both versions of the algorithm, it 
-causes unnecessary slowing down because the condition is always false in case of basic version of the algorithm. 
-Although this optimization has not been already implemented, we suppose that the separation of the functions will be also 
+On the other hand, the other optimization of simulation is based on the fact that if there is $p' \in P$ such that $p \preceq p'$ 
+it is not needed to keep and further process the product state $(p,P)$. When one parameterized function is used for both versions of the algorithm, it 
+causes unnecessary slow down because the condition is always false in the case of the basic version of the algorithm. 
+Although this optimization has not been implemented yet, we suppose that the separation of the functions will be also 
 efficiently used in this case.
 
 \subsection{Using Macrostate Cache}
-The antichain algorithm often checks whether $R \subseteq P$ or $R\preceq^{\forall\exists}P$ which can be both quite expansive operations and it can be
-efficient to store the results of these operations. Macrostate cache has been applied for this purpose so all used macrostates (such as $R$ or $P$) 
-are stored in this cache. Then it is possible to work just with pointers to the cache and what helps efficiently store relation between $R$ and $P$. For example, 
-the pointer to $R$ is mapped to the pointer to $P$ by a hash table when there is relation between $R$ and $P$. There is also a hash table that maps
-the pointer to macrostate $R$ to pointers to all macrostates which are not in relation with $R$.
+The antichain algorithm often checks whether $R \subseteq P$ or $R\preceq^{\forall\exists}P$ which can be both quite expensive operations and it may be
+helpful to store the results of these operations. The macrostate cache has been applied for this purpose so all used macrostates (such as $R$ or $P$) 
+are stored in this cache. Then it is possible to work just with the pointers to the cache which helps to efficiently 
+store the relation between $R$ and $P$. For example, the pointer to $R$ is mapped to the pointer to $P$ by a hash table when there is relation between 
+$R$ and $P$. There is also a hash table that maps the pointer to the macrostate $R$ to pointers to all macrostates which are not in relation with $R$.
 
 \subsection{Ordered Antichain}
-For checking inclusion of tree automata has not been used standard antichain, but for storing product states $(p,P)$ which should be further processed
-is used ordered antichain \cite{libvata} which prefers processing the elements with smaller size of macrostate $P$ first. This optimization leads to reduction
-of produced states. The optimization has been implemented 
-also for checking language inclusion of NFA and it reduces the number of produced product states too what brings the better performance.
+As the data structure for the $Next$ set we use an ordered antichain which prefers processing of elements with a
+smaller size of the macrostate $P$ first. This optimization leads to the reduction of produced states. The optimization has been implemented 
+also for checking language inclusion of NFA and it reduces the number of the produced product states too which yields a better performance.
 
 %No further optimization for antichain algorithm are used so it is not as efficient as the algorithm based on bisimulation up to congruence and not even as the 
 %tree version of this algorithm which is highly optimized. The suggestions for some optimization are given in another section \ref{Conclusion}.
 
-\section{Translation of an NFA to LTS}
-Before computing simulation relation over an NFA it is necessary to convert the NFA to labeled transition system (LTS), sort the states of the NFA to
-two or three partitions (final, non-final and class representing start state) and initialize the simulation relation. This is done by algorithm where 
-all transitions of NFA are converted to the LTS and at the same time each of the processed states is sorted to the partitions in according if
-the state is final or not. If all states are final, there will be created only one partition in this part of the algorithm otherwise two partitions will
-be created. After all transitions are processed, there is added another one partition which represents start states. Then the simulation relation is initialized
-by the rules that each final state simulates other final state and each non-final simulates other non-final. The non-final one does not simulate final one, but 
-final one simulates non-final one.
+\section{Translation of an NFA into LTS}
+Before computing the (maximum) simulation relation over an NFA it is necessary to convert the NFA in a LTS, sort the states of the NFA to
+two or three partitions (final, non-final and the class representing initial state) and initialize the simulation relation. This is done by an algorithm where 
+all transitions of the input NFA are converted to edges of the LTS and at the same time each of the processed states is sorted to the partitions according to
+whether the state is final or not. If all states are final, there will be created only one partition in this part of the algorithm otherwise two partitions will
+be created. After all transitions are processed, another partition representing initial states is added. Then the simulation relation is initialized
+by the rules that each final state simulates other final state and each non-final simulates other non-final. A non-final one does not simulate a final one, but 
+a final one simulates a non-final one.
+The created partitions, LTS and initialized simulation is given to the algorithm for computing the (maximum forward) simulation. 
 
-The created partitions, LTS and initialized simulation is given to the algorithm for computing the whole simulation. 
-
-\section{Implementation of Bisimulation up to Congruence Algorithm}
+\section{Implementation of the Bisimulation up to Congruence Algorithm}
 \label{sectionCongrImpl}
-The algorithm for checking inclusion of the languages of NFA is described in its own section \ref{sectionCongr}. For computation of a congruence closure, 
-what is crucial part of the approach, was used an algorithm based on the rewriting rules (described \ref{subsectionCongr}). 
+The algorithm for checking inclusion of the languages of NFA is described in Section~\ref{sectionCongr}. For computation of a congruence closure, 
+which is a crucial part of the approach, we used an algorithm based on the rewriting rules (described in Section \ref{subsectionCongr}). 
 This algorithm was implemented generally for checking equivalence of NFA and its optimized version for checking inclusion was implemented too 
-because the main goal of this work is to achieve the best performance of the inclusion checking. In this section will be described some implementation
-optimization of the algorithm. For this section let think two NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ and
+because the main goal of this work is to achieve the best performance of the inclusion checking. In this section we will describe a few implementation
+optimizations of the algorithm. 
+For the rest of this section consider two NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ and
 $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$.
 
 
 \subsection{Exploring Product NFA}
-Exploring of a product NFA $\mathcal{A}\times\mathcal{B}$ during checking inclusion between the languages of $\mathcal{A}$ and $\mathcal{B}$ could be done by 
-the \emph{breadth-first search} \cite{taocp} algorithm or the \emph{depth-first search} \cite{taocp} algorithm what
-determines order in which the states of the product NFA are explored. Usage of one or another algorithm can effect the number of states that are processed. 
-Difference between this two approaches is in usage of a data structure for storing of the newly generated states of $\mathcal{A}\times\mathcal{B}$.
-If the used data structure is list then breadth-first search is applied and if the used data structure is stack then 
+Exploration of the product NFA $\mathcal{A}\cap\mathcal{B}$ while checking inclusion between the languages of the 
+$\mathcal{A}$ and $\mathcal{B}$ could be done by 
+the \emph{breadth-first search} \cite{taocp} algorithm or the \emph{depth-first search} \cite{taocp} algorithm, which
+determines the order in which the states of the product NFA are explored. Usage of one or another algorithm can effect the number of states that are processed. 
+The difference between these two approaches is in the use of a data structure for storing of the newly generated states of $\mathcal{A}\cap\mathcal{B}$.
+If the used data structure is a list then the breadth-first search is applied and if the used data structure is a stack then 
 depth-first search is applied.
 
 The VATA library module for NFA currently supports only the breadth-first search algorithm. This approach has not been chosen for any special reason or superiority
-but has evolved during the implementation because the antichain algorithm uses for storing of 
-the newly generated states also list what leads to the implementation of breadth-first search.
+but has evolved during the implementation because the antichain algorithm also uses a list for storing of 
+the newly generated states which leads to the implementation of breadth-first search.
 
 
 \subsection{Using Macrostate cache}
-When one checks inclusion (or equivalence) of languages of NFA $\mathcal{A}$ and $\mathcal{B}$ there are generated states states of product NFA $\mathcal{A}
-\times \mathcal{B}$ which are pairs $(X,Y)$ where $X$ is macrostate of states of $\mathcal{A}$ and $Y$ is macrostate of states of $\mathcal{B}$. $X$ and $Y$
-are stored to macrostates cache and it is further worked only with pointers to this macrostates in cache.
+When one checks inclusion (or equivalence) of languages of the NFA $\mathcal{A}$ and $\mathcal{B}$ there are generated states states of the 
+product NFA $\mathcal{A}
+\cap \mathcal{B}$ which are pairs $(X,Y)$ where $X$ is a macrostate of states of $\mathcal{A}$ and $Y$ is a macrostate of states of $\mathcal{B}$. $X$ and $Y$
+are stored to the macrostates cache and it is further worked only with pointers to these macrostates in the cache.
 
-The original algorithm does not control if the newly generated state $(X,Y)$ has not already been visited and always checks if $(X,Y)$ is in
-congruence closure of relation of the visited states $R$  what is
-computationally demanding operation. Thanks to the working just with pointers to macrostates is easy to check whether the new state is already in a set of 
-visited states without computing the congruence closure. It is done by hash table which maps pointer of a macrostate $Y$ to list of all
-pointers to macrostates $X$ such that $(X,Y)\in R$. Then it is easy to check whether a newly generated state has not already been processed. 
+The original algorithm does not check whether the newly generated state $(X,Y)$ has not already been visited and always checks whether $(X,Y)$ is in
+the congruence closure of the relation of the visited states $R$  which is
+a computationally demanding operation. Thanks to working just with pointers to macrostates it is easy to check whether the new state is already in a set of 
+visited states without computing the congruence closure. Thus is done by a hash table which maps pointer of a macrostate $Y$ to the list of all
+pointers to macrostates $X$ such that $(X,Y)\in R$. Then it is easy to check whether a newly generated state has already been processed or not. 
 
-This technique reduces the number of the states of $\mathcal{A}\times\mathcal{B}$ for which is necessary to compute congruence closure what helps improvement in
-the performance of the whole algorithm.
+This technique reduces the number of the states of $\mathcal{A}\cap\mathcal{B}$ for which is necessary to compute the congruence closure which helps to
+improve in the performance of the whole algorithm.
 
-\subsection{Computing Congruence Closure for Equivalence Checking}
-The computation of the congruence closure of the visited states of an NFA $\mathcal{A}\times\mathcal{B}$ for equivalence checking using rewriting
-rules as it was described in section \ref{subsectionCongr} is computationally demanding operation, 
-so there were implemented an optimization to enhance the performance of the algorithm.
+\subsection{Computing Congruence Closure for Checking Equivalence}
+The computation of the congruence closure of the set of visited states of the NFA $\mathcal{A}\cap\mathcal{B}$ for equivalence checking using rewriting
+rules as it was described in Section \ref{subsectionCongr} is a computationally demanding operation, 
+so there was implemented an optimization to enhance the performance of the algorithm.
 
-The optimization is based on the observing that when the normal form of macrostates $X$ and $Y$ for some relation $R$ are derived to find out if holds that
-$(X,Y)\in c(R)$ it is not necessary to use all possible rewriting rules of $R$ and add as much states as possible to the normal form
-of macrostate. It is possible to stop derivation of
-$X{\downarrow_R}$ and $Y{\downarrow_R}$ when these sets are equal and it is also not necessary to achieve the equality $X{\downarrow_R}$ and $Y{\downarrow_R}$ by
-applying the same rules, not even by the same number of rules. 
-This fact makes possible to control $X{\downarrow_R} = Y{\downarrow_R}$ on the fly and not only after the whole derivation.
+The optimization is based on the observation that when the normal forms of the macrostates $X$ and $Y$ for some relation $R$ are derived to find out whether
+it holds that $(X,Y)\in c(R)$ it is not necessary to use all possible rewriting rules of $R$ and add as much states as possible to the normal form
+of the macrostate. It is possible to stop the derivation of
+$X{\downarrow_R}$ and $Y{\downarrow_R}$ when these sets are equal and it is also not necessary to achieve the equality between 
+$X{\downarrow_R}$ and $Y{\downarrow_R}$ by applying the same rules, not even by applying the same number of rules. 
+This fact makes it possible to check $X{\downarrow_R} = Y{\downarrow_R}$ on the fly and not only after the whole derivation.
 
-This simplification leads to the implementation optimization, which is based on creating of $X{\downarrow_R}$ by applying all possible rewriting rules
-so it has as much states as possible. 
-When a rule is applied during the derivation of $X{\downarrow_R}$ it is mapped in a hash table to 
+This simplification leads to the implementation optimization, which is based on creating $X{\downarrow_R}$ by applying all possible rewriting rules
+so that it has as many states as possible. 
+When a rule is applied during the derivation of $X{\downarrow_R}$, it is mapped in a hash table to 
 the form of $X{\downarrow_R}$ after application of the rule.
-Then $Y{\downarrow_R}$ is derived gradually and after each step is checked if the current form of $Y{\downarrow_R}$ is not same as any of the forms of
-$X{\downarrow_R}$ which has been reached during its derivation. But comparing $Y{\downarrow_R}$ after each step to all forms of $X{\downarrow_R}$ is not efficient
-and it slows down the algorithm instead of improving it. This leads to implementation where the form of $Y{\downarrow_R}$ after applying of a rewriting rule 
-is compared to the form of $X{\downarrow_R}$ after the usage of the same rule. 
-The second approach is not maybe so efficient because it is not detect if $X{\downarrow_R}=Y{\downarrow_R}$ as early as the first one but this disadvantage is
-compensated by lesser comparison of $X{\downarrow_R}$ and $Y{\downarrow_R}$.
+Then $Y{\downarrow_R}$ is derived gradually and after each step it is checked whether the current form of $Y{\downarrow_R}$ is not the same as any of the forms of
+$X{\downarrow_R}$ which has been reached during its derivation. However 
+comparing $Y{\downarrow_R}$ after each step to all forms of $X{\downarrow_R}$ is not efficient
+and it slows down the algorithm instead of improving it. This leads to the implementation where the form of $Y{\downarrow_R}$ after applying of a rewriting rule 
+is compared to the form of $X{\downarrow_R}$ after the use of the same rule. 
+The second approach is not maybe so efficient because it does not detect whether 
+$X{\downarrow_R}=Y{\downarrow_R}$ as early as the first one but this disadvantage is compensated by a smaller number of comparisons 
+of $X{\downarrow_R}$ and $Y{\downarrow_R}$.
 
 \subsection{Computing Congruence Closure for Inclusion Checking}
-In section \ref{congrOpt} was described optimization that can be used when one uses the algorithm based on bisimulation up to congruence for checking 
-the language inclusion. The optimization is based on the fact that inclusion checking is done by checking equivalence $\mathcal{A}\cup\mathcal{B}=\mathcal{B}$,
-so for a state $(X,Y)$ holds $(X,Y)\in c(R)$ iff $X\subseteq Y{\downarrow_R}$ for a relation $R$ of visited states. 
+In Section \ref{congrOpt} an optimization was described that can be used when one uses the algorithm based on bisimulation up to congruence for checking 
+language inclusion. The optimization is based on the fact that inclusion checking is done by checking the equivalence $\mathcal{A}\cup\mathcal{B}=\mathcal{B}$,
+so for a state $(X,Y)$ it holds that $(X,Y)\in c(R)$ iff $X\subseteq Y{\downarrow_R}$ for a relation $R$ of visited states. 
 This optimization was implemented in the VATA library module for NFA to achieve the best performance in checking language inclusion.
 
-This optimization is further enhanced by the following implementation's improvements. Once there is checked a generated product state $(X,Y)$ and the normal form 
-$Y{\downarrow_R}$ is computed it could be efficient to store all rewriting rules that was used during the computation because otherwise there can be
+This optimization is further enhanced by the following improvements in the implementation. 
+Once there is checked a generated product state $(X,Y)$ and the normal form 
+$Y{\downarrow_R}$ is computed, it could be efficient to store all rewriting rules that were used during the computation because otherwise there can be
 generated another product state with $Y$ in, e.g. $(Z,Y)$ and the whole computation of $Y{\downarrow_R}$ has to be done again. 
 
-At the same time a rewriting rules can be used only in one direction ($Y\rightarrow X\cup Y$) for a $(X,Y)\in R$. So when there is checked
-if a newly generated product state $(P,Q)$ is in a congruence closure of $R$ it is needed just to check if $Y \subseteq Q$ to apply 
-the rewriting rule $Y\rightarrow X\cup Y$. If the rewriting rule is applied, macrostate $X$ is added to $Q{\downarrow_R}$. 
+At the same time a rewriting rule can be used only in one direction ($Y\rightarrow X\cup Y$) for $(X,Y)\in R$. So when it is checked
+if a newly generated product state $(P,Q)$ is in the congruence closure of $R$ it is needed just to check if $Y \subseteq Q$ to apply 
+the rewriting rule $Y\rightarrow X\cup Y$. If the rewriting rule is applied, the macrostate $X$ is added to $Q{\downarrow_R}$. 
 Once the rewriting rule is possible to apply we know that it is possible to apply all elements of $R$ containing $Y$ 
-so it is efficient to store that $Y\subseteq Q$.
+so it is efficient to store the relation $Y\subseteq Q$.
 
 This principle of storing applicable rules is implemented by a hash table where a pointer to a macrostate $Q$ is mapped to
-a list of pointers to the macrostates where each of this macrostates $Y$ enables to use all of the elements of relation $R$ containing $Y$ 
+a list of pointers to the macrostates where each of this macrostates $Y$ enables to use all of the elements of the relation $R$ containing $Y$ 
 for computation of $Q{\downarrow_R}$.
-Notice that is not able to store elements of $R$ which rewriting rule is not applicable because there are added gradually
-new elements to $R$ and after applying of a new rewriting rule can be usable also rule which has not been usable last time.%Preformulovat
+Notice that it is not possible to store elements of $R$ which rewriting rule is not applicable because there are added gradually
+new elements to $R$ and after the application of a new rewriting rule can be usable also rule which could not be used the last time.
 
-During the experimental evaluation was found that this optimization is not as useful as it was expected because it does not happen very often that the one
-macrostate of NFA $\mathcal{B}$ (e.g. macrostate $Q$) is in the two different states of a product NFA $\mathcal{A}\cup\mathcal{B}\times\mathcal{B}$ (e.g., $(P,Q)$
+During the experimental evaluation it was found that this optimization is not as useful as it was expected because it does not happen very often that a single
+macrostate of NFA $\mathcal{B}$ (e.g. a macrostate $Q$) is in two different states of a 
+product NFA $(\mathcal{A}\cup\mathcal{B})\cap\mathcal{B}$ (e.g., $(P,Q)$
 and $(O,Q)$ where $P$ and $O$ are macrostates of $\mathcal{A}\cup\mathcal{B}$) and can slow down the algorithm because of the overhead given by checking
-if a normal form $Q{\downarrow_R}$ has not already been computed, so it was implemented a special function for computing normal form of a visited macrostate 
-and special function for computing normal forms of macrostates which has not been already explored. 
+if a normal form $Q{\downarrow_R}$ has not already been computed, so it was implemented as a special function for computing the 
+normal form of a visited macrostate and a special function for computing the normal forms of macrostates which has not been already explored. 
 
 \chapter{Experimental Evaluation}
 \label{eval}
-This chapter is about the experimental evaluation of the algorithms for checking inclusion based on antichains and on the bisimulation up to congruence. 
+This chapter describes the experimental evaluation of the algorithms for checking inclusion based on antichains and on the bisimulation up to congruence. 
 
-For both of the evaluations were used NFA for model checking provided by Dr. Lukáš Holík\footnote{
+For both of the evaluations we used NFA from abstract regular model checking provided by Dr. Lukáš Holík\footnote{
 Automata can be found on the web page: \url{http://www.fit.vutbr.cz/~holik/pub/ARMCautomata.tar.gz}}.  
 The evaluation was done on the set of about 40 000 of pairs of NFA. 
 
-The tests were performed on the server \emph{merlin.fit.vutbr.cz} with CentOS 64bit Linux, 2$\times$ AMD Opteron (2,5 GHz, 4 cores, 12 MB cache) and 8 GB Ram.
+The tests were performed on the server \emph{merlin.fit.vutbr.cz} with CentOS 64bit Linux, 2$\times$ AMD Opteron Processors(2,5 GHz, 4 cores, 12 MB cache)
+and 8 GB RAM.
 
 \section{Evaluation of Algorithm Based on Antichains}
-The implementation of the antichain algorithm is compared to the VATA library implementation of the antichain algorithm for tree automata. The tree automata's
-algorithm was tested in upward direction and also in downward direction. Timeout of computation was set to five seconds.
+The implementation of the antichain algorithm is compared to the VATA library implementation of the antichain algorithm for tree automata. The
+algorithms for checking language inclusion of tree automata was tested in the explicit encoding using upward direction and also downward direction. 
+The timeout of computation was set to five seconds.
 
-The comparison with the inclusion checking algorithm for tree automata in upward direction is given on the figure \ref{fig:figPlotAc} where the whole data
-set is on the left plot and the right plot is focused. As it is written down in the table \ref{tabAc} the new implementation for NFA was faster in 98\% of the
-test cases and in these cases was averagely two times faster. The tree automata's algorithm is faster only in two cases but in these cases is faster sixteen times.
-This acceleration of the tree automata's algorithm is some cases is not yet analyzed and could be object of further development.
+The comparison with the inclusion checking algorithm for tree automata in the upward direction is given in Figure \ref{fig:figPlotAac} where the whole data
+set is in the left plot and the right plot is zoomed. The new implementation for NFA was faster in 98\,\% of the
+test cases and in these cases was on average twice as fast. The algorithm for tree automata is faster only in 2\,\% of cases 
+but in these cases it is faster sixteen times.
+This acceleration of the algorithm for tree automata in some cases has not yet been analyzed and could be an object of further development.
 
 \begin{figure}[bt]
 \begin{center}
-\includegraphics[scale=0.3]{fig/plot_aac_zprava.png}
-\includegraphics[scale=0.3]{fig/plot_aac_step_zprava.png}
-\caption{The comparison of VATA library implementation of antichain algorithm for tree automata in upward direction
-    with VATA library implementation of the antichain algorithm for NFA.}
+\includegraphics[scale=0.33]{fig/plot_aac_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_aac_step_zprava.png}
+\caption{A comparison of the VATA library implementation of the antichains algorithm for tree automata in upward direction
+    with the VATA library implementation of the antichains algorithm for NFA.}
 \label{fig:figPlotAac}
 \end{center}
 \end{figure}
 
-The comparison of the new implementation of the algorithm for NFA with implementation for tree automata in downward direction using optimized cache
-is given on the figure 
-\ref{fig:figPlotAc} where the left plot again shows the whole data set and the right one shows focus on the time interval where the most of tests belong.
-The algorithm for NFA beats the tree automata's algorithm in the most cases (about 93\%) and is about 211 times faster (all data are in table \ref{tabAc}).
+The comparison of the new implementation of the algorithm for NFA with the implementation for tree automata in the downward direction using the optimized cache
+is given in Figure~\ref{fig:figPlotAac} 
+where the left plot again shows the whole data set and the right one shows the zoom on the time interval where most of the tests belong.
+The algorithm for NFA beats the algorithm tree automata in the most cases (about 93\,\%) and is about 211 times faster (all data are in Table \ref{tabAc}).
 
 \begin{table}[bt]
 \begin{center}
@@ -1540,9 +1569,9 @@ The algorithm for NFA beats the tree automata's algorithm in the most cases (abo
     faster & $10.78\times$ & $211.42\times$ \\ \hline
    \end{tabular}
    }
-   \caption{The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with
-       implementation of the antichain algorithm for NFA and
-   the right table shows the same comparison but with for the downward version of the antichain tree automata's algorithm optimized
+   \caption{The left table shows a comparison of the VATA library for tree automata with checking inclusion in the 
+     upward direction using the antichains algorithm with the implementation of the antichains algorithm for NFA and
+   the right table shows the same comparison but with for the downward direction version of the antichains algorithm for tree automata optimized
    by cache.}
    \label{tabAac}
 \end{center}
@@ -1552,48 +1581,49 @@ The algorithm for NFA beats the tree automata's algorithm in the most cases (abo
 
 \begin{figure}[bt]
 \begin{center}
-\includegraphics[scale=0.3]{fig/plot_aca_zprava.png}
-\includegraphics[scale=0.3]{fig/plot_aca_step_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_aca_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_aca_step_zprava.png}
 \caption{The figure shows
- comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization 
- with VATA library implementation of the antichain algorithm for NFA.}
+ a comparison of the VATA library implementation of the antichains algorithm for tree automata in the downward direction using the cache optimization 
+ with the VATA library implementation of the antichains algorithm for NFA.}
 \label{fig:figPlotAca}
 \end{center}
 \end{figure}
 
 \section{Evaluation of Algorithm Based on Bisimulation up to Congruence}
-The evaluation of the algorithm based on bisimulation up to congruence was done by implementation which includes all optimization described in section 
-\ref{sectionCongrImpl}. There are provided two comparison, the first one is with original OCaml implementation of this algorithm and the second one is with
-VATA library module for tree automata.
+The evaluation of the algorithm based on bisimulation up to congruence was done with the implementation which includes all optimizations described in Section 
+\ref{sectionCongrImpl}. There are two comparisons provided, the first one is with the original OCaml implementation of this algorithm \cite{popl13} 
+and the second one is with VATA library module for tree automata.
 
 \subsection{Comparison with OCaml Implementation}
-The algorithm based on bisimulation up to congruence was implemented 
-\footnote{The implementation can be found here: \url{http://perso.ens-lyon.fr/damien.pous/hknt/}} 
-in \emph{OCaml} language (object-oriented implementation of Caml language). 
-This implementation provides checking of the equivalence
-and the inclusion of languages of NFA and also inclusion. It is also possible to use breadth-first search or depth-first search algorithm for searching 
-product NFA and it is possible to use a simulation for improvement of performance of the algorithm.
+The algorithm based on bisimulation up to congruence was implemented\footnote{The implementation can be found here: \url{
+http://perso.ens-lyon.fr/damien.pous/hknt/}} 
+in the \emph{OCaml} language (an object-oriented implementation of the Caml language). 
+This implementation provides checking of equivalence
+and inclusion of languages of NFA. It also allows to choose between the breadth-first search or the depth-first search algorithm for searching the
+product NFA and it is possible to use a simulation for an improvement of the performance of the algorithm.
 
-For evaluation purposes was OCaml implementation run with breadth-first search (which is the only one currently implemented by VATA library), without
-simulation (which is not currently not provided by VATA library) and in the version for inclusion checking.
+For evaluation purposes the OCaml implementation was run with the breadth-first search (which is the only one currently implemented by the VATA library), without
+simulation (which is not currently not provided by the VATA library) and in the version for inclusion checking.
 
-The comparison of the VATA library implementation and OCaml implementation can be seen on the figure \ref{fig:figGraphOCaml}. 
-The plot shows the relation between time needed to check language inclusion and number of the states of the input NFA.
+The comparison of the VATA library implementation and the OCaml implementation can be seen in Figure \ref{fig:figGraphOCaml}. 
+The plot shows the relation between the time needed to check language inclusion and number of states of the input NFA.
 The left plot shows the measurements on the whole data set and it is possible to see that the VATA library is especially faster for input automata with a lot
-of states. The right plot on the figure \ref{fig:figGraphOCaml} is focused to the time interval where are the most of the measurements belong and 
-shows that in some cases is OCaml implementation faster. In these cases only a few states were explored to 
-check the language inclusion and the VATA library was slower due the overhead caused by its richer data structures (like macrostate cache). The plot also shows
-how time needed to check inclusion grows exponentially with number of states of NFA but 
-the growth of amount of time is much faster in case of OCaml implementation.
+of states. The right plot in Figure \ref{fig:figGraphOCaml} is focused to the time interval where the most of the measurements belong and 
+shows that in some cases the OCaml implementation is faster. In these cases only a few states were explored to 
+check that the language inclusion and the VATA library was slower due to the overhead caused by its richer data structures 
+(such as the macrostate cache). The plot also shows how the time needed to check inclusion grows exponentially with the number of states of NFA but 
+the growth of the amount of time is much faster in the case of the OCaml implementation.
 
-The VATA library was faster in $92.5\%$ of tested cases and in these cases were faster about 65 times, particulard data are in the table \ref{tabOcaml}.
+The VATA library was faster in $92.5\,\%$ of the tested cases and in these cases it was faster about 65 times. More detailed data can be found 
+in Table \ref{tabOcaml}.
 
 \begin{figure}[bt]
 \begin{center}
-\includegraphics[scale=0.3]{fig/plot_hkc_zprava.png}
-\includegraphics[scale=0.3]{fig/plot_hkc_step_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_hkc_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_hkc_step_zprava.png}
 \caption{
-Comparison of OCaml implementation of a congruence algorithm and VATA library implementation of the algorithm.}
+Comparison of the OCaml implementation of a congruence algorithm and the VATA library implementation of the algorithm.}
 \label{fig:figGraphOCaml}
 \end{center}
 \end{figure}
@@ -1607,37 +1637,39 @@ Comparison of OCaml implementation of a congruence algorithm and VATA library im
     winner & $7.5\%$ & $92.5\%$ \\ \hline
     faster & $6.43\times$ & $64.29\times$ \\ \hline
    \end{tabular}
-   \caption{Table gives summarizing of the evaluation of comparing of OCaml implementation of a congruence algorithm and VATA library implementation 
-     of the algorithm.}
+   \caption{This table gives a summary of the evaluation of the performance of the OCaml implementation of a congruence algorithm and VATA library implementation 
+     of the same algorithm.}
    \label{tabOcaml}
 \end{center}
 \end{table}
 \end{center}
 
 \subsection{Comparison with Tree Automata Implementation of VATA Library}
-It was also made evaluation which compares the VATA library for checking language inclusion of tree automata based on antichain algorithm. The 
-VATA library for tree automata was used with explicit encoding and inclusion was checked in upward and also downward direction. For downward direction was used
-optimization based on a cache. The timeout for checking inclusion was set to 5 seconds.
+We have also evaluated the performance fo the inclusion checking algorithm based on bisimulation up to congruence with the VATA implementation of the antichains
+algorithm.
+The VATA library for tree automata was used with explicit encoding and inclusion was checked in the upward and also in the downward direction. 
+For downward direction an optimization based on a cache was used. The timeout for checking inclusion was set to 5 seconds.
 
-The result of comparison of the checking language inclusion using bisimulation up to congruence for NFA and antichains for tree automata 
-is given on the figures \ref{fig:figPlotAc} and \ref{fig:figPlotCa}, particular on the left plot in these figures. The plot shows number of states of the input
-automaton and time needed to check the inclusion. The new implementation for finite automata is faster in the
-most (about $95\%$) cases but is only about two times faster then the algortihm for upward direction. 
+The results of the comparison of the checking language inclusion using bisimulation up to congruence for NFA and antichains for tree automata 
+are given in Figures \ref{fig:figPlotAc} and \ref{fig:figPlotCa}, where the left plots show the whole data set and the right plots are zoomed. 
+The plots show the number of states of the input
+automata and the time needed to check the inclusion. The new implementation for finite automata is faster in the
+most (about $95\,\%$) cases but is only about twice as fast as the algorithm for upward direction. 
 Checking language inclusion using downward direction is much slower than 
-the congruence algorithm which is faster in $94\%$ of cases  and is faster for one hundred and sixty times. The particular data about speed up 
-which brings implementation for NFA is given in table \ref{tabAc}.
+the congruence algorithm which is faster in $94\,\%$ of the cases  and is faster by the ratio of one hundred and sixty. The particular data about the speed-up 
+of the implementation for NFA is given in Table \ref{tabAc}.
 
-The figures \ref{fig:figPlotAc} and \ref{fig:figPlotCa} also show
-focus to a time interval where the most measurements belong. The figures show that VATA library for tree automata was
-also faster in some cases, what is caused by the fact the both approaches (antichain and bisimulation up to congruence) uses different attributes of relation
-of set of states that is necessary to check to verify if language inclusion holds.
+Figures \ref{fig:figPlotAc} and \ref{fig:figPlotCa} also show
+focus to a time interval where the most measurements belong. The figures show that the VATA library module for tree automata was
+also faster in some cases, which is caused by the fact the both approaches (antichain and bisimulation up to congruence) uses different attributes of the relation
+of sets of states that are necessary to check to verify that language inclusion holds.
 
 \begin{figure}[bt]
 \begin{center}
-\includegraphics[scale=0.3]{fig/plot_ac_zprava.png}
-\includegraphics[scale=0.3]{fig/plot_ac_step_zprava.png}
-\caption{The comparison of VATA library implementation of the antichain algorithm for tree automata in upward direction
-    with VATA library implementation of the congruence algorithm for NFA.}
+\includegraphics[scale=0.33]{fig/plot_ac_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_ac_step_zprava.png}
+\caption{The comparison of the VATA library implementation of the antichains algorithm for tree automata in the upward direction
+    with the VATA library implementation of the congruence algorithm for NFA.}
 \label{fig:figPlotAc}
 \end{center}
 \end{figure}
@@ -1660,42 +1692,41 @@ of set of states that is necessary to check to verify if language inclusion hold
     faster & $1.90\times$ & $160.34\times$ \\ \hline
    \end{tabular}
    }
-   \caption{The left table shows comparison of VATA library for tree automata with checking inclusion upward with antichain algorithm with
-       implementation of the algorithm based on bisimulation up to congruence and
-   the right table shows the same comparison but with for the downward version of the antichain algorithm optimized by cache.}
+   \caption{The left table shows a comparison of the VATA library for tree automata with checking inclusion upward using the antichains algorithm with
+       the implementation of the algorithm based on bisimulation up to congruence, and
+   the right table shows the same comparison but for the downward version of the antichains algorithm optimized by cache.}
    \label{tabAc}
 \end{center}
 \end{table}
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[scale=0.3]{fig/plot_ca_zprava.png}
-\includegraphics[scale=0.3]{fig/plot_ca_step_zprava.png}
-\caption{The figure shows
- comparison of VATA library implementation of the antichain algorithm for tree automata in downward direction using cache optimization 
- with VATA library implementation of the congruence algorithm for NFA.}
+\includegraphics[scale=0.33]{fig/plot_ca_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_ca_step_zprava.png}
+\caption{The figure shows a
+ comparison of the VATA library implementation of the antichains algorithm for tree automata in the downward direction using the cache optimization 
+ with the VATA library implementation of the congruence algorithm for NFA.}
 \label{fig:figPlotCa}
 \end{center}
 \end{figure}
 
 \section{Comparison of the algorithm for NFA}
-Finally, the both newly implemented algorithms for NFA, the one based on the antichains and the one based on bisimulation up to congruence, will be compared.
-The both algorithms were used in their optimized versions.
-The comparison is shown on the figure \ref{fig:figPlotNFA}.
-As you can see, the results of the evaluations of both algorithms are very similar and the differences in the performance of
-them are very small. 
-The results are summarized in the table \ref{tabNFA}. The antichain algorithm beats the congruence algorithm in 75\% of
-tested cases. On the other side, the congruence algorithm is nearly four times faster in its winning cases than the antichain algorithm which is
+Finally, both newly implemented algorithms for NFA, the one based on the antichains and the one based on the bisimulation up to congruence, will be compared.
+Both algorithms were used in their optimized versions.
+The comparison is shown in Figure \ref{fig:figPlotNFA}.
+As you can see, the results of the evaluations of both algorithms are very similar and the differences in their performance are very small. 
+The results are summarized in Table \ref{tabNFA}. The antichain algorithm beats the congruence algorithm in 75\,\% of
+the tested cases. On the other hand, the congruence algorithm is nearly four times faster in its winning cases than the antichains algorithm which is
 only 1.5 times faster in its winning cases. 
-It is important notice that the results are dependent on the chosen test set because the both uses different attributes
-of the set of explored states of NFA during language inclusion checking.
+It is important to notice that the results depend on the chosen test set because both algorithms use different attributes
+of the set of explored states of the NFA while checking language inclusion.
 
 \begin{figure}[bt]
 \begin{center}
-\includegraphics[scale=0.3]{fig/plot_nfa_ac_zprava.png}
-\includegraphics[scale=0.3]{fig/plot_nfa_congr_zprava.png}
-\caption{The comparison of VATA library implementation of the antichain algorithm for NFA (the left plot)
-    with VATA library implementation of the congruence algorithm for NFA (the right plot).}
+\includegraphics[scale=0.33]{fig/plot_nfa_ac_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_nfa_congr_zprava.png}
+\caption{The comparison of the VATA library implementation of the antichains algorithm for NFA (the left plot)
+    with the VATA library implementation of the congruence algorithm for NFA (the right plot).}
 \label{fig:figPlotNFA}
 \end{center}
 \end{figure}
@@ -1710,37 +1741,39 @@ of the set of explored states of NFA during language inclusion checking.
     faster & $1.58\times$ & $3.74\times$ \\ \hline
    \end{tabular}
 }
-   \caption{Table shows result of comparison of the congruence algorithm and the antichain algorithm for NFA.}
+   \caption{This table shows the result of a comparison of the congruence algorithm and the antichain algorithm for NFA.}
    \label{tabNFA}
 \end{center}
 \end{table}
+\hfill
 
 \chapter{Conclusion}
 \label{concl}
-The main goal of this thesis is to create an extension of the VATA library for the nondeterministic finite automata 
-which are often used in the formal verification (e.g., model checking of safety temporal properties or 
-abstract regular model checking) what is the branch of computer science which is the library focused on. The extension of the library is supporting
-basic operations like union, intersection, removing useless or unreachable states and etc., but the main aim of this work is to provide
-efficient implementation of the state-of-the-art algorithms for checking language inclusion of nondeterministic finite automata.
+The main goal of this thesis was to create an extension of the VATA library for nondeterministic finite automata 
+that are often used in formal verification (e.g., in model checking of safety temporal properties or 
+abstract regular model checking) which is the target area of the library. The extension of the library supports
+basic operations like union, intersection, removing useless or unreachable states etc., but the main aim of this work was to provide
+an efficient implementation of state-of-the-art algorithms for checking language inclusion of nondeterministic finite automata.
 
-The new extension of VATA library uses the explicit encoding for representation of the finite automata. 
-The data structures for the explicit encoding has been designed
-and implemented by modification and optimization of the data structures for the tree automata. The original VATA library has been analyzed to be able to determine
-which modules can be reused for a new extension and also to be able efficiently integrate the new extension.
+The data structures for the explicit encoding for representation of finite automata has been designed
+and implemented by modification and optimization of the data structures for tree automata already presented in the VATA library. 
+The original VATA library has been analyzed to determine
+which modules can be reused for the new extension and also to efficiently integrate the new extension.
 
-To achieve the best performance for language inclusion checking are used the state-of-the-art algorithms, based on so-called antichains and so-called bisimulation
-up to congruence. The antichains algorithms is implemented in its default version and also optimized version which uses simulation of a finite automaton. 
-The bisimulation up to congruence algorithm is implemented in its general version (for checking equivalence of finite automata) and also in
-version specialized to checking inclusion what brings better performance. The other improvement of this algorithm is realized by implementation's optimization.
+To achieve the best performance for language inclusion checking we use state-of-the-art algorithms, based on so-called antichains and so-called bisimulation
+up to congruence. The antichains algorithm was implemented in its default version and also an optimized version which uses simulation over a finite automaton. 
+The bisimulation up to congruence algorithm is implemented in its general version (for checking language equivalence of NFA) and also in
+the version specialized to checking inclusion.%, which brings better performance. 
+The other improvement of this algorithm is achieved by optimization of implementation.
 
-For proving contribution of this work has been performed evaluation which compares the performance of our implementation of language
-inclusion checking to the other implementations. 
-Our implementation beats the other tested implementation in over 90\% of the tested cases. It faster about 100 times then the OCaml implementation of the
-algorithm for congruence closure and 2 times then the tree automata's algorithm.
+An evaluation comparing the performance of an out implementations and other implementations of checking language inclusion over NFA has been performed.
+Our implementation beats the other tested implementations in over 90\,\% of the tested cases. It is faster about 100 times than the OCaml implementation of the
+algorithm for congruence closure and twice as fast as the algorithm over tree automata.
 
-The analysis of the cases where the tree automata's algorithm for language inclusion checking significantly 
-beats the implementation specialized on NFA could be done for further optimization of the implementation. 
-For the bisimulation up to congruence algorithm is possible to implement version of the algorithm 
-which uses simulation for pruning out some other states which are not necessary to explore. The simulation is yet implemented for antichain algorithm for NFA but
-it has not been evaluated and optimized what can bring another improvement of performance. The full integration of the new extension of the
-VATA library could be done by application of it in the fields where the implementation of VATA library for tree automata is used.
+A more detalied analysis of the cases where the algorithm checks language inclusion over tree automata significantly 
+beats the implementation specialized on NFA could be done for further optimization. 
+For the bisimulation up to congruence algorithm it is possible to implement a version of the algorithm 
+which uses simulation for pruning out some other states which are not necessary to explore. The simulation has already been implemented for antichains 
+algorithm but it has not been evaluated and optimized which could bring another improvement in performance. 
+Yet another interesting direction is to find suitable use cases of DFA for various task and evaluate whether they can improved by the use of NFA, in
+particular using the extension of the VATA library developed in this work.
