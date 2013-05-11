@@ -119,13 +119,11 @@ VATA::ExplicitTreeAut<SymbolType> VATA::GetCandidateTree(
 
 	}
 
-  std::cout << remaining  << std::endl;
 	while (!newStates.empty()) {
 
     // find transition which leads from the chosen state from newStates
 		auto i = stateMap.find(newStates.front());
 
-       std::cout << "i am here " << i->first << std::endl;
 		newStates.pop_front();
 
 		if (i == stateMap.end())
@@ -136,7 +134,6 @@ VATA::ExplicitTreeAut<SymbolType> VATA::GetCandidateTree(
 
 			assert(info);
 
-       std::cout << "and here " << info->state_ << std::endl;
       // All states of tuple of transition was used
 			if (!info->reachedBy(i->first))
 				continue;
@@ -149,7 +146,6 @@ VATA::ExplicitTreeAut<SymbolType> VATA::GetCandidateTree(
 				reachableTransitions.push_back(info);
 
 				newStates.push_back(info->state_);
-        std::cout << "state " << info->state_ << std::endl;
 				if (aut.IsFinalState(info->state_))
 					goto found_;
 
@@ -168,7 +164,6 @@ found_:
 
 	}
 
-  std::cout << remaining  << std::endl;
 	if (!remaining) {
 
 		result.transitions_ = aut.transitions_;

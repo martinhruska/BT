@@ -6,12 +6,11 @@
 \contentsline {subsection}{\numberline {2.2.1}Nondeterministic Finite Automaton}{5}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}Deterministic Finite Automaton}{6}{subsection.2.2.2}
 \contentsline {subsection}{\numberline {2.2.3}Run of a Finite Automaton}{6}{subsection.2.2.3}
-\contentsline {subsection}{\numberline {2.2.4}Language of Finite Automaton}{7}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.4}Language of a Finite Automaton}{7}{subsection.2.2.4}
 \contentsline {subsection}{\numberline {2.2.5}Complete DFA}{7}{subsection.2.2.5}
-\contentsline {subsection}{\numberline {2.2.6}Minimal DFA}{7}{subsection.2.2.6}
-\contentsline {subsection}{\numberline {2.2.7}Operations over Finite Automata}{7}{subsection.2.2.7}
+\contentsline {subsection}{\numberline {2.2.6}Operations over Finite Automata}{7}{subsection.2.2.6}
 \contentsline {subsubsection}{Automata Union}{7}{section*.2}
-\contentsline {subsubsection}{Automata Intersection}{8}{section*.3}
+\contentsline {subsubsection}{Automata Intersection}{7}{section*.3}
 \contentsline {subsubsection}{Subset construction}{8}{section*.4}
 \contentsline {section}{\numberline {2.3}Regular Languages}{8}{section.2.3}
 \contentsline {subsection}{\numberline {2.3.1}Closure Properties}{8}{subsection.2.3.1}
@@ -32,7 +31,7 @@
 \contentsline {section}{\numberline {4.2}VATA library}{17}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Design}{18}{subsection.4.2.1}
 \contentsline {subsubsection}{Explicit Encoding}{18}{section*.8}
-\contentsline {subsubsection}{Semi-symbolic Encoding}{19}{section*.9}
+\contentsline {subsubsection}{Semi-symbolic Encoding}{20}{section*.9}
 \contentsline {subsubsection}{Operations}{20}{section*.10}
 \contentsline {subsection}{\numberline {4.2.2}Extension for Finite Automata}{20}{subsection.4.2.2}
 \contentsline {chapter}{\numberline {5}Design}{22}{chapter.5}
@@ -61,7 +60,7 @@
 \contentsline {subsection}{\numberline {6.4.1}Ordering of an Antichain}{32}{subsection.6.4.1}
 \contentsline {subsection}{\numberline {6.4.2}Using Macrostate Cache}{33}{subsection.6.4.2}
 \contentsline {subsection}{\numberline {6.4.3}Ordered Antichain}{33}{subsection.6.4.3}
-\contentsline {section}{\numberline {6.5}Translation of an NFA into LTS}{33}{section.6.5}
+\contentsline {section}{\numberline {6.5}Translation of an NFA into an LTS}{33}{section.6.5}
 \contentsline {section}{\numberline {6.6}Implementation of the Bisimulation up to Congruence Algorithm}{33}{section.6.6}
 \contentsline {subsection}{\numberline {6.6.1}Exploring Product NFA}{34}{subsection.6.6.1}
 \contentsline {subsection}{\numberline {6.6.2}Using Macrostate cache}{34}{subsection.6.6.2}
@@ -72,6 +71,6 @@
 \contentsline {section}{\numberline {7.2}Evaluation of Algorithm Based on Bisimulation up to Congruence}{36}{section.7.2}
 \contentsline {subsection}{\numberline {7.2.1}Comparison with OCaml Implementation}{37}{subsection.7.2.1}
 \contentsline {subsection}{\numberline {7.2.2}Comparison with Tree Automata Implementation of VATA Library}{39}{subsection.7.2.2}
-\contentsline {section}{\numberline {7.3}Comparison of the algorithm for NFA}{40}{section.7.3}
+\contentsline {section}{\numberline {7.3}Comparison of the Algorithms for NFA}{40}{section.7.3}
 \contentsline {chapter}{\numberline {8}Conclusion}{42}{chapter.8}
 \contentsline {chapter}{\numberline {A}Storage Medium}{45}{appendix.A}

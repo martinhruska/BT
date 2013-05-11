@@ -276,7 +276,7 @@ Práce je chráněna autorským zákonem a její užití bez udělení oprávně
   \begin{flushright}
       \makebox[4cm]{\dotfill} \\
       \@author\\
-      \@date
+      {13. května 2013}
   \end{flushright}
 
 \ifx\undefined\@acknowledgment
