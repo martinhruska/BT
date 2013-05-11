@@ -504,7 +504,7 @@ the lines 4 and 7 in the pseudocode.
 	\KwOut{TRUE if $\mathcal{L_\mathcal{A}}\subseteq\mathcal{L_\mathcal{B}}$. Otherwise FALSE.}
 		\If{there is a final product-state in \{$(i,I_{\mathcal{B}})\,|\,i\in I_{\mathcal{A}}$\}}
 			{return FALSE\;}
-		$Processed$:=$\varnothing$\;
+		$Processed$:=$\emptyset$\;
     %$Next$:= Initialize(\{$(s,Minimize(I_B))\mid s\in I_A$\})\;
 		$Next$:= \{$(s,Minimize(I_B))\mid s\in I_A$\}\;
 		\While{$Next\neq \emptyset$}
@@ -608,7 +608,7 @@ $Post((P,Q)):=\{(P',Q')\ |\ \exists a \in \Sigma: P'=
 				Pick and remove a product state $(X,Y)$ from $Next$\;
 				\If {($X$,$Y) \in c(Processed \cup Next)$}
 				{continue\;}
-				\If {$(X\cap F_\mathcal{A}\ \neq \emptyset) \Leftrightarrow (Y\cap F_\mathcal{B} \neq \varnothing)$}
+				\If {$(X\cap F_\mathcal{A}\ \neq \emptyset) \Leftrightarrow (Y\cap F_\mathcal{B} \neq \emptyset)$}
 				{
 					\Return FALSE\;
 				}
@@ -859,7 +859,6 @@ The VATA library also provides a command line interface which is shared by diffe
 \end{center}
 \end{figure}
 
-%%TODO: Vic se rozkecat o kodovanich
 \subsubsection{Explicit Encoding}
 \label{sectionExplicitEnc}
 The explicit encoding supports storing the transitions in the top-down direction (transitions are in the form $q \xrightarrow{a} (q_1,...,q_n)$). The transitions
@@ -989,7 +988,7 @@ decided to modify it and implement its modification also in the extension of the
 The data structure for storing transitions of an NFA is based on hash tables. The first hash table (top-level hash table) maps a given state to the pointer to
 a transition cluster. The transition cluster is another hash table which maps a given symbol of the input alphabet to a set of states accessible from
 the given state under the given symbol. 
-The described data structure is in figure \ref{figExplicitFADataStr}.
+The described data structure is in Figure \ref{figExplicitFADataStr}.
 
 The data structure for storing transitions of an NFA is a simplification of the data structure for tree automata. Since transitions of a tree automaton
 has the following form: $q \xrightarrow{a} (q_1,\ldots,q_n)$ where $q,q_1\ldots q_n$ are states of the tree automaton and $a$ is a symbol of 
@@ -1049,7 +1048,7 @@ over finite automata so there is no need to create a special data structure and 
 An automaton is always parsed and converted to the internal representation from its input format. 
 The conversion to the internal representation is based on mapping states from an input type (e.g. text description of the automaton) 
 to integers. This principle is also applied for symbols of the input alphabet. 
-The mechanism of translation is illustrated in figure~\ref{figExplicitFATransl}. 
+The mechanism of translation is illustrated in Figure~\ref{figExplicitFATransl}. 
 The mechanism brings better efficiency for manipulation with states and symbols
 during the operations. It also provides unification of all input forms to the one internal representation. 
 
@@ -1174,7 +1173,7 @@ The transitions of the result automaton also contains these product states.
     }
   }
 	
-  \While{($Stack\neq \varnothing$)} {
+  \While{($Stack\neq \emptyset$)} {
 			Pick and remove a product-state $(p_\mathcal{A},p_\mathcal{B})$ from $Stack$\;
 			\ForEach{$(q_\mathcal{A},q_\mathcal{B})\in Post_a(p_\mathcal{A},p_\mathcal{B}),\forall a\in\Sigma$}{ %TODO foreach a in sigma
         \If{$(q_\mathcal{A} \in F_\mathcal{A} \wedge q_\mathcal{B} \in F_\mathcal{B})$} {
@@ -1255,7 +1254,7 @@ originally direction. The NFA $\mathcal{A}$ does not contain any useless states 
   $Reachable := I_\mathcal{A}$\;
   $Stack := Reachable$\;
 	
-  \While{$Stack\neq \varnothing$} {
+  \While{$Stack\neq \emptyset$} {
 			Pick and remove a state $p$ from $Stack$\;
 			\ForEach{$p\xrightarrow{a}q\in\{p'\xrightarrow{a}q'\ |\ \exists a\in \Sigma:p'\xrightarrow{a}q'\in\delta_\mathcal{A}\}$}{
         \If{$(q \not\in\ Reachable)$} {
@@ -1671,7 +1670,7 @@ the congruence algorithm which is faster in $94\,\%$ of the cases  and is faster
 of the implementation for NFA is given in Table \ref{tabAc}.
 
 Figures \ref{fig:figPlotAc} and \ref{fig:figPlotCa} also show
-focus to a time interval where the most measurements belong. The figures show that the VATA library module for tree automata was
+zoom to a time interval where the most measurements belong. The figures show that the VATA library module for tree automata was
 also faster in some cases, which is caused by the fact the both approaches (antichain and bisimulation up to congruence) uses different attributes of the relation
 of sets of states that are necessary to check to verify that language inclusion holds.
 
