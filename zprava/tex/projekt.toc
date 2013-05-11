@@ -74,4 +74,4 @@
 \contentsline {subsection}{\numberline {7.2.2}Comparison with Tree Automata Implementation of VATA Library}{39}{subsection.7.2.2}
 \contentsline {section}{\numberline {7.3}Comparison of the algorithm for NFA}{40}{section.7.3}
 \contentsline {chapter}{\numberline {8}Conclusion}{42}{chapter.8}
-\contentsline {chapter}{\numberline {A}Storage Medium}{45}{appendix.A}
+\contentsline {chapter}{\numberline {A}Storage Medium}{46}{appendix.A}

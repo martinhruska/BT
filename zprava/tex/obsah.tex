@@ -224,16 +224,15 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
   \mathcal{A}$$ 
   \emph{ from }q\emph{ over }w\}$, while the language of a set of states $R\subseteq Q$ is defined as $L_{\mathcal{A}}(R)=\bigcup_{q\in R}L_{\mathcal{A}}(q)$.
   The language of an NFA $\mathcal{A}$ is defined as $L_{\mathcal{A}}=L_{\mathcal{A}}(I)$.
-
   The language of NFA from figure \ref{pic_ex_nfa} is $L=\{a,cc,ccd\}$.
 
   \subsection{Complete DFA}
   \label{defCompleteDFA}
-  \emph{Complete} DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I_C,F_C)$ is DFA where $\forall p\in Q_C\,\forall a\in \Sigma\ \exists\, q\in Q_C :
-  p\xrightarrow{a}q\in\delta_C$. 
-  It is possible to create complete DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I_C,F_C)$ from DFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ such that $Q_C=Q\cup\{q\}$, 
+  \emph{Complete} DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I_C,F_C)$ is the DFA where 
+  for any $p\in Q_C$, $a\in \Sigma$ exists $q\in Q_C$ such that  $p\xrightarrow{a}q\in\delta_C$. 
+  It is possible to transform a DFA $\mathcal{A}=(Q,\Sigma,\delta,I,F)$ to the complete DFA $\mathcal{A_C}=(Q_C,\Sigma,\delta_C,I,F)$ such that $Q_C=Q\cup\{q\}$, 
   $I_C=I$, $F_C=F$, 
-  $\delta_C = \delta \cup \{p\xrightarrow{a}q\,|\,a\in\Sigma,p\in Q_C,p\xrightarrow{a}r\not\in\delta,r\in Q\}$.
+  $\delta_C = \delta \cup \{p\xrightarrow{a}q\,|\,\not\exists\, r \in Q\,.\,p\xrightarrow{a}r\not\in\delta_C\}$.
 
 	\subsection{Minimal DFA}
 	\label{defMinDFA}
@@ -384,42 +383,33 @@ $\delta: Q\times \Sigma \to Q$ and $|I| \leq 1$. To be precise, we give the whol
 
 		Let us introduce the closure properties of regular languages on an alphabet $\Sigma$:
 		\begin{itemize}
-			\item Union:  $L=L_1 \cup L_2$\\%=\{x\ |\ x \in L_1 \vee x\in L_2\}$
-      Union of two NFA is described in section \ref{defAUnion}.
-			\item Intersection:  $L=L_1 \cap L_2$\\%=\{x\ |\ x \in L_1 \wedge x\in L_2\}$
-      Intersection of two NFA is described in section \ref{defAInter}.
-			\item Complement: $L=\overline{L_1}$\\%=\{x\ |\ x\not\in L\}$
+			\item Union:  $L=L_1 \cup L_2$. Union of two NFA is described in section \ref{defAUnion}.
+			\item Intersection:  $L=L_1 \cap L_2$. Intersection of two NFA is described in section \ref{defAInter}.
+			\item Complement: $L=\overline{L_1}$.
       Complement of NFA $\mathcal{A}$ is done by its determinizing (via subset construction described in section \ref{subset}), completion of this DFA (via
-      method described in \ref{defCompleteDFA}) and switching its final and non-final states set.
+      method described in \ref{defCompleteDFA}) and swaping its final and non-final states set.
 
-      \item Difference: $L=L_1-L_2$\\%=\{x\ |\ x\in L \wedge x\not\in K\}$
-      Difference of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
+      \item Difference: $L=L_1-L_2$. Difference of NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
       and NFA $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ is done by creating
-      complete DFA $\mathcal{A_C}$ and $\mathcal{B_C}$ (by methods \ref{subset} and \ref{defCompleteDFA}) 
-      and creating product DFA (created as is described in section 
-      \ref{defAutProd})
-      $\mathcal{A_C} \times \mathcal{B_C}=
-          (Q_{\mathcal{A}_C}\times Q_{\mathcal{B}_C},\Sigma,\delta_{{\mathcal{A}_C}\times{\mathcal{B}_C}},I_{\mathcal{A}_C}\times I_{\mathcal{B}_C},F)$
-      where $F=\{(p,q)\,|\, p\in F_{\mathcal{A}_C} \wedge q\not\in F_{\mathcal{B}_C}\}$.
+      complete DFA $\mathcal{B_C}$ (by methods \ref{subset} and \ref{defCompleteDFA}) then complementing $\mathcal{B_C}$ and
+      finally creating intersection $\mathcal{A}\cap\overline{\mathcal{B_C}}$.
 
-			\item Reversal: $L=\{a_1\dots a_n \in \Sigma^{*} \ |\ y=a_n\dots a_1 \in L\}$\\
+			\item Reversal: $L=\{a_1\dots a_n \in \Sigma^{*} \ |\ y=a_n\dots a_1 \in L\}$.
       Reversion of a NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ is
-      NFA $\mathcal{A}_{rev}=(Q_{\mathcal{A}_{rev}},\Sigma,\delta_{\mathcal{A}_{rev}},I_{\mathcal{A}_{rev}},F_{\mathcal{A}_{rev}})$ 
-      where $Q_{\mathcal{A}_{rev}} = Q_\mathcal{A}$, 
-      $I_{\mathcal{A}_{rev}} = F_\mathcal{A}$, $F_{\mathcal{A}_{rev}} = I_\mathcal{A}$ and 
-      $\delta_{\mathcal{A}_{rev}}=\{(q,a,p)\,|\,p,q \in Q_\mathcal{A}, a \in \Sigma,(p,a,q)\in\delta_{\mathcal{A}}\}$ .
+      NFA $\mathcal{A}_{rev}=(Q_{\mathcal{A}},\Sigma,\delta_{\mathcal{A}_{rev}},F_{\mathcal{A}},I_{\mathcal{A}})$ 
+      where $\delta_{\mathcal{A}_{rev}}=\{(q,a,p)\,|\,p,q \in Q_\mathcal{A}, a \in \Sigma,p\xrightarrow{a}q\in\delta_{\mathcal{A}}\}$ .
 
-      \item Iteration: $L^{*}$\\ %: $L^{*}$
+      \item Iteration: $L^{*}$.
       Iteration of a NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ 
-      is NFA $\mathcal{A}^{*}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A}^{*},I_\mathcal{A},F_\mathcal{A})$ where $\delta_\mathcal{A}^{*}=\delta_\mathcal{A}\cup
-      \{(i_\mathcal{A},\epsilon,f_\mathcal{A})\,|\,i_\mathcal{A}\in I_\mathcal{A},f_\mathcal{A}\in F_\mathcal{A}\} \cup 
-      F_\mathcal{A}\times \{\epsilon\} \times I_\mathcal{A}$
+      is NFA $\mathcal{A}^{*}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A}^{*},I_\mathcal{A},F_\mathcal{A}\cup I_\mathcal{A})$ 
+      where $\delta_\mathcal{A}^{*}=\delta_\mathcal{A}\cup
+      \{q\xrightarrow{a}i\,|\,f\in F_\mathcal{A},i\in I_\mathcal{A}\,.\,q\xrightarrow{a}f \in \delta_\mathcal{A}\}$
 
 			\item Concatenation: $L\cdot K=\{x \cdot y\ |\ x\in L \wedge y\in K\}$\\
       Concatenation of a NFA $\mathcal{A}=(Q_\mathcal{A},\Sigma,\delta_\mathcal{A},I_\mathcal{A},F_\mathcal{A})$ and a NFA 
       $\mathcal{B}=(Q_\mathcal{B},\Sigma,\delta_\mathcal{B},I_\mathcal{B},F_\mathcal{B})$ is 
       NFA $\mathcal{A}\cdot\mathcal{B}=(Q_\mathcal{A}\cup Q_\mathcal{B},\Sigma,\delta,I_\mathcal{A},F_\mathcal{B})$ where $\delta=\delta_\mathcal{A} \cup
-      \delta_\mathcal{B} \cup F_\mathcal{A}\times\{\epsilon\}\times I_\mathcal{B}$.
+      \{q\xrightarrow{a}i\,|\,f\in F_\mathcal{A},i\in I_\mathcal{B}\,.\,q\xrightarrow{a}f \in \delta_\mathcal{A}\}$
 
   \end{itemize}
 
@@ -1765,24 +1755,26 @@ abstract regular model checking) which is the target area of the library. The ex
 basic operations like union, intersection, removing useless or unreachable states etc., but the main aim of this work was to provide
 an efficient implementation of state-of-the-art algorithms for checking language inclusion of nondeterministic finite automata.
 
-The new extension of VATA library uses the explicit encoding for representation of the finite automata. 
+The new extension of the VATA library uses the explicit encoding for representation of finite automata. 
 The data structures for the explicit encoding has been designed
-and implemented by modification and optimization of the data structures for the tree automata. The original VATA library has been analyzed to be able to determine
-which modules can be reused for a new extension and also to be able efficiently integrate the new extension.
+and implemented by modification and optimization of the data structures for tree automata already presented in the VATA library. 
+The original VATA library has been analyzed to determine
+which modules can be reused for the new extension and also to efficiently integrate the new extension.
 
-To achieve the best performance for language inclusion checking are used the state-of-the-art algorithms, based on so-called antichains and so-called bisimulation
-up to congruence. The antichains algorithms is implemented in its default version and also optimized version which uses simulation of a finite automaton. 
+To achieve the best performance for language inclusion checking we use state-of-the-art algorithms, based on so-called antichains and so-called bisimulation
+up to congruence. The antichains algorithm was implemented in its default version and also an optimized version which uses simulation over a finite automaton. 
 The bisimulation up to congruence algorithm is implemented in its general version (for checking equivalence of finite automata) and also in
-version specialized to checking inclusion what brings better performance. The other improvement of this algorithm is realized by implementation's optimization.
+the version specialized to checking inclusion, which brings better performance. 
+The other improvement of this algorithm is achieved by optimization of implementation.
 
-For proving contribution of this work has been performed evaluation which compares the performance of our implementation of language
-inclusion checking to the other implementations. 
-Our implementation beats the other tested implementation in over 90\% of the tested cases. It faster about 100 times then the OCaml implementation of the
-algorithm for congruence closure and 2 times then the tree automata's algorithm.
+An evaluation comparing the performance of an out implementations and other implementations of checking language inclusion over NFA has been performed.
+Our implementation beats the other tested implementations in over 90\,\% of the tested cases. It is faster about 100 times than the OCaml implementation of the
+algorithm for congruence closure and twice as fast as the algorithm over tree automata.
 
-The analysis of the cases where the tree automata's algorithm for language inclusion checking significantly 
+A more detalied analysis of the cases where the algorithm checks language inclusion over tree automata significantly 
 beats the implementation specialized on NFA could be done for further optimization of the implementation. 
-For the bisimulation up to congruence algorithm is possible to implement version of the algorithm 
-which uses simulation for pruning out some other states which are not necessary to explore. The simulation is yet implemented for antichain algorithm for NFA but
-it has not been evaluated and optimized what can bring another improvement of performance. The full integration of the new extension of the
-VATA library could be done by application of it in the fields where the implementation of VATA library for tree automata is used.
+For the bisimulation up to congruence algorithm it is possible to implement a version of the algorithm 
+which uses simulation for pruning out some other states which are not necessary to explore. The simulation has already been implemented for antichains 
+algorithm over NFA but it has not been evaluated and optimized which could bring another improvement in performance. 
+Yet another interesting direction is to find suitable use of cases of DFA for various task and evaluate whether they can improved by the use of NFA, in
+particular using the extension of the VATA library developed in this work.
