@@ -682,7 +682,7 @@ it is not necessary to further explore the product automaton $\mathcal{A}\times 
   \input{fig/aut_hkcA.tikz}
   \input{fig/aut_hkcB.tikz}
     \caption{The figure shows two NFA $\mathcal{A}$, $\mathcal{B}$ 
-      which are used in the example describing computation of a congruence closure in Figure \ref{figHKCRew}}
+      which are used in the examples describing computation of a congruence closure in Figure \ref{figHKCRew} and in Figure \ref{figHKCRewO}}
 		\label{figHKCex}
 \end{center}
 \end{figure}
@@ -854,7 +854,7 @@ The VATA library also provides a command line interface which is shared by diffe
 \begin{figure}
 \begin{center}
 \input{fig/tacas12/lib_design.tikz}
-		\caption{The VATA library design. The image is taken from \cite{libvata}}.
+		\caption{The VATA library design. The image is taken from \cite{libvata}.}
 		\label{picVataDesign}
 \end{center}
 \end{figure}
@@ -874,7 +874,7 @@ Inserting a new transition to this structure requires a constant number of steps
 \input{fig/tacas12/explicit.tikz}
     \caption{The data structure for storing transitions of the tree automaton. There is a hash table (top-level look-up table) 
       which map a state to the pointer to another hash table (transition cluster). Transition cluster
-      maps a symbols of input alphabet to the pointer to the set of pointers to the tuples of states.}
+      maps a symbols of input alphabet to the pointer to the set of pointers to the tuples of states. The image is taken from \cite{libvata}.}
 		\label{figExplicitTreeDataStr}
 \end{center}
 \end{figure}
@@ -916,7 +916,7 @@ More details about implementation optimization can be found in \cite{libvata}.
 Especially advanced operations are implemented only for a specific encoding. Some of the operations implemented in the VATA library and their 
 supported encodings are in Table \ref{tabOp}.
 \begin{savenotes}
-\begin{table}[h]
+\begin{table}
 	\begin{center}
 		\catcode`\-=12
 		\begin{tabular}{| l | c | c | c |} \hline
@@ -1716,7 +1716,28 @@ of sets of states that are necessary to check to verify that language inclusion 
 \end{center}
 \end{figure}
 
-\begin{table}
+\section{Comparison of the Algorithms for NFA}
+Finally, both newly implemented algorithms for NFA, the one based on the antichains and the one based on the bisimulation up to congruence, will be compared.
+Both algorithms were used in their optimized versions.
+The comparison is shown in Figure \ref{fig:figPlotNFA}.
+As you can see, the results of the evaluations of both algorithms are very similar and the differences in their performance are very small. 
+The results are summarized in Table \ref{tabNFA}. The antichain algorithm beats the congruence algorithm in 76\,\% of
+the tested cases. On the other hand, the congruence algorithm is nearly four times faster in its winning cases than the antichains algorithm which is
+only 1.5 times faster in its winning cases. 
+It is important to notice that the results depend on the chosen test set because both algorithms use different attributes
+of the set of explored states of the NFA while checking language inclusion.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.33]{fig/plot_nfa_ac_zprava.png}
+\includegraphics[scale=0.33]{fig/plot_nfa_congr_zprava.png}
+\caption{The comparison of the VATA library implementation of the antichains algorithm for NFA (the left plot)
+    with the VATA library implementation of the congruence algorithm for NFA (the right plot).}
+\label{fig:figPlotNFA}
+\end{center}
+\end{figure}
+
+\begin{table}[h]
 \begin{center}
 \parbox{.45\linewidth}{
   \begin{tabular}[scale=0.3]{ | l | r | r |}
@@ -1730,27 +1751,6 @@ of sets of states that are necessary to check to verify that language inclusion 
    \label{tabNFA}
 \end{center}
 \end{table}
-
-\section{Comparison of the Algorithms for NFA}
-Finally, both newly implemented algorithms for NFA, the one based on the antichains and the one based on the bisimulation up to congruence, will be compared.
-Both algorithms were used in their optimized versions.
-The comparison is shown in Figure \ref{fig:figPlotNFA}.
-As you can see, the results of the evaluations of both algorithms are very similar and the differences in their performance are very small. 
-The results are summarized in Table \ref{tabNFA}. The antichain algorithm beats the congruence algorithm in 76\,\% of
-the tested cases. On the other hand, the congruence algorithm is nearly four times faster in its winning cases than the antichains algorithm which is
-only 1.5 times faster in its winning cases. 
-It is important to notice that the results depend on the chosen test set because both algorithms use different attributes
-of the set of explored states of the NFA while checking language inclusion.
-
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.33]{fig/plot_nfa_ac_zprava.png}
-\includegraphics[scale=0.33]{fig/plot_nfa_congr_zprava.png}
-\caption{The comparison of the VATA library implementation of the antichains algorithm for NFA (the left plot)
-    with the VATA library implementation of the congruence algorithm for NFA (the right plot).}
-\label{fig:figPlotNFA}
-\end{center}
-\end{figure}
 
 \chapter{Conclusion}
 \label{concl}

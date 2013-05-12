@@ -102,8 +102,8 @@
 \newlabel{subsectionCongr}{{3.2.2}{13}{Computation of Congruence Closure\relax }{subsection.3.2.2}{}}
 \citation{popl13}
 \citation{popl13}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces The figure shows two NFA $\mathcal  {A}$, $\mathcal  {B}$ which are used in the example describing computation of a congruence closure in Figure \ref  {figHKCRew}}}{14}{figure.3.2}}
-\newlabel{figHKCex}{{3.2}{14}{The figure shows two NFA $\mathcal {A}$, $\mathcal {B}$ which are used in the example describing computation of a congruence closure in Figure \ref {figHKCRew}\relax }{figure.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces The figure shows two NFA $\mathcal  {A}$, $\mathcal  {B}$ which are used in the examples describing computation of a congruence closure in Figure \ref  {figHKCRew} and in Figure \ref  {figHKCRewO}}}{14}{figure.3.2}}
+\newlabel{figHKCex}{{3.2}{14}{The figure shows two NFA $\mathcal {A}$, $\mathcal {B}$ which are used in the examples describing computation of a congruence closure in Figure \ref {figHKCRew} and in Figure \ref {figHKCRewO}\relax }{figure.3.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Derivation of the normal forms of the sets $\{x,y\}$ and $\{u\}$ using rewriting rules of the macrostates of a relation $R=\{(\{x\},\{u\}),(\{y,z\},\{u\})\}$.}}{14}{figure.3.3}}
 \newlabel{figHKCRew}{{3.3}{14}{Derivation of the normal forms of the sets $\{x,y\}$ and $\{u\}$ using rewriting rules of the macrostates of a relation $R=\{(\{x\},\{u\}),(\{y,z\},\{u\})\}$}{figure.3.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{Optimization for Inclusion Checking}{14}{section*.5}}
@@ -139,14 +139,16 @@
 \citation{libvata}
 \citation{libvata}
 \citation{libvata}
+\citation{libvata}
+\citation{libvata}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Design}{18}{subsection.4.2.1}}
 \newlabel{sectionDesignVata}{{4.2.1}{18}{Design\relax }{subsection.4.2.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{Explicit Encoding}{18}{section*.8}}
 \newlabel{sectionExplicitEnc}{{4.2.1}{18}{Explicit Encoding\relax }{section*.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces The VATA library design. The image is taken from \cite  {libvata}}}{19}{figure.4.1}}
-\newlabel{picVataDesign}{{4.1}{19}{The VATA library design. The image is taken from \cite {libvata}\relax }{figure.4.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces The data structure for storing transitions of the tree automaton. There is a hash table (top-level look-up table) which map a state to the pointer to another hash table (transition cluster). Transition cluster maps a symbols of input alphabet to the pointer to the set of pointers to the tuples of states.}}{19}{figure.4.2}}
-\newlabel{figExplicitTreeDataStr}{{4.2}{19}{The data structure for storing transitions of the tree automaton. There is a hash table (top-level look-up table) which map a state to the pointer to another hash table (transition cluster). Transition cluster maps a symbols of input alphabet to the pointer to the set of pointers to the tuples of states}{figure.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces The VATA library design. The image is taken from \cite  {libvata}.}}{19}{figure.4.1}}
+\newlabel{picVataDesign}{{4.1}{19}{The VATA library design. The image is taken from \cite {libvata}}{figure.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces The data structure for storing transitions of the tree automaton. There is a hash table (top-level look-up table) which map a state to the pointer to another hash table (transition cluster). Transition cluster maps a symbols of input alphabet to the pointer to the set of pointers to the tuples of states. The image is taken from \cite  {libvata}.}}{19}{figure.4.2}}
+\newlabel{figExplicitTreeDataStr}{{4.2}{19}{The data structure for storing transitions of the tree automaton. There is a hash table (top-level look-up table) which map a state to the pointer to another hash table (transition cluster). Transition cluster maps a symbols of input alphabet to the pointer to the set of pointers to the tuples of states. The image is taken from \cite {libvata}}{figure.4.2}{}}
 \citation{cav06}
 \citation{tacas10}
 \citation{libvata}
@@ -245,11 +247,11 @@
 \newlabel{tabAc}{{7.3}{40}{The left table shows a comparison of the VATA library for tree automata with checking inclusion upward using the antichains algorithm with the implementation of the algorithm based on bisimulation up to congruence, and the right table shows the same comparison but for the downward version of the antichains algorithm optimized by cache}{table.7.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7.5}{\ignorespaces The figure shows a comparison of the VATA library implementation of the antichains algorithm for tree automata in the downward direction using the cache optimization with the VATA library implementation of the congruence algorithm for NFA.}}{40}{figure.7.5}}
 \newlabel{fig:figPlotCa}{{7.5}{40}{The figure shows a comparison of the VATA library implementation of the antichains algorithm for tree automata in the downward direction using the cache optimization with the VATA library implementation of the congruence algorithm for NFA}{figure.7.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {7.4}{\ignorespaces This table shows the result of a comparison of the congruence algorithm and the antichain algorithm for NFA.}}{40}{table.7.4}}
-\newlabel{tabNFA}{{7.4}{40}{This table shows the result of a comparison of the congruence algorithm and the antichain algorithm for NFA}{table.7.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.3}Comparison of the Algorithms for NFA}{41}{section.7.3}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7.6}{\ignorespaces The comparison of the VATA library implementation of the antichains algorithm for NFA (the left plot) with the VATA library implementation of the congruence algorithm for NFA (the right plot).}}{41}{figure.7.6}}
 \newlabel{fig:figPlotNFA}{{7.6}{41}{The comparison of the VATA library implementation of the antichains algorithm for NFA (the left plot) with the VATA library implementation of the congruence algorithm for NFA (the right plot)}{figure.7.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7.3}Comparison of the Algorithms for NFA}{41}{section.7.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {7.4}{\ignorespaces This table shows the result of a comparison of the congruence algorithm and the antichain algorithm for NFA.}}{41}{table.7.4}}
+\newlabel{tabNFA}{{7.4}{41}{This table shows the result of a comparison of the congruence algorithm and the antichain algorithm for NFA}{table.7.4}{}}
 \@writefile{loa}{\addvspace {10\p@ }}
 \bibstyle{plain}
 \bibdata{literatura}
