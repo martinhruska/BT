@@ -94,22 +94,22 @@
   %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
   %===========================================================================
   %Klicova slova
-  keywords.cs={konečné automaty, formální verifikace, jazyková inkluze, bisimulace ke kongruenci, antichain, knihovna VATA}, %klicova slova v anglickem jazyce
+  keywords.cs={konečné automaty, formální verifikace, jazyková inkluze, bisimulace ke kongruenci, anti\-chain, knihovna VATA}, %klicova slova v anglickem jazyce
   keywords.en={finite automata, formal verification, language inclusion, bisimulation up to congruence, antichains, VATA library},
   %Abstract
-  abstract.cs={Nedeterministické konečné automaty jsou používány v mnoha oblastech informatiky, mimo jiné také ve formální verifikaci nebo při návrhu
-  číslicových obvodů, pro reprezentaci regulárních jazyků. 
-  Jejich výhodou oproti deterministickým konečným automatům je schopnost až exponenciálně stručnější reprezentace jazyka. Nicméně, tato výhoda
-  může být pozbyta, jestliže je zvolen naivní přístup k implementaci některých operací, jako je například test jazykové inkluze dvojice automatů, jehož
+  abstract.cs={Nedeterministické konečné automaty jsou používány v mnoha oblastech informatiky, mimo jiné také ve formální verifikaci, při návrhu
+  číslicových obvodů nebo pro reprezentaci re\-gu\-lár\-ních jazyků. 
+  Jejich výhodou oproti deterministickým konečným automatům je schop\-nost až exponenciálně stručnější reprezentace jazyka. Nicméně, tato výhoda
+  může být pozbyta, jestliže je zvolen naivní přístup k implementaci některých operací, jako je na\-pří\-klad test jazykové inkluze dvojice automatů, jehož
   naivní implementace provádí explicitní determinizaci jednoho z automatů.
   V nedávné době bylo ale představeno několik nových přístupů, které právě explicitní determinizaci při testu jazykové inkluze předcházejí. 
-  Tyto přístupy využívají technik tzv. antichainů
+  Tyto přístupy využívají tzv. antichainů
   nebo tzv. bisimulace vzhůru ke kongruenci. Cílém této práce je vytvoření efektivní implementace 
   zmíněných přístupů v podobě nového rozšíření knihovny VATA. Vytvořená implementace byla otestována a je rychlejší v 90\,\% testovaných případů
-  nežli jiné implementace, oproti nimž je dvakrát až řádově stokrát rychlejší.},
+  nežli jiné implementace, oproti nimž je až řádově rychlejší.},
   abstract.en={
-    Nondeterministic finite automata are used in many areas of computer science, including, but not limited to, formal verification or the design of digital
-    circuits, for the representation of a regular language. Their advantages over deterministic finite automata is that they may represent a language 
+    Nondeterministic finite automata are used in many areas of computer science, including, but not limited to, formal verification, the design of digital
+    circuits or for the representation of a regular language. Their advantages over deterministic finite automata is that they may represent a language 
     in evan exponentially conciser way. 
     However, this advantage may be lost if a na\"{\i}ve approach to some operations is taken, in particular for checking language 
     inclusion of a pair of automata, the na\"{\i}ve implementation of which performs an explicit determinization of one of the automata. Recently, several new
