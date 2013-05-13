@@ -21,9 +21,8 @@
 #include <vata/util/convert.hh>
 #include <vata/util/transl_strict.hh>
 #include <vata/util/util.hh>
-#include "../devel_fa/explicit_finite_aut.hh"
-#include "../devel_fa/explicit_finite_aut_op.hh"
-
+#include <vata/finite_aut/explicit_finite_aut.hh>
+#include <vata/finite_aut/explicit_finite_aut_op.hh>
 
 // standard library headers
 #include <cstdlib>

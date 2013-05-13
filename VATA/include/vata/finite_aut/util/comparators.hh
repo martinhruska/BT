@@ -48,7 +48,7 @@ public: // public methods
       bool res = true;
 
       if (lss.size() > rss.size()) {
-      // DODELAT komparator ktery zohledni tuhle podminku a jeste taky podminku p=<P - v nesimulaci bude true/false(?) vzddycky
+      // komparator ktery zohledni tuhle podminku a jeste taky podminku p=<P - v nesimulaci bude true/false(?) vzddycky
         return false;
       }
       for (auto ls : lss) {
@@ -64,7 +64,6 @@ public: // public methods
           return false;
         }
       }
-      //return true;
       return res;
   }
 
@@ -105,7 +104,6 @@ public: // public methods
   inline bool lte(const StateSet& lss, const StateSet& rss) {
       bool res = true;
 
-      //DODELAT komparator ktery zohledni tuhle podminku a jeste taky podminku p=<P - v nesimulaci bude true/false(?) vzddycky
       for (auto ls : lss) {
         bool tempres = false;
         for (auto rs : rss) {

@@ -83,9 +83,7 @@ VATA::ExplicitLTS VATA::TranslateDownward(const ExplicitTreeAut<SymbolType>& aut
 				if (tuple->size() == 1) { // a(p) -> q
 					// inline lhs of size 1 >:-)
 					result.addTransition(state, symbol, tuple->front());
-        //std::cerr << "Adding transition " <<  state << " " << symbol << " " << tuple->front() << std::endl;
 				} else { // a(p,r) -> q
-        //std::cerr << "Nesmi nastat" << std::endl;
 					result.addTransition(
 						stateClusterPair.first, symbol, lhsTranslator(tuple.get())
 					);
@@ -106,7 +104,6 @@ VATA::ExplicitLTS VATA::TranslateDownward(const ExplicitTreeAut<SymbolType>& aut
 		for (auto& state : *tupleIndexPair.first) {
 
 			result.addTransition(tupleIndexPair.second, symbolMap.size() + i, stateIndex[state]);
-        //std::cerr << "Adding transition " <<  tupleIndexPair.second << " " << symbolMap.size()+i << " " << stateIndex[state] << std::endl;
 
 			++i;
 
@@ -210,7 +207,6 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 	assert(aut.transitions_);
 //	assert(aut.transitions_->size() == param.size());
 
-  //std::cerr << "transitions size: " << aut.transitions_->size() << std::endl;
 	size_t symbolCnt = 0;
 	size_t stateCnt = aut.transitions_->size() + 1; // leaf state
 
@@ -240,7 +236,6 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 					if (!head[i]->equal(env, param))
 						continue;
 
-          //std::cerr << "Adding also here" << std::endl;
 					partition[base + i].push_back(stateCnt);
 
 					return stateCnt++;
@@ -249,7 +244,6 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 
 				head.push_back(&env);
 
-         // std::cerr << "Adding here too" << std::endl;
 				partition.push_back(std::vector<size_t>(1, stateCnt));
 
 				return stateCnt++;
@@ -262,7 +256,6 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 		assert(stateClusterPair.second);
 		assert(stateIndex[stateClusterPair.first] < aut.transitions_->size());
 
-          //std::cerr << "Adding now " << stateIndex[stateClusterPair.first] << std::endl;
 		partition[
 			aut.IsFinalState(stateClusterPair.first)?(0):(base - 2)
 		].push_back(stateIndex[stateClusterPair.first]);
@@ -277,7 +270,6 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 
 	}
 
-          //std::cerr << "Adding and now " << aut.transitions_->size() << std::endl;
 	partition[base - 1].push_back(aut.transitions_->size()); // leaf state
 
 	ExplicitLTS result;
@@ -301,20 +293,17 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 				if (tuple->empty()) {
 					// take care of leaves
 					result.addTransition(aut.transitions_->size(), symbol, state);
-        //std::cerr << "NE " <<  aut.transitions_->size() << " " << symbol << " " << state << std::endl;
 					continue;
 				}
 
 				if (tuple->size() == 1) {
 					// inline lhs of size 1 >:-)
 					result.addTransition(stateIndex[(*tuple)[0]], symbol, state);
-        //std::cerr << "Adding transition " <<  stateIndex[(*tuple)[0]] << " " << symbol << " " << state << std::endl;
 					continue;
 				}
 
 				for (size_t i = 0; i < tuple->size(); ++i) {
 
-        //std::cerr << "NEEEEEEEe " << std::endl;
 					result.addTransition(
 						stateIndex[(*tuple)[i]],
 						symbolCnt,
@@ -331,7 +320,6 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 
 	for (auto& envIndexPair : envMap) {
 
-//    std::cerr << "asfd" << std::endl;
 		result.addTransition(
 			envIndexPair.second, envIndexPair.first.symbol_, stateIndex[envIndexPair.first.state_]
 		);
@@ -339,8 +327,6 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 	}
 
 	relation.resize(partition.size());
-//  std::cerr << "base " << base << std::endl;
-//  int i=0; for (auto& a : partition) {std::cerr << i++ << ": "; for (auto &b : a) std::cerr << b;std::cerr << std::endl;}
 	relation.reset(false);
 
 	// 0 accepting, 1 non-accepting, 2 .. environments
@@ -348,14 +334,12 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 
 	if (base == 3) {
 
-//std::cerr << "setting"<< std::endl;
 		relation.set(1, 0, true);
 		relation.set(1, 1, true);
 
 	}
 
 	relation.set(base - 1, base - 1, true); // reflexivity of leaf state
-//std::cerr << base-1 << std::endl;
 
 	for (size_t i = 0; i < head.size(); ++i) {
 
@@ -364,7 +348,6 @@ VATA::ExplicitLTS VATA::TranslateUpward(const ExplicitTreeAut<SymbolType>& aut,
 
 		for (size_t j = 0; j < head.size(); ++j) {
 
-  //    std::cerr << "aj tady neco pridam" << std::endl;
 			assert(head[j]);
 			if (head[i]->lessThan(*head[j], param))
 				relation.set(base + i, base + j, true);

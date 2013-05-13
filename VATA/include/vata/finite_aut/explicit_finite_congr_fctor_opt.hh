@@ -23,9 +23,11 @@ namespace VATA {
   template <class SymbolType, class Rel> class ExplicitFACongrFunctorOpt;
 }
 
+GCC_DIAG_OFF(effc++)
 template <class SymbolType, class Rel>
 class VATA::ExplicitFACongrFunctorOpt : 
   public ExplicitFAAbstractFunctor <SymbolType,Rel> {
+GCC_DIAG_ON(effc++)
 
 public : // data types
   typedef typename VATA::ExplicitFAAbstractFunctor<SymbolType,Rel> 

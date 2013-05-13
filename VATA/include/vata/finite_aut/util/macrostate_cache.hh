@@ -34,6 +34,8 @@ private:
 public:
   MacroStateCache() : cacheMap(){}
 
+  // Function inserts a new element to macrostate cache, when
+  // the element is already presented it will return pointer to it
   StateSet& insert(size_t key, StateSet& value) {
     auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
      if (lss.size() != rss.size()) {
@@ -43,7 +45,6 @@ public:
        return false;
      }
      for (auto& ls : lss) {
-       //std:: cout << ls << std::endl;
        if (!rss.count(ls)) {
          return false;
        }
@@ -54,7 +55,6 @@ public:
 
     auto iter = cacheMap.find(key);
     if (iter == cacheMap.end()) { // new value
-      //std::cerr << "pridavam zbrusu novy stav" << std::endl;
       auto& list = cacheMap.insert(std::make_pair(key,SetList())).first->second;
       list.push_back(StateSet(value));
       return list.back();
@@ -62,12 +62,10 @@ public:
     else {
       for (auto& set : iter->second) { // set already cashed
         if (areEqual(set,value)) {
-      //std::cerr << "set cached" << std::endl;
           return set;
         }
       }
       iter->second.push_back(StateSet(value));
-      //std::cerr << "new hash" << std::endl;
       return iter->second.back();
     }
   }

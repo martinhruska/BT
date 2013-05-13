@@ -30,8 +30,10 @@ namespace VATA {
  * There is no template needed, because
  * symbol is not ranked
  */
+GCC_DIAG_OFF(effc++) // non virtual destructors warnings suppres
 template <class Symbol>
 class VATA::ExplicitFiniteAut : public AutBase {
+GCC_DIAG_ON(effc++)
 
   /*
    * Friend functions
@@ -56,12 +58,12 @@ class VATA::ExplicitFiniteAut : public AutBase {
   template <class SymbolType>
   friend ExplicitFiniteAut<SymbolType> RemoveUnreachableStates(
       const ExplicitFiniteAut<SymbolType> &,
-      AutBase::ProductTranslMap*);
+      VATA::AutBase::StateToStateMap*);
 
   template <class SymbolType>
   friend ExplicitFiniteAut<SymbolType> RemoveUselessStates(
       const ExplicitFiniteAut<SymbolType> &,
-      AutBase::ProductTranslMap*);
+      VATA::AutBase::StateToStateMap*);
 
   template <class SymbolType>
   friend ExplicitFiniteAut<SymbolType> Reverse(
@@ -148,7 +150,9 @@ private: // private type definitions
 	typedef std::string string;
 
   // Stateset is unordered_set with operation for checking subset
+  GCC_DIAG_OFF(effc++)
 	class StateSet : public std::unordered_set<StateType>  {
+  GCC_DIAG_ON(effc++)
   public:
     bool IsSubsetOf(const StateSet& rhs) const {
       for (StateType state : *this) {
@@ -175,7 +179,9 @@ private: // private type definitions
    * Transition cluster maps symbol to set of states when
    * there exists transition for a given symbol to the states.
    */
+  GCC_DIAG_OFF(effc++)
 	class TransitionCluster : public std::unordered_map<SymbolType,RStateSet>{
+  GCC_DIAG_ON(effc++)
 	public:
 		 RStateSet& uniqueRStateSet(const SymbolType &symbol){
       auto iter = this->find(symbol);
@@ -193,8 +199,10 @@ private: // private type definitions
    * Maps a state to transition cluster, so all transitions
    * for given state are stored in the transition cluster.
    */
+  GCC_DIAG_OFF(effc++)
 	class StateToTransitionClusterMap : 
     public std::unordered_map<StateType,TransitionClusterPtr>{
+  GCC_DIAG_ON(effc++)
 	public:
 		const TransitionClusterPtr &uniqueCluster(const StateType &state){
 			auto& clusterPtr = this->insert(

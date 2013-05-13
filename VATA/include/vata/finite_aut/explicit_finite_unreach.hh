@@ -13,23 +13,25 @@
 
 #include <vata/vata.hh>
 #include "explicit_finite_aut.hh"
+#include <vata/util/transl_strict.hh>
 
 // Standard library headers
 #include <vector>
 #include <unordered_set>
+#include <utility>
 
 namespace VATA {
   template <class SymbolType>
   ExplicitFiniteAut<SymbolType> RemoveUnreachableStates(
       const ExplicitFiniteAut<SymbolType> &aut,
-      AutBase::ProductTranslMap* pTranslMap = nullptr);
+      VATA::AutBase::StateToStateMap* pTranslMap = nullptr);
 }
 
 
 template <class SymbolType>
 VATA::ExplicitFiniteAut<SymbolType> VATA::RemoveUnreachableStates(
   const VATA::ExplicitFiniteAut<SymbolType> &aut,
-  AutBase::ProductTranslMap* pTranslMap = nullptr) {
+  VATA::AutBase::StateToStateMap* pTranslMap = nullptr) {
 
   typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
   typedef typename ExplicitFA::StateToTransitionClusterMapPtr 
@@ -60,6 +62,12 @@ VATA::ExplicitFiniteAut<SymbolType> VATA::RemoveUnreachableStates(
         }
       }
     }
+
+  	if (pTranslMap) {
+	  	for (auto& state : reachableStates) {
+		  	pTranslMap->insert(std::make_pair(state, state));
+      }
+	  }
 
     ExplicitFA res;
     //initialize the result automaton

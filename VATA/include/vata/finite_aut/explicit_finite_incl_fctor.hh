@@ -28,8 +28,10 @@ namespace VATA {
   template <class SymbolType,class Rel> class ExplicitFAStateSetComparator;
 }
 
+GCC_DIAG_OFF(effc++) // non virtual destructors warnings supress
 template<class SymbolType, class Rel>
 class VATA::ExplicitFAStateSetComparator {
+GCC_DIAG_ON(effc++) 
 
 public:
   typedef ExplicitFiniteAut<SymbolType> ExplicitFA;

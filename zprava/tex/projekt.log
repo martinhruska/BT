@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  12 MAY 2013 16:24
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  13 MAY 2013 06:58
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -789,7 +789,14 @@ File: pgfmodulematrix.code.tex 2010/08/24  (rcs-revision 1.4)
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopat
 hs.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v2.10 (rcs-revision 1.2)
-)))
+))) (/usr/share/texmf/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count121
+\float@exts=\toks39
+\float@box=\box37
+\@float@everytoks=\toks40
+\@floatcapt=\box38
+)
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytrees
 .code.tex
 File: tikzlibrarytrees.code.tex 2008/02/24 v2.10 (rcs-revision 1.2)
@@ -817,26 +824,26 @@ File: tikzlibraryshapes.multipart.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 (/usr/share/texmf/tex/generic/pgf/libraries/shapes/pgflibraryshapes.multipart.c
 ode.tex
 File: pgflibraryshapes.multipart.code.tex 2010/01/07 v2.10 (rcs-revision 1.2)
-\pgfnodepartlowerbox=\box37
-\pgfnodeparttwobox=\box38
-\pgfnodepartthreebox=\box39
-\pgfnodepartfourbox=\box40
-\pgfnodeparttwentybox=\box41
-\pgfnodepartnineteenbox=\box42
-\pgfnodeparteighteenbox=\box43
-\pgfnodepartseventeenbox=\box44
-\pgfnodepartsixteenbox=\box45
-\pgfnodepartfifteenbox=\box46
-\pgfnodepartfourteenbox=\box47
-\pgfnodepartthirteenbox=\box48
-\pgfnodeparttwelvebox=\box49
-\pgfnodepartelevenbox=\box50
-\pgfnodeparttenbox=\box51
-\pgfnodepartninebox=\box52
-\pgfnodeparteightbox=\box53
-\pgfnodepartsevenbox=\box54
-\pgfnodepartsixbox=\box55
-\pgfnodepartfivebox=\box56
+\pgfnodepartlowerbox=\box39
+\pgfnodeparttwobox=\box40
+\pgfnodepartthreebox=\box41
+\pgfnodepartfourbox=\box42
+\pgfnodeparttwentybox=\box43
+\pgfnodepartnineteenbox=\box44
+\pgfnodeparteighteenbox=\box45
+\pgfnodepartseventeenbox=\box46
+\pgfnodepartsixteenbox=\box47
+\pgfnodepartfifteenbox=\box48
+\pgfnodepartfourteenbox=\box49
+\pgfnodepartthirteenbox=\box50
+\pgfnodeparttwelvebox=\box51
+\pgfnodepartelevenbox=\box52
+\pgfnodeparttenbox=\box53
+\pgfnodepartninebox=\box54
+\pgfnodeparteightbox=\box55
+\pgfnodepartsevenbox=\box56
+\pgfnodepartsixbox=\box57
+\pgfnodepartfivebox=\box58
 )))
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshado
 ws.code.tex
@@ -894,7 +901,7 @@ s.callouts.code.tex
 (/usr/share/texmf/tex/generic/pgf/libraries/shapes/pgflibraryshapes.callouts.co
 de.tex))) (./algorithm2e.sty
 Package: algorithm2e 2008/00/00 v3.10 algorithms environments
-\c@AlgoLine=\count121
+\c@AlgoLine=\count122
  (/usr/share/texmf/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
@@ -925,156 +932,81 @@ subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
 \interspacetitleruled=\dimen162
 \interspacealgoruled=\dimen163
 \interspacetitleboxruled=\dimen164
-\algocf@inoutbox=\box57
-\algocf@inputbox=\box58
+\algocf@inoutbox=\box59
+\algocf@inputbox=\box60
 \AlCapSkip=\skip58
 \AlCapHSkip=\skip59
-\algocf@nlbox=\box59
-\algocf@hangingbox=\box60
-\algocf@capbox=\box61
+\algocf@nlbox=\box61
+\algocf@hangingbox=\box62
+\algocf@capbox=\box63
 \algoheightruledefault=\skip60
 \algoheightrule=\skip61
 \algotitleheightruledefault=\skip62
 \algotitleheightrule=\skip63
-\c@algocfline=\count122
-\c@algocfproc=\count123
-\c@algocf=\count124
-\algocf@algoframe=\box62
-\algocf@algobox=\box63
+\c@algocfline=\count123
+\c@algocfproc=\count124
+\c@algocf=\count125
+\algocf@algoframe=\box64
+\algocf@algobox=\box65
 )
-\c@definition=\count125
- (/usr/share/texmf/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2007/02/07 v6.75r Hypertext links for LaTeX
-\@linkdim=\dimen165
-\Hy@linkcounter=\count126
-\Hy@pagecounter=\count127
-
-(/usr/share/texmf/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2007/02/07 v6.75r Hyperref: PDFDocEncoding definition (HO)
-Now handling font encoding PD1 ...
-... no UTF-8 mapping file for font encoding PD1
-)
-(/usr/share/texmf/tex/latex/config/hyperref.cfg
-File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
-)
-(/usr/share/texmf/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2006/08/22 v2.4 Connects package keyval with LaTeX options (
-HO)
-)
-Package hyperref Info: Option `unicode' set `true' on input line 2238.
-
-(/usr/share/texmf/tex/latex/hyperref/puenc.def
-File: puenc.def 2007/02/07 v6.75r Hyperref: PDF Unicode definition (HO)
-Now handling font encoding PU ...
-... no UTF-8 mapping file for font encoding PU
-)
-Package hyperref Info: Option `hyperindex' set `true' on input line 2238.
-Package hyperref Info: Option `plainpages' set `false' on input line 2238.
-Package hyperref Info: Hyper figures OFF on input line 2288.
-Package hyperref Info: Link nesting OFF on input line 2293.
-Package hyperref Info: Hyper index ON on input line 2296.
-Package hyperref Info: Plain pages OFF on input line 2303.
-Package hyperref Info: Backreferencing OFF on input line 2308.
-
-Implicit mode ON; LaTeX internals redefined
-Package hyperref Info: Bookmarks ON on input line 2444.
-LaTeX Info: Redefining \url on input line 2599.
-\Fld@menulength=\count128
-\Field@Width=\dimen166
-\Fld@charsize=\dimen167
-\Choice@toks=\toks39
-\Field@toks=\toks40
-Package hyperref Info: Hyper figures OFF on input line 3102.
-Package hyperref Info: Link nesting OFF on input line 3107.
-Package hyperref Info: Hyper index ON on input line 3110.
-Package hyperref Info: backreferencing OFF on input line 3117.
-Package hyperref Info: Link coloring OFF on input line 3122.
-\Hy@abspage=\count129
-\c@Item=\count130
-\c@Hfootnote=\count131
-)
-*hyperref using driver hpdftex*
-(/usr/share/texmf/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2007/02/07 v6.75r Hyperref driver for pdfTeX
-\Fld@listcount=\count132
-)
-(/usr/share/texmf/tex/latex/mdwtools/footnote.sty
+\c@definition=\count126
+ (/usr/share/texmf/tex/latex/mdwtools/footnote.sty
 Package: footnote 1997/01/28 1.13 Save footnotes around boxes
-\fn@notes=\box64
-\fn@width=\dimen168
+\fn@notes=\box66
+\fn@width=\dimen165
 ) (./projekt.aux)
 \openout1 = `projekt.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for IL2/cmr/m/n on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 142.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 142.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for IL2/cmr/m/n on input line 144.
+LaTeX Font Info:    ... okay on input line 144.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 144.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 144.
 
 
 (/usr/share/texmf/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 142.
-LaTeX Font Info:    ... okay on input line 142.
+LaTeX Font Info:    ... okay on input line 144.
 
 ABD: EveryShipout initializing macros
-Package hyperref Info: Link coloring OFF on input line 142.
+LaTeX Font Info:    Try loading font information for IL2+phv on input line 147.
 
-(/usr/share/texmf/tex/latex/hyperref/nameref.sty
-Package: nameref 2006/12/27 v2.28 Cross-referencing by name of section
 
-(/usr/share/texmf/tex/latex/oberdiek/refcount.sty
-Package: refcount 2006/02/20 v3.0 Data extraction from references (HO)
-)
-\c@section@level=\count133
-)
-LaTeX Info: Redefining \ref on input line 142.
-LaTeX Info: Redefining \pageref on input line 142.
- (./projekt.out)
-(./projekt.out)
-\@outlinefile=\write4
-\openout4 = `projekt.out'.
-
-LaTeX Font Info:    Try loading font information for IL2+phv on input line 148.
-
- (/usr/share/texmf/tex/cslatex/base/il2phv.fd
+(/usr/share/texmf/tex/cslatex/base/il2phv.fd
 File: il2phv.fd 1998/12/27 CS Helvetica
 LaTeX Font Info:     CS Helvetica on input line 2.
 LaTeX Font Info:    (C) Z. Wagner,1998/12/27 on input line 3.
 LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 7 on input line 4.
 )
-\@obrlogo=\box65
-\@rtext=\box66
+\@obrlogo=\box67
+\@rtext=\box68
 \@vyskartext=\skip64
 \@vyskaobr=\skip65
 
-<fig/vut-zp2.pdf, id=274, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=20, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
-Overfull \hbox (109.58464pt too wide) in paragraph at lines 148--148
+Overfull \hbox (109.58464pt too wide) in paragraph at lines 147--147
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=275, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=21, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
-Overfull \hbox (109.58464pt too wide) in paragraph at lines 148--148
+Overfull \hbox (109.58464pt too wide) in paragraph at lines 147--147
 [][] 
  []
 
@@ -1084,20 +1016,20 @@ Overfull \hbox (109.58464pt too wide) in paragraph at lines 148--148
 g/fit-zp2.pdf>]
 
 LaTeX Font Warning: Font shape `IL2/cmr/m/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 148.
+(Font)              size <17.28> substituted on input line 147.
 
 
 LaTeX Font Warning: Font shape `IL2/cmr/bx/n' in size <16> not available
-(Font)              size <17.28> substituted on input line 148.
+(Font)              size <17.28> substituted on input line 147.
 
 [2]
 
 LaTeX Font Warning: Font shape `IL2/cmr/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 148.
+(Font)              size <17.28> substituted on input line 147.
 
 
 LaTeX Font Warning: Font shape `IL2/cmr/bx/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 148.
+(Font)              size <17.28> substituted on input line 147.
 
 [3] (./projekt.toc
 LaTeX Font Info:    Try loading font information for U+msa on input line 4.
@@ -1108,31 +1040,16 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 4.
 
 (/usr/share/texmf/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
-)pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
- been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.47 ...{5.5.2}Intersection}{26}{subsection.5.5.2}
-                                                   [1
+) [1
 
 
 ])
-\tf@toc=\write5
-\openout5 = `projekt.toc'.
+\tf@toc=\write4
+\openout4 = `projekt.toc'.
 
- (./obsah.texpdfTeX warning (ext4): destination with the same identifier (name{
-page.2}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1 \chapter
-            {Introduction} [2]
+ (./obsah.tex [2]
 Chapter 1.
-pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.40 
-      [3
+[3
 
 ] [4]
 Chapter 2.
@@ -1144,7 +1061,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 136--140
  []
 
 [6] [7] [8]
-Overfull \hbox (5.07951pt too wide) in paragraph at lines 397--401
+Overfull \hbox (5.07951pt too wide) in paragraph at lines 398--402
 \OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/i
 t/10.95 ; ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is NFA $\OMS/
 cmsy/m/n/10.95 A[] \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/
@@ -1155,7 +1072,7 @@ sy/m/n/10.95 j \OML/cmm/m/it/10.95 p; q \OMS/cmsy/m/n/10.95 2
  []
 
 
-Overfull \hbox (8.52972pt too wide) in paragraph at lines 402--407
+Overfull \hbox (8.52972pt too wide) in paragraph at lines 403--408
 []\IL2/cmr/m/n/10.95 Iteration: $\OML/cmm/m/it/10.95 L[]$\IL2/cmr/m/n/10.95 . I
 t-er-a-tion of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/n/10.95 = (\OML/cmm/m/i
 t/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ; ^^N[]; I[]; F[]\OT1/cm
@@ -1165,7 +1082,7 @@ r/m/n/10.95 )$ \IL2/cmr/m/n/10.95 is NFA $\OMS/cmsy/m/n/10.95 A[] \OT1/cmr/m/n/
  []
 
 
-Overfull \hbox (0.53474pt too wide) in paragraph at lines 408--413
+Overfull \hbox (0.53474pt too wide) in paragraph at lines 409--414
 \OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/i
 t/10.95 ; ^^N[]; I[]; F[]\OT1/cmr/m/n/10.95 )$ \IL2/cmr/m/n/10.95 and an NFA $\
 OMS/cmsy/m/n/10.95 B \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.95 Q[]; \OT1/cmr/m/
@@ -1193,13 +1110,13 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 
 pdfTeX warning: pdflatex (file ./fig/congr1.pdf): PDF inclusion: found PDF vers
 ion <1.5>, but at most version <1.4> allowed
-<fig/congr1.pdf, id=493, 244.112pt x 274.626pt>
+<fig/congr1.pdf, id=91, 244.112pt x 274.626pt>
 File: fig/congr1.pdf Graphic file (type pdf)
  <use fig/congr1.pdf>
 
 pdfTeX warning: pdflatex (file ./fig/ac1.pdf): PDF inclusion: found PDF version
  <1.5>, but at most version <1.4> allowed
-<fig/ac1.pdf, id=494, 552.46402pt x 232.87pt>
+<fig/ac1.pdf, id=92, 552.46402pt x 232.87pt>
 File: fig/ac1.pdf Graphic file (type pdf)
  <use fig/ac1.pdf> [12] [13 <./fig/congr1.pdf
 
@@ -1221,16 +1138,20 @@ Chapter 4.
 [16
 
 ]
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 823
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 822
 .
  (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
 ) [17]
-(./fig/tacas12/lib_design.tikz) (./fig/tacas12/explicit.tikz) [18] [19]
-[20] [21]
+(./fig/tacas12/lib_design.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 838--857
+
+ []
+
+[18] (./fig/tacas12/explicit.tikz) [19] [20] [21]
 Chapter 5.
 
-Overfull \hbox (4.84106pt too wide) in paragraph at lines 963--963
+Overfull \hbox (4.84106pt too wide) in paragraph at lines 962--962
 []\IL2/cmr/bx/n/14.4 Data Struc-tures for Ex-plicit En-cod-ing of Fi-nite Au-to
 mata 
  []
@@ -1239,10 +1160,10 @@ mata
 
 ] [23] (./fig/explicit_fa.tikz) (./fig/translator.tikz) [24]
 LaTeX Font Info:    Font shape `IL2/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1097.
+(Font)              Font shape `IL2/cmtt/m/n' tried instead on input line 1096.
 
  [25]
-Overfull \hbox (8.93071pt too wide) in paragraph at lines 1144--1150
+Overfull \hbox (8.93071pt too wide) in paragraph at lines 1143--1149
 \IL2/cmr/m/n/10.95 The al-go-rithm for com-put-ing the in-ter-sec-tion au-toma-
 ton for two NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.9
 5 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ; ^^N[]; I[]; F[]\OT1/cmr/m/n/
@@ -1254,7 +1175,7 @@ ton for two NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.9
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (10.51236pt too wide) in paragraph at lines 1283--1287
+Overfull \hbox (10.51236pt too wide) in paragraph at lines 1282--1286
 \IL2/cmr/m/n/10.95 The op-er-a-tion of a get-ting a word (also called get a wit
 -ness) of an NFA $\OMS/cmsy/m/n/10.95 A \OT1/cmr/m/n/10.95 = (\OML/cmm/m/it/10.
 95 Q[]; \OT1/cmr/m/n/10.95 ^^F\OML/cmm/m/it/10.95 ; ^^N[]; I[]; F[]\OT1/cmr/m/n
@@ -1267,62 +1188,66 @@ Chapter 6.
 
 ] [31] (./fig/macrostate_cache.tikz) [32] [33] [34] [35]
 Chapter 7.
-<fig/plot_aac_zprava.png, id=832, 642.4pt x 481.8pt>
+<fig/plot_aac_zprava.png, id=218, 642.4pt x 481.8pt>
 File: fig/plot_aac_zprava.png Graphic file (type png)
 
 <use fig/plot_aac_zprava.png>
-<fig/plot_aac_step_zprava.png, id=833, 642.4pt x 481.8pt>
+<fig/plot_aac_step_zprava.png, id=219, 642.4pt x 481.8pt>
 File: fig/plot_aac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_aac_step_zprava.png>
-<fig/plot_aca_zprava.png, id=836, 642.4pt x 481.8pt>
+<fig/plot_aca_zprava.png, id=220, 642.4pt x 481.8pt>
 File: fig/plot_aca_zprava.png Graphic file (type png)
 
 <use fig/plot_aca_zprava.png>
-<fig/plot_aca_step_zprava.png, id=837, 642.4pt x 481.8pt>
+<fig/plot_aca_step_zprava.png, id=221, 642.4pt x 481.8pt>
 File: fig/plot_aca_step_zprava.png Graphic file (type png)
 
 <use fig/plot_aca_step_zprava.png> [36
 
-] [37 <./fig/plot_aac_zprava.png (PNG copy)> <./fig/plot_aac_step_zprava.png (P
-NG copy)> <./fig/plot_aca_zprava.png (PNG copy)> <./fig/plot_aca_step_zprava.pn
-g (PNG copy)>]
-<fig/plot_hkc_zprava.png, id=862, 642.4pt x 481.8pt>
+]
+<fig/plot_hkc_zprava.png, id=225, 642.4pt x 481.8pt>
 File: fig/plot_hkc_zprava.png Graphic file (type png)
 
 <use fig/plot_hkc_zprava.png>
-<fig/plot_hkc_step_zprava.png, id=863, 642.4pt x 481.8pt>
+<fig/plot_hkc_step_zprava.png, id=226, 642.4pt x 481.8pt>
 File: fig/plot_hkc_step_zprava.png Graphic file (type png)
 
-<use fig/plot_hkc_step_zprava.png> [38 <./fig/plot_hkc_zprava.png (PNG copy)> <
-./fig/plot_hkc_step_zprava.png (PNG copy)>]
-<fig/plot_ac_zprava.png, id=878, 642.4pt x 481.8pt>
+<use fig/plot_hkc_step_zprava.png> [37 <./fig/plot_aac_zprava.png (PNG copy)> <
+./fig/plot_aac_step_zprava.png (PNG copy)>] [38 <./fig/plot_aca_zprava.png (PNG
+ copy)> <./fig/plot_aca_step_zprava.png (PNG copy)> <./fig/plot_hkc_zprava.png 
+(PNG copy)> <./fig/plot_hkc_step_zprava.png (PNG copy)>]
+<fig/plot_ac_zprava.png, id=239, 642.4pt x 481.8pt>
 File: fig/plot_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_zprava.png>
-<fig/plot_ac_step_zprava.png, id=879, 642.4pt x 481.8pt>
+<fig/plot_ac_step_zprava.png, id=240, 642.4pt x 481.8pt>
 File: fig/plot_ac_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ac_step_zprava.png>
-<fig/plot_ca_zprava.png, id=880, 642.4pt x 481.8pt>
+<fig/plot_ca_zprava.png, id=241, 642.4pt x 481.8pt>
 File: fig/plot_ca_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_zprava.png>
-<fig/plot_ca_step_zprava.png, id=881, 642.4pt x 481.8pt>
+<fig/plot_ca_step_zprava.png, id=242, 642.4pt x 481.8pt>
 File: fig/plot_ca_step_zprava.png Graphic file (type png)
 
 <use fig/plot_ca_step_zprava.png> [39 <./fig/plot_ac_zprava.png (PNG copy)> <./
-fig/plot_ac_step_zprava.png (PNG copy)>] [40 <./fig/plot_ca_zprava.png (PNG cop
-y)> <./fig/plot_ca_step_zprava.png (PNG copy)>]
-<fig/plot_nfa_ac_zprava.png, id=900, 642.4pt x 481.8pt>
+fig/plot_ac_step_zprava.png (PNG copy)>]
+<fig/plot_nfa_ac_zprava.png, id=248, 642.4pt x 481.8pt>
 File: fig/plot_nfa_ac_zprava.png Graphic file (type png)
 
 <use fig/plot_nfa_ac_zprava.png>
-<fig/plot_nfa_congr_zprava.png, id=901, 642.4pt x 481.8pt>
+<fig/plot_nfa_congr_zprava.png, id=249, 642.4pt x 481.8pt>
 File: fig/plot_nfa_congr_zprava.png Graphic file (type png)
 
-<use fig/plot_nfa_congr_zprava.png> [41 <./fig/plot_nfa_ac_zprava.png (PNG copy
-)> <./fig/plot_nfa_congr_zprava.png (PNG copy)>]
+<use fig/plot_nfa_congr_zprava.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[40 <./fig/plot_ca_zprava.png (PNG copy)> <./fig/plot_ca_step_zprava.png (PNG c
+opy)>] [41 <./fig/plot_nfa_ac_zprava.png (PNG copy)> <./fig/plot_nfa_congr_zpra
+va.png (PNG copy)>]
 Chapter 8.
 ) (./projekt.bbl [42
 
@@ -1342,13 +1267,13 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 18870 strings out of 256216
- 338076 string characters out of 1917072
- 469057 words of memory out of 1500000
- 21434 multiletter control sequences out of 10000+200000
+ 16136 strings out of 256216
+ 302123 string characters out of 1917072
+ 410395 words of memory out of 1500000
+ 18988 multiletter control sequences out of 10000+200000
  28853 words of font info for 80 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 49i,26n,73p,843b,932s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 49i,26n,73p,831b,934s stack positions out of 5000i,500n,6000p,200000b,15000s
  </home/martin/.texlive2007/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.60
 0pk>{/usr/share/texmf/fonts/enc/dvips/base/8a.enc}</usr/share/texmf/fonts/type1
 /bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></us
@@ -1367,9 +1292,9 @@ mf/fonts/type1/public/cs/csti9.pfb></usr/share/texmf/fonts/type1/public/cs/cstt
 10.pfb></usr/share/texmf/fonts/type1/public/cs/cstt9.pfb></usr/share/texmf/font
 s/type1/bluesky/ams/msbm10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvr8
 a.pfb>
-Output written on projekt.pdf (48 pages, 671823 bytes).
+Output written on projekt.pdf (48 pages, 578404 bytes).
 PDF statistics:
- 1066 PDF objects out of 1200 (max. 8388607)
- 262 named destinations out of 1000 (max. 131072)
- 701 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 355 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
+ 189 words of extra memory for PDF output out of 10000 (max. 10000000)
 

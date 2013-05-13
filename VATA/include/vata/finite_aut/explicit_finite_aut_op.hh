@@ -158,13 +158,13 @@ namespace VATA {
   template <class SymbolType>
   ExplicitFiniteAut<SymbolType> RemoveUnreachableStates(
       const ExplicitFiniteAut<SymbolType> &aut,
-      AutBase::ProductTranslMap* pTranslMap = nullptr);
+      VATA::AutBase::StateToStateMap* pTranslMap = nullptr);
 
 
   template <class SymbolType>
   ExplicitFiniteAut<SymbolType> RemoveUselessStates(
       const ExplicitFiniteAut<SymbolType> &aut,
-      AutBase::ProductTranslMap* pTranslMap = nullptr);
+      VATA::AutBase::StateToStateMap* pTranslMap = nullptr);
 
   template <class SymbolType>
   ExplicitFiniteAut<SymbolType> Reverse(
@@ -294,6 +294,7 @@ namespace VATA {
 
   /*
    * Congruence function
+   * preorder not used yet, but one time will be
    */
   template <class SymbolType, class Rel>
   bool CheckInclusionWithCongr(
@@ -330,37 +331,47 @@ namespace VATA {
    * Compability to other formats
    */
 
+GCC_DIAG_OFF(effc++) // unused parameters supp
 	template <class SymbolType, class Rel>
 	bool CheckOptDownwardInclusionWithPreorder(
 		const ExplicitFiniteAut<SymbolType>& smaller,
 		const ExplicitFiniteAut<SymbolType>& bigger, const Rel& preorder) {
+GCC_DIAG_ON(effc++)
 		throw std::runtime_error("Unimplemented");
 	}
 
+GCC_DIAG_OFF(effc++) // unused parameters supp
 	template <class SymbolType, class Rel>
 	bool CheckDownwardInclusionWithPreorder(const ExplicitFiniteAut<SymbolType>& smaller,
 		const ExplicitFiniteAut<SymbolType>& bigger, const Rel& preorder) {
+GCC_DIAG_ON(effc++)
 
 		throw std::runtime_error("Unimplemented");
 	}
 
+GCC_DIAG_OFF(effc++) // unused parameters supp
 	template <class SymbolType, class Rel>
 	bool CheckDownwardInclusionNonRecWithPreorder(const ExplicitFiniteAut<SymbolType>& smaller,
 		const ExplicitFiniteAut<SymbolType>& bigger, const Rel& preorder) {
+GCC_DIAG_ON(effc++)
 
 		throw std::runtime_error("Unimplemented");
 	}
 
+GCC_DIAG_OFF(effc++) // unused parameters supp
 	template <class SymbolType>
 	bool CheckUpwardInclusion(const ExplicitFiniteAut<SymbolType>& smaller,
 		const ExplicitFiniteAut<SymbolType>& bigger) {
+GCC_DIAG_ON(effc++)
 
 		throw std::runtime_error("Unimplemented");
 	}
 
+GCC_DIAG_OFF(effc++) // unused parameters supp
 	template <class SymbolType>
 	bool CheckDownwardInclusion(const ExplicitFiniteAut<SymbolType>& smaller,
 		const ExplicitFiniteAut<SymbolType>& bigger) {
+GCC_DIAG_ON(effc++)
 		throw std::runtime_error("Unimplemented");
 	}
 }

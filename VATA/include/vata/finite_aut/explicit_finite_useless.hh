@@ -21,22 +21,22 @@ namespace VATA {
   template <class SymbolType>
   ExplicitFiniteAut<SymbolType> RemoveUselessStates(
       const ExplicitFiniteAut<SymbolType> &aut,
-      AutBase::ProductTranslMap* pTranslMap = nullptr);
+      VATA::AutBase::StateToStateMap* pTranslMap = nullptr);
 }
 
 template <class SymbolType>
 VATA::ExplicitFiniteAut<SymbolType> VATA::RemoveUselessStates(
     const VATA::ExplicitFiniteAut<SymbolType> &aut,
-    AutBase::ProductTranslMap* pTranslMap = nullptr) {
-
+    VATA::AutBase::StateToStateMap* pTranslMap = nullptr) {
+ 
   typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
 
   // remove useless states by applying following operations
   return Reverse(
      RemoveUnreachableStates(
       Reverse(
-        RemoveUnreachableStates(aut)
-      )
+        RemoveUnreachableStates(aut,pTranslMap)
+      ),pTranslMap
      )
     );
 }

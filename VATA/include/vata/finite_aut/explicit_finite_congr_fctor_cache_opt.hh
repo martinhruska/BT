@@ -5,28 +5,29 @@
  *
  *  Description:
  *  Functor for checking inclusion using congruence algorithm for explicitly 
- *  represented finite automata. Functor uses cache.
+ *  represented finite automata. Functor works with cache and some other
+ *  optimization.
  *
  *****************************************************************************/
 
-#ifndef EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_
-#define EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_
+#ifndef EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_OPT_
+#define EXPLICIT_FINITE_AUT_CONGR_FCTOR_CACHE_OPT_
 
 #include <vata/vata.hh>
 #include <vata/util/antichain2c_v2.hh>
 
-#include "explicit_finite_aut.hh"
-#include "explicit_finite_abstract_fctor.hh"
 #include "util/map_to_list.hh"
 #include "util/macrostate_cache.hh"
 
 namespace VATA {
-  template <class SymbolType, class Rel> class ExplicitFACongrFunctorCache;
+  template <class SymbolType, class Rel> class ExplicitFACongrFunctorCacheOpt;
 }
 
+GCC_DIAG_OFF(effc++)
 template <class SymbolType, class Rel>
-class VATA::ExplicitFACongrFunctorCache : 
+class VATA::ExplicitFACongrFunctorCacheOpt : 
   public ExplicitFAAbstractFunctor <SymbolType,Rel> {
+GCC_DIAG_ON(effc++)
 
 public : // data types
   typedef typename VATA::ExplicitFAAbstractFunctor<SymbolType,Rel> 
@@ -47,11 +48,14 @@ public : // data types
   typedef StateSet BiggerElementType;
 
   typedef std::unordered_map<size_t,StateSet> CongrMap;
+  typedef std::pair<SmallerElementType*,BiggerElementType*> ProductState;
 
   /*
    * Product state of built automaton is pair of macrostates
    */
-  class ProductStateSetType : public std::vector<std::pair<SmallerElementType*,BiggerElementType*>> {
+GCC_DIAG_OFF(effc++)
+  class ProductStateSetType : public std::vector<ProductState> {
+GCC_DIAG_ON(effc++)
     public:
     bool get(SmallerElementType& smaller, BiggerElementType& bigger) {
       if (this->size() == 0) {
@@ -66,18 +70,19 @@ public : // data types
       return true;
     }
   };
+
   // todo set is the same as the processed set of product states
   typedef ProductStateSetType ProductNextType;
   
   typedef typename VATA::MacroStateCache<ExplicitFA> MacroStateCache;
-  typedef typename VATA::MapToList<StateSet*,StateSet*> MacrostatePtrPair;
+  typedef typename VATA::MapToList<StateSet*,StateSet*> MacroStatePtrPair;
 
   typedef typename AbstractFunctor::IndexType IndexType;
 
 private: // Private data members
   ProductStateSetType& relation_;
   ProductStateSetType&  next_;
-  Antichain1Type& singleAntichain_;
+  Antichain1Type& singleAntichain_; // just for compability with the antichain functor
 
   const ExplicitFA& smaller_;
   const ExplicitFA& bigger_;
@@ -87,11 +92,12 @@ private: // Private data members
 
   Rel preorder_; // Simulation or identity
 
-  MacroStateCache cache;
-  MacrostatePtrPair visitedPairs;
+  MacroStateCache cache_;
+  MacroStatePtrPair visitedPairs_;
+  MacroStatePtrPair usedRules_;
 
 public:
-  ExplicitFACongrFunctorCache(ProductStateSetType& relation, ProductStateSetType& next,
+  ExplicitFACongrFunctorCacheOpt(ProductStateSetType& relation, ProductStateSetType& next,
       Antichain1Type& singleAntichain,
       const ExplicitFA& smaller, 
       const ExplicitFA& bigger,
@@ -106,8 +112,9 @@ public:
     index_(index),
     inv_(inv),
     preorder_(preorder),
-    cache(),
-    visitedPairs()
+    cache_(),
+    visitedPairs_(),
+    usedRules_()
   {}
 
 public: // public functions
@@ -128,23 +135,25 @@ public: // public functions
     // Created macrostate of smaller automaton
     size_t smallerHashNum = 0;
     for (auto state : smaller_.startStates_) {
-      if (!smallerInit.count(state)) smallerHashNum += state;
+      smallerHashNum += state; 
       smallerInit.insert(state);
       smallerInitFinal |= smaller_.IsStateFinal(state);
     }
 
+    // Created macrostate of bigger automaton
     size_t biggerHashNum = 0;
     for (auto state : bigger_.startStates_) {
-      if (!biggerInit.count(state)) biggerHashNum += state;
+      biggerHashNum += state; 
       biggerInit.insert(state);
       biggerInitFinal |= bigger_.IsStateFinal(state);
     }
 
-    StateSet& insertSmaller = cache.insert(smallerHashNum,smallerInit);
-    StateSet& insertBigger = cache.insert(biggerHashNum,biggerInit);
+    // Add states to the cache
+    StateSet& insertSmaller = cache_.insert(smallerHashNum,smallerInit);
+    StateSet& insertBigger = cache_.insert(biggerHashNum,biggerInit);
     // Add to todo set
     next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
-    visitedPairs.add(&insertSmaller,&insertBigger);
+    visitedPairs_.add(&insertSmaller,&insertBigger);
     this->inclNotHold_ = smallerInitFinal != biggerInitFinal;
   };
 
@@ -155,11 +164,8 @@ public: // public functions
     SymbolSet usedSymbols;
 
     // Function checks whether macrostates are equal
-    auto areEqual = [] (StateSet& lss, StateSet& rss) -> bool {
-      if (lss.size() != rss.size()) {
-        return false;
-      }
-      if (!lss.size() || !rss.size()) {
+    auto isSubSet = [] (StateSet& lss, StateSet& rss) -> bool {
+      if (lss.size() > rss.size()) {
         return false;
       }
       for (auto& ls : lss) {
@@ -177,31 +183,29 @@ public: // public functions
     sum(smaller,smallerHashNum);
     size_t biggerHashNum = 0;
     sum(bigger,biggerHashNum);
-    SmallerElementType& s = cache.insert(smallerHashNum,smaller);
-    BiggerElementType& b = cache.insert(biggerHashNum,bigger);
+    SmallerElementType& s = cache_.insert(smallerHashNum,smaller);
+    BiggerElementType& b = cache_.insert(biggerHashNum,bigger);
    
-    CongrMap congrMap;
-    auto insertNewPair = [&congrMap](size_t i, StateSet& set) -> bool {
-      congrMap.insert(std::make_pair(i,StateSet(set)));
-      return true;
-    };
-    StateSet congrSmaller(smaller);
-    GetCongrClosure(congrSmaller,insertNewPair);
 
     // Comapring given set with the sets 
     // which has been computed in steps of computation of congr closure
-    auto isCongrClosureSetNew = [&congrMap,&areEqual](size_t i, StateSet& set) -> 
+    auto isCongrClosureSet = [&s,&isSubSet](StateSet& bigger) -> 
       bool {
-        return !areEqual(congrMap[i],set);
+        return !isSubSet(s,bigger);
     };
 
+    // Compute congruence closure of bigger nfa
     StateSet congrBigger(bigger);
-    if (GetCongrClosure(congrBigger,isCongrClosureSetNew) || areEqual(congrBigger,congrSmaller)) {
+
+    // Checks whether smaller macrostate is subset of congr. clusure of bigger
+    if (GetCongrClosure(b,congrBigger,isCongrClosureSet) || 
+      isSubSet(s,congrBigger)) {
       smaller.clear();
       bigger.clear();
       return;
     }
 
+    // Create post macrostates
     MakePostForAut(smaller_,usedSymbols,smaller,bigger,smaller);
     if (this->inclNotHold_) {
       return;
@@ -216,6 +220,7 @@ public: // public functions
 
 private:
 
+  // Check if the rule is applyable
   bool MatchPair(const StateSet& closure, const StateSet& rule) {
     if (rule.size() > closure.size()) {
         return false;
@@ -232,45 +237,121 @@ private:
     mainset.insert(subset.begin(),subset.end());
   }
 
+  /*
+   * Apply all possible rules for given relation
+   * when the congruence closure of the given macrostate 
+   * has not been computed.
+   * @param origSet set for which is congr. closure computed
+   * @param set Set where congr closure is stored
+   * @param congrMapManipulator Checks  on the fly if the (X,Y) in c(R) does not hold
+   * @param usedRulesNumber Used rules for given relation
+   * @param appliedRules signify whether some rule has been applied
+   * @param relation Relation of processed states
+   */
   template<class CongrMapManipulator>
-  bool GetCongrClosure(StateSet& set, CongrMapManipulator& congrMapManipulator) {
-    std::unordered_set<int> usedRulesN;
-    std::unordered_set<int> usedRulesR;
+  bool ApplyRulesForRelation(StateSet& origSet, StateSet& set, 
+    ProductStateSetType& relation, CongrMapManipulator& congrMapManipulator,
+    std::unordered_set<int>& usedRulesNumbers,
+    bool& appliedRule) {
+
+   for (unsigned int i=0; i < relation.size(); i++) { // all items in relation
+     if (usedRulesNumbers.count(i)) { // already used rule
+       continue;
+     }
+     if (MatchPair(set, *relation[i].second)) { // Rule matched
+       AddSubSet(set,*relation[i].first);
+       AddSubSet(set,*relation[i].second);
+       usedRules_.add(&origSet,relation[i].second); // Stores applied rules
+       usedRulesNumbers.insert(i);
+       appliedRule = true;
+       if (!congrMapManipulator(set)) {
+         return true;
+       }
+     }
+    }
+    return false;
+  }
+
+  /*
+   * Apply all possible rules for given relation
+   * when the congruence closure of the given macrostate 
+   * has been computed.
+   * @param origSet set for which is congr. closure computed
+   * @param set Set where congr closure is stored
+   * @param congrMapManipulator Checks  on the fly if the (X,Y) in c(R) does not hold
+   * @param usedRulesNumber Used rules for given relation
+   * @param appliedRules signify whether some rule has been applied
+   * @param relation Relation of processed states
+   */
+  template<class CongrMapManipulator>
+  bool ApplyRulesForRelationVisited(StateSet& origSet, StateSet& set, 
+    ProductStateSetType& relation, CongrMapManipulator& congrMapManipulator,
+    std::unordered_set<int>& usedRulesNumbers,
+    bool& appliedRule) {
+
+   for (unsigned int i=0; i < relation.size(); i++) { // relation next
+     if (usedRulesNumbers.count(i)) { // already used rule
+       continue;
+     }
+     if (usedRules_.contains(&origSet,relation[i].second) ||
+      MatchPair(set, *relation[i].second)) { // Rule matches
+       AddSubSet(set,*relation[i].first);
+       AddSubSet(set,*relation[i].second);
+       usedRulesNumbers.insert(i);
+       appliedRule = true;
+       if (!congrMapManipulator(set)) {
+         return true;
+       }
+     }
+    }
+    return false;
+  }
+
+  /*
+   * Compute congruence closure for given set
+   * @param origSet set for which is congr. closure computed
+   * @param set Set where congr closure is stored
+   * @param usedRulesNumberN Used rules in todo relation
+   * @param usedRulesNumberR Used rules in processed relation
+   * @param congrMapManipulator Checks  on the fly if the (X,Y) in c(R) does not hold
+   */
+  template<class CongrMapManipulator>
+  bool GetCongrClosure(StateSet& origSet,StateSet& set, CongrMapManipulator& congrMapManipulator) {
+    std::unordered_set<int> usedRulesNumbersN;
+    std::unordered_set<int> usedRulesNumbersR;
 
     bool appliedRule = true;
-    while (appliedRule) { // Apply all possible rules
-      appliedRule = false;
-      for (unsigned int i=0; i < next_.size(); i++) { // relation next
-       if (usedRulesN.count(i)) { // already used rule
-         continue;
-       }
+    bool visited = usedRules_.containsKey(&origSet);
 
-       if (MatchPair(set, *next_[i].first) || 
-             MatchPair(set, *next_[i].second)) { // Rule matches
-         AddSubSet(set,*next_[i].first);
-         AddSubSet(set,*next_[i].second);
-         usedRulesN.insert(i);
-         appliedRule = true;
-         if (!congrMapManipulator(i,set)) {
-           return true;
-         }
-       }
+    if (!visited) { // congr. closure for the macrostate has been computed
+      while (appliedRule) { // Apply all possible rules
+        appliedRule = false;
+    
+        if (ApplyRulesForRelation( //apply rules for next relation
+          origSet,set,next_,congrMapManipulator,
+          usedRulesNumbersN,appliedRule)) {
+          return true;
+        }
+        // apply rules for proccesed relation
+        if (ApplyRulesForRelation(origSet,set,relation_,
+            congrMapManipulator,usedRulesNumbersR,appliedRule)) {
+          return true;
+        }
       }
-      for (unsigned int i=0; i < relation_.size(); i++) { // relation R
-
-       if (usedRulesR.count(i)) {
-         continue;
-       }
-       if (MatchPair(set, *relation_[i].first) || 
-             MatchPair(set, *relation_[i].second)) { // Rule matches
-         AddSubSet(set,*relation_[i].first);
-         AddSubSet(set,*relation_[i].second);
-         usedRulesR.insert(i);
-         appliedRule = true;
-         if (!congrMapManipulator(next_.size()+i,set)) {
-           return true;
-         }
-       }
+    }
+    else { // congr. closure computed first time
+      while (appliedRule) { // Macrostate allready visited
+        appliedRule = false;
+    
+        if (ApplyRulesForRelationVisited( 
+          origSet,set,next_,congrMapManipulator,usedRulesNumbersN,appliedRule)){
+          return true;
+        }
+        // apply rules for proccesed relation
+        if (ApplyRulesForRelationVisited(
+          origSet,set,relation_,congrMapManipulator,usedRulesNumbersR,appliedRule)) {
+          return true;
+        }
       }
     }
     return false;
@@ -285,7 +366,7 @@ private:
       const SmallerElementType& smaller, const BiggerElementType& bigger,
       const StateSet& actStateSet) {
 
-    for (auto& state : actStateSet) { // for each state in processed macrostate
+    for (auto& state : actStateSet) {// for each state in processed macrostate
       auto transIter = aut.transitions_->find(state);
       if (transIter == aut.transitions_->end()) {
         continue;
@@ -326,12 +407,12 @@ private:
           auto sum = [](StateSet& set, size_t& sum) {for (auto& state : set) sum+=state;};
           sum(newSmaller,smallerHashNum);
           sum(newBigger,biggerHashNum);
-          StateSet& insertSmaller = cache.insert(smallerHashNum,newSmaller);
-          StateSet& insertBigger = cache.insert(biggerHashNum,newBigger);
-
-          if (!visitedPairs.contains(&insertSmaller,&insertBigger)){ 
-            visitedPairs.add(&insertSmaller,&insertBigger);
+          StateSet& insertSmaller = cache_.insert(smallerHashNum,newSmaller);
+          StateSet& insertBigger = cache_.insert(biggerHashNum,newBigger);
+          if (!visitedPairs_.contains(&insertSmaller,&insertBigger)){ 
+            visitedPairs_.add(&insertSmaller,&insertBigger);
             next_.push_back(std::make_pair(&insertSmaller,&insertBigger));
+            //next_.insert(next_.begin(),std::make_pair(&insertSmaller,&insertBigger));
            }
         }
 

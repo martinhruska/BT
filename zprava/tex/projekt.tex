@@ -10,8 +10,8 @@
 %============================================================================
 %\documentclass[cover]{fitthesis} % odevzdani do wisu - odkazy, na ktere se da klikat
 %\documentclass[cover,print]{fitthesis} % pro tisk - na odkazy se neda klikat
-%\documentclass[english,print]{fitthesis} % pro tisk - na odkazy se neda klikat
-\documentclass[english]{fitthesis}
+\documentclass[english,print]{fitthesis} % pro tisk - na odkazy se neda klikat
+%\documentclass[english]{fitthesis}
 % * Je-li prace psana v anglickem jazyce, je zapotrebi u tridy pouzit 
 %   parametr english nasledovne:
 %      \documentclass[english]{fitthesis}
@@ -37,6 +37,7 @@
 \usepackage{verbatim}
 \usepackage{pgf}
 \usepackage{tikz}
+\usepackage{float}
 \usetikzlibrary{trees,arrows}
 \usetikzlibrary{positioning,automata,shadows,fit,shapes}
 \usepackage[longend,ruled,vlined,commentsnumbered,linesnumbered,czech]{algorithm2e}
@@ -94,7 +95,8 @@
   %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
   %===========================================================================
   %Klicova slova
-  keywords.cs={konečné automaty, formální verifikace, jazyková inkluze, bisimulace ke kongruenci, anti\-chain, knihovna VATA}, %klicova slova v anglickem jazyce
+  keywords.cs={konečné automaty, formální verifikace, jazyková inkluze, bisimulace vzhůru ke kongruenci, anti\-chain, knihovna VATA}, 
+    %klicova slova v anglickem jazyce
   keywords.en={finite automata, formal verification, language inclusion, bisimulation up to congruence, antichains, VATA library},
   %Abstract
   abstract.cs={Nedeterministické konečné automaty jsou používány v mnoha oblastech informatiky, mimo jiné také ve formální verifikaci, při návrhu
@@ -105,12 +107,12 @@
   V nedávné době bylo ale představeno několik nových přístupů, které právě explicitní determinizaci při testu jazykové inkluze předcházejí. 
   Tyto přístupy využívají tzv. antichainů
   nebo tzv. bisimulace vzhůru ke kongruenci. Cílém této práce je vytvoření efektivní implementace 
-  zmíněných přístupů v podobě nového rozšíření knihovny VATA. Vytvořená implementace byla otestována a je rychlejší v 90\,\% testovaných případů
-  nežli jiné implementace, oproti nimž je až řádově rychlejší.},
+  zmíněných přístupů v podobě nového rozšíření knihovny VATA. Vytvořená implementace byla otestována a je až řádově rychlejší v 90\,\% 
+  testovaných případů nežli implementace jiné.},
   abstract.en={
     Nondeterministic finite automata are used in many areas of computer science, including, but not limited to, formal verification, the design of digital
     circuits or for the representation of a regular language. Their advantages over deterministic finite automata is that they may represent a language 
-    in evan exponentially conciser way. 
+    in even exponentially conciser way. 
     However, this advantage may be lost if a na\"{\i}ve approach to some operations is taken, in particular for checking language 
     inclusion of a pair of automata, the na\"{\i}ve implementation of which performs an explicit determinization of one of the automata. Recently, several new
     techniques for this operation that avoid explicit determinization (using the so-called antichains or bisimulation up to congruence) have been proposed. 

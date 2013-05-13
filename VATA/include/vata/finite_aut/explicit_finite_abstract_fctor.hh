@@ -21,8 +21,10 @@ namespace VATA {
 }
 
 
+GCC_DIAG_OFF(effc++)
 template <class SymbolType, class Rel>
 class VATA::ExplicitFAAbstractFunctor {
+GCC_DIAG_ON(effc++)
 public: // data types
   typedef VATA::ExplicitFiniteAut<SymbolType> ExplicitFA;
 
