@@ -27,12 +27,15 @@
 				\begin{itemize}
 					\item Široké spektrum použití -- překladače, zpracování přirozeného jazyka, návrh číslicových systému, \textcolor{red}{formální verifikace}
 					\item Algoritmy pro \textcolor{red}{nedeterministické} konečné automaty, především \textcolor{red}{test inkluze}
-				\end{itemize}
+        \end{itemize}
+
 		\end{itemize}
 
 		\textcolor{Green}{Cíl}
 		\begin{itemize}
-			\item Vytvořit knihovnu pro práci s~konečnými automaty implementující nové a efektivní algoritmy.
+			\item Vytvořit rozšíření knihovny \textcolor{red}{VATA} 
+      pro práci s~konečnými automaty implementující nové a efektivní algoritmy.
+			%\item Vytvořit knihovnu pro práci s~konečnými automaty implementující nové a efektivní algoritmy.
 		\end{itemize}
 }
 
@@ -46,13 +49,79 @@
 		\item $F \subseteq Q$ je množina koncových stavů
 	\end{itemize}
 
-  \begin{figure}[htp]
     \begin{center}
-      \includegraphics[scale=0.3]{tf_model.pdf}
-    \end{center}
+  \begin{figure}
+      \includegraphics<1>[scale=0.3]{tf_model.pdf}
 	\end{figure}
+    \end{center}
 }
 
+%\begin{comment}
+\frame{\frametitle{Použité algoritmy}
+  \begin{itemize}
+    \item \textcolor{Green}{Klasický přístup} k~testu inkluze $L(A)\cap \overline{L(B)}=\emptyset$
+    \begin{itemize}
+      \item Nutná determinizace $\Rightarrow$ stavová exploze
+    \end{itemize}
+    \item \textcolor{Green}{Algoritmus založený na bisimulaci vzhůru ke kongruenci}
+    \item \textcolor{Green}{Antichains algoritmus}
+ \end{itemize}
+}
+
+%\section{Evaluace}
+\frame{\frametitle{Porovnání s~OCaml verzí}
+
+  \begin{center}
+  \begin{figure}
+%    \includegraphics<1>[scale=0.35]{plot_hkc_zprava.png}
+    \includegraphics[scale=0.35]{plot_hkc_step_zprava.png}
+  \end{figure}
+   \end{center}
+}
+
+\frame{\frametitle{Porovnání obou algoritmů}
+
+  \begin{center}
+  \begin{figure}
+    \includegraphics[width=0.5\textwidth]{plot_nfa_ac_zprava.png}
+    \includegraphics[width=0.5\textwidth]{plot_nfa_congr_zprava.png}
+  \end{figure}
+  \end{center}
+}
+
+\frame{\frametitle{Závěr}
+  \begin{itemize}
+    \item Implementace rychlejší v~$>$92\% případů
+    \item Další vývoj
+    \begin{itemize}
+      \item Plné využití simulace
+    \end{itemize}
+    \item 2. místo ve své kategorii na EEICT
+  \end{itemize}
+}
+
+
+
+\setbeamertemplate{footline}{}
+%\section{Otazky oponenta}
+\frame{\frametitle{Otázka č.1}
+\addtocounter{framenumber}{-1}
+  \textcolor{Green}{Je algoritmus 5 převzatý, nebo jste ho navrhnul sám?}
+  \begin{itemize}
+    \item Algoritmus vytvoří pro daný automat $A$ jiný automat $B$, který přijímá
+      nejkratší slovo jazyka $L_A$
+    \item Vznikl modifikací téhož algoritmu pro stromové automaty
+  \end{itemize}
+}
+
+\frame{\frametitle{Otázka č.2}
+\addtocounter{framenumber}{-1}
+  \textcolor{Green}{Mohli být vaše testy ovlivněny aktivitou ostatních uživatelů serveru merlin.fit.vutbr.cz?}
+  \begin{itemize}
+    \item Měřen čas na CPU
+  \end{itemize}
+}
+%\end{comment}
 
  \begin{comment}
 		\begin{tikzpicture}[scale=0.09]
@@ -101,7 +170,7 @@
 				\end{tikzpicture}
         \end{comment}
 
-
+\begin{comment}
 \frame{\frametitle{Algoritmy pro test jazykové inkluze}
   \textcolor{Green}{Klasický přístup}
 		\begin{itemize}
@@ -118,6 +187,11 @@
 }
 
 \frame{\frametitle{Algoritmy pro test jazykové inkluze}
+  \textcolor{Green}{Klasický přístup}
+    \begin{itemize}
+			\item $L(A)\cap \overline{L(B)}=\emptyset$
+			\item Nutná determinizace $\Rightarrow$ stavová exploze
+		\end{itemize}
 		\textcolor{Green}{Efektivní algoritmy}
 		\begin{itemize}
 			\item Umí pracovat s~nedeterministickými konečnými automaty
@@ -132,9 +206,9 @@
 \begin{center}
 	\scalebox{0.7}
 	{
-		\includegraphics[scale=0.55]{congr1.pdf}
+		\includegraphics[scale=0.5]{congr1.pdf}
 		\hspace{0.55cm}
-  	\includegraphics[scale=0.55]{ac1.pdf}
+  	\includegraphics[scale=0.5]{ac1.pdf}
 	}
   \label{automata}
 \end{center}
@@ -155,8 +229,9 @@
 		\end{itemize}
 }			
 
-\section{VATA}
+%\section{VATA}
 \frame{\frametitle{VATA}
+
 	\begin{itemize}
 		\item Knihovna pro práci se \textcolor{red}{stromovými automaty}
 		\item Zaměřena na oblast formální verifikace
@@ -165,7 +240,7 @@
 	\end{itemize}
 }
 
-\section{Návrh}
+%\section{Návrh}
 \frame{\frametitle{Datové struktury}
 	\begin{itemize}
     \item Datová struktura pro ukládání přechodů KA v~\textcolor{red}{explicitním} kódování
@@ -204,11 +279,12 @@
   \end{center}
 }
 
-\section{Algoritmus výpočtu kongruenčního uzávěru}
+%\section{Algoritmus výpočtu kongruenčního uzávěru}
 \frame{\frametitle{Algoritmus výpočtu kongruenčního uzávěru}
   \begin{itemize}
-    \item \textcolor{red}{$A\subseteq B \Leftrightarrow A\cup B = B$}
-    \item Mějme relaci navštívených stavů $R=\{(x,u),(y+z,u)\}$ a nově vygenerovaný stav $(\textcolor{Green}{x+y},\textcolor{blue}{u})$
+    \item $L_A\subseteq L_B \Leftrightarrow L_A\cup L_B = L_B$
+    \item Mějme relaci navštívených stavů $R=\{(x,u),(y+z,u)\}$ a nově vygenerovaný stav $(\textcolor{Green}{x+y},\textcolor{blue}{u})$,
+      kde $\textcolor{Green}{x,y}\in Q_A,\textcolor{blue}{u}\in Q_B$
   \end{itemize}
 
   \begin{center}
@@ -244,12 +320,12 @@
   \end{center}
 }
 
-\section{Algoritmus výpočtu kongruenčního uzávěru}
+%\section{Algoritmus výpočtu kongruenčního uzávěru}
 \frame{\frametitle{Algoritmus výpočtu kongruenčního uzávěru}
   \begin{itemize}
-    \item \textcolor{red}{$A\subseteq B \Leftrightarrow A\cup B = B$}
+    \item $L_A\subseteq L_B \Leftrightarrow L_A\cup L_B = L_B$
     \item Mějme relaci navštívených stavů $R=\{(x+u,u),(y+z+u,u)\}$ a nově vygenerovaný stav $(\textcolor{Green}{x+y+u},
-        \textcolor{blue}{u})$
+        \textcolor{blue}{u})$, kde $\textcolor{Green}{x,y}\in Q_A,\textcolor{blue}{u}\in Q_B$
   \end{itemize}
 
 \begin{center}
@@ -275,49 +351,130 @@
 \end{center}
 }
 
-\section{Evaluace}
+%\section{Antichain algoritmus}
+\frame{\frametitle{Antichain algoritmus}
+  \begin{itemize}
+  \item Pro $(p,P)$ a $(q,Q)$ ověřuje $p\preceq q \wedge Q\preceq^{\forall\exists}P$, kde $p,q \in Q_A,P,Q \subseteq Q_B$
+  \end{itemize}
+
+  \textcolor{Green}{Optimalizace}
+  \begin{itemize}
+    \item Cache makrostavů
+    \item Uspořádání na antichainu podle velikosti makrostavu
+    \item Rozdělení funkcí ověřujicí relace uspořádání antichainu 
+  \end{itemize}
+}
+
 \frame{\frametitle{Porovnání s~OCaml verzí}
 
   \begin{center}
   \begin{figure}
-    \includegraphics<1>[scale=0.35]{plot_hkc.png}
-    \includegraphics<2>[scale=0.35]{plot_hkc_step1.png}
+%    \includegraphics<1>[scale=0.35]{plot_hkc_zprava.png}
+    \includegraphics[scale=0.35]{plot_hkc_step_zprava.png}
   \end{figure}
   \vspace{0.5cm}
    \begin{tabular}{ | l | r | r |}
    \hline
     & \textbf{OCaml} & \textbf{VATA} \\ \hline \hline
-    vítězí & $8\%$ & $92\%$ \\ \hline
-    rychlejší & $0.48\times$ & $78\times$ \\ \hline
+    vítězí & $7.5\%$ & $92.5\%$ \\ \hline
+    rychlejší & $6\times$ & $64\times$ \\ \hline
    \end{tabular}
  \end{center}
 }
-\frame{\frametitle{Porovnání s~VATA pro strom. automaty}
+
+\frame{\frametitle{Porovnání kongruence s~VATA pro strom. automaty}
 
   \begin{center}
   \begin{figure}
-    \includegraphics<1>[scale=0.35]{plot_ca.png}
-    \includegraphics<2>[scale=0.35]{plot_ca_step.png}
+    \includegraphics<1>[scale=0.35]{plot_ac_zprava.png}
+    \includegraphics<2>[scale=0.35]{plot_ac_step_zprava.png}
+  \end{figure}
+  \vspace{0.5cm}
+   \begin{tabular}{ | l | r | r |}
+   \hline
+    & \textbf{VATA AC SA $\uparrow$} & \textbf{VATA CONGR KA} \\ \hline \hline
+    vítězí & $5\%$ & $95\%$ \\ \hline
+    rychlejší & $1.27\times$ & $2.34\times$ \\ \hline
+   \end{tabular}
+ \end{center}
+}
+
+\frame{\frametitle{Porovnání kongruence s~VATA pro strom. automaty}
+
+  \begin{center}
+  \begin{figure}
+    \includegraphics<1>[scale=0.35]{plot_ca_zprava.png}
+    \includegraphics<2>[scale=0.35]{plot_ca_step_zprava.png}
+  \end{figure}
+  \vspace{0.5cm}
+   \begin{tabular}{ | l | r | r |}
+   \hline
+    & \textbf{VATA AC $\downarrow$ KA} & \textbf{VATA CONGR KA} \\ \hline \hline
+    vítězí & $6\%$ & $94\%$ \\ \hline
+    rychlejší & $1.90\times$ & $161\times$ \\ \hline
+   \end{tabular}
+ \end{center}
+}  
+
+\frame{\frametitle{Porovnání antichain s~VATA pro strom. automaty}
+
+  \begin{center}
+  \begin{figure}
+    \includegraphics<1>[scale=0.35]{plot_aca_zprava.png}
+    \includegraphics<2>[scale=0.35]{plot_aca_step_zprava.png}
+  \end{figure}
+  \vspace{0.5cm}
+   \begin{tabular}{ | l | r | r |}
+   \hline
+    & \textbf{VATA AC SA $\downarrow$} & \textbf{VATA AC KA} \\ \hline \hline
+    vítězí & $7\%$ & $93\%$ \\ \hline
+    rychlejší & $10.78\times$ & $211\times$ \\ \hline
+   \end{tabular}
+ \end{center}
+}
+
+\frame{\frametitle{Porovnání antichain s~VATA pro strom. automaty}
+
+  \begin{center}
+  \begin{figure}
+    \includegraphics<1>[scale=0.35]{plot_aac_zprava.png}
+    %\includegraphics<2>[scale=0.35]{plot_aac_step_zprava.png}
+  \end{figure}
+  \vspace{0.5cm}
+   \begin{tabular}{ | l | r | r |}
+   \hline
+    & \textbf{VATA AC SA $\uparrow$} & \textbf{VATA AC KA} \\ \hline \hline
+    vítězí & $2\%$ & $98\%$ \\ \hline
+    rychlejší & $16\times$ & $2.7\times$ \\ \hline
+   \end{tabular}
+ \end{center}
+}
+
+\frame{\frametitle{Porovnání obou algoritmů}
+
+  \begin{center}
+  \begin{figure}
+    \includegraphics[width=0.5\textwidth]{plot_nfa_ac_zprava.png}
+    \includegraphics[width=0.5\textwidth]{plot_nfa_congr_zprava.png}
   \end{figure}
   \vspace{0.5cm}
    \begin{tabular}{ | l | r | r |}
    \hline
     & \textbf{VATA AC} & \textbf{VATA CONGR} \\ \hline \hline
-    vítězí & $7\%$ & $93\%$ \\ \hline
-    rychlejší & $0.15\times$ & $135\times$ \\ \hline
+    vítězí & $76\%$ & $24\%$ \\ \hline
+    rychlejší & $1.58\times$ & $3.74\times$ \\ \hline
    \end{tabular}
  \end{center}
-} 
+}
 
-\section{Možnost dalšího vývoje}
+%\section{Možnost dalšího vývoje}
 \frame{\frametitle{Další vývoj}
   \begin{itemize}
-    \item Optimalizace algoritmu používajícího principu antichainů
     \item Využití simulace
   \end{itemize}
 }
 
-\section{Závěr}
+%\section{Závěr}
 \frame{\frametitle{Závěr}
  \begin{figure}[h]
   \begin{center}
@@ -330,4 +487,29 @@
   \end{center}
   \end{figure}
 }
+
+\setbeamertemplate{footline}{}
+%\section{Otazky oponenta}
+\frame{\frametitle{Otázky oponenta}
+\addtocounter{framenumber}{-1}
+   \begin{itemize}
+  \item \textcolor{Green}{Algoritmus 5}
+  \begin{itemize}
+    \item Algoritmus vytvoří pro daný automat $A$ jiný automat $B$, který přijímá
+      nejkratší slovo jazyka $L_A$
+    \item Vznikl modifikací téhož algoritmu pro stromové automaty
+  \end{itemize}
+
+  \item \textcolor{Green}{Testování na serveru merlin.fit.vutbr.cz}
+  \begin{itemize}
+    \item Testováno v~době mezi 1:00 a 7:00
+    \item Testy na dvojici automatů pouštěny těsně po sobě
+    \item Testováno i na dalším počítači
+  \end{itemize}
+
+  \end{itemize}
+
+}
+
+\end{comment}
 \end{document}

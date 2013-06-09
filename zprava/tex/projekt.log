@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  13 MAY 2013 06:58
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.2.28)  3 JUN 2013 22:21
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -1269,7 +1269,7 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 Here is how much of TeX's memory you used:
  16136 strings out of 256216
  302123 string characters out of 1917072
- 410395 words of memory out of 1500000
+ 410396 words of memory out of 1500000
  18988 multiletter control sequences out of 10000+200000
  28853 words of font info for 80 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
